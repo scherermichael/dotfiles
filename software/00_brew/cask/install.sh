@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../../lib/common.sh
+. ../../../lib/common.sh
 
 if [ "$OS" != "osx" ]; then
   echo "No valid installation target found."
