@@ -9,7 +9,7 @@ find -s ./${OS}/scripts -name '*.sh' -type f -exec bash -c '
   if [ -x "{}" ]; then
     echo "{}"
     cd "$(dirname {})"
-    #"./$(basename {})"
+    "./$(basename {})"
   fi
 ' \;
 
