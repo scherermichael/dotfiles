@@ -2,9 +2,16 @@
 
 . ./lib/common.sh
 
-echo "-- Installing software..."
+pull
 
-find ./software -name "install.sh" -type f -exec bash -c 'DIR=`dirname {}`; cd $DIR; echo "---- Processing $DIR"; ./install.sh' \;
+echo "Run init scripts..."
+find -s ./${OS}/scripts -name '*.sh' -type f -exec bash -c '
+  if [ -x "{}" ]; then
+    echo "{}"
+    cd "$(dirname {})"
+    #"./$(basename {})"
+  fi
+' \;
 
-# Updating the config files
-./update.sh
+echo "Restore configuration..."
+./restore.sh $1

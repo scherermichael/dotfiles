@@ -15,3 +15,13 @@ elif [[ "$OSTYPE" == "win32" ]]; then
 elif [[ "$OSTYPE" == "freebsd"* ]]; then
   OS=freebsd
 fi
+
+pull () {
+  echo "Pulling changes from remote..."
+  git pull
+
+  if [ $? != 0 ]; then
+    echo "Error pulling from remote. Abort."
+    exit 1
+  fi
+}
