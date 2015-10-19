@@ -38,11 +38,11 @@ There is a directory for each platform (e.g. `osx`). Each directory contains the
 
 ### files
 
-All files that you want to copy to the local system are located under the [files](./files) directory. It will be mapped to the root of the system when copying the files. The folder `files/~/` will be mapped to the home direcory of the current user.
+All files that you want to copy to the local system are located under the `files` directory. It will be mapped to the root of the system when copying the files. The folder `files/~/` will be mapped to the home directory of the current user.
 
 ### scripts
 
-The [scripts](./scripts) directory contains install scripts for any software you want to use. To add a new program, just create a new folder that contains a executable shell script. This script is responsible for retrieving and installing the software.
+The `scripts` directory contains install scripts for any software you want to use. To add a new program, just create a new folder that contains a executable shell script. This script is responsible for retrieving and installing the software.
 
 Folder on the same level will be processed in alphabetical order. Subfolders will be processed **before** their parent folder.
 
