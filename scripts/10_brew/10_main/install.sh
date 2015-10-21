@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo "OS=$OS"
-exit
+# Note: Use `brew list -1 > packages.list` to create an appropriate list of packages.
+
+if [ "${OS}" != "osx" ]; then exit; fi
 
 # Install Brew itself
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"

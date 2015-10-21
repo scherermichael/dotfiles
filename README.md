@@ -12,7 +12,7 @@ $ git clone https://github.com/scherermichael/dotfiles && cd dotfiles && ./init.
 
 This will install a set of commonly used software and copy the config files to the appropriate locations.
 
-## Saving changed configuration
+## Backup
 
 In order to backup the configuration files for later use, we have to copy all registered config files back to the repository, commit the changes, push it to the origin. To do so, switch to the `dotfiles` dir and type:
 
@@ -22,7 +22,7 @@ In order to backup the configuration files for later use, we have to copy all re
 
 *Please note:* Any merge conflict that may occur must be resolved by hand. Please watch the output of the script.
 
-## Updating configuration
+## Restore
 
 Restoring the configuration from the repository is just as simple. There is a script that fetches all changes from the repository and overwrites the local config files. Switch to the `dotfiles` dir and type:
 
@@ -30,23 +30,27 @@ Restoring the configuration from the repository is just as simple. There is a sc
 $ ./restore.sh
 ```
 
-*Please note:* The script does not install or uninstall any software. Config files that no longer exist in the repository will not be deleted on the local system.
+*Please note:* The scripts folder will not be processed. Config files that no longer exist in the repository will not be deleted on the local system.
 
 ## Repository Layout
 
-There is a directory for each platform (e.g. `osx`). Each directory contains the following folders.
-
 ### files
 
-All files that you want to copy to the local system are located under the `files` directory. It will be mapped to the root of the system when copying the files. The folder `files/~/` will be mapped to the home directory of the current user.
+All files that you want to copy to the local system are located under the `files` directory. It will be mapped to the user's home directory when copying the files.
 
 ### scripts
 
-The `scripts` directory contains install scripts for any software you want to use. To add a new program, just create a new folder that contains a executable shell script. This script is responsible for retrieving and installing the software.
+The `scripts` directory contains scripts for installing software and other setup tasks. A script must end with the suffix `.sh` and its executable flag must be set.
 
-Folder on the same level will be processed in alphabetical order. Subfolders will be processed **before** their parent folder.
+Folders on the same level will be processed in alphabetical order. Subfolders will be processed **before** their parent folder.
 
-*Please note:* The working dir will be set to the folder that contains the install script.
+The platform is provided by the environment variable `OS` (see [lib/common.sh](lib/common.sh) for possible values). So, to run a script only on OS X, start with the following line:
+
+```bash
+if [ "${OS}" != "osx" ]; then exit; fi
+```
+
+*Please note:* The working dir will be set to the folder that contains the script.
 
 ### private
 

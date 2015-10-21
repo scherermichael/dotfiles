@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Note: Use `brew cask list -1 > packages.list` to create an appropriate list of packages.
+
 if [ "${OS}" != "osx" ]; then exit; fi
 
 # Install Brew cask itself
