@@ -1,13 +1,13 @@
 export PATH=${PATH}:${HOME}/bin:/usr/local/opt/go/libexec/bin
 
-if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
-  . "$(brew --prefix)/etc/bash_completion"
+if [ -f "~/git-completion.sh" ]; then
+  . "~/git-completion.sh"
 fi
 
-if [ -f "$(brew --prefix)/etc/bash_completion.d/git-prompt.sh" ]; then
+if [ -f "~/git-prompt.sh" ]; then
   GIT_PS1_SHOWDIRTYSTATE=true
   PS1='\u@\h:\w$(__git_ps1)\$ '
-  . "$(brew --prefix)/etc/bash_completion.d/git-prompt.sh"
+  . "~/git-prompt.sh"
 fi
 
 if [ -f "$(brew --prefix nvm)/nvm.sh" ]; then
