@@ -3,7 +3,7 @@
 TARGET=${1}
 
 if [ -z "${TARGET}" ]; then
-  TARGET=~/plossys
+  TARGET=plossys
 fi
 
 mkdir -p "${TARGET}"
