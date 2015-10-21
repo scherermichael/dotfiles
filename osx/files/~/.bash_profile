@@ -1,7 +1,5 @@
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 
-PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
-
 if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
   . "$(brew --prefix)/etc/bash_completion"
 fi
