@@ -2,7 +2,7 @@
 
 . ./lib/common.sh
 
-pull
+#pull
 
 COMMENT=$1
 if [ -z $COMMENT ]; then
@@ -10,18 +10,16 @@ if [ -z $COMMENT ]; then
 fi
 
 echo "Copying files from local system..."
-find ./${OS}/files -type f -exec bash -c '
- file="{}"
- source="${file#./*/files/}"       # Remove common dir of files
- source="/${source/#~\//${HOME}/}" # Replace leading ~ with home dir of user
- source="${source/#\/\///}"        # Replace leading // with / (neccessary for home dir substitution)
- sourcePath="${source%/*}"         # Path without filename
- mkdir -p "${sourcePath}"
- cp -afv "${source}" "${file}"
+find ./files -type f -exec bash -c '
+  source="{}"
+  target="${HOME}/${source#./files/}" # Remove common dir of files with $HOME
+  targetPath="${target%/*}"           # Path without filename
+  mkdir -p "${targetPath}"
+  cp -afv "${source}" "${target}"
 ' \;
 
 echo "Committing changes..."
-git add ${OS}/files && git commit -m "$COMMENT"
+git add ./files && git commit -m "$COMMENT"
 
 echo "Pushing changes to remote..."
 git push

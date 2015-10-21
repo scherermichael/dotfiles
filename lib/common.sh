@@ -16,6 +16,8 @@ elif [[ "$OSTYPE" == "freebsd"* ]]; then
   OS=freebsd
 fi
 
+export OS=$OS
+
 pull () {
   echo "Pulling changes from remote..."
   git pull

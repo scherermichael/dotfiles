@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "install 1"
+echo "OS=$OS"
 exit
 
 # Install Brew itself

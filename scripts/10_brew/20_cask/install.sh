@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo "install 1"
-exit
+if [ "${OS}" != "osx" ]; then exit; fi
 
 # Install Brew cask itself
 brew install brew-cask
