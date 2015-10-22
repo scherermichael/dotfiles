@@ -12,6 +12,12 @@ $ git clone https://github.com/scherermichael/dotfiles && cd dotfiles && ./init.
 
 This will install a set of commonly used software and copy the config files to the appropriate locations.
 
+If you only want to update your configuration, use:
+
+```bash
+$ git clone https://github.com/scherermichael/dotfiles && cd dotfiles && ./restore.sh
+```
+
 ## Backup
 
 In order to backup the configuration files for later use, we have to copy all registered config files back to the repository, commit the changes, push it to the origin. To do so, switch to the `dotfiles` dir and type:
