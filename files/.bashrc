@@ -1,1 +1,1 @@
-if [ -f ~/.bash_profile ]; then . ~/.bash_profile; fi
+[ -n "$PS1" ] && . ~/.bash_profile
