@@ -18,6 +18,10 @@ fi
 
 export OS=$OS
 
+if [ `ps aux | grep vmware-tools | grep -v grep | wc -l` -eq 0 ]; then
+  export ISHOST=true
+fi
+
 pull () {
   echo "Pulling changes from remote..."
   git pull

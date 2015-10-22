@@ -13,3 +13,12 @@ do
   echo "Installing $package"
   brew cask install "$package"
 done < "packages.list"
+
+# If we are not in a VM: Install host-only software.
+if [ ${ISHOST} = true ]; then
+  while read -r package
+  do
+    echo "Installing $package"
+    brew cask install "$package"
+  done < "packages.host.list"
+fi
