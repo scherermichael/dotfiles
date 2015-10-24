@@ -1,0 +1,13 @@
+apm Zen
+apm atom-pair
+apm atom-ternjs
+apm circle-ci
+apm git-log
+apm language-gherkin
+apm minimap
+apm minimap-codeglance
+apm minimap-find-and-replace
+apm minimap-git-diff
+apm minimap-selection
+apm uuidgen
+apm white-cursor
