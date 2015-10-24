@@ -8,14 +8,16 @@ if [ "$OS" != "osx" ]; then exit; fi
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # Install any package given in `packagees.list` (one per line). See: http://stackoverflow.com/questions/10929453/bash-scripting-read-file-line-by-line
-while read -r package
-do
-  echo "Installing $package"
-  brew install "$package"
-done < "packages.list"
+if [ -f "packages.list" ]; then
+  while read -r package
+  do
+    echo "Installing $package"
+    brew install "$package"
+  done < "packages.list"
+fi
 
-# If we are not in a VM: Install host-only software.
-if [ "$FULL" = true ]; then
+# Install ALL software packages if 'init.sh --full' is called.
+if [ "$FULL" = true -a -f "packages.full.list" ]; then
   while read -r package
   do
     echo "Installing $package"
