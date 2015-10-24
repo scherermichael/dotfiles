@@ -1,0 +1,45 @@
+"*":
+  editor:
+    autoIndentOnPaste: false
+    invisibles: {}
+    softWrap: true
+    fontSize: 15
+    showIndentGuide: true
+  core:
+    excludeVcsIgnoredPaths: false
+    disabledPackages: [
+      "autocomplete-snippets"
+      "autocomplete-atom-api"
+    ]
+  "exception-reporting":
+    userId: "0122e327-e317-ac0c-c3dd-b1b5bf313a1d"
+  welcome:
+    showOnStartup: false
+  "markdown-preview": {}
+  "atom-pair":
+    slack_url: "https://hooks.slack.com/services/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"
+  Zen:
+    width: 100
+  "git-log":
+    fontScale: 0.9
+  "spell-check": {}
+  "white-cursor": {}
+  "atom-ternjs":
+    useSnippets: false
+    documentation: false
+    urls: false
+    lint: false
+    guess: false
+    inlineFnCompletion: false
+  "autocomplete-plus": {}
+  tabs:
+    usePreviewTabs: true
+  "tree-view": {}
+  minimap:
+    plugins:
+      "git-diff": true
+      "find-and-replace": true
+      selection: true
+      codeglance: true
+  "minimap-codeglance":
+    numberOfLines: 10
