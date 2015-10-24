@@ -5,7 +5,7 @@
 #pull
 
 COMMENT=$1
-if [ -z $COMMENT ]; then
+if [ -z "$COMMENT" ]; then
   COMMENT="Update configuration."
 fi
 
