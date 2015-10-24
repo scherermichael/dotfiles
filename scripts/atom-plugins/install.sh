@@ -1,21 +1,21 @@
 #/bin/bash
 
-apm Zen
-apm atom-pair
-apm atom-ternjs
-apm cucumber
-apm editorconfig
-apm git-log
-apm language-batch
-apm language-docker
-apm language-gherkin
-apm language-powershell
-apm merge-conflicts
-apm minimap
-apm minimap-bookmarks
-apm minimap-codeglance
-apm minimap-find-and-replace
-apm minimap-git-diff
-apm minimap-selection
-apm uuidgen
-apm white-cursor
+apm install Zen
+apm install atom-pair
+apm install atom-ternjs
+apm install cucumber
+apm install editorconfig
+apm install git-log
+apm install language-batch
+apm install language-docker
+apm install language-gherkin
+apm install language-powershell
+apm install merge-conflicts
+apm install minimap
+apm install minimap-bookmarks
+apm install minimap-codeglance
+apm install minimap-find-and-replace
+apm install minimap-git-diff
+apm install minimap-selection
+apm install uuidgen
+apm install white-cursor
