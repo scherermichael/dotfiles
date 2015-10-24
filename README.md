@@ -12,6 +12,14 @@ $ git clone https://github.com/scherermichael/dotfiles && cd dotfiles && ./init.
 
 This will install a set of commonly used software and copy the config files to the appropriate locations.
 
+*Please note:* By default, only a subset of all stored software packages will be installed. To install all packages, use `./init.sh --full`:
+
+```bash
+$ git clone https://github.com/scherermichael/dotfiles && cd dotfiles && ./init.sh --full
+```
+
+The additional packages are listed in [scripts/10_brew-cask/packages.full.list](scripts/10_brew-cask/packages.full.list).
+
 If you only want to update your configuration, use:
 
 ```bash
