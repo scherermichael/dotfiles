@@ -2,7 +2,7 @@
 
 # Note: Use `brew list -1 > packages.list` to create an appropriate list of packages.
 
-if [ "${OS}" != "osx" ]; then exit; fi
+if [ "$OS" != "osx" ]; then exit; fi
 
 # Install Brew itself
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -15,7 +15,7 @@ do
 done < "packages.list"
 
 # If we are not in a VM: Install host-only software.
-if [ ${ISHOST} = true ]; then
+if [ $ISHOST = true ]; then
   while read -r package
   do
     echo "Installing $package"

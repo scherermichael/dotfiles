@@ -1,3 +1,5 @@
+#/bin/bash
+
 apm Zen
 apm atom-pair
 apm atom-ternjs
