@@ -15,7 +15,7 @@ do
 done < "packages.list"
 
 # Install ALL software packages if 'init.sh --full' is called.
-if [ $FULL = true ]; then
+if [ "$FULL" = true ]; then
   while read -r package
   do
     echo "Installing $package"

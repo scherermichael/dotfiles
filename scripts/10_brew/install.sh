@@ -15,7 +15,7 @@ do
 done < "packages.list"
 
 # If we are not in a VM: Install host-only software.
-if [ $ISHOST = true ]; then
+if [ "$FULL" = true ]; then
   while read -r package
   do
     echo "Installing $package"

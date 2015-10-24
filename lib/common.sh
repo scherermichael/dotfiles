@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$1" == "--full" ]; then
+if [ "$1" = "--full" ]; then
   export FULL=true
 fi
 
@@ -9,17 +9,17 @@ if [ `ps aux | grep vmware-tools | grep -v grep | wc -l` -eq 0 ]; then
 fi
 
 # See: http://stackoverflow.com/questions/394230/detect-the-os-from-a-bash-script
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
+if [ "$OSTYPE" = "linux-gnu" ]; then
   export OS=linux
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+elif [ "$OSTYPE" = "darwin"* ]; then
   export OS=osx
-elif [[ "$OSTYPE" == "cygwin" ]]; then
+elif [ "$OSTYPE" = "cygwin" ]; then
   export OS=cygwin
-elif [[ "$OSTYPE" == "msys" ]]; then
+elif [ "$OSTYPE" = "msys" ]; then
   export OS=msys
-elif [[ "$OSTYPE" == "win32" ]]; then
+elif [ "$OSTYPE" = "win32" ]; then
   export OS=win
-elif [[ "$OSTYPE" == "freebsd"* ]]; then
+elif [ "$OSTYPE" = "freebsd"* ]; then
   export OS=freebsd
 fi
 
