@@ -1,5 +1,7 @@
 export PATH=${PATH}:${HOME}/bin:/usr/local/opt/go/libexec/bin
 
+. ~/.bash_aliases
+
 if [ -f "${HOME}/git-completion.sh" ]; then
   . "${HOME}/git-completion.sh"
 fi
