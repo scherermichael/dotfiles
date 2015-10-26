@@ -51,7 +51,7 @@ function gitls {
     dirty=$(git --git-dir=$d --work-tree=$d/.. diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ]&& echo -e "*")
     dir=`echo $d | sed -e 's|^\.\/||' -e 's|\/.git||'`
     FOLDER=$GREEN
-    BRANCH=$PURPLE
+    BRANCH=$GREEN
     if [ "$branch" != "master" ]; then
       FOLDER=$ORANGE
       BRANCH=$ORANGE
