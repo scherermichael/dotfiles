@@ -17,6 +17,7 @@ function dmuse {
 
 alias g="git"
 alias gti="git"
+# Show state of all git repositories in a directory
 function gitls {
   if [ "$#" -lt 1  ]; then
     dirs="."
@@ -68,3 +69,9 @@ function gitls {
   done
 }
 alias gls="gitls"
+# Print current branch
+function currbranch {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+# Undo a `git push`
+alias undopush="git push -f origin HEAD^:$(currbranch)"
