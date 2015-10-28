@@ -75,3 +75,5 @@ function currbranch {
 }
 # Undo a `git push`
 alias undopush="git push -f origin HEAD^:$(currbranch)"
+
+alias gpnp="grunt publish && npm publish"
