@@ -10,6 +10,10 @@ alias doma="docker-machine"
 function dme {
   eval $(docker-machine env $1)
 }
+function dmuse {
+  doma start $1
+  dme $1
+}
 
 alias g="git"
 alias gti="git"
