@@ -1,0 +1,3 @@
+'.platform-darwin':
+  'ctrl-1': 'tree-view:toggle'
+  'ctrl-w': 'editor:toggle-soft-wrap'
