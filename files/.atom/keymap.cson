@@ -1,3 +1,4 @@
 '.platform-darwin':
   'ctrl-1': 'tree-view:toggle'
+  'ctrl-2': 'minimap:toggle'
   'ctrl-w': 'editor:toggle-soft-wrap'
