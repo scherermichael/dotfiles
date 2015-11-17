@@ -36,12 +36,10 @@ function gitls {
       PURPLE=$(tput setaf 1)
 
     fi
-    BOLD=$(tput bold)
     RESET=$(tput sgr0)
   else
     GREEN="\033[1;32m"
     PURPLE="\033[1;35m"
-    BOLD=""
     RESET="\033[m"
   fi
 
@@ -65,7 +63,7 @@ function gitls {
       FOLDER=$RED
       BRANCH=$RED
     fi
-    echo $RESET$BOLD$FOLDER"$dir$RESET$BOLD on "$BRANCH$branch$dirty$RESET
+    echo $RESET$FOLDER"$dir$RESET on "$BRANCH$branch$dirty$RESET
   done
 }
 alias gls="gitls"
