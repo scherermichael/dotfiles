@@ -10,7 +10,7 @@ if [ -f "${HOME}/git-prompt.sh" ]; then
   GIT_PS1_SHOWDIRTYSTATE=true
   GIT_PS1_SHOWUNTRACKEDFILES=true
   GIT_PS1_SHOWUPSTREAM="auto"
-  PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\n\$ "'
+  PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\$ "'
   . "${HOME}/git-prompt.sh"
 fi
 

@@ -303,7 +303,7 @@ __git_ps1 ()
 	local detached=no
 	local ps1pc_start='\u@\h:\w '
 	local ps1pc_end='\$ '
-	local printf_format=' [%s]'
+	local printf_format=' | %s\n'
 
 	case "$#" in
 		2|3)	pcmode=yes
