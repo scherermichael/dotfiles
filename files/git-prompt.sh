@@ -194,26 +194,26 @@ __git_ps1_show_upstream ()
 		"") # no upstream
 			p="" ;;
 		"0	0") # equal to upstream
-			p="=" ;;
+			p="" ;;
 		"0	"*) # ahead of upstream
-			p=">" ;;
+			p=" ↑" ;;
 		*"	0") # behind upstream
-			p="<" ;;
+			p=" ↓" ;;
 		*)	    # diverged from upstream
-			p="<>" ;;
+			p=" ↑↓" ;;
 		esac
 	else
 		case "$count" in
 		"") # no upstream
 			p="" ;;
 		"0	0") # equal to upstream
-			p=" u=" ;;
+			p="" ;;
 		"0	"*) # ahead of upstream
-			p=" u+${count#0	}" ;;
+			p=" ↑${count#0	}" ;;
 		*"	0") # behind upstream
-			p=" u-${count%	0}" ;;
+			p=" ↓${count%	0}" ;;
 		*)	    # diverged from upstream
-			p=" u+${count#*	}-${count%	*}" ;;
+			p=" ↑${count#*	}↓${count%	*}" ;;
 		esac
 		if [[ -n "$count" && -n "$name" ]]; then
 			__git_ps1_upstream_name=$(git rev-parse \
@@ -262,7 +262,7 @@ __git_ps1_colorize_gitstring ()
 	c="$branch_color$c"
 
 	z="$c_clear$z"
-	if [ "$w" = "*" ]; then
+	if [ "$w" = "●" ]; then
 		w="$bad_color$w"
 	fi
 	if [ -n "$i" ]; then
@@ -303,7 +303,7 @@ __git_ps1 ()
 	local detached=no
 	local ps1pc_start='\u@\h:\w '
 	local ps1pc_end='\$ '
-	local printf_format=' (%s)'
+	local printf_format=' [%s]'
 
 	case "$#" in
 		2|3)	pcmode=yes
@@ -476,7 +476,7 @@ __git_ps1 ()
 		if [ -n "${GIT_PS1_SHOWDIRTYSTATE-}" ] &&
 		   [ "$(git config --bool bash.showDirtyState)" != "false" ]
 		then
-			git diff --no-ext-diff --quiet --exit-code || w="*"
+			git diff --no-ext-diff --quiet --exit-code || w="●"
 			if [ -n "$short_sha" ]; then
 				git diff-index --cached --quiet HEAD -- || i="+"
 			else
@@ -493,7 +493,7 @@ __git_ps1 ()
 		   [ "$(git config --bool bash.showUntrackedFiles)" != "false" ] &&
 		   git ls-files --others --exclude-standard --directory --no-empty-directory --error-unmatch -- ':/*' >/dev/null 2>/dev/null
 		then
-			u="%${ZSH_VERSION+%}"
+			u="…${ZSH_VERSION+%}"
 		fi
 
 		if [ -n "${GIT_PS1_SHOWUPSTREAM-}" ]; then
