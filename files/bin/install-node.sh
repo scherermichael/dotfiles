@@ -9,7 +9,7 @@ nvm install ${NODE_VERSION}
 nvm alias default ${NODE_VERSION}
 
 # Install global modules
-modules=\
+modules=" \
   eslint \
   eslint-config-es \
   eslint-plugin-extended \
@@ -20,9 +20,9 @@ modules=\
   grunt \
   grunt-init \
   reqd \
-  roboter
+  roboter \
+"
 
 for module in ${modules}; do
-  echo "Installing ${module}..."
   npm install -g "${module}"
 done;
