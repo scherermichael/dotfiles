@@ -3,7 +3,6 @@
     autoIndentOnPaste: false
     invisibles: {}
     softWrap: true
-    fontSize: 15
     showIndentGuide: true
   core:
     excludeVcsIgnoredPaths: false
@@ -41,5 +40,11 @@
       "find-and-replace": true
       selection: true
       codeglance: true
+      bookmarks: true
   "minimap-codeglance":
     numberOfLines: 10
+  "linter-eslint":
+    disableWhenNoEslintrcFileInPath: true
+    useGlobalEslint: true
+  linter:
+    errorPanelHeight: 22
