@@ -14,9 +14,8 @@ if [ -f "${HOME}/git-prompt.sh" ]; then
   . "${HOME}/git-prompt.sh"
 fi
 
-if [ -f "$(brew --prefix nvm)/nvm.sh" ]; then
-  export NVM_DIR=~/.nvm
-  . "$(brew --prefix nvm)/nvm.sh"
+if [ -f "${HOME}/.nvm/nvm.sh" ]; then
+  . "${HOME}/.nvm/nvm.sh"
 fi
 
 if [ -f "$(brew --prefix)/etc/profile.d/z.sh" ]; then
