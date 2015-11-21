@@ -365,6 +365,7 @@ __git_ps1 ()
 	rev_parse_exit_code="$?"
 
 	if [ -z "$repo_info" ]; then
+		echo "$"
 		return $exit
 	fi
 
@@ -385,6 +386,7 @@ __git_ps1 ()
 	   [ "$(git config --bool bash.hideIfPwdIgnored)" != "false" ] &&
 	   git check-ignore -q .
 	then
+		echo "$"
 		return $exit
 	fi
 
@@ -431,6 +433,7 @@ __git_ps1 ()
 		else
 			local head=""
 			if ! __git_eread "$g/HEAD" head; then
+				echo "$"
 				return $exit
 			fi
 			# is it a symbolic ref?
@@ -528,5 +531,6 @@ __git_ps1 ()
 		printf -- "$printf_format" "$gitstring"
 	fi
 
+	echo "$"
 	return $exit
 }
