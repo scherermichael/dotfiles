@@ -113,6 +113,9 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 # Do not require password after sleep or screen saver
 defaults write com.apple.screensaver askForPassword -int 0
 
+# Never show screen saver
+defaults -currentHost write com.apple.screensaver idleTime 0
+
 # Enable HiDPI display modes (requires restart)
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 
