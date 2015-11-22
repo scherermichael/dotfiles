@@ -1,5 +1,9 @@
 #/bin/bash
 
+if [ -z "$OS" ]; then
+  . ../lib/common.sh
+fi;
+
 DOCKER_MACHINE_VERSION=0.5.0
 DOCKER_COMPOSE_VERSION=1.5.1
 

@@ -2,6 +2,10 @@
 
 # Note: Use `brew list -1 > packages.list` to create an appropriate list of packages.
 
+if [ -z "$OS" ]; then
+  . ../../lib/common.sh
+fi;
+
 if [ "$OS" != "osx" ]; then exit; fi
 
 # Install Brew itself

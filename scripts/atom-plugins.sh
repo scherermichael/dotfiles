@@ -1,5 +1,9 @@
 #/bin/bash
 
+if [ -z "$OS" ]; then
+  . ../lib/common.sh
+fi;
+
 apm install Zen
 apm install atom-pair
 apm install atom-ternjs
