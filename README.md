@@ -52,9 +52,11 @@ $ ./restore.sh
 
 All files that you want to copy to the local system are located under the `files` directory. It will be mapped to the user's home directory when copying the files.
 
-### scripts
+### init-pre
 
-The `scripts` directory contains scripts for installing software and other setup tasks. A script must end with the suffix `.sh` and its executable flag must be set.
+The `init-pre` directory contains scripts for installing software and other setup tasks. A script must end with the suffix `.sh` and its executable flag must be set.
+
+The scripts run **before** the `files` directory will be copied.
 
 Folders on the same level will be processed in alphabetical order. Subfolders will be processed **before** their parent folder.
 
@@ -65,6 +67,12 @@ if [ "${OS}" != "osx" ]; then exit; fi
 ```
 
 *Please note:* The working dir will be set to the folder that contains the script.
+
+### init-post
+
+The `init-post` directory also contains scripts for installing software and other setup tasks.
+
+The scripts run **after** the `files` directory has been copied.
 
 ### private
 

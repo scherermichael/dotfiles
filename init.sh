@@ -3,5 +3,6 @@
 . ./lib/common.sh
 
 pull
-run_scripts "scripts"
+run_scripts "init-pre"
 ./restore.sh $@
+run_scripts "init-post"
