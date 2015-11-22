@@ -10,5 +10,5 @@ if [ "$OS" != "osx" ]; then exit; fi
 
 if [ "$(whoami)" != "vagrant" ]; then exit; fi
 
-sudo defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser vagrant
+sudo defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser -string vagrant
 sudo cp kcpassword /private/etc/
