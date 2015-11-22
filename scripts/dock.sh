@@ -8,11 +8,12 @@ if [ "$OS" != "osx" ]; then exit; fi
 
 if [ "$ISHOST" = true ]; then exit; fi
 
-defaults write ~/Library/Preferences/com.apple.dock autohide 1
-defaults write ~/Library/Preferences/com.apple.dock orientation left
-defaults write ~/Library/Preferences/com.apple.dock tilesize 36
+defaults write com.apple.dock orientation left
+defaults write com.apple.dock autohide 1
+defaults write com.apple.Dock autohide-delay -float 0
+defaults write com.apple.dock tilesize 36
 
 # Remove docked apps
-defaults delete ~/Library/Preferences/com.apple.dock persistent-apps
+defaults delete com.apple.dock persistent-apps
 
 killall -HUP Dock
