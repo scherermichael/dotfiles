@@ -99,6 +99,9 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 # Screen                                                                      #
 ###############################################################################
 
+# Do not sleep
+sudo systemsetup -setsleep Never
+
 # Do not require password after sleep or screen saver
 defaults write com.apple.screensaver askForPassword -int 0
 
