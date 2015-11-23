@@ -1,7 +1,7 @@
 #/bin/bash
 
 if [ -z "$OS" ]; then
-  . ../lib/common.sh
+  . $(dirname "$0")/../lib/common.sh
 fi;
 
 DOCKER_MACHINE_VERSION=0.5.0
