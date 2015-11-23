@@ -44,7 +44,7 @@ Restoring the configuration from the repository is just as simple. There is a sc
 $ ./restore.sh
 ```
 
-*Please note:* The scripts folder will not be processed. Config files that no longer exist in the repository will not be deleted on the local system.
+*Please note:* The `init` folder will not be processed. Config files that no longer exist in the repository will not be deleted on the local system.
 
 ## Repository Layout
 
