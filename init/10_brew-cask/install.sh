@@ -3,7 +3,7 @@
 # Note: Use `brew cask list -1 > packages.list` to create an appropriate list of packages.
 
 if [ -z "$OS" ]; then
-  . $(dirname "$0")/../../lib/common.sh
+  . ../../lib/common.sh
 fi;
 
 if [ "$OS" != "osx" ]; then exit; fi

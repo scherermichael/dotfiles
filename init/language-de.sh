@@ -3,7 +3,7 @@
 # See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
 if [ -z "$OS" ]; then
-  . $(dirname "$0")/../lib/common.sh
+  . ../lib/common.sh
 fi;
 
 if [ "$OS" != "osx" ]; then exit; fi

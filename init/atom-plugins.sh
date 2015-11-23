@@ -1,7 +1,7 @@
 #/bin/bash
 
 if [ -z "$OS" ]; then
-  . $(dirname "$0")/../lib/common.sh
+  . ../lib/common.sh
 fi;
 
 apm install Zen
