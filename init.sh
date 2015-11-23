@@ -4,4 +4,4 @@
 
 pull
 run_scripts "init"
-./restore.sh $@
+./restore.sh
