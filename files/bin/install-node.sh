@@ -26,3 +26,8 @@ modules=" \
 for module in ${modules}; do
   npm install -g "${module}"
 done;
+
+# Install Node-related plugins in Atom
+apm install linter
+apm install linter-eslint
+apm install react
