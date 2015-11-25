@@ -12,7 +12,7 @@ defaults write com.apple.dock orientation left
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.Dock autohide-delay -int 0
 defaults write com.apple.dock autohide-time-modifier -float 0.2
-defaults write com.apple.dock tilesize -int 36
+defaults write com.apple.dock tilesize -int 45
 
 # Remove docked apps
 defaults delete com.apple.dock persistent-apps
