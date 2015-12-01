@@ -8,11 +8,11 @@ alias doco="docker-compose"
 alias dm="docker-machine"
 alias doma="docker-machine"
 function dme {
-  eval $(docker-machine env $1)
+  eval $(docker-machine env $2 $1)
 }
 function dmuse {
   doma start $1
-  dme $1
+  dme $@
 }
 
 alias g="git"
