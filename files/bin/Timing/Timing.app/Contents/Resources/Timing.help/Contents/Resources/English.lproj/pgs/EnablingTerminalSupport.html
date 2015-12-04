@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>Enabling Terminal Support</title>
+	<link href="../sty/task.css" rel="stylesheet" type="text/css" media="all"/>
+</head>
+
+<body id="apple-pd">
+	<a name="EnablingTerminalSupport"></a>
+	<div id="headerbox">
+		<div id="iconbox">
+			<img id="iconimg" src="../../Shared/TRApplicationIcon032.png" alt="Timing icon" width="32" height="32"/>
+		</div>
+		<div id="pagetitle">
+			<h1>Enabling Terminal Support</h1>
+		</div>
+	</div>
+	<div id="introbox">
+		<div class="introprimtext">
+			<p class="introprimtextlongtext">
+				Timing can also track the current working directory of your bash sessions (bash is the software that runs inside Terminal to let you enter commands). In order to do so, you have to change the title of your Terminal windows to something like user@mac:/your/working/directory.
+			</p>
+			<p>
+				You need to manually apply these changes via the following steps:
+				<ol>
+					<li>Open the file named <em>.profile</em> for editing, e.g. by entering the following command into Terminal:
+						<pre>touch ~/.profile; open -a TextEdit ~/.profile</pre></li>
+					<li>Copy the following lines and paste them at the end of the file opened in the first step (which might be empty):
+						<pre>PROMPT_TITLE='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007"'
+export PROMPT_COMMAND="${PROMPT_COMMAND} ${PROMPT_TITLE}; "</pre></li>
+				</ol>
+			</p>
+		</div>
+		<div id="rule">
+			<hr/>
+		</div>
+	</div>
+</body>
+
+</html>

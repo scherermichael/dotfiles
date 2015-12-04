@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>Overview of the Timing Window</title>
+	<link href="../sty/task.css" rel="stylesheet" type="text/css" media="all"/>
+</head>
+
+<body id="apple-pd">
+	<a name="CSVExport"></a>
+	<div id="headerbox">
+		<div id="iconbox">
+			<img id="iconimg" src="../../Shared/TRApplicationIcon032.png" alt="Timing icon" width="32" height="32"/>
+		</div>
+		<div id="pagetitle">
+			<h1>Exporting Data as CSV</h1>
+		</div>
+	</div>
+	<div id="introbox">
+		<div class="introprimtext">
+			<p class="introprimtextlongtext">
+				Timing allows you to export data to CSV (Comma-Separated Values) files which can then be processed with e.g. a spreadsheet application. The data set that will be exported depends on the <a href="FilteringActivities.html">date filter</a> you set and the <a href="WorkingWithProjects.html">projects</a> you selected in the <a href="MainApplicationWindow.html">main application window</a>.
+			</p>
+			<p class="introprimtextlongtext">
+				Each line of the CSV file will contain the start and end dates of the corresponding entry plus its duration. It may also contain a field with the name of the project or application to which the current line belongs (see below).
+			</p>
+			<h2>Available export settings</h2>
+			<p class="introprimtextlongtext">
+				<ul>
+					<li><strong>Grouping by Date:</strong> Lets you set the date range that one entry in the CSV file will correspond to.
+						<br />If you select <em>None</em>, the whole timespan selected in the date filter will be exported as one entry.</li>
+						
+					<li><strong>Grouping by Entity:</strong> Makes it possible to have Timing export each project or application in the current data set separately.<br />
+						If you choose <em>None</em>, there will be just one line per timespan with the corresponding accumulated duration of all selected projects.<br />
+						In case of <em>Project</em>, there will be one line per timespan and selected project.<br />
+						For <em>Application</em>, Timing will create one line per timespan and per application, <strong>but only for the activities contained in the projects selected in the main window's project list</strong>. For example, if you only have one project selected, and that project does not contain any activities from Safari.app, the durations that Timing exports for Safari.app will be zero.</li>
+					
+					<li><strong>Separator:</strong> Specifies the string that separates the fields within each line of the CSV file.</li>
+						
+					<li><strong>Exclude entries no longer than XX seconds:</strong> Makes Timing only export entries where the duration is larger than the specified period.</li>
+				</ul>
+			</p>
+		</div>
+		<div id="rule">
+			<hr/>
+		</div>
+		<div id="linkinternalbox">
+			<h3>Related Topics</h3>
+			<p class="linkinternal"><a href="FilteringActivities.html">Filtering Activities <span class="linkarrow"></span></a></p>
+			<p class="linkinternal"><a href="WorkingWithProjects.html">Working with Projects <span class="linkarrow"></span></a></p>
+			<p class="linkinternal"><a href="MainApplicationWindow.html">Overview of the Timing Window <span class="linkarrow"></span></a></p>
+		</div>
+	</div>
+</body>
+
+</html>
