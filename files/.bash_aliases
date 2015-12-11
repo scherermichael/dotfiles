@@ -14,6 +14,7 @@ function dmuse {
   doma start $1
   dme $@
 }
+alias dps='docker ps --format="table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
 
 alias g="git"
 alias gti="git"
