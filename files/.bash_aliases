@@ -76,3 +76,7 @@ function currbranch {
 alias undopush="git push -f origin HEAD^:$(currbranch)"
 
 alias nr="npm run"
+
+alias v="vagrant"
+alias vr="vagrant resume"
+alias vs="vagrant suspend"
