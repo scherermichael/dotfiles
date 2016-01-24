@@ -1,9 +1,15 @@
 #/bin/bash
 
 NODE_VERSION=4
-NVM_VERSION=0.29.0
 
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v${NVM_VERSION}/install.sh | bash
+if [ -d ~/.nvm ]; then
+  # Upgrade
+  cd ~/.nvm && git pull origin master && git checkout `git describe --abbrev=0 --tags`
+else
+  # Install
+  git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
+fi
+
 . ~/.nvm/nvm.sh
 nvm install ${NODE_VERSION}
 nvm alias default ${NODE_VERSION}
