@@ -34,7 +34,7 @@
 		</data>
 		<key>Resources/Credits.html</key>
 		<data>
-		2LgWgTMiXwuFMyKSli7rSuijT8c=
+		QGJS9gQajYuMSynQhdA4TyMQxhc=
 		</data>
 		<key>Resources/DateCalculations-License.html</key>
 		<data>
@@ -213,15 +213,7 @@
 		</data>
 		<key>Resources/TRCustomActivityCreationViewController.nib</key>
 		<data>
-		sOUM9k34aghRotsjLADzV+4h94A=
-		</data>
-		<key>Resources/TRDatePickerViewController-lite.nib</key>
-		<data>
-		55pG792LERQIeOjIM9bgvKpKxss=
-		</data>
-		<key>Resources/TRDatePickerViewController.nib</key>
-		<data>
-		VS/S6IaYG3fF4SgJFu6VnAUkspQ=
+		kCg65CaezqsOGBHfRdp8MJM6vOM=
 		</data>
 		<key>Resources/TRExportWindowController.nib</key>
 		<data>
@@ -229,7 +221,7 @@
 		</data>
 		<key>Resources/TRGraphViewController.nib</key>
 		<data>
-		iYlFzakoVbtAWEpzk6vjWl4JyxM=
+		6FdnVMpLL2NDQ8+jLp7grRwFvOs=
 		</data>
 		<key>Resources/TRLicenseInputWindowController.nib</key>
 		<data>
@@ -241,11 +233,11 @@
 		</data>
 		<key>Resources/TRMainWindowController.nib</key>
 		<data>
-		FZrEIQcE5FMWdq3QgJo02TEdo4c=
+		UHTvXC0cZTpAYaW9lQ6LrgSvFfA=
 		</data>
 		<key>Resources/TRPathTreeViewController.nib</key>
 		<data>
-		aXKHiRXnk8//3BL5/IMKhTYpSiw=
+		dHWo9kqOBUFhgPhhDU7SXRZ1RaQ=
 		</data>
 		<key>Resources/TRPreferencesWindowController.nib</key>
 		<data>
@@ -619,7 +611,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YSbbNz19eawdhCnhPCoaj7YZmM0=
+			qL+9rX1VdJQXgUfMlEmANwsU8UA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -767,10 +759,19 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			I4JEuPtFA82jWz0hJtJ8YbLiN50=
+			kN71pK9UKXT84oMocj/bSh37z4A=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.coreplot.CorePlot" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG)</string>
+		</dict>
+		<key>Frameworks/DateRangePicker.framework</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			9AP0XvSvFejigr+KERLNGq17E8A=
+			</data>
+			<key>requirement</key>
+			<string>anchor apple generic and identifier "de.danielalm.DateRangePicker" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG)</string>
 		</dict>
 		<key>Frameworks/Parse.framework</key>
 		<dict>
@@ -790,11 +791,92 @@
 			<key>requirement</key>
 			<string>identifier "org.andymatuschak.Sparkle" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
 		</dict>
+		<key>Frameworks/libswiftAppKit.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			2wmnsu+bWAzwbMvuFdIGaILDNCI=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.apple.dt.runtime.swiftAppKit" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
+		</dict>
+		<key>Frameworks/libswiftCore.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			PDo+bgt0O8lvhuIZZUQoA5/qNmE=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.apple.dt.runtime.swiftCore" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
+		</dict>
+		<key>Frameworks/libswiftCoreData.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			n8HYbJhQSZfR/2MsO4jglMUnuXw=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.apple.dt.runtime.swiftCoreData" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
+		</dict>
+		<key>Frameworks/libswiftCoreGraphics.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			U5IHxrUgAf2CQuFDsD4vlOKv/Ds=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.apple.dt.runtime.swiftCoreGraphics" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
+		</dict>
+		<key>Frameworks/libswiftCoreImage.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			OX9CrywYzZQJTtTIgoya1lY4eEk=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.apple.dt.runtime.swiftCoreImage" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
+		</dict>
+		<key>Frameworks/libswiftDarwin.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			5iV9ptU2lhj+7AKwjApp4zEHWos=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.apple.dt.runtime.swiftDarwin" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
+		</dict>
+		<key>Frameworks/libswiftDispatch.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Tc68BcTpsXyyoDwp9VoknYA3QG0=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.apple.dt.runtime.swiftDispatch" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
+		</dict>
+		<key>Frameworks/libswiftFoundation.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			VvWOHr6xungsEb8GWQib6FlUfpA=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.apple.dt.runtime.swiftFoundation" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
+		</dict>
+		<key>Frameworks/libswiftObjectiveC.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			ffLHYDgj7Unm9GyafiazqycnecU=
+			</data>
+			<key>requirement</key>
+			<string>identifier "com.apple.dt.runtime.swiftObjectiveC" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG</string>
+		</dict>
 		<key>Library/LoginItems/TimingHelper.app</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			+QTV05PB6QIm7Hli6Kfv2sKgn9s=
+			Xsshz/AJb/UXaOHpGZsGxY0hsrk=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "info.eurocomp.TimingHelper" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG)</string>
@@ -829,7 +911,7 @@
 		</data>
 		<key>Resources/Credits.html</key>
 		<data>
-		2LgWgTMiXwuFMyKSli7rSuijT8c=
+		QGJS9gQajYuMSynQhdA4TyMQxhc=
 		</data>
 		<key>Resources/DateCalculations-License.html</key>
 		<data>
@@ -1008,15 +1090,7 @@
 		</data>
 		<key>Resources/TRCustomActivityCreationViewController.nib</key>
 		<data>
-		sOUM9k34aghRotsjLADzV+4h94A=
-		</data>
-		<key>Resources/TRDatePickerViewController-lite.nib</key>
-		<data>
-		55pG792LERQIeOjIM9bgvKpKxss=
-		</data>
-		<key>Resources/TRDatePickerViewController.nib</key>
-		<data>
-		VS/S6IaYG3fF4SgJFu6VnAUkspQ=
+		kCg65CaezqsOGBHfRdp8MJM6vOM=
 		</data>
 		<key>Resources/TRExportWindowController.nib</key>
 		<data>
@@ -1024,7 +1098,7 @@
 		</data>
 		<key>Resources/TRGraphViewController.nib</key>
 		<data>
-		iYlFzakoVbtAWEpzk6vjWl4JyxM=
+		6FdnVMpLL2NDQ8+jLp7grRwFvOs=
 		</data>
 		<key>Resources/TRLicenseInputWindowController.nib</key>
 		<data>
@@ -1036,11 +1110,11 @@
 		</data>
 		<key>Resources/TRMainWindowController.nib</key>
 		<data>
-		FZrEIQcE5FMWdq3QgJo02TEdo4c=
+		UHTvXC0cZTpAYaW9lQ6LrgSvFfA=
 		</data>
 		<key>Resources/TRPathTreeViewController.nib</key>
 		<data>
-		aXKHiRXnk8//3BL5/IMKhTYpSiw=
+		dHWo9kqOBUFhgPhhDU7SXRZ1RaQ=
 		</data>
 		<key>Resources/TRPreferencesWindowController.nib</key>
 		<data>
@@ -1414,7 +1488,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YSbbNz19eawdhCnhPCoaj7YZmM0=
+			qL+9rX1VdJQXgUfMlEmANwsU8UA=
 			</data>
 			<key>optional</key>
 			<true/>
