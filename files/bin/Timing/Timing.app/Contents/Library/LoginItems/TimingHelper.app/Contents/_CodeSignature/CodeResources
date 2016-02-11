@@ -168,7 +168,7 @@
 		</data>
 		<key>Resources/TRCustomActivityCreationViewController.nib</key>
 		<data>
-		sOUM9k34aghRotsjLADzV+4h94A=
+		kCg65CaezqsOGBHfRdp8MJM6vOM=
 		</data>
 		<key>Resources/TimingHelper-MainMenu.nib</key>
 		<data>
@@ -236,7 +236,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YSbbNz19eawdhCnhPCoaj7YZmM0=
+			qL+9rX1VdJQXgUfMlEmANwsU8UA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -346,7 +346,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			tBfSZ/IvP2+B0AsQabX6yNHLxg4=
+			XaFhJxCKkjH7VPRYmD38BispUVc=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "net.sourceforge.appscript.objc-appscript" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = NDB5JK3DZG)</string>
@@ -515,7 +515,7 @@
 		</data>
 		<key>Resources/TRCustomActivityCreationViewController.nib</key>
 		<data>
-		sOUM9k34aghRotsjLADzV+4h94A=
+		kCg65CaezqsOGBHfRdp8MJM6vOM=
 		</data>
 		<key>Resources/TimingHelper-MainMenu.nib</key>
 		<data>
@@ -583,7 +583,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YSbbNz19eawdhCnhPCoaj7YZmM0=
+			qL+9rX1VdJQXgUfMlEmANwsU8UA=
 			</data>
 			<key>optional</key>
 			<true/>
