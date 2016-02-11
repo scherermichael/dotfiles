@@ -14,6 +14,9 @@ fi
 nvm install ${NODE_VERSION}
 nvm alias default ${NODE_VERSION}
 
+# By default save exact version as dependency
+npm config set save-exact true
+
 # Install global modules
 modules=" \
   eslint \
