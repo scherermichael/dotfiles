@@ -54,7 +54,7 @@ All files that you want to copy to the local system are located under the `files
 
 ### init
 
-The `init-pre` directory contains scripts for installing software and other setup tasks. A script must end with the suffix `.sh` and its executable flag must be set.
+The `init` directory contains scripts for installing software and other setup tasks. A script must end with the suffix `.sh` and its executable flag must be set.
 
 The scripts run **before** the `files` directory will be copied.
 
