@@ -2,6 +2,13 @@ export PATH=${PATH}:${HOME}/bin:/usr/local/opt/go/libexec/bin
 
 . ~/.bash_aliases
 
+if [ -f "/vagrant/private/environment" ]; then
+  . "/vagrant/private/environment"
+fi
+if [ -f "${HOME}/dotfiles/private/environment" ]; then
+  . "${HOME}/dotfiles/private/environment"
+fi
+
 if [ -f "${HOME}/git-completion.sh" ]; then
   . "${HOME}/git-completion.sh"
 fi
