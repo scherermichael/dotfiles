@@ -5,7 +5,6 @@ COMMENT=$1
 . ./lib/common.sh
 
 pull
-backup_config "files"
-backup_config "private"
+backup_config
 commit "files" "$COMMENT"
 push

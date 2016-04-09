@@ -61,8 +61,8 @@ push () {
 }
 
 backup_config () {
-  echo "Backing up config files in '$1'..."
-  find "./$1" -type f -exec bash -c '
+  echo "Backing up config files in 'files'..."
+  find "./files" -type f -exec bash -c '
     source="{}"
     target="$HOME/${source#./files/}" # Remove common dir of files with $HOME
     targetPath="${target%/*}"         # Path without filename
@@ -77,8 +77,8 @@ backup_config () {
 }
 
 restore_config () {
-  echo "Restoring config files in '$1'..."
-  find "./$1" -type f -exec bash -c '
+  echo "Restoring config files in 'files'..."
+  find "./files" -type f -exec bash -c '
     file="{}"
     target="${file#./files}"       # Remove common dir of files
     targetPath="${target%/*}"      # Path without filename
@@ -93,8 +93,8 @@ restore_config () {
 }
 
 run_scripts () {
-  echo "Running init scripts in '$1'..."
-  find -s "./$1" -name '*.sh' -type f -exec bash -c '
+  echo "Executing scripts in 'init'..."
+  find -s "./init" -name '*.sh' -type f -exec bash -c '
     if [ -x "{}" ]; then
       echo "{}"
       cd "$(dirname {})"

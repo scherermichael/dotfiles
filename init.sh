@@ -3,5 +3,5 @@
 . ./lib/common.sh
 
 pull
-run_scripts "init"
-./restore.sh
+run_scripts
+restore_config
