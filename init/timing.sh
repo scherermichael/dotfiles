@@ -8,5 +8,5 @@ if [ "$OS" != "osx" ]; then exit; fi
 
 mkdir -p ~/bin/Timing
 wget -O ~/bin/Timing/Timing.app.zip https://timingapp.com/download/Timing.app.zip
-unzip ~/bin/Timing/Timing.app.zip
+unzip ~/bin/Timing/Timing.app.zip -d ~/bin/Timing
 rm ~/bin/Timing/Timing.app.zip
