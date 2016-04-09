@@ -78,4 +78,10 @@ If you place a file with the name `environment` in this folder, it will be sourc
 
 #### Vagrant
 
-The file `/vagrant/private/environment` will also be sourced if it exists. As you might know, the guest's folder `/vagrant` is synced with the host. So, on the host you can create a link to you dotfiles' `private` folder. After that, all private environment variables will be available in the VM, too.
+The file `/vagrant/private/environment` will also be sourced if it exists. As you might know, the guest's folder `/vagrant` is synced with the host. On the host, just copy your dotfiles' `private` folder. After that, all private environment variables will be available in the VM, too.
+
+To do so, open the synced folder of the VM on the host and run:
+
+```bash
+cp -r ~/dotfiles/private .
+```
