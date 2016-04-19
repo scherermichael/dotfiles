@@ -2,10 +2,6 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
 
 Vagrant.configure('2') do |config|
 
-  config.vm.provider "vmware_fusion" do |v|
-    v.linked_clone = false if Vagrant::VERSION =~ /^1.8/
-  end
-
   config.vm.provider "virtualbox" do |v|
     v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
   end
