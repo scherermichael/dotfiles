@@ -20,4 +20,3 @@ apm install minimap-git-diff
 apm install minimap-selection
 apm install sort-lines
 apm install uuidgen
-apm install white-cursor
