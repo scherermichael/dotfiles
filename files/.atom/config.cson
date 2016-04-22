@@ -22,7 +22,6 @@
   "git-log":
     fontScale: 0.9
   "spell-check": {}
-  "white-cursor": {}
   "atom-ternjs":
     useSnippets: false
     documentation: false
@@ -48,3 +47,6 @@
     useGlobalEslint: true
   linter:
     errorPanelHeight: 22
+  "theme-switcher":
+    syntaxThemeOne: "one-dark-syntax"
+    syntaxThemeTwo: "one-light-syntax"

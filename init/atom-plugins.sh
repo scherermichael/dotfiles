@@ -19,4 +19,5 @@ apm install minimap
 apm install minimap-git-diff
 apm install minimap-selection
 apm install sort-lines
+apm install theme-switcher
 apm install uuidgen
