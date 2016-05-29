@@ -3,6 +3,13 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias -- -="cd -"
 
+function a {
+ LANG=en_US.UTF-8 atom $@
+}
+function ade {
+ LANG=de_DE.UTF-8 atom $@
+}
+
 alias d="docker"
 alias doco="docker-compose"
 alias dm="docker-machine"
