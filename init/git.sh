@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 if [ -z "$(which git)" ]; then exit; fi
 
