@@ -107,3 +107,14 @@ run_scripts () {
     exit 1
   fi
 }
+
+source_env () {
+  echo "Sourcing private environment variables..."
+  if [ -f "/vagrant/private/environment" ]; then
+    . "/vagrant/private/environment"
+  fi
+  
+  if [ -f ~/dotfiles/private/environment ]; then
+    . ~/dotfiles/private/environment
+  fi
+}
