@@ -34,6 +34,14 @@ if [ -f /usr/local/bin/docker-machine ]; then
   eval $(docker-machine env dev)
 fi
 
+# From https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
+if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
+    source ~/.gnupg/.gpg-agent-info
+    export GPG_AGENT_INFO
+else
+    eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
+fi
+
 if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
