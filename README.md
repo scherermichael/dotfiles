@@ -28,7 +28,7 @@ $ cd ~ && git clone https://github.com/scherermichael/dotfiles && cd dotfiles &&
 
 ## Backup
 
-In order to backup the configuration files for later use, we have to copy all registered config files back to the repository, commit the changes, push it to the origin:
+In order to backup the configuration files for later use, you have to copy all registered config files back to the repository, commit the changes, push it to the origin:
 
   ```bash
   $ cd ~/dotfiles && ./backup.sh
