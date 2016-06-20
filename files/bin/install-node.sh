@@ -29,7 +29,7 @@ modules=" \
   grunt \
   grunt-init \
   reqd \
-  roboter \
+  roboter-cli \
 "
 
 for module in ${modules}; do
