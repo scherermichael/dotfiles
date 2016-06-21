@@ -40,8 +40,6 @@
       selection: true
       codeglance: true
       bookmarks: true
-  "minimap-codeglance":
-    numberOfLines: 10
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
     useGlobalEslint: true
