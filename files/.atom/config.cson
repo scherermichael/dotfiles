@@ -48,3 +48,5 @@
   "theme-switcher":
     syntaxThemeOne: "one-dark-syntax"
     syntaxThemeTwo: "one-light-syntax"
+  "one-dark-ui":
+    tabSizing: "Even"
