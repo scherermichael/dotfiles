@@ -1,6 +1,6 @@
 #/bin/bash
 
-NODE_VERSION=4
+NODE_VERSION=6
 
 if [ -d ~/.nvm ]; then
   # Upgrade
