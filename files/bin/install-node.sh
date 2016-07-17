@@ -4,7 +4,7 @@ NODE_VERSION=6
 
 if [ -d ~/.nvm ]; then
   # Upgrade
-  cd ~/.nvm && git pull origin master && git checkout `git describe --abbrev=0 --tags`
+  cd ~/.nvm && git fetch origin && git checkout `git describe --abbrev=0 --tags`
 else
   # Install
   git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
