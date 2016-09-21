@@ -5,8 +5,6 @@ if [ -z "$OS" ]; then
 fi;
 
 apm install Zen
-apm install atom-pair
-apm install atom-ternjs
 apm install cucumber
 apm install editorconfig
 apm install git-log

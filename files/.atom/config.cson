@@ -1,27 +1,6 @@
 "*":
-  editor:
-    autoIndentOnPaste: false
-    invisibles: {}
-    softWrap: true
-    showIndentGuide: true
-  core:
-    excludeVcsIgnoredPaths: false
-    disabledPackages: [
-      "autocomplete-snippets"
-      "autocomplete-atom-api"
-    ]
-  "exception-reporting":
-    userId: "0122e327-e317-ac0c-c3dd-b1b5bf313a1d"
-  welcome:
-    showOnStartup: false
-  "markdown-preview": {}
-  "atom-pair":
-    slack_url: "https://hooks.slack.com/services/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"
   Zen:
     width: 100
-  "git-log":
-    fontScale: 0.9
-  "spell-check": {}
   "atom-ternjs":
     useSnippets: false
     documentation: false
@@ -29,10 +8,27 @@
     lint: false
     guess: false
     inlineFnCompletion: false
-  "autocomplete-plus": {}
-  tabs:
-    usePreviewTabs: true
-  "tree-view": {}
+  "autocomplete-plus":
+    confirmCompletion: "tab always, enter when suggestion explicitly selected"
+  core:
+    excludeVcsIgnoredPaths: false
+    disabledPackages: [
+      "autocomplete-snippets"
+      "autocomplete-atom-api"
+    ]
+  editor:
+    autoIndentOnPaste: false
+    invisibles: {}
+    softWrap: true
+    showIndentGuide: true
+  "git-log":
+    fontScale: 0.9
+  linter:
+    errorPanelHeight: 22
+  "linter-eslint":
+    disableWhenNoEslintrcFileInPath: true
+    useGlobalEslint: true
+  "markdown-preview": {}
   minimap:
     plugins:
       "git-diff": true
@@ -40,13 +36,14 @@
       selection: true
       codeglance: true
       bookmarks: true
-  "linter-eslint":
-    disableWhenNoEslintrcFileInPath: true
-    useGlobalEslint: true
-  linter:
-    errorPanelHeight: 22
+  "one-dark-ui":
+    tabSizing: "Even"
+  "spell-check": {}
+  tabs:
+    usePreviewTabs: true
+  "tree-view": {}
   "theme-switcher":
     syntaxThemeOne: "one-dark-syntax"
     syntaxThemeTwo: "one-light-syntax"
-  "one-dark-ui":
-    tabSizing: "Even"
+  welcome:
+    showOnStartup: false
