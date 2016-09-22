@@ -28,6 +28,7 @@ modules=" \
   forany \
   grunt \
   grunt-init \
+  npm-check-updates \
   reqd \
   roboter-cli \
 "
