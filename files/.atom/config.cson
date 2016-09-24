@@ -11,7 +11,6 @@
   "autocomplete-plus":
     confirmCompletion: "tab always, enter when suggestion explicitly selected"
   core:
-    excludeVcsIgnoredPaths: false
     disabledPackages: [
       "autocomplete-snippets"
       "autocomplete-atom-api"
