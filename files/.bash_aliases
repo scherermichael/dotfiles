@@ -88,3 +88,5 @@ alias nr="npm run"
 alias v="vagrant"
 alias vr="vagrant resume"
 alias vs="vagrant suspend"
+
+alias work="~/bin/workinghours/show.sh"
