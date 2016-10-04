@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z "$(which git)" ]; then exit; fi
+if ! which git; then exit; fi
 
 GIT_USER=${GIT_USER:-Michael Scherer}
 GIT_EMAIL=${GIT_EMAIL:-mail@scherermichael.net}

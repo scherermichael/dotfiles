@@ -4,6 +4,8 @@ if [ -z "$OS" ]; then
   . ../lib/common.sh
 fi;
 
+if ! which apm; then exit; fi
+
 apm install Zen
 apm install cucumber
 apm install editorconfig
