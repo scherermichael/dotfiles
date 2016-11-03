@@ -18,8 +18,15 @@ function dme {
   eval $(docker-machine env $2 $1)
 }
 function dmuse {
-  doma start $1
-  dme $@
+  if [ "$1" = "mac" ]; then
+    # Use Docker for Mac
+    unset ${!DOCKER_*}
+    echo "Now using Docker for Mac..."
+  else
+    # Start machine with given name
+    doma start $1
+    dme $@
+  fi
 }
 alias dps='docker ps --format="table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
 
