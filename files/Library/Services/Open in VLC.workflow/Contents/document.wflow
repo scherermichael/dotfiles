@@ -59,7 +59,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>open -n `ls -d1 /opt/homebrew-cask/Caskroom/vlc/*`/vlc.app --args "$@"</string>
+					<string>open -n /Applications/VLC.app --args "$@"</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
