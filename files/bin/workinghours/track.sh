@@ -7,7 +7,7 @@ onLogout() {
   FULL_HOURS=$((${MINUTES} / 60))
   HOURS_MINS="${FULL_HOURS}:$(printf "%02d" $((${MINUTES} - ${FULL_HOURS} * 60)))"
 
-  echo "$(date '+%Y-%m-%d %H:%M:%S')\tLOGOUT\t${HOURS_MINS}\t${MINUTES} minutes" >> ~/bin/workinghours/$(date '+%Y-%m').log
+  echo "$(date '+%a +%Y-%m-%d %H:%M:%S')\tLOGOUT\t${HOURS_MINS}\t${MINUTES} minutes" >> ~/bin/workinghours/$(date '+%Y-%m').log
   exit
 }
 
@@ -16,7 +16,7 @@ if userInGroup ${USER} admin; then
   exit 0
 fi
 
-echo "$(date '+%Y-%m-%d %H:%M:%S')\tLOGIN" >> ~/bin/workinghours/$(date '+%Y-%m').log
+echo "$(date '+%a +%Y-%m-%d %H:%M:%S')\tLOGIN" >> ~/bin/workinghours/$(date '+%Y-%m').log
 
 trap 'onLogout' SIGINT SIGHUP SIGTERM
 
