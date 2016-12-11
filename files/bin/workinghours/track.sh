@@ -11,8 +11,8 @@ onLogout() {
   exit
 }
 
-# Do not track the admin account
-if userInGroup ${USER} admin; then
+# Set environment variable WORKINGHOURS_DO_NOT_TRACK to prevent tracking
+if [ -n "${WORKINGHOURS_DO_NOT_TRACK}" ]; then
   exit 0
 fi
 
