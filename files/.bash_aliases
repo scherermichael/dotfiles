@@ -91,7 +91,9 @@ alias undopush="git push -f origin HEAD^:$(currbranch)"
 alias prunebranches="git branch --merged master | grep -v ' master$' | xargs git branch -d"
 
 alias kc="kubectl"
-alias kca="kubectl --all-namespaces"
+function kca {
+  kubectl "$@" --all-namespaces  
+}
 
 alias nr="npm run"
 
