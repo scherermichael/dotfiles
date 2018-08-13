@@ -30,10 +30,6 @@ if [ -f "$(brew --prefix)/etc/bash_completion.d/password-store" ]; then
   . "$(brew --prefix)/etc/bash_completion.d/password-store"
 fi
 
-if [ -f /usr/local/bin/docker-machine ]; then
-  eval $(docker-machine env dev)
-fi
-
 # From https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
 if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
     source ~/.gnupg/.gpg-agent-info
