@@ -1,6 +1,6 @@
 #/bin/bash
 
-NODE_VERSION=6
+NODE_VERSION=8
 
 if [ -d ~/.nvm ]; then
   # Upgrade
@@ -19,25 +19,12 @@ npm config set save-exact true
 
 # Install global modules
 modules=" \
-  eslint \
-  eslint-config-es \
-  eslint-plugin-extended \
-  eslint-plugin-mocha \
-  eslint-plugin-react \
   flaschenpost \
   forany \
-  grunt \
-  grunt-init \
   npm-check-updates \
   reqd \
-  roboter-cli \
 "
 
 for module in ${modules}; do
   npm install -g "${module}"
 done;
-
-# Install Node-related plugins in Atom
-apm install linter
-apm install linter-eslint
-apm install react
