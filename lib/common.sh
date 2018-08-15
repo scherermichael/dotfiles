@@ -57,10 +57,8 @@ push () {
 backup_config () {
   echo "Backing up config files in 'files'..."
   find "./files" -type f -exec bash -c '
-    source="{}"
-    target="$HOME/${source#./files/}" # Remove common dir of files with $HOME
-    targetPath="${target%/*}"         # Path without filename
-    mkdir -p "$targetPath"
+    target="{}"
+    source="$HOME/${target#./files/}" # Replace common dir of files with $HOME
     cp -afv "$source" "$target"
   ' \;
 

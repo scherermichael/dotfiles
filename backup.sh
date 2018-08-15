@@ -1,10 +1,9 @@
 #/!bin/bash
 
-COMMENT=$1
-
 . ./lib/common.sh
 
-pull
 backup_config
-commit "files" "$COMMENT"
-# push
+
+echo ""
+echo "Copied files from $HOME into the repository."
+echo "Please do not forget to commit and push the changes."
