@@ -4,10 +4,10 @@ alias ....="cd ../../.."
 alias -- -="cd -"
 
 function a {
- LANG=en_US.UTF-8 atom $@
+ LANG=en_US.UTF-8 atom "$@"
 }
 function ade {
- LANG=de_DE.UTF-8 atom $@
+ LANG=de_DE.UTF-8 atom "$@"
 }
 
 alias d="docker"
@@ -25,7 +25,7 @@ function dmuse {
   else
     # Start machine with given name
     doma start $1
-    dme $@
+    dme "$@"
   fi
 }
 alias dps='docker ps --format="table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'

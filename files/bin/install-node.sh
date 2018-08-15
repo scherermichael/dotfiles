@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 NODE_VERSION=8
 
