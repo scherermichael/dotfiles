@@ -92,7 +92,7 @@ alias prunebranches="git branch --merged master | grep -v ' master$' | xargs git
 
 alias kc="kubectl"
 function kca {
-  kubectl "$@" --all-namespaces  
+  kubectl "$@" --all-namespaces
 }
 
 alias nr="npm run"
@@ -100,5 +100,3 @@ alias nr="npm run"
 alias v="vagrant"
 alias vr="vagrant resume"
 alias vs="vagrant suspend"
-
-alias work="~/bin/workinghours/show.sh"
