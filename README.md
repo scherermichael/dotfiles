@@ -32,13 +32,12 @@ In order to backup the configuration files for later use, you have to copy all r
 
   ```bash
   $ cd ~/dotfiles && ./backup.sh
+  $ git add files && commit -m "Update config files." && git push
   ```
-
-*Please note:* Any merge conflict that may occur must be resolved by hand. Please watch the output of the script.
 
 ## Restore
 
-Restoring the configuration from the repository is just as simple. There is a script that fetches all changes from the repository and overwrites the local config files:
+Restoring the configuration from the repository is even simpler. The script fetches all changes from the repository and overwrites the local config files:
 
 ```bash
 $ cd ~/dotfiles && ./restore.sh
