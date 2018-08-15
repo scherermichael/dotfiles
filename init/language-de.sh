@@ -2,11 +2,11 @@
 
 # See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
-if [ -z "$OS" ]; then
+if [ -z "${OS}" ]; then
   . ../lib/common.sh
 fi;
 
-if [ "$OS" != "macos" ]; then exit; fi
+if [ "${OS}" != "macos" ]; then exit; fi
 
 # Set language and text formats
 sudo languagesetup -langspec de

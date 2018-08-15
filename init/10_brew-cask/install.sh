@@ -2,11 +2,11 @@
 
 # Note: Use `brew cask list -1 > packages.list` to create an appropriate list of packages.
 
-if [ -z "$OS" ]; then
+if [ -z "${OS}" ]; then
   . ../../lib/common.sh
 fi;
 
-if [ "$OS" != "macos" ]; then exit; fi
+if [ "${OS}" != "macos" ]; then exit; fi
 
 # Get Homebrew Cask
 brew tap caskroom/cask

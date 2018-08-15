@@ -1,6 +1,6 @@
 #/bin/bash
 
-if [ -z "$OS" ]; then
+if [ -z "${OS}" ]; then
   . ../lib/common.sh
 fi;
 

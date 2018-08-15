@@ -21,8 +21,6 @@ fi
 
 pull () {
   echo "Pulling changes from remote..."
-
-
   if ! git pull; then
     echo "Error pulling from remote. Abort."
     exit 1
