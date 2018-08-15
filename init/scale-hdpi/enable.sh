@@ -4,7 +4,7 @@ if [ -z "$OS" ]; then
   . ../../lib/common.sh
 fi;
 
-if [ "$OS" != "osx" ]; then exit; fi
+if [ "$OS" != "macos" ]; then exit; fi
 
 if [ "$ISHOST" = true ]; then exit; fi
 

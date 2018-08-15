@@ -6,7 +6,7 @@ if [ -z "$OS" ]; then
   . ../lib/common.sh
 fi;
 
-if [ "$OS" != "osx" ]; then exit; fi
+if [ "$OS" != "macos" ]; then exit; fi
 
 if [ "$ISHOST" = true ]; then exit; fi
 
@@ -164,6 +164,12 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 # Dock, Dashboard, and hot corners                                            #
 ###############################################################################
 
+# Locate Dock on the left side
+defaults write com.apple.dock orientation left
+
+# Remove docked apps
+defaults delete com.apple.dock persistent-apps
+
 # Set the icon size of Dock items to 36 pixels
 defaults write com.apple.dock tilesize -int 36
 
@@ -182,11 +188,14 @@ defaults write com.apple.dock dashboard-in-overlay -bool true
 # Don’t automatically rearrange Spaces based on most recent use
 defaults write com.apple.dock mru-spaces -bool false
 
-# Remove the animation when hiding/showing the Dock
-defaults write com.apple.dock autohide-time-modifier -float 0
-
 # Automatically hide and show the Dock
 defaults write com.apple.dock autohide -bool true
+
+# Start hiding immediately
+defaults write com.apple.Dock autohide-delay -int 0
+
+# Remove the animation when hiding/showing the Dock
+defaults write com.apple.dock autohide-time-modifier -float 0
 
 # Hot corners
 # Possible values:
@@ -209,6 +218,9 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 # Bottom right screen corner → Mission Control
 defaults write com.apple.dock wvous-br-corner -int 2
 defaults write com.apple.dock wvous-tr-modifier -int 0
+
+# Reload Dock
+killall -HUP Dock
 
 ###############################################################################
 # Spotlight                                                                   #

@@ -10,13 +10,9 @@ use-agent
 EOF
 
 cat >> ~/.gnupg/gpg-agent.conf <<EOF
-# Enables GPG to find gpg-agent
-use-standard-socket
-
-# Caching
-# default 8h
+pinentry-program /usr/local/bin/pinentry-mac
+# caching: default 8h
 default-cache-ttl 28800
-# max 24h
+# caching: max 24h
 max-cache-ttl 86400
-ignore-cache-for-signing
 EOF

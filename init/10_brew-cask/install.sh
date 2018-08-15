@@ -6,7 +6,7 @@ if [ -z "$OS" ]; then
   . ../../lib/common.sh
 fi;
 
-if [ "$OS" != "osx" ]; then exit; fi
+if [ "$OS" != "macos" ]; then exit; fi
 
 # Get Homebrew Cask
 brew tap caskroom/cask
@@ -18,13 +18,4 @@ if [ -f "packages.list" ]; then
     echo "Installing $package"
     brew cask install "$package"
   done < "packages.list"
-fi
-
-# Install ALL software packages if 'init.sh --full' is called.
-if [ "$FULL" = true -a -f "packages.full.list" ]; then
-  while read -r package
-  do
-    echo "Installing $package"
-    brew cask install "$package"
-  done < "packages.full.list"
 fi

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [ "$1" = "--full" ]; then
-  export FULL=true
-fi
-
 if [ `ps aux | grep vmware-tools | grep -v grep | wc -l` -eq 0 ]; then
   export ISHOST=true
 fi
@@ -12,7 +8,7 @@ fi
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   export OS=linux
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-  export OS=osx
+  export OS=macos
 elif [[ "$OSTYPE" == "cygwin" ]]; then
   export OS=cygwin
 elif [[ "$OSTYPE" == "msys" ]]; then
@@ -25,9 +21,9 @@ fi
 
 pull () {
   echo "Pulling changes from remote..."
-  git pull
 
-  if [ $? != 0 ]; then
+
+  if ! git pull; then
     echo "Error pulling from remote. Abort."
     exit 1
   fi
@@ -42,9 +38,8 @@ commit () {
 
   echo "Committing changes in '$ADDPATH'..."
   git add -A "./$ADDPATH"
-  git diff --quiet --exit-code --cached || git commit -m "$COMMENT"
 
-  if [ $? != 0 ]; then
+  if ! (git diff --quiet --exit-code --cached || git commit -m "$COMMENT"); then
     echo "Error committing changes. Abort."
     exit 1
   fi
@@ -52,9 +47,8 @@ commit () {
 
 push () {
   echo "Pushing to remote..."
-  git push
 
-  if [ $? != 0 ]; then
+  if ! git push; then
     echo "Error pushing to remote. Abort."
     exit 1
   fi
@@ -113,8 +107,8 @@ source_env () {
   if [ -f "/vagrant/private/environment" ]; then
     . "/vagrant/private/environment"
   fi
-  
-  if [ -f ~/dotfiles/private/environment ]; then
-    . ~/dotfiles/private/environment
+
+  if [ -f "~/dotfiles/private/environment" ]; then
+    . "~/dotfiles/private/environment"
   fi
 }

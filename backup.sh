@@ -7,4 +7,4 @@ COMMENT=$1
 pull
 backup_config
 commit "files" "$COMMENT"
-push
+# push

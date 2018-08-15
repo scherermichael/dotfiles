@@ -63,7 +63,7 @@ Folders on the same level will be processed in alphabetical order. Subfolders wi
 The platform is provided by the environment variable `OS` (see [lib/common.sh](lib/common.sh) for possible values). So, to run a script only on OS X, start with the following line:
 
 ```bash
-if [ "${OS}" != "osx" ]; then exit; fi
+if [ "${OS}" != "macos" ]; then exit; fi
 ```
 
 *Please note:* The working dir will be set to the folder that contains the script.

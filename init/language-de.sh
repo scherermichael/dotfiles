@@ -6,7 +6,7 @@ if [ -z "$OS" ]; then
   . ../lib/common.sh
 fi;
 
-if [ "$OS" != "osx" ]; then exit; fi
+if [ "$OS" != "macos" ]; then exit; fi
 
 # Set language and text formats
 sudo languagesetup -langspec de
