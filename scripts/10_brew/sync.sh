@@ -19,7 +19,7 @@ fi
 echo "Installing Homebrew Cask..."
 brew tap caskroom/cask
 
-if $(ls -l /usr/local/ | tail -n +2 | grep -v " admin "); then
+if $(ls -l /usr/local/ | tail -n +2 | grep -qv " admin "); then
   # Not all folders in /usr/local belong to the "admin" group
   echo "Updating permissions for /usr/local..."
   # https://gist.github.com/jaibeee/9a4ea6aa9d428bc77925
