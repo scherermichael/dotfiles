@@ -2,6 +2,7 @@ git
 hub
 jq
 kops
+kubernetes-cli
 kubernetes-helm
 p7zip
 pass
