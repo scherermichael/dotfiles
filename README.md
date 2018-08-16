@@ -2,7 +2,7 @@
 
 Install and configure frequently used software for Mac and (Debian-based) Linux. Inspired by https://github.com/stefanscherer/dotfiles.
 
-## Initial setup
+## (Re-)Initialize the systems
 
 Clone the repository and run the initialization script:
 
@@ -12,38 +12,18 @@ $ cd ~ && git clone https://github.com/scherermichael/dotfiles && cd dotfiles &&
 
 This will install a set of commonly used software and copy the config files to the appropriate locations.
 
-*Please note:* By default, only a subset of all stored software packages will be installed. To install all packages, use `./init.sh --full`:
+You can run `./init.sh` any time to reset your system to the state stored in the dotfiles.
 
-```bash
-$ cd ~ && git clone https://github.com/scherermichael/dotfiles && cd dotfiles && ./init.sh --full
-```
+## Storing the current configuration
 
-The additional packages are listed in [scripts/10_brew-cask/packages.full.list](scripts/10_brew-cask/packages.full.list).
-
-If you only want to update your configuration, use:
-
-```bash
-$ cd ~ && git clone https://github.com/scherermichael/dotfiles && cd dotfiles && ./restore.sh
-```
-
-## Backup
-
-In order to backup the configuration files for later use, you have to copy all registered config files back to the repository, commit the changes, push it to the origin:
+In order to store the current configuration for later use run `./snapshot.sh`, commit the changes, and push it:
 
   ```bash
-  $ cd ~/dotfiles && ./backup.sh
+  $ cd ~/dotfiles && ./snapshot.sh
   $ git add files && commit -m "Update config files." && git push
   ```
 
-## Restore
-
-Restoring the configuration from the repository is even simpler. The script fetches all changes from the repository and overwrites the local config files:
-
-```bash
-$ cd ~/dotfiles && ./restore.sh
-```
-
-*Please note:* The `init` folder will not be processed. Config files that no longer exist in the repository will not be deleted on the local system.
+All configuration files in the `files` folder will be updated, a new list of Homebrew packages generated, and all installed or disabled Atom plugins stored.
 
 ## Repository Layout
 
@@ -64,6 +44,8 @@ The platform is provided by the environment variable `OS` (see [lib/common.sh](l
 ```bash
 [ "${OS}" == "macos" || exit
 ```
+
+The variable `${ISHOST}` is set to `true` if the script runs on the host system. In a vm, it's set to `false`.
 
 *Please note:* The working dir will be set to the folder that contains the script.
 
