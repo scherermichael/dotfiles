@@ -1,8 +1,13 @@
 git
 hub
 jq
+kops
+kubernetes-helm
+p7zip
 pass
 pinentry-mac
+pwgen
+shellcheck
 watch
 wget
 z
