@@ -8,12 +8,12 @@ find "./files" -type f -exec bash -c '
 ' \;
 
 echo "Retrieving list of installed Homebrew packages..."
-brew leaves -1 > init/10_brew/packages.list
-brew cask list -1 > init/10_brew/packages-cask.list
+brew leaves -1 > scripts/10_brew/packages.list
+brew cask list -1 > scripts/10_brew/packages-cask.list
 
 echo "Retrieving list of installed/disabled Atom plugins..."
-apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' > init/atom-plugins/disabled.list
-apm ls --installed --bare | sed 's/@.*$//' | sed '/^$/d' > init/atom-plugins/installed.list
+apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/disabled.list
+apm ls --installed --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/installed.list
 
 echo ""
 echo "Copied files from $HOME into the repository."

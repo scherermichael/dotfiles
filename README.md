@@ -31,9 +31,9 @@ All configuration files in the `files` folder will be updated, a new list of Hom
 
 All files that you want to copy to the local system are located under the `files` directory. It will be mapped to the user's home directory when copying the files.
 
-### init
+### scripts
 
-The `init` directory contains scripts for installing software and other setup tasks. A script must end with the suffix `.sh` and its executable flag must be set.
+The `scripts` directory contains scripts for installing software and other setup tasks. A script must end with the suffix `.sh` and its executable flag must be set.
 
 The scripts run **before** the `files` directory will be copied.
 

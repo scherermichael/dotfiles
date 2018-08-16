@@ -2,9 +2,9 @@ Zen
 cucumber
 editorconfig
 git-log
+git-time-machine
 language-batch
 language-docker
-git-time-machine
 language-gherkin
 language-hcl
 language-powershell

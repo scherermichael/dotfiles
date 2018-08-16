@@ -17,8 +17,8 @@ if [ -f "~/dotfiles/private/environment" ]; then
   . "~/dotfiles/private/environment"
 fi
 
-echo "Executing scripts in 'init'..."
-find -s "./init" -name '*.sh' -type f -exec bash -c '
+echo "Executing scripts in 'scripts'..."
+find -s "./scripts" -name '*.sh' -type f -exec bash -c '
   if [ -x "{}" ]; then
     echo "Running {}..."
     cd "$(dirname {})"
