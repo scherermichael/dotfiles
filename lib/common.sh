@@ -79,7 +79,7 @@ run_scripts () {
   echo "Executing scripts in 'init'..."
   find -s "./init" -name '*.sh' -type f -exec bash -c '
     if [ -x "{}" ]; then
-      echo "{}"
+      echo "Running {}..."
       cd "$(dirname {})"
       "./$(basename {})"
     fi
