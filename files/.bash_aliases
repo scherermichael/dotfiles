@@ -3,12 +3,8 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias -- -="cd -"
 
-function a {
- LANG=en_US.UTF-8 atom "$@"
-}
-function ade {
- LANG=de_DE.UTF-8 atom "$@"
-}
+alias a="LANG=en_US.UTF-8 atom --clear-window-state"
+alias ade="LANG=de_DE.UTF-8 atom --clear-window-state"
 
 alias d="docker"
 alias doco="docker-compose"
@@ -25,7 +21,7 @@ function dmuse {
   else
     # Start machine with given name
     doma start $1
-    dme "$@"
+    dme $@
   fi
 }
 alias dps='docker ps --format="table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
@@ -100,3 +96,5 @@ alias nr="npm run"
 alias v="vagrant"
 alias vr="vagrant resume"
 alias vs="vagrant suspend"
+
+alias work="~/bin/workinghours/show.sh"

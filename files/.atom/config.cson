@@ -2,25 +2,25 @@
   Zen:
     width: 100
   "atom-ternjs":
-    useSnippets: false
     documentation: false
-    urls: false
-    lint: false
     guess: false
     inlineFnCompletion: false
+    lint: false
+    urls: false
+    useSnippets: false
   "autocomplete-plus":
     confirmCompletion: "tab always, enter when suggestion explicitly selected"
   core:
     disabledPackages: [
-      "autocomplete-snippets"
       "autocomplete-atom-api"
+      "autocomplete-snippets"
     ]
     telemetryConsent: "no"
   editor:
     autoIndentOnPaste: false
     invisibles: {}
-    softWrap: true
     showIndentGuide: true
+    softWrap: true
   "git-log":
     fontScale: 0.9
   linter:
@@ -31,19 +31,19 @@
   "markdown-preview": {}
   minimap:
     plugins:
-      "git-diff": true
-      "find-and-replace": true
-      selection: true
-      codeglance: true
       bookmarks: true
+      codeglance: true
+      "find-and-replace": true
+      "git-diff": true
+      selection: true
   "one-dark-ui":
     tabSizing: "Even"
   "spell-check": {}
   tabs:
     usePreviewTabs: true
-  "tree-view": {}
   "theme-switcher":
     syntaxThemeOne: "one-dark-syntax"
     syntaxThemeTwo: "one-light-syntax"
+  "tree-view": {}
   welcome:
     showOnStartup: false

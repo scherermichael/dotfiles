@@ -52,20 +52,6 @@ push () {
   fi
 }
 
-backup_config () {
-  echo "Backing up config files in 'files'..."
-  find "./files" -type f -exec bash -c '
-    target="{}"
-    source="$HOME/${target#./files/}" # Replace common dir of files with $HOME
-    cp -afv "$source" "$target"
-  ' \;
-
-  if [ $? != 0 ]; then
-    echo "Error creating backup. Abort."
-    exit 1
-  fi
-}
-
 restore_config () {
   echo "Restoring config files in 'files'..."
   find "./files" -type f -exec bash -c '

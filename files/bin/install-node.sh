@@ -23,6 +23,7 @@ modules=" \
   forany \
   npm-check-updates \
   reqd \
+  serverless \
 "
 
 for module in ${modules}; do

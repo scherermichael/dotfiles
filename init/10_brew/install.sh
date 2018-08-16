@@ -1,12 +1,8 @@
 #!/bin/bash
 
-# Note: Use `brew list -1 > packages.list` to create an appropriate list of packages.
+[ -z "${OS}" ] && . ../../lib/common.sh
 
-if [ -z "${OS}" ]; then
-  . ../../lib/common.sh
-fi;
-
-if [ "${OS}" != "macos" ]; then exit; fi
+[ "${OS}" == "macos" ] || exit
 
 # Install Brew itself
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" </dev/null
