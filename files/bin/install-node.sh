@@ -23,8 +23,8 @@ modules=" \
   forany \
   npm-check-updates \
   reqd \
-  serverless \
   roboter-cli \
+  serverless \
 "
 
 for module in ${modules}; do
