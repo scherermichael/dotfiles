@@ -15,6 +15,7 @@
       "autocomplete-snippets"
       "autocomplete-atom-api"
     ]
+    telemetryConsent: "no"
   editor:
     autoIndentOnPaste: false
     invisibles: {}
