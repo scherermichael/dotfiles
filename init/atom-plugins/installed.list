@@ -4,6 +4,7 @@ editorconfig
 git-log
 language-batch
 language-docker
+git-time-machine
 language-gherkin
 language-hcl
 language-powershell
@@ -12,6 +13,7 @@ linter-eslint
 linter-shellcheck
 linter-ui-default
 minimap
+minimap-find-and-replace
 minimap-git-diff
 minimap-selection
 pretty-json
