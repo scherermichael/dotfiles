@@ -24,6 +24,7 @@ modules=" \
   npm-check-updates \
   reqd \
   serverless \
+  roboter-cli \
 "
 
 for module in ${modules}; do
