@@ -8,7 +8,7 @@ find "./files" -type f -exec bash -c '
 ' \;
 
 echo "Retrieving list of installed Homebrew packages..."
-brew list -1 > init/10_brew/packages.list
+brew leaves -1 > init/10_brew/packages.list
 brew cask list -1 > init/10_brew-cask/packages.list
 
 echo "Retrieving list of installed/disabled Atom plugins..."
