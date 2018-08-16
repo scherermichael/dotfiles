@@ -6,6 +6,9 @@
 
 [ "${OS}" == "macos" ] || exit
 
+# Skip if language is already set to de
+(defaults read NSGlobalDomain AppleLanguages | grep -q "de") && exit
+
 # Set language and text formats
 sudo languagesetup -langspec de
 defaults write NSGlobalDomain AppleLanguages -array "de"
