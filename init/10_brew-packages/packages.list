@@ -1,8 +1,10 @@
+docker-compose
+docker-machine-driver-xhyve
 git
+gpg
 hub
 jq
 kops
-kubernetes-cli
 kubernetes-helm
 p7zip
 pass
