@@ -1,3 +1,5 @@
+export PATH="/usr/local/sbin:$PATH"
+
 if [ -f "/vagrant/private/environment" ]; then
   . "/vagrant/private/environment"
 fi
@@ -44,7 +46,7 @@ fi
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
-[ -f /Users/michael/.nvm/versions/node/v8.9.4/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash ] && . /Users/michael/.nvm/versions/node/v8.9.4/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash
+[ -f /Users/michael/.nvm/versions/node/$(nvm version)/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash ] && . /Users/michael/.nvm/versions/node/$(nvm version)/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
-[ -f /Users/michael/.nvm/versions/node/v8.9.4/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash ] && . /Users/michael/.nvm/versions/node/v8.9.4/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash
+[ -f /Users/michael/.nvm/versions/node/$(nvm version)/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash ] && . /Users/michael/.nvm/versions/node/$(nvm version)/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash
