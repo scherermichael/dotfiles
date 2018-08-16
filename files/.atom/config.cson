@@ -28,6 +28,11 @@
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
     useGlobalEslint: true
+  "linter-ui-default":
+    alwaysTakeMinimumSpace: true
+    panelHeight: 208
+    panelRepresents: "Entire Project"
+    showPanel: true
   "markdown-preview": {}
   minimap:
     plugins:
