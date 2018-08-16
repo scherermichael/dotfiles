@@ -5,7 +5,7 @@ options="$2"
 
 if [ -z "$options" ]; then
   driver="vmwarefusion"
-  if [ `ps aux | grep vmware-tools | grep -v grep | wc -l` -ne 0 ]; then
+  if [ $(ps aux | grep vmware-tools | grep -v grep | wc -l) -ne 0 ]; then
     # Use virtualbox as driver in VMs
     driver="virtualbox"
   fi
