@@ -2,13 +2,11 @@
 
 # See also https://discussions.apple.com/thread/1560727?start=0&tstart=0
 
-if [ -z "${OS}" ]; then
-  . ../../lib/common.sh
-fi;
+[ -z "${OS}" ] && . ../../lib/common.sh
 
-if [ "${OS}" != "macos" ]; then exit; fi
+[ "${OS}" == "macos" ] || exit
 
-if [ "$(whoami)" != "vagrant" ]; then exit; fi
+[ "$(whoami)" == "vagrant" ] || exit
 
 sudo defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser -string vagrant
 sudo cp kcpassword /private/etc/

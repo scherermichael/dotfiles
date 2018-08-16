@@ -59,10 +59,10 @@ The scripts run **before** the `files` directory will be copied.
 
 Folders on the same level will be processed in alphabetical order. Subfolders will be processed **before** their parent folder.
 
-The platform is provided by the environment variable `OS` (see [lib/common.sh](lib/common.sh) for possible values). So, to run a script only on OS X, start with the following line:
+The platform is provided by the environment variable `OS` (see [lib/common.sh](lib/common.sh) for possible values). So, to run a script only on MacOS, start with the following line:
 
 ```bash
-if [ "${OS}" != "macos" ]; then exit; fi
+[ "${OS}" == "macos" || exit
 ```
 
 *Please note:* The working dir will be set to the folder that contains the script.

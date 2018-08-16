@@ -1,11 +1,7 @@
 #!/bin/bash
 
-name="$1"
+name="$1:-dev"
 options="$2"
-
-if [ -z "$name" ]; then
-  name="dev"
-fi
 
 if [ -z "$options" ]; then
   driver="vmwarefusion"

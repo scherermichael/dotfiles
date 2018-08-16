@@ -2,7 +2,7 @@
 
 # From https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
 
-if ! which gpg; then exit; fi
+which -s gpg || exit
 
 cat >> ~/.gnupg/gpg.conf <<EOF
 # Use GPG agent for storing the passphrase

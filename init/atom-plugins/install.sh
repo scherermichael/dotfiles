@@ -1,6 +1,6 @@
 #/bin/bash
 
-[ -z "${OS}" ] && . ../lib/common.sh
+[ -z "${OS}" ] && . ../../lib/common.sh
 
 which -s apm || exit;
 

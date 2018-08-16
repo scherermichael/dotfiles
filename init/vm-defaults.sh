@@ -2,13 +2,11 @@
 
 # See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
-if [ -z "${OS}" ]; then
-  . ../lib/common.sh
-fi;
+[ -z "${OS}" ] && . ../lib/common.sh
 
-if [ "${OS}" != "macos" ]; then exit; fi
+[ "${OS}" == "macos" ] || exit
 
-if [ "$ISHOST" = true ]; then exit; fi
+[ "$ISHOST" = true ] && exit
 
 ###############################################################################
 # General UI/UX                                                               #

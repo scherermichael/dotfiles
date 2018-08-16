@@ -1,12 +1,10 @@
 #!/bin/bash
 
-if [ -z "${OS}" ]; then
-  . ../../lib/common.sh
-fi;
+[ -z "${OS}" ] && . ../../lib/common.sh
 
-if [ "${OS}" != "macos" ]; then exit; fi
+[ "${OS}" == "macos" ] || exit
 
-if [ "$ISHOST" = true ]; then exit; fi
+[ "$ISHOST" = true ] && exit
 
 # Copy app
 cp -rf scale-hdpi.app ~/Desktop

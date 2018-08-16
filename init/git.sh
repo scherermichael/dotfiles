@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ! which git; then exit; fi
+which -s git || exit
 
 GIT_USER=${GIT_USER:-Michael Scherer}
 GIT_EMAIL=${GIT_EMAIL:-mail@scherermichael.net}

@@ -1,10 +1,6 @@
 #!/bin/bash
 
-TARGET=${1}
-
-if [ -z "${TARGET}" ]; then
-  TARGET=plossys
-fi
+TARGET=${1:-plossys}
 
 mkdir -p "${TARGET}"
 pushd "${TARGET}"
