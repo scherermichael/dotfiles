@@ -4,15 +4,19 @@
 
 which -s gpg || exit
 
-cat >> ~/.gnupg/gpg.conf <<EOF
+if ! $(grep -q "use-agent" ~/.gnupg/gpg.conf); then
+  cat >> ~/.gnupg/gpg.conf <<EOF
 # Use GPG agent for storing the passphrase
 use-agent
 EOF
+fi
 
-cat >> ~/.gnupg/gpg-agent.conf <<EOF
+if ! $(grep -q "pinentry-program /usr/local/bin/pinentry-mac" ~/.gnupg/gpg-agent.conf); then
+  cat >> ~/.gnupg/gpg-agent.conf <<EOF
 pinentry-program /usr/local/bin/pinentry-mac
 # caching: default 8h
 default-cache-ttl 28800
 # caching: max 24h
 max-cache-ttl 86400
 EOF
+fi
