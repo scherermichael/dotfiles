@@ -1,7 +1,6 @@
 docker-compose
 docker-machine-driver-xhyve
 git
-gpg
 hub
 jq
 kops
