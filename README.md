@@ -7,7 +7,7 @@ Install and configure frequently used software for Mac and (Debian-based) Linux.
 Clone the repository and run the initialization script:
 
 ```bash
-$ cd ~ && git clone https://github.com/scherermichael/dotfiles && cd dotfiles && ./init.sh
+$ git clone https://github.com/scherermichael/dotfiles && dotfiles/init.sh
 ```
 
 This will install a set of commonly used software and copy the config files to the appropriate locations.
@@ -19,7 +19,7 @@ You can run `./init.sh` any time to reset your system to the state stored in the
 In order to store the current configuration for later use run `./snapshot.sh`, commit the changes, and push it:
 
   ```bash
-  $ cd ~/dotfiles && ./snapshot.sh
+  $ ./snapshot.sh
   $ git add files && commit -m "Update config files." && git push
   ```
 

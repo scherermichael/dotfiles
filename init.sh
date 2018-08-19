@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+pushd "${dir}" || exit 1
+
 . ./lib/common.sh
 
 echo "Pulling changes from remote..."
@@ -44,6 +49,8 @@ if [ $? != 0 ]; then
   echo "Error restoring files. Abort."
   exit 1
 fi
+
+popd || exit 1
 
 echo ""
 echo "Done: System has been (re-)initialized."
