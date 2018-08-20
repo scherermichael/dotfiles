@@ -92,6 +92,8 @@ function kca {
 }
 
 alias nr="npm run"
+alias noss="cp ~/.npmrc-oss ~/.npmrc"
+alias npriv="cp ~/.npmrc-priv ~/.npmrc"
 
 alias v="vagrant"
 alias vr="vagrant resume"
