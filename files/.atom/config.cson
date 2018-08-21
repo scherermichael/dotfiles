@@ -23,8 +23,7 @@
     softWrap: true
   "git-log":
     fontScale: 0.9
-  linter:
-    errorPanelHeight: 22
+  linter: {}
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
     useGlobalEslint: true
@@ -39,8 +38,11 @@
       bookmarks: true
       codeglance: true
       "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
       "git-diff": true
+      "git-diffDecorationsZIndex": 0
       selection: true
+      selectionDecorationsZIndex: 0
   "one-dark-ui":
     tabSizing: "Even"
   "spell-check": {}
