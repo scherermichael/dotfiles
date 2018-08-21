@@ -19,6 +19,7 @@ npm config set save-exact true
 
 # Install global modules
 modules=" \
+  eslint \
   flaschenpost \
   forany \
   npm-check-updates \
