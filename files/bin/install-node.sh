@@ -24,6 +24,7 @@ modules=" \
   npm-check-updates \
   reqd \
   roboter-cli \
+  rtm-cli \
   serverless \
 "
 
