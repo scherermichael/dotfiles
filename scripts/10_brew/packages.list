@@ -6,6 +6,7 @@ hub
 jq
 kops
 kubernetes-helm
+mas
 p7zip
 pass
 pinentry-mac
