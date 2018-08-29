@@ -2,14 +2,14 @@
 
 # BitBar lid status plugin
 
-isOpen=$(ioreg -r -k AppleClamshellState -d 4 | \
+isClosed=$(ioreg -r -k AppleClamshellState -d 4 | \
   grep AppleClamshellState | \
   head -1 | \
   cut -d = -f 2)
 
 color="white"
 
-if [ "${isOpen}" == "no" ]; then
+if [ "${isClosed}" == "Yes" ]; then
   result="💻✓"
   color="green"
 else
