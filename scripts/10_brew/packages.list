@@ -12,6 +12,7 @@ pass
 pinentry-mac
 pwgen
 shellcheck
+terraform
 watch
 wget
 z
