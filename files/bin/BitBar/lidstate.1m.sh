@@ -10,7 +10,7 @@ result="💻"
 if [[ "${isClosed}" =~ "Yes" ]]; then
   result="💻✓|color=green"
 else
-  if netstat -an | grep '.5900 ' | grep -q ESTABLISHED; then
+  if netstat -an | grep '\.5900 ' | grep -q ESTABLISHED; then
     result="✘💻✘|color=red"
   fi
 fi
