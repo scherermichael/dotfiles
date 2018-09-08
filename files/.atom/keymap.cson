@@ -1,4 +1,15 @@
 '.platform-darwin':
   'ctrl-1': 'tree-view:toggle'
   'ctrl-2': 'minimap:toggle'
+  'ctrl-3': 'window:toggle-bottom-dock'
   'ctrl-w': 'editor:toggle-soft-wrap'
+'body':
+  'cmd-1': 'unset!'
+  'cmd-2': 'unset!'
+  'cmd-3': 'unset!'
+  'cmd-4': 'unset!'
+  'cmd-5': 'unset!'
+  'cmd-6': 'unset!'
+  'cmd-7': 'unset!'
+  'cmd-8': 'unset!'
+  'cmd-9': 'unset!'
