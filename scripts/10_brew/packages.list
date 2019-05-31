@@ -1,5 +1,4 @@
 awscli
-docker
 docker-compose
 docker-machine-driver-xhyve
 git
