@@ -30,7 +30,8 @@
   linter: {}
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
-    useGlobalEslint: true
+    global:
+      useGlobalEslint: true
   "linter-shellcheck":
     enableNotice: true
     shellcheckExecutablePath: "/usr/local/bin/shellcheck"
