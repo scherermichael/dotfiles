@@ -36,7 +36,7 @@ if [ -f "packages.list" ]; then
   do
     echo "Installing package $package..."
     brew install "$package"
-done < <(brew leaves -1 | diff -u - packages.list | grep '^+[^+]' | sed 's/^+//')
+done < <(brew leaves | diff -u - packages.list | grep '^+[^+]' | sed 's/^+//')
 fi
 
 # Deinstall no longer listed packages
@@ -45,7 +45,7 @@ if [ -f "packages.list" ]; then
   do
     echo "Uninstalling package $package..."
     brew uninstall --force "$package"
-done < <(brew leaves -1 | diff -u - packages.list | grep '^-[^-]' | sed 's/^-//')
+done < <(brew leaves | diff -u - packages.list | grep '^-[^-]' | sed 's/^-//')
 fi
 
 echo "Upgrading packages..."
