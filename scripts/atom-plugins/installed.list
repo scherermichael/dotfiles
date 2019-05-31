@@ -18,6 +18,7 @@ minimap
 minimap-find-and-replace
 minimap-git-diff
 minimap-selection
+prettier-atom
 pretty-json
 react
 sort-lines

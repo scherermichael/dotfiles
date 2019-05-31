@@ -16,6 +16,8 @@
       "autocomplete-snippets"
     ]
     telemetryConsent: "no"
+    titleBar: "custom"
+    useTreeSitterParsers: true
   editor:
     autoIndentOnPaste: false
     invisibles: {}
