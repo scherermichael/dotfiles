@@ -114,6 +114,9 @@ defaults write com.apple.dock mru-spaces -bool false
 # Automatically hide and show the Dock
 defaults write com.apple.dock autohide -bool true
 
+# Switch space to show application on single click
+defaults write com.apple.dock workspaces-auto-swoosh -boolean Yes
+
 # Reload Dock
 killall -HUP Dock
 
