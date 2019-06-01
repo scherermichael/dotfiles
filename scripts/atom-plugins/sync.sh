@@ -2,7 +2,7 @@
 
 [ -z "${OS}" ] && . ../../lib/common.sh
 
-which -s apm || exit;
+command -v apm || exit;
 
 if [ -f "installed.list" ]; then
   while read -r plugin

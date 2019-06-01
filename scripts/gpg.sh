@@ -2,7 +2,7 @@
 
 # From https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
 
-which -s gpg || exit
+command -v gpg || exit
 
 if ! $(grep -q "use-agent" ~/.gnupg/gpg.conf); then
   cat >> ~/.gnupg/gpg.conf <<EOF

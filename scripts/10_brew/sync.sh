@@ -6,7 +6,7 @@
 
 # Init
 
-if which -s brew; then
+if command -v brew; then
   echo "Updating Brew..."
   # Intentionally running it twice
   brew update
