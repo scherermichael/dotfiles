@@ -7,10 +7,10 @@ pushd "${dir}" || exit 1
 
 echo "Backing up config files in 'files'..."
 find "./files" -type f -exec bash -c '
-  target="{}"
+  target="$1"
   source="$HOME/${target#./files/}" # Replace common dir of files with $HOME
   cp -afv "$source" "$target"
-' \;
+' _ {} \;
 
 echo "Retrieving list of installed Homebrew packages..."
 brew leaves > scripts/10_brew/packages.list
