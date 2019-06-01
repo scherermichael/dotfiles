@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ `ps aux | grep vmware-tools | grep -v grep | wc -l` -eq 0 ]; then
-  export ISHOST=true
+if [ `ps aux | grep vmware-tools | grep -v grep | wc -l` -ne 0 ]; then
+  export IS_VM=true
 fi
 
 # See: http://stackoverflow.com/questions/394230/detect-the-os-from-a-bash-script

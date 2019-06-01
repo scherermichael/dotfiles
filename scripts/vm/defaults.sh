@@ -6,7 +6,7 @@
 
 [ "${OS}" == "macos" ] || exit
 
-[ "$ISHOST" = true ] && exit
+[ "${IS_VM}" = "true" ] || exit
 
 echo "Disable transparency in the menu bar and elsewhere on Yosemite"
 defaults write com.apple.universalaccess reduceTransparency -bool true

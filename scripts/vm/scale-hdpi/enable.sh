@@ -4,7 +4,7 @@
 
 [ "${OS}" == "macos" ] || exit
 
-[ "$ISHOST" = true ] && exit
+[ "${IS_VM}" = "true" ] || exit
 
 # Copy app
 cp -rf scale-hdpi.app ~/Desktop
