@@ -47,7 +47,7 @@ The platform is provided by the environment variable `OS` (see [lib/common.sh](l
 [ "${OS}" == "macos" || exit
 ```
 
-The variable `${ISHOST}` is set to `true` if the script runs on the host system. In a vm, it's set to `false`.
+The variable `${ISHOST}` is set to `true` if the script runs on the host system. In a vm, it's not set.
 
 *Please note:* The working dir will be set to the folder that contains the script.
 
