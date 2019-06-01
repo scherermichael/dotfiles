@@ -50,6 +50,9 @@ defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
+# Enable keyboard control for dialogs (all elements)
+defaults write -g AppleKeyboardUIMode -int 2
+ca
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
