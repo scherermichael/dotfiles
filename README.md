@@ -14,6 +14,8 @@ This will install a set of commonly used software and copy the config files to t
 
 You can run `./init.sh` any time to reset your system to the state stored in the dotfiles.
 
+Use option `--no-scripts` to only re-initialize the configuration files.
+
 ## Storing the current configuration
 
 In order to store the current configuration for later use run `./snapshot.sh`, commit the changes, and push it:
