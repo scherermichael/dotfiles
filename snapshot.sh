@@ -20,6 +20,9 @@ echo "Retrieving list of installed/disabled Atom plugins..."
 apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/disabled.list
 apm ls --installed --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/installed.list
 
+echo "Retrieving list of installed Visual Studio Code extensions..."
+code --list-extensions > scripts/vscode-extensions/installed.list
+
 popd || exit 1
 
 echo ""

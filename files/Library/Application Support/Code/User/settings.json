@@ -1,0 +1,6 @@
+{
+    "telemetry.enableTelemetry": false,
+    "window.zoomLevel": 0,
+    "editor.fontSize": 14,
+    "workbench.startupEditor": "newUntitledFile"
+}
