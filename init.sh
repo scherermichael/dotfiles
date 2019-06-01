@@ -32,7 +32,7 @@ if [ "$1" != "--no-scripts" ]; then
   fi
 fi
 
-echo "Restoring config files in 'files'..."
+echo "Restoring config files..."
 find "./files" -type f -exec bash -c '
   file="$1"
   target="${file#./files}"       # Remove common dir of files

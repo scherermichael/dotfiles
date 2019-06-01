@@ -2,7 +2,7 @@
 
 Install and configure frequently used software for Mac and (Debian-based) Linux. Inspired by https://github.com/stefanscherer/dotfiles.
 
-## (Re-)Initialize the systems
+## (Re-)Initialize system
 
 Clone the repository and run the initialization script:
 
@@ -22,10 +22,10 @@ In order to store the current configuration for later use run `./snapshot.sh`, c
 
   ```bash
   $ ./snapshot.sh
-  $ git add files && commit -m "Update config files." && git push
+  $ git add files && commit -m "Update configuration" && git push
   ```
 
-All configuration files in the `files` folder will be updated, a new list of Homebrew packages generated, and all installed or disabled Atom plugins stored.
+All configuration files in the `files` folder will be updated, a new list of Homebrew packages generated, installed VS Code extentions and installed or disabled Atom plugins stored.
 
 ## Repository Layout
 
@@ -41,7 +41,7 @@ The scripts run **before** the `files` directory will be copied.
 
 Folders on the same level will be processed in alphabetical order. Subfolders will be processed **before** their parent folder.
 
-The platform is provided by the environment variable `OS` (see [lib/common.sh](lib/common.sh) for possible values). So, to run a script only on MacOS, start with the following line:
+The platform is provided by the environment variable `OS` (see [lib/common.sh](lib/common.sh) for possible values). So, to run a script only on eg. MacOS, start with the following line:
 
 ```bash
 [ "${OS}" == "macos" || exit
