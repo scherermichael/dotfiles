@@ -2,5 +2,10 @@
     "telemetry.enableTelemetry": false,
     "window.zoomLevel": 0,
     "editor.fontSize": 14,
-    "workbench.startupEditor": "newUntitledFile"
+    "workbench.startupEditor": "newUntitledFile",
+    "editor.tabSize": 2,
+    "workbench.editor.tabSizing": "shrink",
+    "dayNightThemeSwitcher.dayTheme": "Atom One Light",
+    "dayNightThemeSwitcher.nightTheme": "Atom One Dark",
+    "workbench.colorTheme": "Atom One Dark"
 }
