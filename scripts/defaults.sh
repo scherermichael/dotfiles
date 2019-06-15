@@ -59,6 +59,9 @@ defaults write -g AppleKeyboardUIMode -int 2
 echo "Sleep after 30 minutes"
 sudo systemsetup -setsleep 30
 
+echo "Set default screensaver to 'Flurry'"
+defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName Flurry path /System/Library/Screen\ Savers/Flurry.saver type 0
+
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
