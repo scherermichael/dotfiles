@@ -90,6 +90,11 @@ alias kc="kubectl"
 function kca {
   kubectl "$@" --all-namespaces
 }
+# Set Kubernetes client to new namespace
+function kcns {
+  kubectl config set-context --current --namespace="$1"
+  kubectl config view | grep namespace:
+}
 
 alias nr="npm run"
 alias noss="cp ~/.npmrc-oss ~/.npmrc"
