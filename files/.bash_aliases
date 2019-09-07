@@ -97,8 +97,8 @@ function kcns {
 }
 
 alias nr="npm run"
-alias noss="cp ~/.npmrc-oss ~/.npmrc"
-alias npriv="cp ~/.npmrc-priv ~/.npmrc"
+alias noss="cp ~/.npmrc-oss ~/.npmrc && npm cache clean -f"
+alias npriv="cp ~/.npmrc-priv ~/.npmrc && npm cache clean -f"
 
 alias v="vagrant"
 alias vr="vagrant resume"
