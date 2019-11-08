@@ -22,6 +22,7 @@ prettier-atom
 pretty-json
 react
 sort-lines
+split-diff
 teletype
 theme-switcher
 uuidgen
