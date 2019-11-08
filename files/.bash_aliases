@@ -97,6 +97,7 @@ function push {
     git push -u origin "$(currbranch)"
   fi
 }
+alias status="git status"
 # Switch to branch and create it if necessary
 function switch {
   if git branch | grep -q "$1"; then
