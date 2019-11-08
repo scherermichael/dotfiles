@@ -83,6 +83,9 @@ function clone {
   shift
   git clone "git@github.com:$repo" "$@"
 }
+function add {
+  git add "$@"
+}
 function amend {
   git commit --amend -m "$*"
 }
