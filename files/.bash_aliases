@@ -92,6 +92,9 @@ function amend {
 function commit {
   git commit -m "$*"
 }
+function merge {
+  git merge "$@"
+}
 alias prunebranches="git branch --merged master | grep -v ' master$' | xargs git branch -d"
 alias pull="git pull"
 # Print current branch
