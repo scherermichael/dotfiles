@@ -83,6 +83,12 @@ function clone {
   shift
   git clone "git@github.com:$repo" "$@"
 }
+function amend {
+  git commit --amend -m "$*"
+}
+function commit {
+  git commit -m "$*"
+}
 alias prunebranches="git branch --merged master | grep -v ' master$' | xargs git branch -d"
 alias pull="git pull"
 # Print current branch
