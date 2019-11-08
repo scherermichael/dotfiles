@@ -97,6 +97,14 @@ function push {
     git push -u origin "$(currbranch)"
   fi
 }
+# Switch to branch and create it if necessary
+function switch {
+  if git branch | grep -q "$1"; then
+    git checkout "$1"
+  else
+    git checkout -b "$1"
+  fi
+}
 
 alias kc="kubectl"
 function kca {
