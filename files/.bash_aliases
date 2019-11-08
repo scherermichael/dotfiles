@@ -78,13 +78,25 @@ function gitls {
   done
 }
 alias gls="gitls"
+function clone {
+  repo="$1"
+  shift
+  git clone "git@github.com:$repo" "$@"
+}
+alias prunebranches="git branch --merged master | grep -v ' master$' | xargs git branch -d"
+alias pull="git pull"
 # Print current branch
 function currbranch {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
-# Undo a `git push`
-alias undopush="git push -f origin HEAD^:$(currbranch)"
-alias prunebranches="git branch --merged master | grep -v ' master$' | xargs git branch -d"
+# Automatically set matching remote branch on first push
+function push {
+  if git branch -vv | grep '\*' | grep -q '\['; then
+    git push
+  else
+    git push -u origin "$(currbranch)"
+  fi
+}
 
 alias kc="kubectl"
 function kca {
