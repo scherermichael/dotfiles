@@ -125,8 +125,13 @@ function kca {
 }
 # Set Kubernetes client to new namespace
 function kcns {
-  kubectl config set-context --current --namespace="$1"
+  [ -n "$1" ] && kubectl config set-context --current --namespace="$1"
   kubectl config view | grep namespace:
+}
+# Set Kubernetes client to new context
+function kcctx {
+  [ -n "$1" ] && kubectl config use-context "$1"
+  kubectl config get-contexts --no-headers | tr -s " " | cut -d " " -f1,2,5 | sed 's/ / | /g'
 }
 
 alias nr="npm run"
