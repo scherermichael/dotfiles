@@ -95,6 +95,10 @@ function commit {
 function merge {
   git merge "$@"
 }
+function mergemaster {
+  branch="$(currbranch)"
+  git checkout master && git pull && git checkout "$branch" && git merge --no-edit master
+}
 alias prunebranches="git branch --merged master | grep -v ' master$' | xargs git branch -d"
 alias pull="git pull"
 # Print current branch
@@ -112,7 +116,7 @@ function push {
 alias status="git status"
 # Switch to branch and create it if necessary
 function switch {
-  if git branch | grep -q "$1"; then
+  if git branch -a | grep -q "$1"; then
     git checkout "$1"
   else
     git checkout -b "$1"
