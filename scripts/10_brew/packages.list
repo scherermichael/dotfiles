@@ -2,10 +2,11 @@ awscli
 docker-compose
 docker-machine-driver-xhyve
 git
+helm
+heroku/brew/heroku
 hub
 jq
 kops
-kubernetes-helm
 mas
 p7zip
 pass

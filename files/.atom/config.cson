@@ -14,15 +14,15 @@
     disabledPackages: [
       "autocomplete-atom-api"
       "autocomplete-snippets"
+      "language-gfm"
     ]
     telemetryConsent: "no"
     titleBar: "custom"
+    useTreeSitterParsers: true
   editor:
     autoIndentOnPaste: false
-    fontSize: 15
     invisibles: {}
     showIndentGuide: true
-    showInvisibles: true
     softWrap: true
   "exception-reporting":
     userId: "44fd5f6f-7665-42b3-8855-24c5dde06098"
@@ -31,16 +31,13 @@
   linter: {}
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
-    disabling: {}
-    global: {}
   "linter-shellcheck":
     enableNotice: true
     shellcheckExecutablePath: "/usr/local/bin/shellcheck"
   "linter-ui-default":
     alwaysTakeMinimumSpace: true
-    panelHeight: 128
+    panelHeight: 129
     panelRepresents: "Entire Project"
-    showPanel: true
   "markdown-preview": {}
   minimap:
     plugins:
@@ -55,8 +52,6 @@
   "one-dark-ui":
     tabSizing: "Even"
   "spell-check": {}
-  "split-diff":
-    ignoreWhitespace: true
   tabs:
     usePreviewTabs: true
   "theme-switcher":

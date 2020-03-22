@@ -4,16 +4,19 @@ cucumber
 editorconfig
 git-log
 git-time-machine
+ide-json
 intentions
 language-batch
 language-docker
 language-gherkin
 language-hcl
+language-markdown
 language-powershell
 linter
 linter-eslint
 linter-shellcheck
 linter-ui-default
+markdown-writer
 minimap
 minimap-find-and-replace
 minimap-git-diff
@@ -22,7 +25,6 @@ prettier-atom
 pretty-json
 react
 sort-lines
-split-diff
 teletype
 theme-switcher
 uuidgen
