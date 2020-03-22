@@ -19,7 +19,7 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 echo "Automatically quit printer app once the print jobs complete"
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-echo "Remove duplicates in the “Open With” menu (also see 'lscleanup' alias)"
+echo "Remove duplicates in the 'Open With' menu (also see 'lscleanup' alias)"
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
 
 echo Disable Resume system-wide
