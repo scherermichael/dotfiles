@@ -8,7 +8,9 @@ caffeine
 daisydisk
 docker
 dropbox
+etcher
 flux
+forklift
 google-chrome
 gpg-suite
 libreoffice
@@ -24,3 +26,4 @@ virtualbox
 virtualbox-extension-pack
 visual-studio-code
 vlc
+wireshark

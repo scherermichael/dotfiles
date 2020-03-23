@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NODE_VERSION=8
+NODE_VERSION=12
 
 if [ -d ~/.nvm ]; then
   # Upgrade
@@ -19,12 +19,11 @@ npm config set save-exact true
 
 # Install global modules
 modules=" \
-  eslint \
   flaschenpost \
   forany \
+  fx \
   npm-check-updates \
   reqd \
-  roboter-cli \
   rtm-cli \
   serverless \
 "

@@ -1,6 +1,8 @@
+adr-tools
 awscli
 docker-machine-driver-xhyve
 git
+gnu-sed
 helm
 heroku/brew/heroku
 hub
@@ -17,4 +19,5 @@ shellcheck
 terraform
 watch
 wget
+yq
 z
