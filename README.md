@@ -2,21 +2,21 @@
 
 Install and configure frequently used software for Mac and (Debian-based) Linux. Inspired by https://github.com/stefanscherer/dotfiles.
 
-## (Re-)Initialize system
+## Restoring system
 
-Clone the repository and run the initialization script:
+Clone the repository and run the restore script:
 
 ```bash
-$ git clone https://github.com/scherermichael/dotfiles && dotfiles/init.sh
+$ git clone https://github.com/scherermichael/dotfiles && dotfiles/restore.sh
 ```
 
 This will install a set of commonly used software and copy the config files to the appropriate locations.
 
-You can run `./init.sh` any time to reset your system to the state stored in the dotfiles.
+You can run `./restore.sh` any time to reset your system to the state stored in the dotfiles.
 
 Use option `--no-scripts` to only re-initialize the configuration files.
 
-## Storing the current configuration
+## Creating snapshot of current system
 
 In order to store the current configuration for later use run `./snapshot.sh`, commit the changes, and push it:
 

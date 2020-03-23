@@ -5,7 +5,7 @@ dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 pushd "${dir}" || exit 1
 
-. ./lib/common.sh
+. lib/common.sh
 
 echo "Sourcing private environment variables..."
 if [ -f "/vagrant/private/environment" ]; then
@@ -49,4 +49,4 @@ fi
 popd || exit 1
 
 echo ""
-echo "Done: System has been (re-)initialized."
+echo "Done: System is restored."
