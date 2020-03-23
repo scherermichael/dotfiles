@@ -141,8 +141,9 @@ function kcctx {
 }
 
 alias nr="npm run"
-alias noss="cp ~/.npmrc-oss ~/.npmrc && npm cache clean -f"
-alias npriv="cp ~/.npmrc-priv ~/.npmrc && npm cache clean -f"
+function nrc {
+  cp ~/.npmrc-$1 ~/.npmrc && npm cache clean -f
+}
 
 alias v="vagrant"
 alias vr="vagrant resume"
