@@ -17,6 +17,7 @@
   "explorer.decorations.badges": true,
   "explorer.decorations.colors": true,
   "explorer.openEditors.visible": 0,
+  "extensions.ignoreRecommendations": true,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "git.autofetch": true,
