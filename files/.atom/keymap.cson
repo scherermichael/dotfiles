@@ -3,6 +3,7 @@
   'ctrl-2': 'minimap:toggle'
   'ctrl-3': 'window:toggle-bottom-dock'
   'ctrl-w': 'editor:toggle-soft-wrap'
+  'ctrl-cmd-s': 'tree-view:reveal-active-file'
 'body':
   'cmd-1': 'unset!'
   'cmd-2': 'unset!'
