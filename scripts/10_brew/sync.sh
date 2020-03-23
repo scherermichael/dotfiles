@@ -17,7 +17,7 @@ else
 fi
 
 echo "Installing Homebrew Cask..."
-brew tap caskroom/cask
+brew tap homebrew/cask-cask
 
 if $(ls -l /usr/local/ | tail -n +2 | grep -qv " admin "); then
   # Not all folders in /usr/local belong to the "admin" group
