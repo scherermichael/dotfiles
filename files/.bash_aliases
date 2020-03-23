@@ -6,6 +6,8 @@ alias -- -="cd -"
 alias a="LANG=en_US.UTF-8 atom --clear-window-state"
 alias ade="LANG=de_DE.UTF-8 atom --clear-window-state"
 
+alias c="code"
+
 alias copyssh="pbcopy < ~/.ssh/id_rsa.pub"
 
 alias d="docker"
