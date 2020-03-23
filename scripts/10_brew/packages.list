@@ -6,11 +6,13 @@ heroku/brew/heroku
 hub
 jq
 kops
+libyaml
 mas
 p7zip
 pass
 pinentry-mac
 pwgen
+python
 shellcheck
 terraform
 watch
