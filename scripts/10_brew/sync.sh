@@ -16,9 +16,6 @@ else
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" </dev/null
 fi
 
-echo "Installing Homebrew Cask..."
-brew tap homebrew/cask-cask
-
 if $(ls -l /usr/local/ | tail -n +2 | grep -qv " admin "); then
   # Not all folders in /usr/local belong to the "admin" group
   echo "Updating permissions for /usr/local..."
