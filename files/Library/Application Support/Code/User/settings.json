@@ -23,10 +23,10 @@
   "git.confirmSync": false,
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
+  "update.showReleaseNotes": false,
   "window.zoomLevel": 0,
   "workbench.activityBar.visible": true,
-  "workbench.colorCustomizations": {
-  },
+  "workbench.colorCustomizations": {},
   "workbench.colorTheme": "Atom One Dark",
   "workbench.editor.showIcons": false,
   "workbench.editor.tabSizing": "shrink",
