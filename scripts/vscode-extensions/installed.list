@@ -2,6 +2,8 @@ akamud.vscode-theme-onedark
 akamud.vscode-theme-onelight
 Atishay-Jain.All-Autocomplete
 bmewburn.vscode-intelephense-client
+dbaeumer.vscode-eslint
+EditorConfig.EditorConfig
 emroussel.atom-icons
 emroussel.atomize-atom-one-dark-theme
 eriklynd.json-tools
@@ -12,4 +14,5 @@ ms-vscode.atom-keybindings
 ms-vsliveshare.vsliveshare
 ms-vsliveshare.vsliveshare-audio
 richie5um2.vscode-sort-json
+timonwong.shellcheck
 yzhang.markdown-all-in-one
