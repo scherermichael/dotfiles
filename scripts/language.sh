@@ -6,12 +6,14 @@
 
 [ "${OS}" == "macos" ] || exit
 
-echo "Skip if language is already set to de"
-(defaults read NSGlobalDomain AppleLanguages | grep -q "de") && exit
+language="en"
+
+echo "Skip if language is already set to ${language}"
+(defaults read NSGlobalDomain AppleLanguages | grep -q "${language}") && exit
 
 echo "Set language and text formats"
-sudo languagesetup -langspec de
-defaults write NSGlobalDomain AppleLanguages -array "de"
+sudo languagesetup -langspec "${language}"
+defaults write NSGlobalDomain AppleLanguages -array "${language}"
 defaults write NSGlobalDomain AppleLocale -string "de_DE@currency=EUR"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
