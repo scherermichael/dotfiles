@@ -1,7 +1,10 @@
+[ -e ~/.linuxbrew/bin/brew ] && eval $(~/.linuxbrew/bin/brew shellenv)
+[ -e /home/linuxbrew/.linuxbrew/bin/brew ] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
 source ~/.common-rc
 
 if [ -f ~/git-completion.sh ]; then
-  . ~/git-completion.sh
+  source ~/git-completion.sh
 fi
 
 if [ -f ~/git-prompt.sh ]; then
@@ -10,5 +13,5 @@ if [ -f ~/git-prompt.sh ]; then
   GIT_PS1_SHOWUPSTREAM=auto
   PS1='\u@\h:\w   $(__git_ps1)
 $ '
-  . ~/git-prompt.sh
+  source ~/git-prompt.sh
 fi

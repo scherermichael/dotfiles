@@ -15,11 +15,6 @@ if command -v brew; then
 else
   echo "Installing Brew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-
-  # Insert command to load brew at *beginning* of .bashrc
-  test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-  test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-  test -r ~/.bashrc && sed -i "1i $(echo "eval \$($(brew --prefix)/bin/brew shellenv)")" ~/.bashrc
 fi
 
 # Homebrew packages
