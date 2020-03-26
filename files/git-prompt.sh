@@ -303,7 +303,7 @@ __git_ps1 ()
 	local detached=no
 	local ps1pc_start='\u@\h:\w '
 	local ps1pc_end='\$ '
-	local printf_format=' | %s\n'
+	local printf_format='%s'
 
 	case "$#" in
 		2|3)	pcmode=yes
@@ -365,7 +365,7 @@ __git_ps1 ()
 	rev_parse_exit_code="$?"
 
 	if [ -z "$repo_info" ]; then
-		echo "$"
+		# echo "$"
 		return $exit
 	fi
 
@@ -386,7 +386,7 @@ __git_ps1 ()
 	   [ "$(git config --bool bash.hideIfPwdIgnored)" != "false" ] &&
 	   git check-ignore -q .
 	then
-		echo "$"
+		# echo "$"
 		return $exit
 	fi
 
@@ -433,7 +433,7 @@ __git_ps1 ()
 		else
 			local head=""
 			if ! __git_eread "$g/HEAD" head; then
-				echo "$"
+				# echo "$"
 				return $exit
 			fi
 			# is it a symbolic ref?
@@ -496,7 +496,7 @@ __git_ps1 ()
 		   [ "$(git config --bool bash.showUntrackedFiles)" != "false" ] &&
 		   git ls-files --others --exclude-standard --directory --no-empty-directory --error-unmatch -- ':/*' >/dev/null 2>/dev/null
 		then
-			u="…${ZSH_VERSION+%}"
+			u="…"
 		fi
 
 		if [ -n "${GIT_PS1_SHOWUPSTREAM-}" ]; then
@@ -531,6 +531,6 @@ __git_ps1 ()
 		printf -- "$printf_format" "$gitstring"
 	fi
 
-	echo "$"
+	#echo "$"
 	return $exit
 }
