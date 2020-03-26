@@ -1,6 +1,7 @@
 #!/bin/bash
 
-NODE_VERSION=12
+# Install latest LTS by default
+NODE_VERSION="${1:-lts/*}"
 
 if [ -d ~/.nvm ]; then
   # Upgrade
@@ -11,8 +12,8 @@ else
 fi
 
 . ~/.nvm/nvm.sh
-nvm install ${NODE_VERSION}
-nvm alias default ${NODE_VERSION}
+nvm install "${NODE_VERSION}"
+nvm alias default "${NODE_VERSION}"
 
 # By default save exact version as dependency
 npm config set save-exact true
