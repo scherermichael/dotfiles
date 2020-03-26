@@ -10,6 +10,7 @@
   "editor.cursorBlinking": "blink",
   "editor.fontSize": 14,
   "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
   "editor.hideCursorInOverviewRuler": true,
   "editor.matchBrackets": "near",
   "editor.minimap.enabled": true,
@@ -29,6 +30,7 @@
   "editor.suggestOnTriggerCharacters": false,
   "editor.tabSize": 2,
   "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+  "eslint.format.enable": true,
   "explorer.openEditors.visible": 0,
   "extensions.ignoreRecommendations": true,
   "files.insertFinalNewline": true,
@@ -40,13 +42,24 @@
   "php.suggest.basic": false,
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
+  "typescript.preferences.renameShorthandProperties": false,
+  "typescript.reportStyleChecksAsWarnings": false,
+  "typescript.suggest.autoImports": false,
   "typescript.suggest.completeJSDocs": false,
   "typescript.suggest.enabled": false,
+  "typescript.suggest.includeAutomaticOptionalChainCompletions": false,
+  "typescript.suggest.paths": false,
+  "typescript.suggestionActions.enabled": false,
+  "typescript.surveys.enabled": false,
+  "typescript.tsc.autoDetect": "off",
+  "typescript.validate.enable": false,
   "update.showReleaseNotes": false,
-  "window.newWindowDimensions": "offset",
+  "window.newWindowDimensions": "maximized",
   "window.zoomLevel": 0,
   "workbench.activityBar.visible": true,
-  "workbench.colorCustomizations": {},
+  "workbench.colorCustomizations": {
+    "editorBracketMatch.border": "#555"
+  },
   "workbench.colorTheme": "Atomize",
   "workbench.editor.showIcons": false,
   "workbench.editor.showTabs": true,
@@ -56,8 +69,5 @@
   "workbench.preferredDarkColorTheme": "Atomize",
   "workbench.preferredLightColorTheme": "Atom One Light",
   "workbench.startupEditor": "none",
-  "workbench.tree.renderIndentGuides": "none",
-  "workbench.colorCustomizations": {
-    "editorBracketMatch.border": "#555"
-  }
+  "workbench.tree.renderIndentGuides": "none"
 }
