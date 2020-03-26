@@ -1,0 +1,7 @@
+build-essential
+curl
+file
+git
+pass
+pwgen
+wget

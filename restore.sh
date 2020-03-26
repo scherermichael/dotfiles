@@ -18,13 +18,15 @@ fi
 
 if [ "$1" != "--no-scripts" ]; then
   echo "Executing scripts in 'scripts'..."
-  find -s "./scripts" -name '*.sh' -type f -exec bash -c '
-    if [ -x "$1" ]; then
-      echo "Running $1..."
-      cd "$(dirname $1)"
-      "./$(basename $1)"
-    fi
-  ' _ {} \;
+  # shellcheck disable=SC2016
+  find "./scripts" -name '*.sh' -type f -print0 | sort -z | xargs -0 bash -c '
+    for script in "$@"; do
+      if [ -x "${script}" ]; then
+        echo "Running $script..."
+        "./${script}"
+      fi
+    done
+  ' _
 
   if [ $? != 0 ]; then
     echo "Error running scripts. Abort."
@@ -49,4 +51,8 @@ fi
 popd || exit 1
 
 echo ""
-echo "Done: System is restored."
+if [ "$1" != "--no-scripts" ]; then
+  echo "Done: System is restored."
+else
+  echo "Done: Configuration files are restored."
+fi

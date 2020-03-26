@@ -34,4 +34,4 @@ fi
 
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
-[ -f /Users/michael/.nvm/versions/node/$(nvm version)/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash ] && . /Users/michael/.nvm/versions/node/$(nvm version)/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash
+[ -f ~/.nvm/nvm.sh ] && [ -f /Users/michael/.nvm/versions/node/$(nvm version)/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash ] && . /Users/michael/.nvm/versions/node/$(nvm version)/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash

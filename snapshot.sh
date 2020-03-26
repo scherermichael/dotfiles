@@ -5,6 +5,8 @@ dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 pushd "${dir}" || exit 1
 
+. lib/common.sh
+
 echo "Backing up config files in 'files'..."
 find "./files" -type f -exec bash -c '
   target="$1"

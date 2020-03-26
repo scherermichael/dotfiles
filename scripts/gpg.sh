@@ -2,7 +2,11 @@
 
 # From https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
 
-command -v gpg || exit
+[ -z "${OS}" ] && . lib/common.sh
+
+[ "${OS}" == "macos" ] || exit 0
+
+command -v gpg > /dev/null || exit 0
 
 if ! grep -q "use-agent" ~/.gnupg/gpg.conf; then
   cat >> ~/.gnupg/gpg.conf <<EOF

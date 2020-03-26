@@ -2,14 +2,14 @@
 
 # See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
-[ -z "${OS}" ] && . ../lib/common.sh
+[ -z "${OS}" ] && . lib/common.sh
 
-[ "${OS}" == "macos" ] || exit
+[ "${OS}" == "macos" ] || exit 0
 
 language="en"
 
 echo "Skip if language is already set to ${language}"
-(defaults read NSGlobalDomain AppleLanguages | grep -q "${language}") && exit
+(defaults read NSGlobalDomain AppleLanguages | grep -q "${language}") && exit 0
 
 echo "Set language and text formats"
 sudo languagesetup -langspec "${language}"

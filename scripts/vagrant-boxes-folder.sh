@@ -1,7 +1,14 @@
 #!/bin/bash
 
+[ -z "${OS}" ] && . lib/common.sh
+
+[ "${OS}" == "macos" ] || exit 0
+
+# Skip if in vm
+[ "${IS_VM}" = "true" ] && exit 0
+
 # Skip if folder already exists
-[ -e /opt/vagrant-boxes/ ] && exit
+[ -e /opt/vagrant-boxes/ ] && exit 0
 
 sudo mkdir -p /opt/vagrant-boxes/
 sudo chmod -R +a "staff allow list,add_file,search,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,file_inherit,directory_inherit" /opt/vagrant-boxes/

@@ -1,14 +1,17 @@
 #!/bin/bash
 
-[ -z "${OS}" ] && . ../../../lib/common.sh
+# https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-[ "${OS}" == "macos" ] || exit
+[ -z "${OS}" ] && . lib/common.sh
 
-[ "${IS_VM}" = "true" ] || exit
+[ "${OS}" == "macos" ] || exit 0
+
+[ "${IS_VM}" = "true" ] || exit 0
 
 # Copy app
-cp -rf scale-hdpi.app ~/Desktop
+cp -rf "${DIR}/scale-hdpi.app" ~/Desktop
 
 # Allow execution
-sudo ./tccutil.py --insert com.apple.ScriptEditor.id.scale-hdpi
-sudo ./tccutil.py --enable com.apple.ScriptEditor.id.scale-hdpi
+sudo "${DIR}/tccutil.py" --insert com.apple.ScriptEditor.id.scale-hdpi
+sudo "${DIR}/tccutil.py" --enable com.apple.ScriptEditor.id.scale-hdpi

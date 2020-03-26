@@ -2,11 +2,11 @@
 
 # See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
-[ -z "${OS}" ] && . ../../lib/common.sh
+[ -z "${OS}" ] && . lib/common.sh
 
-[ "${OS}" == "macos" ] || exit
+[ "${OS}" == "macos" ] || exit 0
 
-[ "${IS_VM}" = "true" ] || exit
+[ "${IS_VM}" = "true" ] || exit 0
 
 echo "Disable transparency in the menu bar and elsewhere on Yosemite"
 defaults write com.apple.universalaccess reduceTransparency -bool true

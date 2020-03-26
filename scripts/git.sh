@@ -1,6 +1,6 @@
 #!/bin/bash
 
-command -v git || exit
+command -v git > /dev/null || exit 0
 
 GIT_USER=${GIT_USER:-Michael Scherer}
 GIT_EMAIL=${GIT_EMAIL:-mail@scherermichael.net}

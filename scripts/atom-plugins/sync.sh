@@ -1,29 +1,32 @@
 #!/bin/bash
 
-[ -z "${OS}" ] && . ../../lib/common.sh
+# https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-command -v apm || exit;
+[ -z "${OS}" ] && . lib/common.sh
 
-if [ -f "installed.list" ]; then
+command -v apm || exit 0;
+
+if [ -f "${DIR}/installed.list" ]; then
   while read -r plugin
   do
     apm install "$plugin"
-  done < <(apm ls --packages --installed --bare | sed 's/@.*$//' | sed '/^$/d' | diff -u - installed.list | grep '^+[^+]' | sed 's/^+//')
+  done < <(apm ls --packages --installed --bare | sed 's/@.*$//' | sed '/^$/d' | diff -u - "${DIR}/installed.list" | grep '^+[^+]' | sed 's/^+//')
 
   while read -r plugin
   do
     apm deinstall "$plugin"
-  done < <(apm ls --packages --installed --bare | sed 's/@.*$//' | sed '/^$/d' | diff -u - installed.list | grep '^-[^-]' | sed 's/^-//')
+  done < <(apm ls --packages --installed --bare | sed 's/@.*$//' | sed '/^$/d' | diff -u - "${DIR}/installed.list" | grep '^-[^-]' | sed 's/^-//')
 fi
 
-if [ -f "disabled.list" ]; then
+if [ -f "${DIR}/disabled.list" ]; then
   while read -r plugin
   do
     apm disable "$plugin"
-  done < <(apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' | diff -u - disabled.list | grep '^+[^+]' | sed 's/^+//')
+  done < <(apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' | diff -u - "${DIR}/disabled.list" | grep '^+[^+]' | sed 's/^+//')
 
   while read -r plugin
   do
     apm enable "$plugin"
-  done < <(apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' | diff -u - disabled.list | grep '^-[^-]' | sed 's/^-//')
+  done < <(apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' | diff -u - "${DIR}/disabled.list" | grep '^-[^-]' | sed 's/^-//')
 fi

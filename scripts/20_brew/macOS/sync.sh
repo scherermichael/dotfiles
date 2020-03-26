@@ -1,8 +1,11 @@
 #!/bin/bash
 
-[ -z "${OS}" ] && . ../../lib/common.sh
+# https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-[ "${OS}" == "macos" ] || exit
+[ -z "${OS}" ] && . lib/common.sh
+
+[ "${OS}" == "macos" ] || exit 0
 
 # Init
 
@@ -13,7 +16,7 @@ if command -v brew; then
   brew update
 else
   echo "Installing Brew"
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" </dev/null
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
 if $(ls -l /usr/local/ | tail -n +2 | grep -qv " admin "); then
@@ -28,21 +31,21 @@ fi
 # Homebrew packages
 
 # Install new packages
-if [ -f "packages.list" ]; then
+if [ -f "${DIR}/packages.list" ]; then
   while read -r package
   do
     echo "Installing package $package..."
     brew install "$package"
-done < <(brew leaves | diff -u - packages.list | grep '^+[^+]' | sed 's/^+//')
+done < <(brew leaves | diff -u - "${DIR}/packages.list" | grep '^+[^+]' | sed 's/^+//')
 fi
 
 # Deinstall no longer listed packages
-if [ -f "packages.list" ]; then
+if [ -f "${DIR}/packages.list" ]; then
   while read -r package
   do
     echo "Uninstalling package $package..."
     brew uninstall --force "$package"
-done < <(brew leaves | diff -u - packages.list | grep '^-[^-]' | sed 's/^-//')
+done < <(brew leaves | diff -u - "${DIR}/packages.list" | grep '^-[^-]' | sed 's/^-//')
 fi
 
 echo "Upgrading packages..."
@@ -56,7 +59,7 @@ if [ -f "packages-cask.list" ]; then
   do
     echo "Installing Cask package $package..."
     brew cask install "$package"
-done < <(brew cask list -1 | diff -u - packages-cask.list | grep '^+[^+]' | sed 's/^+//')
+done < <(brew cask list -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//')
 fi
 
 # Deinstall no longer listed Cask packages
@@ -65,7 +68,7 @@ if [ -f "packages-cask.list" ]; then
   do
     echo "Uninstalling Cask package $package..."
     brew cask uninstall --force "$package"
-done < <(brew cask list -1 | diff -u - packages-cask.list | grep '^-[^-]' | sed 's/^-//')
+done < <(brew cask list -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//')
 fi
 
 echo "Upgrading Cask package packages..."

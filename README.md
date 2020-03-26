@@ -1,6 +1,6 @@
 # dotfiles
 
-Install and configure frequently used software for Mac and (Debian-based) Linux. Inspired by https://github.com/stefanscherer/dotfiles.
+Install and configure frequently used software for macOS and Debian-based Linux (CLI only). Inspired by https://github.com/stefanscherer/dotfiles.
 
 ## Restoring system
 
@@ -44,12 +44,12 @@ Folders on the same level will be processed in alphabetical order. Subfolders wi
 The platform is provided by the environment variable `OS` (see [lib/common.sh](lib/common.sh) for possible values). So, to run a script only on eg. MacOS, start with the following line:
 
 ```bash
-[ "${OS}" == "macos" || exit
+[ "${OS}" == "macos" || exit 0
 ```
 
 The variable `${IS_VM}` is set to `true` if the script runs in a VMware VM.
 
-*Please note:* The working dir will be set to the folder that contains the script.
+*Please note:* The working dir is always the main folder of the repository.
 
 ### private
 
@@ -57,7 +57,7 @@ The folder `private` will be excluded from commits.
 
 If you place a file with the name `environment` in this folder, it will be sourced by `.bash_profile`. It's an easy way to export secret environment variables that can be used by other scripts.  
 
-*Please note:* Do not forget to create a backup of the data in this folder. It will NOT be stored by Git!
+*Please note:* Do not forget to create a backup of the data in this folder. It will **not** be stored by Git!
 
 #### Vagrant
 

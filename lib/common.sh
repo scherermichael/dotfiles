@@ -1,6 +1,12 @@
 #!/bin/bash
 
-if [ `ps aux | grep vmware-tools | grep -v grep | wc -l` -ne 0 ]; then
+# Check for vmware
+if pgrep vmware-tools > /dev/null; then
+  export IS_VM=true
+fi
+
+# Check for virtualbox
+if pgrep VBoxService > /dev/null; then
   export IS_VM=true
 fi
 

@@ -2,9 +2,9 @@
 
 # See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
-[ -z "${OS}" ] && . ../lib/common.sh
+[ -z "${OS}" ] && . lib/common.sh
 
-[ "${OS}" == "macos" ] || exit
+[ "${OS}" == "macos" ] || exit 0
 
 ###############################################################################
 # General UI/UX                                                               #
