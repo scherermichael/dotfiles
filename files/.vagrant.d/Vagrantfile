@@ -1,29 +1,7 @@
-ENV['VAGRANT_DEFAULT_PROVIDER'] = 'vmware_fusion'
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 
 Vagrant.configure('2') do |config|
-
   config.vm.provider "virtualbox" do |v|
-    v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
-  end
-
-  # vCloud Director provider settings
-  unless ENV['VCLOUD_ORG'].nil?
-    config.vm.provider :vcloud do |vcloud|
-      vcloud.hostname = ENV['VCLOUD_HOST']
-      vcloud.username = ENV['VCLOUD_USERNAME']
-      vcloud.password = ENV['VCLOUD_PASSWORD']
-
-      vcloud.org_name = ENV['VCLOUD_ORG']
-      vcloud.vdc_name = ENV['VCLOUD_ORG']
-
-      vcloud.catalog_name = ENV['VCLOUD_ORG'] + '-CATALOG'
-      vcloud.ip_subnet = '172.16.32.1/255.255.255.0'
-      vcloud.ip_dns = [ENV['VCLOUD_DNS'], '8.8.8.8']
-
-      vcloud.vdc_network_name = ENV['VCLOUD_ORG'] + ' Internal'
-
-      vcloud.vdc_edge_gateway = ENV['VCLOUD_ORG']
-      vcloud.vdc_edge_gateway_ip = ENV['VCLOUD_GATEWAY']
-    end
+    v.linked_clone = true
   end
 end
