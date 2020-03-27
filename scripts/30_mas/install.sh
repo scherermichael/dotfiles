@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ -z "${OS}" ] && . lib/common.sh
 
-[ "${OS}" == "macos" ] || exit 0
+[ "${OS}" = "macos" ] || exit 0
 
 # App Store packages
 

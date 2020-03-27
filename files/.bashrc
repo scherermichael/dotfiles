@@ -3,6 +3,10 @@
 
 source ~/.common-rc
 
+if [ -n "${BREW_PREFIX}" ] && [ -f "$(brew --prefix)/etc/bash_completion.d/password-store" ]; then
+  . "$(brew --prefix)/etc/bash_completion.d/password-store"
+fi
+
 if [ -f ~/git-completion.sh ]; then
   source ~/git-completion.sh
 fi

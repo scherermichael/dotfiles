@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ -z "${OS}" ] && . lib/common.sh
 
-[ "${OS}" == "linux" ] || exit 0
+[ "${OS}" = "linux" ] || exit 0
 
 # Init
 

@@ -8,7 +8,7 @@ set -e
 
 [ -z "${OS}" ] && . lib/common.sh
 
-[ "${OS}" == "macos" ] || exit 0
+[ "${OS}" = "macos" ] || exit 0
 
 for file in *.terminal; do
   profile=$(sed "/<key>name<\/key>/,/<\/string>/!d" "${file}" | grep "<string>" | sed -E "s|^.*<string>(.*)</string>.*$|\1|")

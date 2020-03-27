@@ -4,7 +4,7 @@
 
 [ -z "${OS}" ] && . lib/common.sh
 
-[ "${OS}" == "macos" ] || exit 0
+[ "${OS}" = "macos" ] || exit 0
 
 command -v gpg > /dev/null || exit 0
 

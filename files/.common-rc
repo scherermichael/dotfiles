@@ -12,12 +12,10 @@ if [ -f ~/.nvm/nvm.sh ]; then
   . ~/.nvm/nvm.sh
 fi
 
-if [ -f "$(brew --prefix)/etc/profile.d/z.sh" ]; then
-  . "$(brew --prefix)/etc/profile.d/z.sh"
-fi
+export BREW_PREFIX="$(brew --prefix)"
 
-if [ -f "$(brew --prefix)/etc/bash_completion.d/password-store" ]; then
-  . "$(brew --prefix)/etc/bash_completion.d/password-store"
+if [ -n "${BREW_PREFIX}" ] && [ -f "${BREW_PREFIX}/etc/profile.d/z.sh" ]; then
+  . "$(brew --prefix)/etc/profile.d/z.sh"
 fi
 
 # From https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
