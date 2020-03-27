@@ -1,12 +1,12 @@
 # dotfiles
 
-Install and configure frequently used software for macOS and Debian-based Linux (CLI only). Inspired by https://github.com/stefanscherer/dotfiles.
+Install and configure frequently used software for macOS and Debian-based Linux (shell only). Inspired by https://github.com/stefanscherer/dotfiles.
 
 ## Restoring system
 
 Clone the repository and run the restore script:
 
-```bash
+```sh
 $ git clone https://github.com/scherermichael/dotfiles && dotfiles/restore.sh
 ```
 
@@ -20,7 +20,7 @@ Use option `--no-scripts` to only re-initialize the configuration files.
 
 In order to store the current configuration for later use run `./snapshot.sh`, commit the changes, and push it:
 
-  ```bash
+  ```sh
   $ ./snapshot.sh
   $ git add files && commit -m "Update configuration" && git push
   ```
@@ -43,28 +43,28 @@ Folders on the same level will be processed in alphabetical order. Subfolders wi
 
 The platform is provided by the environment variable `OS` (see [lib/common.sh](lib/common.sh) for possible values). So, to run a script only on eg. MacOS, start with the following line:
 
-```bash
-[ "${OS}" == "macos" || exit 0
+```sh
+[ "${OS}" = "macos" ] || exit 0
 ```
 
-The variable `${IS_VM}` is set to `true` if the script runs in a VMware VM.
+The variable `${IS_VM}` is set to `true` if the script runs inside a VMware or Virtualbox VM.
 
-*Please note:* The working dir is always the main folder of the repository.
+*Please note:* Working dir is always the main folder of the repository.
 
 ### private
 
-The folder `private` will be excluded from commits.
+The folder `private` is excluded from commits.
 
-If you place a file with the name `environment` in this folder, it will be sourced by `.bash_profile`. It's an easy way to export secret environment variables that can be used by other scripts.  
+If you add the file `environment` to this folder, it will be sourced by your shell. It's an easy way to export secret environment variables that can be used by other scripts.  
 
-*Please note:* Do not forget to create a backup of the data in this folder. It will **not** be stored by Git!
+*Please note:* Do not forget to create a backup of this folder. It will **not** be handled by Git!
 
 #### Vagrant
 
-The file `/vagrant/private/environment` will also be sourced if it exists. As you might know, the guest's folder `/vagrant` is synced with the host. On the host, just copy your dotfiles' `private` folder. After that, all private environment variables will be available in the VM, too.
+The VM's folder `/vagrant` is synced with the `vagrant` folder on the host (where your `Vagrantfile` is located). Copy your `dotfiles` folder to use it within the VM:
 
-To do so, open the synced folder of the VM on the host and run:
-
-```bash
-cp -r ~/dotfiles/private .
+```sh
+cp -r ~/dotfiles "<vagrant folder>"
 ```
+
+The file `/vagrant/dotfiles/private/environment` will also be sourced if it exists. So, all private environment variables will be available in the VM, too.

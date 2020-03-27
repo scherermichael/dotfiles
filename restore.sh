@@ -8,8 +8,8 @@ pushd "${dir}" || exit 1
 . lib/common.sh
 
 echo "Sourcing private environment variables..."
-if [ -f "/vagrant/private/environment" ]; then
-  . "/vagrant/private/environment"
+if [ -f "/vagrant/dotfiles/private/environment" ]; then
+  . "/vagrant/dotfiles/private/environment"
 fi
 
 if [ -f "${HOME}/dotfiles/private/environment" ]; then

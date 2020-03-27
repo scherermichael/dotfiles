@@ -1,7 +1,7 @@
 export PATH="/usr/local/sbin:$PATH"
 
-if [ -f "/vagrant/private/environment" ]; then
-  . "/vagrant/private/environment"
+if [ -f "/vagrant/dotfiles/private/environment" ]; then
+  . "/vagrant/dotfiles/private/environment"
 fi
 
 if [ -f ~/dotfiles/private/environment ]; then
