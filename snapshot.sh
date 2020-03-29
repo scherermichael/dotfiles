@@ -15,8 +15,8 @@ find "./files" -type f -exec bash -c '
 ' _ {} \;
 
 echo "Retrieving list of installed Homebrew packages..."
-brew leaves > scripts/10_brew/packages.list
-brew cask list -1 > scripts/10_brew/packages-cask.list
+brew leaves > scripts/20_brew/packages.list
+brew cask list -1 > scripts/20_brew/packages-cask.list
 
 echo "Retrieving list of installed/disabled Atom plugins..."
 apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/disabled.list
