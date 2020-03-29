@@ -37,7 +37,7 @@
     "command": "-editor.action.toggleWordWrap"
   },
   {
-    "key": "cmd+3",
+    "key": "cmd+4",
     "command": "workbench.view.debug"
   },
   {
@@ -139,5 +139,13 @@
   {
     "key": "cmd+k cmd+right",
     "command": "workbench.action.moveEditorToRightGroup"
+  },
+  {
+    "key": "cmd+3",
+    "command": "workbench.view.extension.test"
+  },
+  {
+    "key": "ctrl+t",
+    "command": "mocha-maty.runAllTests"
   }
 ]

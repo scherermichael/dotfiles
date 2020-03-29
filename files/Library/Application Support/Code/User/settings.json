@@ -38,8 +38,17 @@
   "files.trimFinalNewlines": true,
   "git.autofetch": true,
   "git.confirmSync": false,
+  "grunt.autoDetect": "off",
+  "gulp.autoDetect": "off",
   "html.suggest.html5": false,
+  "jake.autoDetect": "off",
   "javascript.suggest.completeJSDocs": false,
+  "mocha.coverage": {
+    "enable": false
+  },
+  "mocha.options": {
+    "ui": "tdd"
+  },
   "php.suggest.basic": false,
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
