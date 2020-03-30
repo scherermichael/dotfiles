@@ -1,3 +1,4 @@
+alias .="code ."
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
