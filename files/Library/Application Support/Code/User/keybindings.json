@@ -147,5 +147,13 @@
   {
     "key": "ctrl+t",
     "command": "mocha-maty.runAllTests"
+  },
+  {
+    "key": "cmd+r",
+    "command": "editor.action.startFindReplaceAction"
+  },
+  {
+    "key": "alt+cmd+f",
+    "command": "-editor.action.startFindReplaceAction"
   }
 ]
