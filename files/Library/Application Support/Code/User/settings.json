@@ -56,8 +56,10 @@
         "scope": [
           "meta.object-literal.key",
           "punctuation.definition.template-expression",
+          "punctuation.definition.variable.shell",
           "support.type.object.module.js",
           "support.variable",
+          "variable.other.bracket.shell",
           "variable.other.property"
         ],
         "settings": {
