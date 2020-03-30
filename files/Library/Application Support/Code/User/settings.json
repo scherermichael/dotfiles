@@ -31,6 +31,40 @@
   "editor.suggest.showIcons": false,
   "editor.suggestOnTriggerCharacters": false,
   "editor.tabSize": 2,
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "name": "Uncolored",
+        "scope": [
+          "entity.name",
+          "meta.block variable.other",
+          "string constant.other.placeholder",
+          "string.other.link",
+          "support.other.variable",
+          "variable.language",
+          "variable.other.constant.js",
+          "variable.parameter",
+          "variable"
+        ],
+        "settings": {
+          "foreground": "#ABB2BF"
+        }
+      },
+      {
+        "name": "Red Colored",
+        "scope": [
+          "meta.object-literal.key",
+          "punctuation.definition.template-expression",
+          "support.type.object.module.js",
+          "support.variable",
+          "variable.other.property"
+        ],
+        "settings": {
+          "foreground": "#E06C75"
+        }
+      }
+    ]
+  },
   "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
   "eslint.format.enable": true,
   "explorer.openEditors.visible": 0,
@@ -69,26 +103,28 @@
   "window.zoomLevel": 0,
   "workbench.activityBar.visible": true,
   "workbench.colorCustomizations": {
-    "editorBracketMatch.border": "#555",
-    "terminal.ansiBlack": "#282C34",
-    "terminal.ansiBlue": "#61AFEF",
-    "terminal.ansiBrightBlack": "#545862",
-    "terminal.ansiBrightBlue": "#61AFEF",
-    "terminal.ansiBrightCyan": "#56B6C2",
-    "terminal.ansiBrightGreen": "#98C379",
-    "terminal.ansiBrightMagenta": "#C678DD",
-    "terminal.ansiBrightRed": "#E06C75",
-    "terminal.ansiBrightWhite": "#C8CCD4",
-    "terminal.ansiBrightYellow": "#E5C07B",
-    "terminal.ansiCyan": "#56B6C2",
-    "terminal.ansiGreen": "#98C379",
-    "terminal.ansiMagenta": "#C678DD",
-    "terminal.ansiRed": "#E06C75",
-    "terminal.ansiWhite": "#ABB2BF",
-    "terminal.ansiYellow": "#E5C07B",
-    "terminal.foreground": "#ABB2BF",
-    "terminalCursor.background": "#ABB2BF",
-    "terminalCursor.foreground": "#ABB2BFAA"
+    "[Atomize]": {
+      "editorBracketMatch.border": "#555",
+      "terminal.ansiBlack": "#282C34",
+      "terminal.ansiBlue": "#61AFEF",
+      "terminal.ansiBrightBlack": "#545862",
+      "terminal.ansiBrightBlue": "#61AFEF",
+      "terminal.ansiBrightCyan": "#56B6C2",
+      "terminal.ansiBrightGreen": "#98C379",
+      "terminal.ansiBrightMagenta": "#C678DD",
+      "terminal.ansiBrightRed": "#E06C75",
+      "terminal.ansiBrightWhite": "#C8CCD4",
+      "terminal.ansiBrightYellow": "#E5C07B",
+      "terminal.ansiCyan": "#56B6C2",
+      "terminal.ansiGreen": "#98C379",
+      "terminal.ansiMagenta": "#C678DD",
+      "terminal.ansiRed": "#E06C75",
+      "terminal.ansiWhite": "#ABB2BF",
+      "terminal.ansiYellow": "#E5C07B",
+      "terminal.foreground": "#ABB2BF",
+      "terminalCursor.background": "#EEE",
+      "terminalCursor.foreground": "#ABB2BF77"
+    }
   },
   "workbench.colorTheme": "Atomize",
   "workbench.editor.showIcons": false,
