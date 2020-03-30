@@ -375,6 +375,8 @@
 	</data>
 	<key>rowCount</key>
 	<integer>45</integer>
+	<key>shellExitAction</key>
+	<integer>1</integer>
 	<key>type</key>
 	<string>Window Settings</string>
 	<key>useOptionAsMetaKey</key>
