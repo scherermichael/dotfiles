@@ -129,7 +129,7 @@
   },
   "workbench.colorTheme": "Atomize",
   "workbench.editor.showIcons": false,
-  "workbench.editor.showTabs": false,
+  "workbench.editor.showTabs": true,
   "workbench.editor.tabSizing": "shrink",
   "workbench.fontAliasing": "antialiased",
   "workbench.iconTheme": "atom-icons",
