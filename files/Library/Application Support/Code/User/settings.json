@@ -71,7 +71,7 @@
     "editorBracketMatch.border": "#555",
     "terminal.foreground": "#ABB2BF",
     "terminalCursor.background": "#ABB2BF",
-    "terminalCursor.foreground": "#ABB2BF",
+    "terminalCursor.foreground": "#abb2bfaa",
     "terminal.ansiBlack": "#282C34",
     "terminal.ansiBlue": "#61AFEF",
     "terminal.ansiBrightBlack": "#545862",
