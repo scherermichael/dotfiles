@@ -8,6 +8,7 @@
   "diffEditor.renderSideBySide": false,
   "editor.acceptSuggestionOnCommitCharacter": false,
   "editor.acceptSuggestionOnEnter": "off",
+  "editor.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
   "editor.fontSize": 14,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
@@ -69,9 +70,6 @@
   "workbench.activityBar.visible": true,
   "workbench.colorCustomizations": {
     "editorBracketMatch.border": "#555",
-    "terminal.foreground": "#ABB2BF",
-    "terminalCursor.background": "#ABB2BF",
-    "terminalCursor.foreground": "#abb2bfaa",
     "terminal.ansiBlack": "#282C34",
     "terminal.ansiBlue": "#61AFEF",
     "terminal.ansiBrightBlack": "#545862",
@@ -87,7 +85,10 @@
     "terminal.ansiMagenta": "#C678DD",
     "terminal.ansiRed": "#E06C75",
     "terminal.ansiWhite": "#ABB2BF",
-    "terminal.ansiYellow": "#E5C07B"
+    "terminal.ansiYellow": "#E5C07B",
+    "terminal.foreground": "#ABB2BF",
+    "terminalCursor.background": "#ABB2BF",
+    "terminalCursor.foreground": "#ABB2BFAA"
   },
   "workbench.colorTheme": "Atomize",
   "workbench.editor.showIcons": false,
