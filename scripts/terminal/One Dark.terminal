@@ -264,16 +264,20 @@
 	cqIWGFhOU09iamVjdAgRGiQpMjdJTFFTV11kand+qKqssbzFzdAAAAAAAAABAQAAAAAA
 	AAAZAAAAAAAAAAAAAAAAAAAA2Q==
 	</data>
+	<key>ShowActiveProcessArgumentsInTitle</key>
+	<true/>
 	<key>ShowActiveProcessInTitle</key>
 	<true/>
 	<key>ShowDimensionsInTitle</key>
+	<true/>
+	<key>ShowRepresentedURLInTitle</key>
 	<true/>
 	<key>ShowShellCommandInTitle</key>
 	<false/>
 	<key>ShowTTYNameInTitle</key>
 	<false/>
 	<key>ShowWindowSettingsNameInTitle</key>
-	<true/>
+	<false/>
 	<key>TerminalType</key>
 	<string>xterm-256color</string>
 	<key>TextBoldColor</key>

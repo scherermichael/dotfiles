@@ -272,7 +272,7 @@
 	<key>ShowTTYNameInTitle</key>
 	<false/>
 	<key>ShowWindowSettingsNameInTitle</key>
-	<true/>
+	<false/>
 	<key>TerminalType</key>
 	<string>xterm-256color</string>
 	<key>TextBoldColor</key>
