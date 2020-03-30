@@ -41,6 +41,7 @@
           "entity.name",
           "meta.block variable.other",
           "string constant.other.placeholder",
+          "string.interpolated.dollar.shell",
           "string.other.link",
           "support.other.variable",
           "variable.language",
