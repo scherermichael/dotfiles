@@ -16,7 +16,9 @@ if [ -f "${HOME}/dotfiles/private/environment" ]; then
   . "${HOME}/dotfiles/private/environment"
 fi
 
-if [ "$1" != "--no-scripts" ]; then
+if [ "${NO_SCRIPTS}" ]; then
+  echo "Skipping scripts..."
+else
   echo "Executing scripts in 'scripts'..."
   # shellcheck disable=SC2016
   find "./scripts" -name '*.sh' -type f -print0 | sort -z | xargs -0 bash -c '

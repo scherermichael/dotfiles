@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Check for arguments
-if [ "$1" != "--no-scripts" ]; then
+if [ "$1" = "--no-scripts" ]; then
   export NO_SCRIPTS=true
 fi
-if [ "$1" != "--no-sudo" ]; then
+if [ "$1" = "--no-sudo" ]; then
   export NO_SUDO=true
 fi
 
