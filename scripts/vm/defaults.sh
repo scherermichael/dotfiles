@@ -6,7 +6,7 @@
 
 [ "${OS}" = "macos" ] || exit 0
 
-[ "${IS_VM}" = "true" ] || exit 0
+[ "${IS_VM}" ] || exit 0
 
 echo "Disable transparency in the menu bar and elsewhere on Yosemite"
 defaults write com.apple.universalaccess reduceTransparency -bool true
@@ -14,36 +14,40 @@ defaults write com.apple.universalaccess reduceTransparency -bool true
 echo "Increase window resize speed for Cocoa applications"
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 
-echo "Disable local Time Machine snapshots"
-sudo tmutil disablelocal
+if [ "${NO_SUDO}" ]; then
+  echo "Skipping commands that require sudo permissions."
+else
+  echo "Disable local Time Machine snapshots"
+  sudo tmutil disablelocal
 
-echo "Set standby delay to 24 hours (default is 1 hour)"
-sudo pmset -a standbydelay 86400
+  echo "Set standby delay to 24 hours (default is 1 hour)"
+  sudo pmset -a standbydelay 86400
 
-echo "Disable hibernation (speeds up entering sleep mode)"
-sudo pmset -a hibernatemode 0
+  echo "Disable hibernation (speeds up entering sleep mode)"
+  sudo pmset -a hibernatemode 0
 
-echo "Remove the sleep image file to save disk space"
-sudo rm -f /private/var/vm/sleepimage
-# Create a zero-byte file instead…
-sudo touch /private/var/vm/sleepimage
-# …and make sure it can’t be rewritten
-sudo chflags uchg /private/var/vm/sleepimage
+  echo "Remove the sleep image file to save disk space"
+  sudo rm -f /private/var/vm/sleepimage
+  # Create a zero-byte file instead…
+  sudo touch /private/var/vm/sleepimage
+  # …and make sure it can’t be rewritten
+  sudo chflags uchg /private/var/vm/sleepimage
 
-echo "Do not sleep"
-sudo systemsetup -setsleep Never
+  echo "Do not sleep"
+  sudo systemsetup -setsleep Never
 
-echo "Never go into computer sleep mode"
-sudo systemsetup -setcomputersleep Off > /dev/null
+  echo "Never go into computer sleep mode"
+  sudo systemsetup -setcomputersleep Off > /dev/null
+
+  echo "Enable HiDPI display modes (requires restart)"
+  sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+fi
 
 echo "Do not require password after sleep or screen saver"
 defaults write com.apple.screensaver askForPassword -int 0
 
 echo "Never show screen saver"
 defaults -currentHost write com.apple.screensaver idleTime 0
-
-echo "Enable HiDPI display modes (requires restart)"
-sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 
 echo "Finder: disable window animations and Get Info animations"
 defaults write com.apple.finder DisableAllAnimations -bool true

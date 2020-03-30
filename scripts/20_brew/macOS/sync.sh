@@ -19,13 +19,15 @@ else
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
-if ls -l /usr/local/ | tail -n +2 | grep -qv " admin "; then
-  # Not all folders in /usr/local belong to the "admin" group
-  echo "Updating permissions for /usr/local..."
-  # https://gist.github.com/jaibeee/9a4ea6aa9d428bc77925
-  # allow admins to manage homebrew's local install directory
-  sudo chgrp -R admin /usr/local/*
-  sudo chmod -R g+w /usr/local/*
+if [ ! "${NO_SUDO}" ]; then
+  if ls -l /usr/local/ | tail -n +2 | grep -qv " admin "; then
+    # Not all folders in /usr/local belong to the "admin" group
+    echo "Updating permissions for /usr/local..."
+    # https://gist.github.com/jaibeee/9a4ea6aa9d428bc77925
+    # allow admins to manage homebrew's local install directory
+    sudo chgrp -R admin /usr/local/*
+    sudo chmod -R g+w /usr/local/*
+  fi
 fi
 
 # Homebrew packages

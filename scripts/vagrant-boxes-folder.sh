@@ -5,7 +5,9 @@
 [ "${OS}" = "macos" ] || exit 0
 
 # Skip if in vm
-[ "${IS_VM}" = "true" ] && exit 0
+[ "${IS_VM}" ] && exit 0
+
+[ "${NO_SUDO}" ] && exit 0
 
 # Skip if folder already exists
 [ -e /opt/vagrant-boxes/ ] && exit 0

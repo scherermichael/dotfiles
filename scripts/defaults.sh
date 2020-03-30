@@ -10,8 +10,37 @@
 # General UI/UX                                                               #
 ###############################################################################
 
-echo "Disable the sound effects on boot"
-sudo nvram SystemAudioVolume=" "
+if [ "${NO_SUDO}" ]; then
+  echo "Skipping commands that require sudo permissions."
+else
+  ###############################################################################
+  # General UI/UX                                                               #
+  ###############################################################################
+
+  echo "Disable the sound effects on boot"
+  sudo nvram SystemAudioVolume=" "
+
+  echo "Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window"
+  sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+
+  echo "Restart automatically if the computer freezes"
+  sudo systemsetup -setrestartfreeze on
+
+  ###############################################################################
+  # Screen                                                                      #
+  ###############################################################################
+
+  echo "Sleep after 30 minutes"
+  sudo systemsetup -setsleep 30
+
+  ###############################################################################
+  # Spotlight                                                                   #
+  ###############################################################################
+
+  echo "Disable Spotlight indexing for any volume that gets mounted and has not yet been indexed before."
+  # Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
+  sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
+fi
 
 echo "Save to disk (not to iCloud) by default"
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
@@ -24,12 +53,6 @@ echo "Remove duplicates in the 'Open With' menu (also see 'lscleanup' alias)"
 
 echo Disable Resume system-wide
 defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
-
-echo "Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window"
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
-
-echo "Restart automatically if the computer freezes"
-sudo systemsetup -setrestartfreeze on
 
 echo "Disable smart quotes as they’re annoying when typing code"
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
@@ -55,9 +78,6 @@ defaults write -g AppleKeyboardUIMode -int 2
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
-
-echo "Sleep after 30 minutes"
-sudo systemsetup -setsleep 30
 
 echo "Set default screensaver to 'Flurry'"
 defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName Flurry path /System/Library/Screen\ Savers/Flurry.saver type 0
@@ -121,14 +141,6 @@ defaults write com.apple.dock workspaces-auto-swoosh -boolean Yes
 
 echo "Reload Dock"
 killall -HUP Dock
-
-###############################################################################
-# Spotlight                                                                   #
-###############################################################################
-
-echo "Disable Spotlight indexing for any volume that gets mounted and has not yet been indexed before."
-# Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
-sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
 
 ###############################################################################
 # Terminal                                                                    #

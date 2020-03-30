@@ -11,5 +11,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "$(whoami)" = "vagrant" ] || exit 0
 
+[ "${NO_SUDO}" ] && exit 0
+
 sudo defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser -string vagrant
 sudo cp "${DIR}/kcpassword" /private/etc/

@@ -7,7 +7,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "${OS}" = "macos" ] || exit 0
 
-[ "${IS_VM}" = "true" ] || exit 0
+[ "${IS_VM}" ] || exit 0
+
+[ "${NO_SUDO}" ] && exit 0
 
 # Copy app
 cp -rf "${DIR}/scale-hdpi.app" ~/Desktop

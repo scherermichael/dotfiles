@@ -7,6 +7,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "${OS}" = "linux" ] || exit 0
 
+[ "${NO_SUDO}" ] && exit 0
+
 # Skip configuration
 export DEBIAN_FRONTEND=noninteractive
 

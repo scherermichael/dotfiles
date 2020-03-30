@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Check for arguments
+if [ "$1" != "--no-scripts" ]; then
+  export NO_SCRIPTS=true
+fi
+if [ "$1" != "--no-sudo" ]; then
+  export NO_SUDO=true
+fi
+
 # Check for vmware
 if pgrep vmware-tools > /dev/null; then
   export IS_VM=true
