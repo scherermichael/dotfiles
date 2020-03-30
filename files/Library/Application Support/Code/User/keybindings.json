@@ -17,7 +17,7 @@
     "command": "-workbench.view.scm"
   },
   {
-    "key": "cmd+[IntlBackslash]",
+    "key": "cmd+0",
     "command": "workbench.action.toggleSidebarVisibility"
   },
   {

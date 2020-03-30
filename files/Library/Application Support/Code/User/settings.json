@@ -16,6 +16,7 @@
   "editor.matchBrackets": "near",
   "editor.minimap.enabled": true,
   "editor.minimap.renderCharacters": false,
+  "editor.minimap.showSlider": "always",
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.occurrencesHighlight": false,
   "editor.quickSuggestions": {
@@ -57,7 +58,6 @@
           "meta.object-literal.key",
           "punctuation.definition.template-expression",
           "punctuation.definition.variable.shell",
-          "support.type.object.module.js",
           "support.variable",
           "variable.other.bracket.shell",
           "variable.other.property"
