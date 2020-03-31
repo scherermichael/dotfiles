@@ -9,6 +9,7 @@
   "dayNightThemeSwitcher.dayTheme": "Atom One Light",
   "dayNightThemeSwitcher.nightTheme": "Atomize",
   "debug.toolBarLocation": "docked",
+  "diffEditor.ignoreTrimWhitespace": true,
   "diffEditor.renderSideBySide": false,
   "editor.acceptSuggestionOnCommitCharacter": false,
   "editor.acceptSuggestionOnEnter": "off",
@@ -58,8 +59,21 @@
         }
       },
       {
+        "name": "Yellow Colored",
+        "scope": [
+          "punctuation.definition.anchor.yaml",
+          "punctuation.definition.alias.yaml",
+          "variable.other.alias.yaml"
+        ],
+        "settings": {
+          "foreground": "#E5C07B"
+        }
+      },
+      {
         "name": "Red Colored",
         "scope": [
+          "constant.language.boolean.yaml",
+          "entity.name.tag.yaml",
           "meta.object-literal.key",
           "punctuation.definition.template-expression",
           "punctuation.definition.variable.shell",
@@ -89,6 +103,7 @@
   "mocha.coverage": {
     "enable": false
   },
+  "mocha.debugSettingsName": "Mocha Tests",
   "mocha.options": {
     "ui": "tdd"
   },
