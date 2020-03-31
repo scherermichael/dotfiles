@@ -8,6 +8,7 @@
   "breadcrumbs.enabled": false,
   "dayNightThemeSwitcher.dayTheme": "Atom One Light",
   "dayNightThemeSwitcher.nightTheme": "Atomize",
+  "debug.console.fontSize": 14,
   "debug.toolBarLocation": "docked",
   "diffEditor.ignoreTrimWhitespace": true,
   "diffEditor.renderSideBySide": false,
@@ -110,6 +111,8 @@
   "php.suggest.basic": false,
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.lineHeight": 1.1,
   "typescript.preferences.renameShorthandProperties": false,
   "typescript.reportStyleChecksAsWarnings": false,
   "typescript.suggest.autoImports": false,
@@ -145,8 +148,8 @@
       "terminal.ansiWhite": "#ABB2BF",
       "terminal.ansiYellow": "#E5C07B",
       "terminal.foreground": "#ABB2BF",
-      "terminalCursor.background": "#EEE",
-      "terminalCursor.foreground": "#ABB2BF77"
+      "terminalCursor.background": "#b9c0ca",
+      "terminalCursor.foreground": "#6f7783"
     }
   },
   "workbench.colorTheme": "Atomize",
