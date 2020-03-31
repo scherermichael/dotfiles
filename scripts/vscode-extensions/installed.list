@@ -10,10 +10,12 @@ emroussel.atomize-atom-one-dark-theme
 eriklynd.json-tools
 freetonik.day-night-theme-switcher
 maty.vscode-mocha-sidebar
-mauve.terraform
+ms-azuretools.vscode-docker
+ms-kubernetes-tools.vscode-kubernetes-tools
 ms-vscode.atom-keybindings
 ms-vsliveshare.vsliveshare
 ms-vsliveshare.vsliveshare-audio
+redhat.vscode-yaml
 richie5um2.vscode-sort-json
 timonwong.shellcheck
 yzhang.markdown-all-in-one
