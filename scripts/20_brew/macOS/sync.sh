@@ -15,9 +15,12 @@ if command -v brew; then
   brew update
   brew update
 else
-  echo "Installing Brew"
+  echo "Installing Brew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
+
+echo "Tapping additional resources..."
+brew tap homebrew/cask-fonts
 
 if [ ! "${NO_SUDO}" ]; then
   if ls -l /usr/local/ | tail -n +2 | grep -qv " admin "; then
