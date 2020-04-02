@@ -21,6 +21,7 @@
     useTreeSitterParsers: true
   editor:
     autoIndentOnPaste: false
+    fontFamily: "'FiraCode-Retina', 'SF Mono', Menlo, Consolas, DejaVu Sans Mono, monospace"
     invisibles: {}
     showIndentGuide: true
     softWrap: true
