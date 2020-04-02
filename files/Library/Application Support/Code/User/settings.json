@@ -108,8 +108,13 @@
     "enable": false
   },
   "mocha.debugSettingsName": "Mocha Tests",
+  "mocha.files.glob": "test/**/*Test.js",
   "mocha.options": {
     "ui": "tdd"
+  },
+  "mocha.sideBarOptions": {
+    "decoration": false,
+    "lens": false
   },
   "php.suggest.basic": false,
   "telemetry.enableCrashReporter": false,
