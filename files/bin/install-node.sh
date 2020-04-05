@@ -19,16 +19,17 @@ nvm alias default "${NODE_VERSION}"
 npm config set save-exact true
 
 # Install global modules
-modules=" \
-  flaschenpost \
-  forany \
-  fx \
-  npm-check-updates \
-  reqd \
-  rtm-cli \
-  serverless \
+modules="
+forany
+fx
+npm-check-updates
+rtm-cli
+serverless
+yo
 "
 
-for module in ${modules}; do
+while read -r module
+do
+  if [ -z "$module" ]; then continue; fi
   npm install -g "${module}"
-done;
+done <<<"$modules"
