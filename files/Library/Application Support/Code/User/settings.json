@@ -117,6 +117,11 @@
     "lens": false
   },
   "php.suggest.basic": false,
+  "shellcheck.exclude": [
+    "1071",
+    "1090",
+    "1091"
+  ],
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
   "terminal.integrated.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
