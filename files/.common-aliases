@@ -9,7 +9,15 @@ alias ade="LANG=de_DE.UTF-8 atom --clear-window-state"
 
 alias c="code"
 
-alias copyssh="pbcopy < ~/.ssh/id_rsa.pub"
+function copyssh {
+  if which clipcopy > /dev/null; then
+    # Use clipcopy if running in zsh
+    clipcopy < ~/.ssh/id_rsa.pub
+  else
+    # Use pbcopy as fallback
+    "pbcopy < ~/.ssh/id_rsa.pub"
+  fi
+}
 
 alias d="docker"
 alias doco="docker-compose"
