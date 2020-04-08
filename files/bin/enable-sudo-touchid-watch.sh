@@ -3,19 +3,13 @@
 set -e
 
 # https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
+# Modified for zsh
 dir="$( cd "$( dirname "${(%):-%N}" )" >/dev/null && pwd )"
 
 if [[ $UID -ne 0 ]]; then
    echo "This script must be run as root."
    exit 1
 fi
-
-TRAPZERR () {
-  echo ""
-  echo "Rolling back changes..."
-  cp /etc/pam.d/sudo.bak /etc/pam.d/sudo
-  echo "Rollback finished."
-}
 
 if grep "pam_watchid.so" -q /etc/pam.d/sudo; then
   echo "PAM modules are already installed."
@@ -43,9 +37,11 @@ auth       sufficient     pam_tid.so
 
 echo ""
 echo "Testing sudo..."
-
-username=$(sudo -K; sudo -k whoami)
-if [ ! $? ]; then
+if ! sudo -k whoami > /dev/null; then
+  echo ""
+  echo "Rolling back changes..."
+  cp /etc/pam.d/sudo.bak /etc/pam.d/sudo
+  echo "Rollback finished."
   exit 1
 fi
 
