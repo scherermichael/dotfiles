@@ -1,19 +1,29 @@
-#!/bin/bash
+#!/bin/zsh
 
 set -e
 
 # https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
-dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+dir="$( cd "$( dirname "${(%):-%N}" )" >/dev/null && pwd )"
 
 if [[ $UID -ne 0 ]]; then
    echo "This script must be run as root."
    exit 1
 fi
 
+TRAPZERR () {
+  echo ""
+  echo "Rolling back changes..."
+  cp /etc/pam.d/sudo.bak /etc/pam.d/sudo
+  echo "Rollback finished."
+}
+
 if grep "pam_watchid.so" -q /etc/pam.d/sudo; then
   echo "PAM modules are already installed."
   exit 0
 fi
+
+echo "Creating backup of /etc/pam.d/sudo ..."
+cp /etc/pam.d/sudo /etc/pam.d/sudo.bak
 
 echo "Moving pam_watchid.so to destination path..."
 # Taken from Makefile
@@ -26,26 +36,18 @@ chmod 444 ${DESTINATION}/${LIBRARY_NAME}.${VERSION}
 chown root:wheel ${DESTINATION}/${LIBRARY_NAME}.${VERSION}
 
 echo "Patching /etc/pam.d/sudo ..."
-cp /etc/pam.d/sudo /etc/pam.d/sudo.bak
-sed -i '' '1a\
+sudo sed -i '' '1a\
 auth       sufficient     pam_watchid.so "reason=execute a command as root"\
 auth       sufficient     pam_tid.so
 ' /etc/pam.d/sudo
 
-echo "PAM modules installed:"
-echo "------------------------------------------------------"
-cat /etc/pam.d/sudo
-echo "------------------------------------------------------"
 echo ""
-echo "Please open a new shell and try the new mechanism e.g. with: sudo whoami"
-echo "After verifying that the modification works, type 'y' to keep it."
-echo "Any other key will restore the original config."
-echo "Press any key..."
+echo "Testing sudo..."
 
-read -rsn1 input
-if [ "$input" != "y" ]; then
-  echo "Rolling back changes..."
-  mv /etc/pam.d/sudo.bak /etc/pam.d/sudo
+username=$(sudo -K; sudo -k whoami)
+if [ ! $? ]; then
+  exit 1
 fi
 
+echo ""
 echo "Done."
