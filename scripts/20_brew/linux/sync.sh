@@ -11,14 +11,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 if command -v brew; then
   echo "Updating Brew..."
-  pushd $(brew --repository) && git fetch && git reset --hard origin/master && popd
+  pushd "$(brew --repository)" && git fetch && git reset --hard origin/master && (popd || exit 1)
 else
   echo "Installing Brew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
   # Add brew to PATH for the following steps
-  test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-  test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+  test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+  test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 # Homebrew packages
