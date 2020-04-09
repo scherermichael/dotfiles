@@ -1,7 +1,5 @@
 #!/bin/bash
 
-APP="info.eurocomp.TimingHelper"
-
 # Allow execution
-sudo ./tccutil.py --insert ${APP}
-sudo ./tccutil.py --enable ${APP}
+sudo ./tccutil.py --insert "info.eurocomp.TimingHelper"
+sudo ./tccutil.py --enable "info.eurocomp.TimingHelper"
