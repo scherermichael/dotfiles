@@ -175,5 +175,9 @@
     "key": "alt+cmd+enter",
     "command": "-search.action.replaceAll",
     "when": "replaceActive && searchViewletVisible && !findWidgetVisible"
+  },
+  {
+    "key": "cmd+[Equal]",
+    "command": "git.sync"
   }
 ]
