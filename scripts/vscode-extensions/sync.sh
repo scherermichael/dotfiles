@@ -7,7 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 command -v code || exit 0
 
-if [ -f "installed.list" ]; then
+if [ -f "${DIR}/installed.list" ]; then
   while read -r plugin
   do
     code --install-extension "$plugin" --force
