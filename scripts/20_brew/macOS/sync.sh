@@ -59,7 +59,7 @@ brew upgrade
 # Cask
 
 # Install new Cask packages
-if [ -f "packages-cask.list" ]; then
+if [ -f "${DIR}/packages-cask.list" ]; then
   while read -r package
   do
     echo "Installing Cask package $package..."
@@ -68,7 +68,7 @@ done < <(brew cask list -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+
 fi
 
 # Deinstall no longer listed Cask packages
-if [ -f "packages-cask.list" ]; then
+if [ -f "${DIR}/packages-cask.list" ]; then
   while read -r package
   do
     echo "Uninstalling Cask package $package..."
