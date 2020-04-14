@@ -15,4 +15,3 @@ fi
 
 echo "Creating '$name' with options '$options'..."
 
-docker-machine create "$name" "$options"
