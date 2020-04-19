@@ -3,6 +3,7 @@ akamud.vscode-theme-onelight
 alexkrechik.cucumberautocomplete
 Atishay-Jain.All-Autocomplete
 bbenoist.vagrant
+bierner.markdown-yaml-preamble
 CoenraadS.disableligatures
 dbaeumer.vscode-eslint
 EditorConfig.EditorConfig
@@ -10,6 +11,7 @@ emroussel.atom-icons
 emroussel.atomize-atom-one-dark-theme
 eriklynd.json-tools
 freetonik.day-night-theme-switcher
+GitHub.vscode-pull-request-github
 maty.vscode-mocha-sidebar
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools

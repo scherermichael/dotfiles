@@ -104,6 +104,7 @@
   "html.suggest.html5": false,
   "jake.autoDetect": "off",
   "javascript.suggest.completeJSDocs": false,
+  "markdown.previewFrontMatter": "show",
   "mocha.coverage": {
     "enable": false
   },
