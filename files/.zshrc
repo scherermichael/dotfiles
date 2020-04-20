@@ -89,7 +89,8 @@ typeset +H _return_status="%{$fg_bold[red]%}%(?..✗)%{$reset_color%}"
 typeset +H _hist_no="%{$fg[grey]%}%h%{$reset_color%}"
 
 # prompt
-PROMPT='$(_user_host)${_current_dir}%{$fg[green]%}$(__git_ps1)%{$resetcolor%}
+PROMPT='
+$(_user_host)${_current_dir}%{$fg[green]%}$(__git_ps1)%{$resetcolor%}
 %{%(!.%F{red}.%F{white})%}ᐅ%{$resetcolor%} '
 PROMPT2='%{%(!.%F{red}.%F{white})%}◀%{$reset_color%} '
 RPROMPT='%{$(echotc UP 1)%}${_return_status}%{$(echotc DO 1)%}'
