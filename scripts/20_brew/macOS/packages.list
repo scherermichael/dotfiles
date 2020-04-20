@@ -1,5 +1,6 @@
 adr-tools
 awscli
+colordiff
 docker-machine-driver-xhyve
 git
 gnu-sed
