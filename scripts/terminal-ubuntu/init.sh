@@ -10,7 +10,7 @@ set -e
 [ "${OS}" = "linux" ] || exit 0
 
 echo "Installing Atom One Dark color scheme..."
-curl -fsSL https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh)"
 
 echo "Switch to zsh as default shell..."
 chsh -s $(which zsh)
