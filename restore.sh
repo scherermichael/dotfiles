@@ -37,7 +37,7 @@ else
 fi
 
 echo "Restoring config files..."
-cp -afv ./files/ "${HOME}"
+cp -afv files/. "${HOME}"
 
 if [ $? != 0 ]; then
   echo "Error restoring files. Abort."
