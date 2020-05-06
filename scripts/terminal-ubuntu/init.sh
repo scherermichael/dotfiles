@@ -13,4 +13,4 @@ echo "Installing Atom One Dark color scheme..."
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh)"
 
 echo "Switch to zsh as default shell..."
-chsh -s $(which zsh)
+sudo usermod -s "$(which zsh)" "${USER}"
