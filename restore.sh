@@ -37,13 +37,7 @@ else
 fi
 
 echo "Restoring config files..."
-find "./files" -type f -exec bash -c '
-  file="$1"
-  target="${file#./files}"       # Remove common dir of files
-  targetPath="${target%/*}"      # Path without filename
-  mkdir -p "$HOME$targetPath"
-  cp -afv "$file" "$HOME$target"
-' _ {} \;
+cp -afv ./files/ "${HOME}"
 
 if [ $? != 0 ]; then
   echo "Error restoring files. Abort."
@@ -53,8 +47,8 @@ fi
 popd || exit 1
 
 echo ""
-if [ "$1" != "--no-scripts" ]; then
-  echo "Done: System is restored."
-else
+if [ "${NO_SCRIPTS}" ]; then
   echo "Done: Configuration files are restored."
+else
+  echo "Done: System is restored."
 fi
