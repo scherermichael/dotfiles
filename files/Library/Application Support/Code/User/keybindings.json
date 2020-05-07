@@ -189,5 +189,13 @@
     "key": "enter",
     "command": "-renameFile",
     "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    "key": "ctrl+cmd+right",
+    "command": "workbench.action.increaseViewSize"
+  },
+  {
+    "key": "ctrl+cmd+left",
+    "command": "workbench.action.decreaseViewSize"
   }
 ]
