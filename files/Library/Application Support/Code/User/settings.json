@@ -33,7 +33,7 @@
     "other": true,
     "strings": true
   },
-  "editor.quickSuggestionsDelay": 100,
+  "editor.quickSuggestionsDelay": 1000,
   "editor.roundedSelection": false,
   "editor.scrollBeyondLastLine": false,
   "editor.semanticHighlighting.enabled": false,
