@@ -176,5 +176,6 @@
   "workbench.preferredDarkColorTheme": "Atomize",
   "workbench.preferredLightColorTheme": "Atom One Light",
   "workbench.startupEditor": "none",
-  "workbench.tree.renderIndentGuides": "none"
+  "workbench.tree.renderIndentGuides": "none",
+  "git.postCommitCommand": "sync"
 }
