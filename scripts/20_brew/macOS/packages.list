@@ -2,6 +2,7 @@ adr-tools
 awscli
 colordiff
 docker-machine-driver-xhyve
+github/gh/gh
 git
 gnu-sed
 helm
