@@ -28,12 +28,7 @@
   "editor.minimap.showSlider": "always",
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.occurrencesHighlight": false,
-  "editor.quickSuggestions": {
-    "comments": true,
-    "other": true,
-    "strings": true
-  },
-  "editor.quickSuggestionsDelay": 1000,
+  "editor.quickSuggestions": false,
   "editor.roundedSelection": false,
   "editor.scrollBeyondLastLine": false,
   "editor.semanticHighlighting.enabled": false,
@@ -98,12 +93,14 @@
   "files.autoSave": "onFocusChange",
   "files.trimFinalNewlines": true,
   "git.autofetch": true,
-  "git.confirmSync": false,
+  "git.confirmSync": true,
+  "git.postCommitCommand": "sync",
   "grunt.autoDetect": "off",
   "gulp.autoDetect": "off",
   "html.suggest.html5": false,
   "jake.autoDetect": "off",
   "javascript.suggest.completeJSDocs": false,
+  "javascript.suggestionActions.enabled": false,
   "markdown.previewFrontMatter": "show",
   "mocha.coverage": {
     "enable": false
@@ -128,7 +125,6 @@
   "terminal.integrated.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
   "terminal.integrated.fontSize": 14,
   "terminal.integrated.lineHeight": 1.1,
-  "typescript.preferences.renameShorthandProperties": false,
   "typescript.reportStyleChecksAsWarnings": false,
   "typescript.suggest.autoImports": false,
   "typescript.suggest.completeJSDocs": false,
@@ -176,6 +172,6 @@
   "workbench.preferredDarkColorTheme": "Atomize",
   "workbench.preferredLightColorTheme": "Atom One Light",
   "workbench.startupEditor": "none",
-  "workbench.tree.renderIndentGuides": "none",
-  "git.postCommitCommand": "sync"
+  "workbench.tips.enabled": false,
+  "workbench.tree.renderIndentGuides": "none"
 }
