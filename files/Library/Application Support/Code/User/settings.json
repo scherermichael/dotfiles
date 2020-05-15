@@ -131,7 +131,9 @@
   "spellright.documentTypes": [
     "markdown",
     "latex",
-    "plaintext"
+    "plaintext",
+    "javascript",
+    "shellscript"
   ],
   "spellright.language": [
     "en",
