@@ -14,8 +14,6 @@
   "diffEditor.ignoreTrimWhitespace": true,
   "diffEditor.renderSideBySide": false,
   "disableLigatures.mode": "Line",
-  "editor.acceptSuggestionOnCommitCharacter": false,
-  "editor.acceptSuggestionOnEnter": "off",
   "editor.fontFamily": "'FiraCode-Retina', 'SF Mono', Menlo, Monaco, 'Courier New', monospace",
   "editor.fontLigatures": "'ss01', 'ss03'",
   "editor.fontSize": 14,
