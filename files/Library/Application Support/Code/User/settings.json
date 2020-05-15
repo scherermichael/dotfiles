@@ -102,6 +102,12 @@
   "jake.autoDetect": "off",
   "javascript.suggest.completeJSDocs": false,
   "javascript.suggestionActions.enabled": false,
+  "keyboard.touchbar.ignored": [
+    "workbench.action.navigateBack",
+    "workbench.action.navigateForward",
+    "workbench.action.debug.start",
+    "workbench.action.debug.run"
+  ],
   "markdown.previewFrontMatter": "show",
   "mocha.coverage": {
     "enable": false
@@ -126,6 +132,10 @@
   "terminal.integrated.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
   "terminal.integrated.fontSize": 14,
   "terminal.integrated.lineHeight": 1.1,
+  "touchBar.copyLinesDownAction": false,
+  "touchBar.foldAll": true,
+  "touchBar.rename": false,
+  "touchBar.unfoldAll": true,
   "typescript.reportStyleChecksAsWarnings": false,
   "typescript.suggest.autoImports": false,
   "typescript.suggest.completeJSDocs": false,
