@@ -127,6 +127,17 @@
     "1090",
     "1091"
   ],
+  "spellright.configurationScope": "user",
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext"
+  ],
+  "spellright.language": [
+    "en",
+    "de"
+  ],
+  "spellright.notificationClass": "information",
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
   "terminal.integrated.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
