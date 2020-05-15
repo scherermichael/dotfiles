@@ -139,6 +139,11 @@
     "en",
     "de"
   ],
+  "spellright.languageContext": {
+    "comments": [
+      "en-GB"
+    ]
+  },
   "spellright.notificationClass": "information",
   "spellright.spellContextByClass": {
     "javascript": "comments",
