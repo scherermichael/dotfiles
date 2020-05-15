@@ -140,6 +140,10 @@
     "de"
   ],
   "spellright.notificationClass": "information",
+  "spellright.spellContextByClass": {
+    "javascript": "comments",
+    "shellscripts": "comments"
+  },
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
   "terminal.integrated.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
