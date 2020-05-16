@@ -94,6 +94,7 @@ $(_user_host)${_current_dir}%{$fg[green]%}$(__git_ps1)%{$resetcolor%}
 %{%(!.%F{red}.%F{white})%}ᐅ%{$resetcolor%} '
 PROMPT2='%{%(!.%F{red}.%F{white})%}◀%{$reset_color%} '
 RPROMPT='%{$(echotc UP 1)%}${_return_status}%{$(echotc DO 1)%}'
+PROMPT_EOL_MARK='%{%(!.%F{red}.%F{white})%}ᐊ%{$resetcolor%}'
 
 function _user_host() {
   local me
