@@ -4,6 +4,13 @@
   "[javascript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
+  "[markdown]": {
+    "editor.quickSuggestions": false,
+    "editor.wordWrap": "on"
+  },
+  "[plaintext]": {
+    "editor.quickSuggestions": false
+  },
   "atomKeymap.promptV3Features": true,
   "breadcrumbs.enabled": false,
   "dayNightThemeSwitcher.dayTheme": "Atom One Light",
@@ -87,7 +94,7 @@
       }
     ]
   },
-  "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+  "emmet.showExpandedAbbreviation": "never",
   "eslint.format.enable": true,
   "explorer.openEditors.visible": 0,
   "extensions.ignoreRecommendations": true,
@@ -108,6 +115,7 @@
     "workbench.action.debug.start",
     "workbench.action.debug.run"
   ],
+  "markdown.extension.list.indentationSize": "inherit",
   "markdown.previewFrontMatter": "show",
   "mocha.coverage": {
     "enable": false
@@ -122,6 +130,7 @@
     "lens": false
   },
   "php.suggest.basic": false,
+  "scm.diffDecorationsGutterVisibility": "hover",
   "shellcheck.exclude": [
     "1071",
     "1090",
@@ -142,8 +151,9 @@
   "spellright.notificationClass": "information",
   "spellright.spellContextByClass": {
     "javascript": "comments",
-    "shellscripts": "comments"
+    "shellscript": "comments"
   },
+  "spellright.suggestionsInHints": false,
   "telemetry.enableCrashReporter": false,
   "telemetry.enableTelemetry": false,
   "terminal.integrated.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
