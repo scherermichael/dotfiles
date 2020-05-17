@@ -18,75 +18,6 @@
 					<key>Container</key>
 					<string>List</string>
 					<key>Optional</key>
-					<true/>
-					<key>Types</key>
-					<array>
-						<string>com.apple.cocoa.path</string>
-					</array>
-				</dict>
-				<key>AMActionVersion</key>
-				<string>2.1.1</string>
-				<key>AMApplication</key>
-				<array>
-					<string>Finder</string>
-				</array>
-				<key>AMParameterProperties</key>
-				<dict/>
-				<key>AMProvides</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Types</key>
-					<array>
-						<string>com.apple.cocoa.path</string>
-					</array>
-				</dict>
-				<key>AMRequiredResources</key>
-				<array/>
-				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/Get Selected Finder Items 2.action</string>
-				<key>ActionName</key>
-				<string>Get Selected Finder Items</string>
-				<key>ActionParameters</key>
-				<dict/>
-				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.GetSelectedFinderItems2</string>
-				<key>CFBundleVersion</key>
-				<string>2.1.1</string>
-				<key>CanShowSelectedItemsWhenRun</key>
-				<false/>
-				<key>CanShowWhenRun</key>
-				<true/>
-				<key>Category</key>
-				<array>
-					<string>AMCategoryFilesAndFolders</string>
-				</array>
-				<key>Class Name</key>
-				<string>AMGetSelectedFinderItemsAction</string>
-				<key>InputUUID</key>
-				<string>F5C66A93-14EA-4822-BDAA-BA8E94EBD543</string>
-				<key>Keywords</key>
-				<array/>
-				<key>OutputUUID</key>
-				<string>528F1236-F469-46D9-B50C-3A04C5371544</string>
-				<key>UUID</key>
-				<string>61769E88-C881-441E-B722-CA771DA01652</string>
-				<key>UnlocalizedApplications</key>
-				<array>
-					<string>Finder</string>
-				</array>
-				<key>arguments</key>
-				<dict/>
-			</dict>
-		</dict>
-		<dict>
-			<key>action</key>
-			<dict>
-				<key>AMAccepts</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Optional</key>
 					<false/>
 					<key>Types</key>
 					<array>
@@ -149,7 +80,7 @@
 				<key>Class Name</key>
 				<string>AMScaleImagesAction</string>
 				<key>InputUUID</key>
-				<string>47100710-7EB6-44C5-A26C-2AB370B24084</string>
+				<string>E69A6974-8160-45F5-88CD-1DE76BDF20EE</string>
 				<key>Keywords</key>
 				<array>
 					<string>Image</string>
@@ -158,11 +89,11 @@
 					<string>Change</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>8F7C8531-2EBF-404B-845D-F5174154056D</string>
+				<string>73C8FD7B-74ED-4A5A-9D43-DCCBE29FDFC3</string>
 				<key>ShowWhenRun</key>
 				<true/>
 				<key>UUID</key>
-				<string>AF804DA7-DCCB-4481-83C7-00A06E3413AB</string>
+				<string>63E51DE6-3197-4414-A8A8-B9068C8ECFE8</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Preview</string>
@@ -222,10 +153,12 @@
 						<string>3</string>
 					</dict>
 				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>649.000000:292.000000</string>
+				<string>649.000000:279.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Scale Images.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -234,15 +167,7 @@
 		</dict>
 	</array>
 	<key>connectors</key>
-	<dict>
-		<key>E5823718-1E23-4C77-A59F-B891A43AECC6</key>
-		<dict>
-			<key>from</key>
-			<string>61769E88-C881-441E-B722-CA771DA01652 - 61769E88-C881-441E-B722-CA771DA01652</string>
-			<key>to</key>
-			<string>AF804DA7-DCCB-4481-83C7-00A06E3413AB - AF804DA7-DCCB-4481-83C7-00A06E3413AB</string>
-		</dict>
-	</dict>
+	<dict/>
 	<key>workflowMetaData</key>
 	<dict>
 		<key>applicationBundleIDsByPath</key>
