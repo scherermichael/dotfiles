@@ -21,6 +21,7 @@ ms-kubernetes-tools.vscode-kubernetes-tools
 ms-vscode.atom-keybindings
 ms-vsliveshare.vsliveshare
 ms-vsliveshare.vsliveshare-audio
+mushan.vscode-paste-image
 redhat.vscode-yaml
 richie5um2.vscode-sort-json
 timonwong.shellcheck
