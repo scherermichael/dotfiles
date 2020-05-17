@@ -8,17 +8,17 @@
 			<key>NSBackgroundColorName</key>
 			<string>background</string>
 			<key>NSIconName</key>
-			<string>NSTouchBarShare</string>
+			<string>NSTouchBarControlStripScreenshot</string>
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Open in VS Code</string>
+				<string>Scale</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>runWorkflowAsService</string>
 			<key>NSSendFileTypes</key>
 			<array>
-				<string>public.item</string>
+				<string>public.image</string>
 			</array>
 		</dict>
 	</array>
