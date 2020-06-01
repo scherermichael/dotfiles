@@ -9,6 +9,7 @@ bierner.markdown-yaml-preamble
 CoenraadS.disableligatures
 DavidAnson.vscode-markdownlint
 dbaeumer.vscode-eslint
+eamodio.gitlens
 EditorConfig.EditorConfig
 emroussel.atom-icons
 emroussel.atomize-atom-one-dark-theme
