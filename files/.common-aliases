@@ -91,16 +91,60 @@ function gitls {
   done
 }
 alias gls="gitls"
-function clone {
-  repo="$1"
-  shift
-  git clone "git@github.com:$repo" "$@"
-}
 function add {
   git add "$@"
 }
 function amend {
   git commit --amend -m "$*"
+}
+function clone {
+  local url="$1"
+  local rootPath="$2"
+
+  if [ -z "${url}" ]; then
+    echo "Error: No source url given."
+    echo "Usage $0 <url of repository to clone> [<parent dir of the new local repository>]"
+    return 1
+  fi
+
+  # No full ssh url provided
+  if ! [[ ${url} =~ ":" ]]; then
+    # No GitHub org provided
+    if ! [[ ${url} =~ "/" ]]; then
+      if [ -n "${GITHUB_ORG}" ]; then
+        url="${GITHUB_ORG}/${url}"
+      else
+        echo "Error: Please specify GitHub org in url or set environment variable GITHUB_ORG."
+        return 1
+      fi
+    fi
+
+    url="git@github.com:${url}"
+  fi
+
+  local repo=${url##*/}
+  repo=${repo#.git} # remove optional trailing extension
+
+  if [ -z "${rootPath}" ]; then
+    rootPath="${HOME}/projects" # fallback
+    [ -d "${HOME}/git" ] && rootPath="${HOME}/git" # use ~/git if available
+  fi
+
+  if [ ! -d "${rootPath}" ]; then
+    echo "Error: Target dir ${rootPath} does not exists"
+    return 1
+  fi
+
+  if [ ! -d "${rootPath}/${repo}" ]; then
+    git clone "${url}" "${rootPath}/${repo}"
+  fi
+
+  cd "${rootPath}/${repo}"
+
+  # Install npm modules if it is a Node project
+  if [ -f "${rootPath}/${repo}/package.json" ]; then
+    npm install
+  fi
 }
 function commit {
   git commit -m "$*"
