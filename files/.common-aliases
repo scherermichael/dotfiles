@@ -140,6 +140,7 @@ function clone {
   fi
 
   cd "${rootPath}/${repo}"
+  git pull
 
   # Install npm modules if it is a Node project
   if [ -f "${rootPath}/${repo}/package.json" ]; then
