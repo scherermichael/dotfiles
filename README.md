@@ -35,6 +35,8 @@ All configuration files in the `files` folder will be updated, a new list of Hom
 
 All files that you want to copy to the local system are located under the `files` directory. It will be mapped to the user's home directory when copying the files.
 
+If you create a directory under `files` and store an empty file `.syncfolder` in it, all files and directories under this root directory will be synced. This way you do not need to specify every single file in that directory. **Please note:** Since Git only stores files, empty directories will not be restored.
+
 ### scripts
 
 The `scripts` directory contains scripts for installing software and other setup tasks. A script must end with the suffix `.sh` and its executable flag must be set.
