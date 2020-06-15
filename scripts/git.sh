@@ -18,3 +18,5 @@ git config --global push.default simple
 git config --global commit.gpgsign true
 # Simply print list of branches
 git config --global pager.branch false
+# Keep default merge strategy
+git config --global pull.rebase false
