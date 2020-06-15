@@ -188,7 +188,8 @@
     "latex",
     "plaintext",
     "javascript",
-    "shellscript"
+    "shellscript",
+    "yaml"
   ],
   "spellright.language": [
     "en",
