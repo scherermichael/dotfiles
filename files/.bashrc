@@ -4,11 +4,11 @@
 source ~/.common-rc
 
 if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
+  source ~/.bash_aliases
 fi
 
 if [ -n "${BREW_PREFIX}" ] && [ -f "$(brew --prefix)/etc/bash_completion.d/password-store" ]; then
-  . "$(brew --prefix)/etc/bash_completion.d/password-store"
+  source "$(brew --prefix)/etc/bash_completion.d/password-store"
 fi
 
 if [ -f ~/git-completion.sh ]; then

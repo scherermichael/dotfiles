@@ -1,0 +1,2283 @@
+1543523123.981101|usage|loading todays usage|
+1543523124.004163|ASL|[Crashlytics] Version 3.9.3 (128)|
+1543523124.011548|short|init|
+1543523124.011786|ASL|the new store already exists btt_data_store.version_2_605_build_0909|
+1543523124.022472|ASL|backup already exists OldVersionBackups1.zip|
+1543523124.023156|LIC|idate 2016-01-24 12:51:40 +0000|
+1543523124.047476|short|register all hotkeys|
+1543523124.054624|LIC|closing previous instance of BetterTouchTool relaunch|
+1543523124.057282|short|register disable hotkeys|
+1543523124.058200|short|register disable hotkeys|
+1543523124.059300|short|register all hotkeys|
+1543523124.064582|LIC|license appears to be valid|
+1543523124.065641|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.065654|LIC|short timestamp|
+1543523124.065694|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.065697|LIC|using date 1524092396|
+1543523124.066671|LIC|license appears to be valid|
+1543523124.067609|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.067619|LIC|short timestamp|
+1543523124.067640|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.067650|lic|newest date 2018-04-18 22:59:56 +0000|
+1543523124.067653|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1543523124.069111|LIC|license appears to be valid|
+1543523124.070190|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.070204|LIC|short timestamp|
+1543523124.070227|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.070232|LIC|using date 1524092396|
+1543523124.071379|LIC|license appears to be valid|
+1543523124.072392|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.072403|LIC|short timestamp|
+1543523124.072433|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.072450|lic|newest date 2018-04-18 22:59:56 +0000|
+1543523124.072455|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1543523124.072603|LIC|License is valid for this version|
+1543523124.082652|LAUNCH|DIDLaunch|
+1543523124.088050|LIC|license appears to be valid|
+1543523124.088874|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.088887|LIC|short timestamp|
+1543523124.088916|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.088919|LIC|using date 1524092396|
+1543523124.089768|LIC|license appears to be valid|
+1543523124.090564|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.090576|LIC|short timestamp|
+1543523124.090594|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.090604|lic|newest date 2018-04-18 22:59:56 +0000|
+1543523124.090607|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1543523124.109904|M|checking|
+1543523124.110359|xw|is trusted|
+1543523124.121393|short|call sharedInstance4|
+1543523124.130884|M|mt_stop10|
+1543523124.130976|M|checking|
+1543523124.132057|M|register internal trackpad|
+1543523124.143148|STDEV|65|
+1543523124.146020|swi|check device class|
+1543523124.146041|swi|shortcuts used|
+1543523124.146050|short|set used 1|
+1543523124.829208|LIC|license appears to be valid|
+1543523124.830011|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.830022|LIC|short timestamp|
+1543523124.830050|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.830053|LIC|using date 1524092396|
+1543523124.830859|LIC|license appears to be valid|
+1543523124.831607|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.831619|LIC|short timestamp|
+1543523124.831637|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.831648|lic|newest date 2018-04-18 22:59:56 +0000|
+1543523124.831651|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1543523124.834002|webserver|init|
+1543523124.851040|M|checking|
+1543523124.864304|short|eventtap success|
+1543523124.868872|LIC|license appears to be valid|
+1543523124.869684|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.869695|LIC|short timestamp|
+1543523124.869724|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.869727|LIC|using date 1524092396|
+1543523124.870479|LIC|license appears to be valid|
+1543523124.871226|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.871240|LIC|short timestamp|
+1543523124.871261|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.871270|lic|newest date 2018-04-18 22:59:56 +0000|
+1543523124.871273|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1543523124.900802|LIC|license appears to be valid|
+1543523124.901873|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.901885|LIC|short timestamp|
+1543523124.901916|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.901919|LIC|using date 1524092396|
+1543523124.902761|LIC|license appears to be valid|
+1543523124.903506|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1543523124.903518|LIC|short timestamp|
+1543523124.903534|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1543523124.903544|lic|newest date 2018-04-18 22:59:56 +0000|
+1543523124.903547|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1543523125.152235|short|register disable hotkeys|
+1543523125.154114|short|register all hotkeys for current app|
+1543523125.155311|short|register all hotkeys|
+1543523125.658475|M|checking|
+1543523125.685822|short|register all hotkeys for current app|
+1543523125.686838|M|mt_stop2|
+1543523125.686947|M|checking|
+1543523125.687303|M|checking|
+1543523125.687468|ASL|Bonjour Service Published: domain(local.) type(_bttremote._tcp.) name(intrepid) port(49260)|
+1543523125.688363|M|unregister internal trackpad|
+1543523125.688741|M|checking|
+1543523125.689163|M|register internal trackpad|
+1543523125.700990|STDEV|65|
+1543523125.904028|M|checking|
+1543523126.055896|ASL|[Crashlytics:Crash] Warning: NSApplicationCrashOnExceptions is not set. This will result in poor top-level uncaught exception reporting.|
+1543523127.308861|M|checking|
+1543523127.317511|short|register all hotkeys for current app|
+1543523136.974053|M|checking|
+1543523137.026098|swi|check device class|
+1543523137.026116|swi|shortcuts used|
+1543523137.028801|short|register all hotkeys for current app|
+1543523188.814883|swi|check device class|
+1543523188.814907|swi|shortcuts used|
+1543523188.817444|short|register all hotkeys for current app|
+1532892389.001781|M|checking|
+1532892389.023817|LIC|license appears to be valid|
+1532892389.025215|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1532892389.025232|LIC|short timestamp|
+1532892389.025282|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1532892389.025288|LIC|using date 1524092396|
+1532892389.026657|LIC|license appears to be valid|
+1532892389.028861|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1532892389.028881|LIC|short timestamp|
+1532892389.028909|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1532892389.028927|lic|newest date 2018-04-18 22:59:56 +0000|
+1532892389.028932|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1532892391.045122|usage|loading todays usage|
+1532892400.886039|multiclickdebug|ttc|
+1532892400.893756|M|checking|
+1532892400.932422|swi|check device class|
+1532892400.932462|swi|shortcuts used|
+1532892400.936085|short|register all hotkeys for current app|
+1532892400.995920|multiclickdebug|ttc|
+1532892401.098028|multiclickdebug|ttc|
+1532892401.191947|multiclickdebug|ttc|
+1532892401.316024|multiclickdebug|ttc|
+1532892401.403909|multiclickdebug|ttc|
+1532892401.834020|multiclickdebug|ttc|
+1532892401.936182|multiclickdebug|ttc|
+1532892405.454025|multiclickdebug|ttc|
+1532892405.525966|multiclickdebug|ttc|
+1532892406.806065|multiclickdebug|ttc|
+1532892406.886053|multiclickdebug|ttc|
+1532892410.043949|multiclickdebug|ttc|
+1532892410.152059|multiclickdebug|ttc|
+1532892410.490062|multiclickdebug|ttc|
+1532892410.575943|multiclickdebug|ttc|
+1532892410.989977|multiclickdebug|ttc|
+1532892411.124072|multiclickdebug|ttc|
+1532892411.994104|multiclickdebug|ttc|
+1532892412.150069|multiclickdebug|ttc|
+1532892417.013896|multiclickdebug|ttc|
+1532892417.121914|multiclickdebug|ttc|
+1532892417.341968|multiclickdebug|ttc|
+1532892417.421943|multiclickdebug|ttc|
+1532892417.623872|multiclickdebug|ttc|
+1532892417.727972|multiclickdebug|ttc|
+1532892418.271944|multiclickdebug|ttc|
+1532892418.379804|multiclickdebug|ttc|
+1532892422.689931|multiclickdebug|ttc|
+1532892422.706128|swi|check device class|
+1532892422.706146|swi|shortcuts used|
+1532892422.708729|short|register all hotkeys for current app|
+1532892422.831908|multiclickdebug|ttc|
+1535570833.727208|M|checking|
+1535570833.745761|LIC|license appears to be valid|
+1535570833.747390|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535570833.747409|LIC|short timestamp|
+1535570833.747440|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535570833.747446|LIC|using date 1524092396|
+1535570833.748809|LIC|license appears to be valid|
+1535570833.750176|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535570833.750194|LIC|short timestamp|
+1535570833.750223|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535570833.750240|lic|newest date 2018-04-18 22:59:56 +0000|
+1535570833.750245|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1535570841.471062|usage|loading todays usage|
+1535570843.057408|multiclickdebug|ttc|
+1535570843.213492|multiclickdebug|ttc|
+1535570843.233229|M|checking|
+1535570843.293988|swi|check device class|
+1535570843.294009|swi|shortcuts used|
+1535570843.296660|short|register all hotkeys for current app|
+1535570844.152987|multiclickdebug|ttc|
+1535570844.192890|swi|check device class|
+1535570844.192911|swi|shortcuts used|
+1535570844.195634|short|register all hotkeys for current app|
+1535570844.278978|multiclickdebug|ttc|
+1535570848.849354|multiclickdebug|ttc|
+1535570848.981265|multiclickdebug|ttc|
+1535570887.771136|multiclickdebug|ttc|
+1535570887.951019|multiclickdebug|ttc|
+1535570889.365087|multiclickdebug|ttc|
+1535570891.097001|multiclickdebug|ttc|
+1535570896.896815|multiclickdebug|ttc|
+1535570897.008698|multiclickdebug|ttc|
+1535570898.624845|multiclickdebug|ttc|
+1535570898.782844|multiclickdebug|ttc|
+1535570902.726678|multiclickdebug|ttc|
+1535570902.850677|multiclickdebug|ttc|
+1535570904.130576|multiclickdebug|ttc|
+1535570904.310675|multiclickdebug|ttc|
+1535570904.888650|multiclickdebug|ttc|
+1535570905.052547|multiclickdebug|ttc|
+1535570905.998466|multiclickdebug|ttc|
+1535570906.162622|multiclickdebug|ttc|
+1535570924.441856|multiclickdebug|ttc|
+1535570924.525897|multiclickdebug|ttc|
+1535570924.603156|swi|check device class|
+1535570924.603175|swi|shortcuts used|
+1535570924.605694|short|register all hotkeys for current app|
+1535570925.223745|multiclickdebug|ttc|
+1535570925.325719|multiclickdebug|ttc|
+1535570930.145775|multiclickdebug|ttc|
+1535570931.843730|multiclickdebug|ttc|
+1535570937.987643|multiclickdebug|ttc|
+1535570938.129553|multiclickdebug|ttc|
+1535570944.485585|multiclickdebug|ttc|
+1535570944.544861|swi|check device class|
+1535570944.544892|swi|shortcuts used|
+1535570944.547649|short|register all hotkeys for current app|
+1535570944.595384|multiclickdebug|ttc|
+1535570945.307403|multiclickdebug|ttc|
+1535570945.425340|multiclickdebug|ttc|
+1535570954.643816|multiclickdebug|ttc|
+1535570960.057725|multiclickdebug|ttc|
+1535570960.765831|multiclickdebug|ttc|
+1535570962.067792|multiclickdebug|ttc|
+1535570962.372535|swi|check device class|
+1535570962.372556|swi|shortcuts used|
+1535570962.373180|SEC|SecureInputActive com.apple.SecurityAgent 39896|
+1535570962.374267|short|register disable hotkeys|
+1535570962.375608|short|register all hotkeys for current app|
+1535570962.378435|short|register all hotkeys for current app|
+1535570963.563842|multiclickdebug|ttc|
+1535570963.689819|multiclickdebug|ttc|
+1535570963.802444|swi|check device class|
+1535570963.802467|swi|shortcuts used|
+1535570963.812901|swi|check device class|
+1535570963.812920|swi|shortcuts used|
+1535570964.335782|multiclickdebug|ttc|
+1535570964.453781|multiclickdebug|ttc|
+1535570964.944734|swi|check device class|
+1535570964.944756|swi|shortcuts used|
+1535570964.945082|SEC|SecureInputDisabled com.apple.SecurityAgent|
+1535570964.950666|short|register all hotkeys|
+1535570964.952955|short|register all hotkeys for current app|
+1535570966.748837|swi|check device class|
+1535570966.748861|swi|shortcuts used|
+1535570966.751731|short|register all hotkeys for current app|
+1535570968.955604|swi|check device class|
+1535570968.955620|swi|shortcuts used|
+1535570968.958612|short|register all hotkeys for current app|
+1535570969.656011|short|register all hotkeys for current app|
+1535570972.207383|multiclickdebug|ttc|
+1535570972.363420|multiclickdebug|ttc|
+1535570976.851309|multiclickdebug|ttc|
+1535570976.937391|multiclickdebug|ttc|
+1535570977.428151|swi|check device class|
+1535570977.428171|swi|shortcuts used|
+1535570977.431628|short|register all hotkeys for current app|
+1535570982.447340|multiclickdebug|ttc|
+1535570982.557339|multiclickdebug|ttc|
+1535570994.171187|multiclickdebug|ttc|
+1535570994.367193|multiclickdebug|ttc|
+1535571002.693351|multiclickdebug|ttc|
+1535571002.851396|multiclickdebug|ttc|
+1535571007.031127|multiclickdebug|ttc|
+1535571007.157267|multiclickdebug|ttc|
+1535571008.709211|multiclickdebug|ttc|
+1535571008.809176|multiclickdebug|ttc|
+1535571008.855521|swi|check device class|
+1535571008.855541|swi|shortcuts used|
+1535571008.858569|short|register all hotkeys for current app|
+1535571010.435195|multiclickdebug|ttc|
+1535571010.569159|multiclickdebug|ttc|
+1535571013.225159|multiclickdebug|ttc|
+1535571013.429234|multiclickdebug|ttc|
+1535571019.557169|multiclickdebug|ttc|
+1535571019.606451|swi|check device class|
+1535571019.606476|swi|shortcuts used|
+1535571019.609388|short|register all hotkeys for current app|
+1535571019.681245|multiclickdebug|ttc|
+1535571020.351145|multiclickdebug|ttc|
+1535571020.485134|multiclickdebug|ttc|
+1535571047.786796|multiclickdebug|ttc|
+1535571047.910783|multiclickdebug|ttc|
+1535571051.740798|multiclickdebug|ttc|
+1535571051.856806|multiclickdebug|ttc|
+1535571072.032664|multiclickdebug|ttc|
+1535571072.190403|multiclickdebug|ttc|
+1535571073.380442|multiclickdebug|ttc|
+1535571073.568605|multiclickdebug|ttc|
+1535571085.004408|multiclickdebug|ttc|
+1535571085.178257|multiclickdebug|ttc|
+1535571086.128471|multiclickdebug|ttc|
+1535571086.278339|multiclickdebug|ttc|
+1535571090.842395|multiclickdebug|ttc|
+1535571090.960339|multiclickdebug|ttc|
+1535571090.974447|swi|check device class|
+1535571090.974464|swi|shortcuts used|
+1535571090.977129|short|register all hotkeys for current app|
+1535571092.534154|multiclickdebug|ttc|
+1535571092.652299|multiclickdebug|ttc|
+1535571102.283531|swi|check device class|
+1535571102.283553|swi|shortcuts used|
+1535571102.286283|short|register all hotkeys for current app|
+1535571104.477444|swi|check device class|
+1535571104.477460|swi|shortcuts used|
+1535571104.480829|short|register all hotkeys for current app|
+1535571105.324605|multiclickdebug|ttc|
+1535571105.530598|multiclickdebug|ttc|
+1535571109.356598|multiclickdebug|ttc|
+1535571109.474522|multiclickdebug|ttc|
+1535571111.248475|multiclickdebug|ttc|
+1535571111.452430|multiclickdebug|ttc|
+1535571112.226418|multiclickdebug|ttc|
+1535571112.360502|multiclickdebug|ttc|
+1535571114.146534|multiclickdebug|ttc|
+1535571114.264494|multiclickdebug|ttc|
+1535571117.338481|multiclickdebug|ttc|
+1535571117.488424|multiclickdebug|ttc|
+1535571119.204351|multiclickdebug|ttc|
+1535571119.416458|multiclickdebug|ttc|
+1535571122.006407|multiclickdebug|ttc|
+1535571122.114315|multiclickdebug|ttc|
+1535571132.820285|multiclickdebug|ttc|
+1535571133.006256|multiclickdebug|ttc|
+1535571138.186222|multiclickdebug|ttc|
+1535571138.320217|multiclickdebug|ttc|
+1535571139.278693|swi|check device class|
+1535571139.278713|swi|shortcuts used|
+1535571139.281512|short|register all hotkeys for current app|
+1535571144.266029|multiclickdebug|ttc|
+1535571144.368051|multiclickdebug|ttc|
+1535571145.708281|multiclickdebug|ttc|
+1535571145.802052|multiclickdebug|ttc|
+1535571150.538062|multiclickdebug|ttc|
+1535571150.742129|multiclickdebug|ttc|
+1535571151.311609|swi|check device class|
+1535571151.311650|swi|shortcuts used|
+1535571151.314566|short|register all hotkeys for current app|
+1535571159.008051|multiclickdebug|ttc|
+1535571159.187970|multiclickdebug|ttc|
+1535571178.063637|multiclickdebug|ttc|
+1535571178.171623|multiclickdebug|ttc|
+1535571179.143624|multiclickdebug|ttc|
+1535571179.717619|multiclickdebug|ttc|
+1535571181.397633|multiclickdebug|ttc|
+1535571181.561534|multiclickdebug|ttc|
+1535571182.713601|multiclickdebug|ttc|
+1535571182.831596|multiclickdebug|ttc|
+1535571184.075554|multiclickdebug|ttc|
+1535571184.225601|multiclickdebug|ttc|
+1535571185.169572|multiclickdebug|ttc|
+1535571185.343619|multiclickdebug|ttc|
+1535571186.367577|multiclickdebug|ttc|
+1535571186.471513|multiclickdebug|ttc|
+1535571187.137511|multiclickdebug|ttc|
+1535571187.197461|multiclickdebug|ttc|
+1535571188.137461|multiclickdebug|ttc|
+1535571188.317553|multiclickdebug|ttc|
+1535571189.357565|multiclickdebug|ttc|
+1535571189.513364|multiclickdebug|ttc|
+1535571190.187525|multiclickdebug|ttc|
+1535571190.289491|multiclickdebug|ttc|
+1535571243.842581|multiclickdebug|ttc|
+1535571243.998802|multiclickdebug|ttc|
+1535571252.648726|multiclickdebug|ttc|
+1535571252.812524|multiclickdebug|ttc|
+1535571253.193242|swi|check device class|
+1535571253.193261|swi|shortcuts used|
+1535571253.195833|short|register all hotkeys for current app|
+1535571272.248805|swi|check device class|
+1535571272.248824|swi|shortcuts used|
+1535571272.251361|short|register all hotkeys for current app|
+1535571273.018477|multiclickdebug|ttc|
+1535571273.046566|swi|check device class|
+1535571273.046583|swi|shortcuts used|
+1535571273.049223|short|register all hotkeys for current app|
+1535571273.086256|multiclickdebug|ttc|
+1535571279.032235|swi|check device class|
+1535571279.032253|swi|shortcuts used|
+1535571279.034981|short|register all hotkeys for current app|
+1535571294.679268|swi|check device class|
+1535571294.679299|swi|shortcuts used|
+1535571294.683547|short|register all hotkeys for current app|
+1535571308.738170|swi|check device class|
+1535571308.738191|swi|shortcuts used|
+1535571308.740760|short|register all hotkeys for current app|
+1535571312.815241|swi|check device class|
+1535571312.815281|swi|shortcuts used|
+1535571312.819723|short|register all hotkeys for current app|
+1535571320.372081|swi|check device class|
+1535571320.372098|swi|shortcuts used|
+1535571320.374584|short|register all hotkeys for current app|
+1535571328.418625|swi|check device class|
+1535571328.418659|swi|shortcuts used|
+1535571328.423063|short|register all hotkeys for current app|
+1535571336.242225|swi|check device class|
+1535571336.242243|swi|shortcuts used|
+1535571336.244656|short|register all hotkeys for current app|
+1535571345.438739|multiclickdebug|ttc|
+1535571345.618794|multiclickdebug|ttc|
+1535571364.025820|swi|check device class|
+1535571364.025854|swi|shortcuts used|
+1535571364.030133|short|register all hotkeys for current app|
+1535571384.931727|swi|check device class|
+1535571384.931746|swi|shortcuts used|
+1535571384.934207|short|register all hotkeys for current app|
+1535571385.149826|multiclickdebug|ttc|
+1535571385.276073|multiclickdebug|ttc|
+1535571387.666040|multiclickdebug|ttc|
+1535571387.782031|multiclickdebug|ttc|
+1535571389.190029|multiclickdebug|ttc|
+1535571389.323950|multiclickdebug|ttc|
+1535571390.317931|multiclickdebug|ttc|
+1535571390.443756|multiclickdebug|ttc|
+1535571393.385968|multiclickdebug|ttc|
+1535571393.463705|multiclickdebug|ttc|
+1535571395.347757|swi|check device class|
+1535571395.347791|swi|shortcuts used|
+1535571395.352904|short|register all hotkeys for current app|
+1535571398.201644|swi|check device class|
+1535571398.201662|swi|shortcuts used|
+1535571398.204307|short|register all hotkeys for current app|
+1535571399.549940|multiclickdebug|ttc|
+1535571399.659831|multiclickdebug|ttc|
+1535571403.039889|multiclickdebug|ttc|
+1535571403.149842|multiclickdebug|ttc|
+1535571406.287832|multiclickdebug|ttc|
+1535571406.397625|multiclickdebug|ttc|
+1535571407.565843|multiclickdebug|ttc|
+1535571407.681811|multiclickdebug|ttc|
+1535571408.499799|multiclickdebug|ttc|
+1535571408.601830|multiclickdebug|ttc|
+1535571409.267819|multiclickdebug|ttc|
+1535571409.377807|multiclickdebug|ttc|
+1535571409.981853|multiclickdebug|ttc|
+1535571410.075795|multiclickdebug|ttc|
+1535571411.633696|multiclickdebug|ttc|
+1535571411.759741|multiclickdebug|ttc|
+1535571412.405789|multiclickdebug|ttc|
+1535571413.353777|multiclickdebug|ttc|
+1535571450.906826|swi|check device class|
+1535571450.906859|swi|shortcuts used|
+1535571450.911164|short|register all hotkeys for current app|
+1535571453.459304|swi|check device class|
+1535571453.459325|swi|shortcuts used|
+1535571453.461755|short|register all hotkeys for current app|
+1535571455.168951|multiclickdebug|ttc|
+1535571455.276961|multiclickdebug|ttc|
+1535571456.648814|multiclickdebug|ttc|
+1535571456.798837|multiclickdebug|ttc|
+1535571457.906898|multiclickdebug|ttc|
+1535571458.094903|multiclickdebug|ttc|
+1535571460.257811|swi|check device class|
+1535571460.257871|swi|shortcuts used|
+1535571460.263175|short|register all hotkeys for current app|
+1535571462.660349|swi|check device class|
+1535571462.660366|swi|shortcuts used|
+1535571462.662805|short|register all hotkeys for current app|
+1535571465.420759|multiclickdebug|ttc|
+1535571465.554536|multiclickdebug|ttc|
+1535571468.324801|multiclickdebug|ttc|
+1535571468.480794|multiclickdebug|ttc|
+1535571598.526247|multiclickdebug|ttc|
+1535571598.738112|multiclickdebug|ttc|
+1535571605.454152|multiclickdebug|ttc|
+1535571605.610226|multiclickdebug|ttc|
+1535571610.912164|multiclickdebug|ttc|
+1535571611.061911|multiclickdebug|ttc|
+1535571611.974141|multiclickdebug|ttc|
+1535571612.098167|multiclickdebug|ttc|
+1535571612.898175|multiclickdebug|ttc|
+1535571613.024153|multiclickdebug|ttc|
+1535571613.908137|multiclickdebug|ttc|
+1535571614.080118|multiclickdebug|ttc|
+1535571614.732111|multiclickdebug|ttc|
+1535571614.942128|multiclickdebug|ttc|
+1535571616.200090|multiclickdebug|ttc|
+1535571616.342010|multiclickdebug|ttc|
+1535571617.094062|multiclickdebug|ttc|
+1535571617.236098|multiclickdebug|ttc|
+1535571620.739983|multiclickdebug|ttc|
+1535571620.910058|multiclickdebug|ttc|
+1535571631.853801|multiclickdebug|ttc|
+1535571631.977724|multiclickdebug|ttc|
+1535571633.489902|multiclickdebug|ttc|
+1535571633.623929|multiclickdebug|ttc|
+1535571634.625812|multiclickdebug|ttc|
+1535571634.751907|multiclickdebug|ttc|
+1535571635.679709|multiclickdebug|ttc|
+1535571635.813765|multiclickdebug|ttc|
+1535571636.439900|multiclickdebug|ttc|
+1535571636.549802|multiclickdebug|ttc|
+1535571637.247862|multiclickdebug|ttc|
+1535571637.365888|multiclickdebug|ttc|
+1535571639.167644|multiclickdebug|ttc|
+1535571639.275865|multiclickdebug|ttc|
+1535571928.383856|multiclickdebug|ttc|
+1535571928.523848|multiclickdebug|ttc|
+1535571930.315879|multiclickdebug|ttc|
+1535571930.439653|multiclickdebug|ttc|
+1535571932.359728|multiclickdebug|ttc|
+1535571932.515852|multiclickdebug|ttc|
+1535571933.993807|multiclickdebug|ttc|
+1535571934.203590|multiclickdebug|ttc|
+1535571940.225793|multiclickdebug|ttc|
+1535571940.397730|multiclickdebug|ttc|
+1535571942.329616|multiclickdebug|ttc|
+1535571942.493762|multiclickdebug|ttc|
+1535571943.879756|multiclickdebug|ttc|
+1535571944.019713|multiclickdebug|ttc|
+1535571963.368488|multiclickdebug|ttc|
+1535571963.470460|multiclickdebug|ttc|
+1535571972.090219|multiclickdebug|ttc|
+1535571972.214321|multiclickdebug|ttc|
+1535571973.418472|multiclickdebug|ttc|
+1535571973.542347|multiclickdebug|ttc|
+1535571974.546280|multiclickdebug|ttc|
+1535571974.708313|multiclickdebug|ttc|
+1535571989.794125|multiclickdebug|ttc|
+1535571989.958201|multiclickdebug|ttc|
+1535572002.904026|multiclickdebug|ttc|
+1535572003.075902|multiclickdebug|ttc|
+1535572006.138086|multiclickdebug|ttc|
+1535572006.359954|multiclickdebug|ttc|
+1535572024.148863|multiclickdebug|ttc|
+1535572024.258905|multiclickdebug|ttc|
+1535572041.621628|multiclickdebug|ttc|
+1535572041.815724|multiclickdebug|ttc|
+1535572176.849015|swi|check device class|
+1535572176.849032|swi|shortcuts used|
+1535572176.851702|short|register all hotkeys for current app|
+1535572194.187248|swi|check device class|
+1535572194.187265|swi|shortcuts used|
+1535572194.189802|short|register all hotkeys for current app|
+1535572203.617674|multiclickdebug|ttc|
+1535572203.711620|multiclickdebug|ttc|
+1535572241.488148|multiclickdebug|ttc|
+1535572241.580275|multiclickdebug|ttc|
+1535572264.344838|multiclickdebug|ttc|
+1535572264.500841|multiclickdebug|ttc|
+1535572273.008675|multiclickdebug|ttc|
+1535572273.096684|multiclickdebug|ttc|
+1535572277.986745|multiclickdebug|ttc|
+1535572278.072658|multiclickdebug|ttc|
+1535572300.235193|swi|check device class|
+1535572300.235215|swi|shortcuts used|
+1535572300.239279|short|register all hotkeys for current app|
+1535572325.837416|swi|check device class|
+1535572325.837441|swi|shortcuts used|
+1535572325.840286|short|register all hotkeys for current app|
+1535572327.275758|multiclickdebug|ttc|
+1535572327.407918|multiclickdebug|ttc|
+1535572327.425487|swi|check device class|
+1535572327.425506|swi|shortcuts used|
+1535572327.428289|short|register all hotkeys for current app|
+1535572328.519921|multiclickdebug|ttc|
+1535572328.637745|multiclickdebug|ttc|
+1535572330.431785|multiclickdebug|ttc|
+1535572330.587847|multiclickdebug|ttc|
+1535572392.164120|multiclickdebug|ttc|
+1535572392.304098|multiclickdebug|ttc|
+1535572445.293545|multiclickdebug|ttc|
+1535572445.443519|multiclickdebug|ttc|
+1535572453.109264|multiclickdebug|ttc|
+1535572453.273289|multiclickdebug|ttc|
+1535572467.285011|multiclickdebug|ttc|
+1535572467.425102|multiclickdebug|ttc|
+1535572484.444267|multiclickdebug|ttc|
+1535572484.592284|multiclickdebug|ttc|
+1535572489.484205|swi|check device class|
+1535572489.484225|swi|shortcuts used|
+1535572489.487687|short|register all hotkeys for current app|
+1535572503.917885|swi|check device class|
+1535572503.917902|swi|shortcuts used|
+1535572503.920856|short|register all hotkeys for current app|
+1535572504.952081|multiclickdebug|ttc|
+1535572505.124058|multiclickdebug|ttc|
+1535572511.581700|swi|check device class|
+1535572511.581718|swi|shortcuts used|
+1535572511.584219|short|register all hotkeys for current app|
+1535572514.118908|swi|check device class|
+1535572514.118926|swi|shortcuts used|
+1535572514.121325|short|register all hotkeys for current app|
+1535572518.347891|swi|check device class|
+1535572518.347909|swi|shortcuts used|
+1535572518.350402|short|register all hotkeys for current app|
+1535572522.070197|swi|check device class|
+1535572522.070214|swi|shortcuts used|
+1535572522.072692|short|register all hotkeys for current app|
+1535572524.550795|multiclickdebug|ttc|
+1535572524.722801|multiclickdebug|ttc|
+1535572544.003436|swi|check device class|
+1535572544.003456|swi|shortcuts used|
+1535572544.005965|short|register all hotkeys for current app|
+1535572548.007742|swi|check device class|
+1535572548.007760|swi|shortcuts used|
+1535572548.010096|short|register all hotkeys for current app|
+1535572597.243963|multiclickdebug|ttc|
+1535572597.399862|multiclickdebug|ttc|
+1535572609.891731|multiclickdebug|ttc|
+1535572610.015721|multiclickdebug|ttc|
+1535572712.591335|multiclickdebug|ttc|
+1535572712.731033|multiclickdebug|ttc|
+1535572715.952444|multiclickdebug|ttc|
+1535572716.078232|multiclickdebug|ttc|
+1535572774.436913|multiclickdebug|ttc|
+1535572774.626838|multiclickdebug|ttc|
+1535572776.010813|multiclickdebug|ttc|
+1535572776.176909|multiclickdebug|ttc|
+1535572777.296739|multiclickdebug|ttc|
+1535572777.444764|multiclickdebug|ttc|
+1535572790.848238|swi|check device class|
+1535572790.848260|swi|shortcuts used|
+1535572790.851423|short|register all hotkeys for current app|
+1535572867.225237|swi|check device class|
+1535572867.225255|swi|shortcuts used|
+1535572867.228200|short|register all hotkeys for current app|
+1535572872.521262|swi|check device class|
+1535572872.521281|swi|shortcuts used|
+1535572872.524083|short|register all hotkeys for current app|
+1535572877.425682|swi|check device class|
+1535572877.425702|swi|shortcuts used|
+1535572877.428069|short|register all hotkeys for current app|
+1535572885.035222|multiclickdebug|ttc|
+1535572885.143278|multiclickdebug|ttc|
+1535572886.159259|multiclickdebug|ttc|
+1535572886.291254|multiclickdebug|ttc|
+1535572887.193364|multiclickdebug|ttc|
+1535572887.325370|multiclickdebug|ttc|
+1535572888.555188|multiclickdebug|ttc|
+1535572888.705040|multiclickdebug|ttc|
+1535572889.283213|multiclickdebug|ttc|
+1535572889.401314|multiclickdebug|ttc|
+1535572890.455097|multiclickdebug|ttc|
+1535572890.589150|multiclickdebug|ttc|
+1535572894.379080|multiclickdebug|ttc|
+1535572894.591046|multiclickdebug|ttc|
+1535572896.778983|swi|check device class|
+1535572896.779007|swi|shortcuts used|
+1535572896.782715|short|register all hotkeys for current app|
+1535572906.515510|swi|check device class|
+1535572906.515528|swi|shortcuts used|
+1535572906.519212|short|register all hotkeys for current app|
+1535572913.617342|multiclickdebug|ttc|
+1535572913.727384|multiclickdebug|ttc|
+1535572930.078491|multiclickdebug|ttc|
+1535572930.212633|multiclickdebug|ttc|
+1535572931.524626|multiclickdebug|ttc|
+1535572931.658584|multiclickdebug|ttc|
+1535572933.334565|multiclickdebug|ttc|
+1535572934.218425|multiclickdebug|ttc|
+1535572934.826410|swi|check device class|
+1535572934.826442|swi|shortcuts used|
+1535572934.833864|short|register all hotkeys for current app|
+1535572942.130402|multiclickdebug|ttc|
+1535572942.296319|multiclickdebug|ttc|
+1535572943.718259|multiclickdebug|ttc|
+1535572945.442325|multiclickdebug|ttc|
+1535572946.280237|multiclickdebug|ttc|
+1535572946.297657|swi|check device class|
+1535572946.297676|swi|shortcuts used|
+1535572946.300122|short|register all hotkeys for current app|
+1535572946.396114|multiclickdebug|ttc|
+1535572947.654175|multiclickdebug|ttc|
+1535572947.778200|multiclickdebug|ttc|
+1535572963.885673|multiclickdebug|ttc|
+1535572964.003842|multiclickdebug|ttc|
+1535572977.684455|swi|check device class|
+1535572977.684476|swi|shortcuts used|
+1535572977.687433|short|register all hotkeys for current app|
+1535572999.907314|swi|check device class|
+1535572999.907331|swi|shortcuts used|
+1535572999.909811|short|register all hotkeys for current app|
+1535573021.126351|multiclickdebug|ttc|
+1535573021.268234|multiclickdebug|ttc|
+1535573024.734182|multiclickdebug|ttc|
+1535573024.952044|multiclickdebug|ttc|
+1535573025.975334|swi|check device class|
+1535573025.975434|swi|shortcuts used|
+1535573025.980677|short|register all hotkeys for current app|
+1535573031.048106|multiclickdebug|ttc|
+1535573031.166059|multiclickdebug|ttc|
+1535573031.979961|multiclickdebug|ttc|
+1535573032.089974|multiclickdebug|ttc|
+1535573032.788137|multiclickdebug|ttc|
+1535573032.887980|multiclickdebug|ttc|
+1535573033.765800|multiclickdebug|ttc|
+1535573033.844066|multiclickdebug|ttc|
+1535573034.637892|multiclickdebug|ttc|
+1535573034.746006|multiclickdebug|ttc|
+1535573036.285898|multiclickdebug|ttc|
+1535573036.419982|multiclickdebug|ttc|
+1535573039.515855|multiclickdebug|ttc|
+1535573039.655782|multiclickdebug|ttc|
+1535573040.401730|multiclickdebug|ttc|
+1535573040.753764|multiclickdebug|ttc|
+1535573041.303651|swi|check device class|
+1535573041.303667|swi|shortcuts used|
+1535573041.311285|short|register all hotkeys for current app|
+1535573050.315713|multiclickdebug|ttc|
+1535573050.457751|multiclickdebug|ttc|
+1535573052.193753|multiclickdebug|ttc|
+1535573052.293657|multiclickdebug|ttc|
+1535573055.567627|multiclickdebug|ttc|
+1535573055.585626|swi|check device class|
+1535573055.585655|swi|shortcuts used|
+1535573055.588214|short|register all hotkeys for current app|
+1535573055.723535|multiclickdebug|ttc|
+1535573057.753664|swi|check device class|
+1535573057.753686|swi|shortcuts used|
+1535573057.757981|short|register all hotkeys for current app|
+1535573062.371442|multiclickdebug|ttc|
+1535573062.495352|multiclickdebug|ttc|
+1535573062.527900|swi|check device class|
+1535573062.527918|swi|shortcuts used|
+1535573062.530698|short|register all hotkeys for current app|
+1535573073.735183|swi|check device class|
+1535573073.735204|swi|shortcuts used|
+1535573073.737808|short|register all hotkeys for current app|
+1535573078.774854|swi|check device class|
+1535573078.774874|swi|shortcuts used|
+1535573078.778684|short|register all hotkeys for current app|
+1535573162.660768|swi|check device class|
+1535573162.660784|swi|shortcuts used|
+1535573162.663295|short|register all hotkeys for current app|
+1535573164.154177|multiclickdebug|ttc|
+1535573164.310041|multiclickdebug|ttc|
+1535573176.677955|multiclickdebug|ttc|
+1535573176.904227|multiclickdebug|ttc|
+1535573185.475912|multiclickdebug|ttc|
+1535573185.569891|multiclickdebug|ttc|
+1535573202.193496|multiclickdebug|ttc|
+1535573202.287488|multiclickdebug|ttc|
+1535573204.187323|multiclickdebug|ttc|
+1535573204.335332|multiclickdebug|ttc|
+1535573206.005389|multiclickdebug|ttc|
+1535573206.185357|multiclickdebug|ttc|
+1535573206.738898|swi|check device class|
+1535573206.738919|swi|shortcuts used|
+1535573206.741754|short|register all hotkeys for current app|
+1535573216.611850|multiclickdebug|ttc|
+1535573216.799947|multiclickdebug|ttc|
+1535573217.949898|multiclickdebug|ttc|
+1535573218.067919|multiclickdebug|ttc|
+1535573220.829962|multiclickdebug|ttc|
+1535573220.953826|multiclickdebug|ttc|
+1535573222.285801|multiclickdebug|ttc|
+1535573222.451668|multiclickdebug|ttc|
+1535573223.399855|multiclickdebug|ttc|
+1535573223.531849|multiclickdebug|ttc|
+1535573225.125730|multiclickdebug|ttc|
+1535573225.485832|multiclickdebug|ttc|
+1535573226.019516|multiclickdebug|ttc|
+1535573226.382777|WISNA|Focus doesn't match window pid|
+1535573226.387532|multiclickdebug|ttc|
+1535573227.769623|multiclickdebug|ttc|
+1535573228.021558|multiclickdebug|ttc|
+1535573234.574383|multiclickdebug|ttc|
+1535573234.591250|swi|check device class|
+1535573234.591278|swi|shortcuts used|
+1535573234.593821|short|register all hotkeys for current app|
+1535573234.602413|short|register all hotkeys for current app|
+1535573234.706334|multiclickdebug|ttc|
+1535573235.160489|multiclickdebug|ttc|
+1535573235.296453|multiclickdebug|ttc|
+1535573244.830914|swi|check device class|
+1535573244.830938|swi|shortcuts used|
+1535573244.834484|short|register all hotkeys for current app|
+1535573257.948632|swi|check device class|
+1535573257.948654|swi|shortcuts used|
+1535573257.951973|short|register all hotkeys for current app|
+1535573258.246724|short|register all hotkeys for current app|
+1535573259.970210|multiclickdebug|ttc|
+1535573260.134178|multiclickdebug|ttc|
+1535573260.706277|multiclickdebug|ttc|
+1535573260.838298|multiclickdebug|ttc|
+1535573265.448214|multiclickdebug|ttc|
+1535573265.620141|multiclickdebug|ttc|
+1535573266.883986|multiclickdebug|ttc|
+1535573267.055970|multiclickdebug|ttc|
+1535573268.452048|multiclickdebug|ttc|
+1535573268.556083|multiclickdebug|ttc|
+1535573286.681562|multiclickdebug|ttc|
+1535573286.861584|multiclickdebug|ttc|
+1535573298.325789|swi|check device class|
+1535573298.325808|swi|shortcuts used|
+1535573298.328396|short|register all hotkeys for current app|
+1535573325.850434|multiclickdebug|ttc|
+1535573326.016270|multiclickdebug|ttc|
+1535573326.032718|swi|check device class|
+1535573326.032737|swi|shortcuts used|
+1535573326.035195|short|register all hotkeys for current app|
+1535573344.953715|multiclickdebug|ttc|
+1535573345.103585|multiclickdebug|ttc|
+1535573361.801557|swi|check device class|
+1535573361.801596|swi|shortcuts used|
+1535573361.805755|short|register all hotkeys for current app|
+1535573363.103242|multiclickdebug|ttc|
+1535573363.211124|multiclickdebug|ttc|
+1535573385.523299|swi|check device class|
+1535573385.523320|swi|shortcuts used|
+1535573385.527546|short|register all hotkeys for current app|
+1535573385.850367|short|register all hotkeys for current app|
+1535573385.893358|short|register all hotkeys for current app|
+1535573404.394541|swi|check device class|
+1535573404.394563|swi|shortcuts used|
+1535573404.397939|short|register all hotkeys for current app|
+1535573458.933581|swi|check device class|
+1535573458.933604|swi|shortcuts used|
+1535573458.937953|short|register all hotkeys for current app|
+1535573458.951186|short|register all hotkeys for current app|
+1535573501.525018|swi|check device class|
+1535573501.525040|swi|shortcuts used|
+1535573501.528419|short|register all hotkeys for current app|
+1535573530.532277|multiclickdebug|ttc|
+1535573530.658310|multiclickdebug|ttc|
+1535573586.200764|multiclickdebug|ttc|
+1535573586.324775|multiclickdebug|ttc|
+1535573586.353634|swi|check device class|
+1535573586.353650|swi|shortcuts used|
+1535573586.356275|short|register all hotkeys for current app|
+1535573592.999109|swi|check device class|
+1535573592.999139|swi|shortcuts used|
+1535573593.002508|short|register all hotkeys for current app|
+1535573597.554937|swi|check device class|
+1535573597.554956|swi|shortcuts used|
+1535573597.557377|short|register all hotkeys for current app|
+1535573604.982246|multiclickdebug|ttc|
+1535573605.108124|multiclickdebug|ttc|
+1535573607.066219|multiclickdebug|ttc|
+1535573607.084118|swi|check device class|
+1535573607.084142|swi|shortcuts used|
+1535573607.087327|short|register all hotkeys for current app|
+1535573607.184116|multiclickdebug|ttc|
+1535573612.924708|multiclickdebug|ttc|
+1535573613.066689|multiclickdebug|ttc|
+1535573616.907884|swi|check device class|
+1535573616.907910|swi|shortcuts used|
+1535573616.910384|short|register all hotkeys for current app|
+1535573618.378381|multiclickdebug|ttc|
+1535573618.534375|multiclickdebug|ttc|
+1535573620.256460|multiclickdebug|ttc|
+1535573620.962276|multiclickdebug|ttc|
+1535573622.422339|multiclickdebug|ttc|
+1535573622.524204|multiclickdebug|ttc|
+1535573626.548268|multiclickdebug|ttc|
+1535573626.565545|swi|check device class|
+1535573626.565564|swi|shortcuts used|
+1535573626.568549|short|register all hotkeys for current app|
+1535573626.704113|multiclickdebug|ttc|
+1535573629.990150|multiclickdebug|ttc|
+1535573630.130149|multiclickdebug|ttc|
+1535573633.093266|swi|check device class|
+1535573633.093294|swi|shortcuts used|
+1535573633.095875|short|register all hotkeys for current app|
+1535573635.290068|multiclickdebug|ttc|
+1535573635.392190|multiclickdebug|ttc|
+1535573637.357865|multiclickdebug|ttc|
+1535573637.484030|multiclickdebug|ttc|
+1535573638.513931|multiclickdebug|ttc|
+1535573638.677944|multiclickdebug|ttc|
+1535573642.575825|multiclickdebug|ttc|
+1535573642.593391|swi|check device class|
+1535573642.593410|swi|shortcuts used|
+1535573642.596120|short|register all hotkeys for current app|
+1535573642.715835|multiclickdebug|ttc|
+1535573649.812915|multiclickdebug|ttc|
+1535573649.953176|multiclickdebug|ttc|
+1535573652.675010|multiclickdebug|ttc|
+1535573652.832974|multiclickdebug|ttc|
+1535573655.257015|multiclickdebug|ttc|
+1535573655.398761|multiclickdebug|ttc|
+1535573656.902730|multiclickdebug|ttc|
+1535573657.034939|multiclickdebug|ttc|
+1535573657.585844|swi|check device class|
+1535573657.585861|swi|shortcuts used|
+1535573657.589242|short|register all hotkeys for current app|
+1535573665.309290|multiclickdebug|ttc|
+1535573665.483282|multiclickdebug|ttc|
+1535573669.693221|multiclickdebug|ttc|
+1535573669.873046|multiclickdebug|ttc|
+1535573674.370885|multiclickdebug|ttc|
+1535573674.503033|multiclickdebug|ttc|
+1535573684.702087|swi|check device class|
+1535573684.702106|swi|shortcuts used|
+1535573684.705088|short|register all hotkeys for current app|
+1535573733.447119|multiclickdebug|ttc|
+1535573733.641286|multiclickdebug|ttc|
+1535573740.198853|multiclickdebug|ttc|
+1535573740.324880|multiclickdebug|ttc|
+1535573742.432931|multiclickdebug|ttc|
+1535573742.548823|multiclickdebug|ttc|
+1535573757.058559|multiclickdebug|ttc|
+1535573757.528547|multiclickdebug|ttc|
+1535573762.201029|swi|check device class|
+1535573762.201053|swi|shortcuts used|
+1535573762.203884|short|register all hotkeys for current app|
+1535573765.448227|multiclickdebug|ttc|
+1535573765.564368|multiclickdebug|ttc|
+1535573765.724744|swi|check device class|
+1535573765.724773|swi|shortcuts used|
+1535573765.727329|short|register all hotkeys for current app|
+1535573767.792395|multiclickdebug|ttc|
+1535573767.916388|multiclickdebug|ttc|
+1535573768.866251|multiclickdebug|ttc|
+1535573769.022266|multiclickdebug|ttc|
+1535573770.808202|multiclickdebug|ttc|
+1535573770.972084|multiclickdebug|ttc|
+1535573777.348064|multiclickdebug|ttc|
+1535573777.552034|multiclickdebug|ttc|
+1535573777.990042|multiclickdebug|ttc|
+1535573778.116039|multiclickdebug|ttc|
+1535573779.583872|multiclickdebug|ttc|
+1535573779.731970|multiclickdebug|ttc|
+1535573781.550016|multiclickdebug|ttc|
+1535573781.667799|multiclickdebug|ttc|
+1535573783.375852|multiclickdebug|ttc|
+1535573783.569860|multiclickdebug|ttc|
+1535573873.974623|multiclickdebug|ttc|
+1535573873.990993|swi|check device class|
+1535573873.991020|swi|shortcuts used|
+1535573873.993695|short|register all hotkeys for current app|
+1535573874.116536|multiclickdebug|ttc|
+1535573874.782587|multiclickdebug|ttc|
+1535573874.922481|multiclickdebug|ttc|
+1535573880.939848|multiclickdebug|ttc|
+1535573881.047910|multiclickdebug|ttc|
+1535573882.919999|multiclickdebug|ttc|
+1535573883.110047|multiclickdebug|ttc|
+1535573890.522696|swi|check device class|
+1535573890.522725|swi|shortcuts used|
+1535573890.525968|short|register all hotkeys for current app|
+1535573911.225804|swi|check device class|
+1535573911.225825|swi|shortcuts used|
+1535573911.229054|short|register all hotkeys for current app|
+1535573911.493313|short|register all hotkeys for current app|
+1535573964.022652|multiclickdebug|ttc|
+1535573964.218473|multiclickdebug|ttc|
+1535573965.036518|multiclickdebug|ttc|
+1535573965.208633|multiclickdebug|ttc|
+1535573985.003149|multiclickdebug|ttc|
+1535573985.139088|multiclickdebug|ttc|
+1535573985.441489|swi|check device class|
+1535573985.441510|swi|shortcuts used|
+1535573985.444916|short|register all hotkeys for current app|
+1535573985.859962|short|register all hotkeys for current app|
+1535573990.322999|multiclickdebug|ttc|
+1535573990.489086|multiclickdebug|ttc|
+1535573993.710932|multiclickdebug|ttc|
+1535573993.867178|multiclickdebug|ttc|
+1535574004.284773|multiclickdebug|ttc|
+1535574005.084737|multiclickdebug|ttc|
+1535574006.818723|multiclickdebug|ttc|
+1535574006.984585|multiclickdebug|ttc|
+1535574008.432540|multiclickdebug|ttc|
+1535574008.612648|multiclickdebug|ttc|
+1535574008.734556|swi|check device class|
+1535574008.734581|swi|shortcuts used|
+1535574008.737689|short|register all hotkeys for current app|
+1535574009.129884|swi|check device class|
+1535574009.129900|swi|shortcuts used|
+1535574009.132280|short|register all hotkeys for current app|
+1535574012.226547|multiclickdebug|ttc|
+1535574012.338421|multiclickdebug|ttc|
+1535574014.556534|multiclickdebug|ttc|
+1535574014.714490|multiclickdebug|ttc|
+1535574015.199867|swi|check device class|
+1535574015.199885|swi|shortcuts used|
+1535574015.202984|short|register all hotkeys for current app|
+1535574015.231108|swi|check device class|
+1535574015.231129|swi|shortcuts used|
+1535574015.233884|short|register all hotkeys for current app|
+1535574016.116465|multiclickdebug|ttc|
+1535574016.296463|multiclickdebug|ttc|
+1535574041.777078|multiclickdebug|ttc|
+1535574041.941116|multiclickdebug|ttc|
+1535574051.325425|multiclickdebug|ttc|
+1535574051.521387|multiclickdebug|ttc|
+1535574059.499203|multiclickdebug|ttc|
+1535574063.869066|multiclickdebug|ttc|
+1535574080.360925|multiclickdebug|ttc|
+1535574080.386862|swi|check device class|
+1535574080.386882|swi|shortcuts used|
+1535574080.389268|short|register all hotkeys for current app|
+1535574080.492812|multiclickdebug|ttc|
+1535574084.656647|multiclickdebug|ttc|
+1535574084.804818|multiclickdebug|ttc|
+1535574086.846558|multiclickdebug|ttc|
+1535574086.970703|multiclickdebug|ttc|
+1535574139.733962|swi|check device class|
+1535574139.733979|swi|shortcuts used|
+1535574139.736944|short|register all hotkeys for current app|
+1535574144.967826|swi|check device class|
+1535574144.967849|swi|shortcuts used|
+1535574144.972143|short|register all hotkeys for current app|
+1535574457.073992|swi|check device class|
+1535574457.074010|swi|shortcuts used|
+1535574457.076713|short|register all hotkeys for current app|
+1535574472.760606|swi|check device class|
+1535574472.760625|swi|shortcuts used|
+1535574472.763265|short|register all hotkeys for current app|
+1535574475.729747|swi|check device class|
+1535574475.729770|swi|shortcuts used|
+1535574475.734479|short|register all hotkeys for current app|
+1535574478.710346|swi|check device class|
+1535574478.710365|swi|shortcuts used|
+1535574478.713017|short|register all hotkeys for current app|
+1535574517.713896|multiclickdebug|ttc|
+1535574517.816028|multiclickdebug|ttc|
+1535574528.582333|swi|check device class|
+1535574528.582353|swi|shortcuts used|
+1535574528.586486|short|register all hotkeys for current app|
+1535574528.841907|short|register all hotkeys for current app|
+1535574582.541051|swi|check device class|
+1535574582.541075|swi|shortcuts used|
+1535574582.544218|short|register all hotkeys for current app|
+1535574583.376764|swi|check device class|
+1535574583.376786|swi|shortcuts used|
+1535574583.379414|short|register all hotkeys for current app|
+1535574584.494063|swi|check device class|
+1535574584.494080|swi|shortcuts used|
+1535574584.496514|short|register all hotkeys for current app|
+1535574585.472681|swi|check device class|
+1535574585.472718|swi|shortcuts used|
+1535574585.477134|short|register all hotkeys for current app|
+1535574587.859178|swi|check device class|
+1535574587.859195|swi|shortcuts used|
+1535574587.862152|short|register all hotkeys for current app|
+1535574594.895413|swi|check device class|
+1535574594.895429|swi|shortcuts used|
+1535574594.898184|short|register all hotkeys for current app|
+1535574595.556656|swi|check device class|
+1535574595.556685|swi|shortcuts used|
+1535574595.561166|short|register all hotkeys for current app|
+1535574600.360923|swi|check device class|
+1535574600.360948|swi|shortcuts used|
+1535574600.363649|short|register all hotkeys for current app|
+1535574601.131965|swi|check device class|
+1535574601.131983|swi|shortcuts used|
+1535574601.134974|short|register all hotkeys for current app|
+1535574698.860228|swi|check device class|
+1535574698.860248|swi|shortcuts used|
+1535574698.869022|short|register all hotkeys for current app|
+1535574699.471846|swi|check device class|
+1535574699.471866|swi|shortcuts used|
+1535574699.474999|short|register all hotkeys for current app|
+1535574700.606374|swi|check device class|
+1535574700.606390|swi|shortcuts used|
+1535574700.609231|short|register all hotkeys for current app|
+1535574701.531937|swi|check device class|
+1535574701.531962|swi|shortcuts used|
+1535574701.538828|short|register all hotkeys for current app|
+1535574748.976154|swi|check device class|
+1535574748.976170|swi|shortcuts used|
+1535574748.978882|short|register all hotkeys for current app|
+1535574761.046499|swi|check device class|
+1535574761.046518|swi|shortcuts used|
+1535574761.049169|short|register all hotkeys for current app|
+1535574818.060042|multiclickdebug|ttc|
+1535574819.490001|multiclickdebug|ttc|
+1535574820.569843|multiclickdebug|ttc|
+1535574820.749892|multiclickdebug|ttc|
+1535574822.499852|multiclickdebug|ttc|
+1535574822.524136|swi|check device class|
+1535574822.524154|swi|shortcuts used|
+1535574822.527193|short|register all hotkeys for current app|
+1535574822.671767|multiclickdebug|ttc|
+1535574822.724148|swi|check device class|
+1535574822.724176|swi|shortcuts used|
+1535574822.727524|short|register all hotkeys for current app|
+1535574827.856925|multiclickdebug|ttc|
+1535574827.934910|multiclickdebug|ttc|
+1535574834.107723|swi|check device class|
+1535574834.107739|swi|shortcuts used|
+1535574834.110457|short|register all hotkeys for current app|
+1535574835.758659|multiclickdebug|ttc|
+1535574835.938698|multiclickdebug|ttc|
+1535574855.382889|multiclickdebug|ttc|
+1535574855.556771|multiclickdebug|ttc|
+1535574903.649126|swi|check device class|
+1535574903.649143|swi|shortcuts used|
+1535574903.651813|short|register all hotkeys for current app|
+1535574904.499783|swi|check device class|
+1535574904.499806|swi|shortcuts used|
+1535574904.502768|short|register all hotkeys for current app|
+1535575036.572141|multiclickdebug|ttc|
+1535575036.782159|multiclickdebug|ttc|
+1535575041.861971|multiclickdebug|ttc|
+1535575042.049960|multiclickdebug|ttc|
+1535575043.817793|multiclickdebug|ttc|
+1535575043.959963|multiclickdebug|ttc|
+1535575446.771501|swi|check device class|
+1535575446.771524|swi|shortcuts used|
+1535575446.774741|short|register all hotkeys for current app|
+1535575449.444596|swi|check device class|
+1535575449.444613|swi|shortcuts used|
+1535575449.448735|short|register all hotkeys for current app|
+1535575498.145941|swi|check device class|
+1535575498.145958|swi|shortcuts used|
+1535575498.148391|short|register all hotkeys for current app|
+1535575498.974185|swi|check device class|
+1535575498.974216|swi|shortcuts used|
+1535575498.976999|short|register all hotkeys for current app|
+1535575505.374077|swi|check device class|
+1535575505.374097|swi|shortcuts used|
+1535575505.377103|short|register all hotkeys for current app|
+1535575615.286287|multiclickdebug|ttc|
+1535575615.345079|swi|check device class|
+1535575615.345107|swi|shortcuts used|
+1535575615.347799|short|register all hotkeys for current app|
+1535575615.444301|multiclickdebug|ttc|
+1535575617.710150|multiclickdebug|ttc|
+1535575617.890203|multiclickdebug|ttc|
+1535575642.182134|swi|check device class|
+1535575642.182151|swi|shortcuts used|
+1535575642.184649|short|register all hotkeys for current app|
+1535575643.453376|swi|check device class|
+1535575643.453396|swi|shortcuts used|
+1535575643.457504|short|register all hotkeys for current app|
+1535575649.983927|swi|check device class|
+1535575649.983958|swi|shortcuts used|
+1535575649.986545|short|register all hotkeys for current app|
+1535575651.719786|swi|check device class|
+1535575651.719803|swi|shortcuts used|
+1535575651.722128|short|register all hotkeys for current app|
+1535575655.753289|swi|check device class|
+1535575655.753306|swi|shortcuts used|
+1535575655.755920|short|register all hotkeys for current app|
+1535575656.654842|swi|check device class|
+1535575656.654859|swi|shortcuts used|
+1535575656.658319|short|register all hotkeys for current app|
+1535575683.021254|swi|check device class|
+1535575683.021273|swi|shortcuts used|
+1535575683.023921|short|register all hotkeys for current app|
+1535575684.085341|swi|check device class|
+1535575684.085359|swi|shortcuts used|
+1535575684.088561|short|register all hotkeys for current app|
+1535575833.234675|multiclickdebug|ttc|
+1535575833.420634|multiclickdebug|ttc|
+1535575834.796522|multiclickdebug|ttc|
+1535575834.976593|multiclickdebug|ttc|
+1535575852.120700|multiclickdebug|ttc|
+1535575852.314572|multiclickdebug|ttc|
+1535575855.508727|swi|check device class|
+1535575855.508749|swi|shortcuts used|
+1535575855.511483|short|register all hotkeys for current app|
+1535575866.964316|multiclickdebug|ttc|
+1535575867.144193|multiclickdebug|ttc|
+1535575869.842111|multiclickdebug|ttc|
+1535575870.014098|multiclickdebug|ttc|
+1535575872.944040|multiclickdebug|ttc|
+1535575873.108048|multiclickdebug|ttc|
+1535575875.911979|multiclickdebug|ttc|
+1535575876.059869|multiclickdebug|ttc|
+1535575882.061538|multiclickdebug|ttc|
+1535575882.201626|multiclickdebug|ttc|
+1535575887.402757|multiclickdebug|ttc|
+1535575887.685424|multiclickdebug|ttc|
+1535575888.669511|multiclickdebug|ttc|
+1535575888.847500|multiclickdebug|ttc|
+1535575927.621587|swi|check device class|
+1535575927.621610|swi|shortcuts used|
+1535575927.624676|short|register all hotkeys for current app|
+1535575928.667254|swi|check device class|
+1535575928.667290|swi|shortcuts used|
+1535575928.670837|short|register all hotkeys for current app|
+1535575930.002830|swi|check device class|
+1535575930.002866|swi|shortcuts used|
+1535575930.005541|short|register all hotkeys for current app|
+1535575932.023633|swi|check device class|
+1535575932.023650|swi|shortcuts used|
+1535575932.026599|short|register all hotkeys for current app|
+1535575932.984610|swi|check device class|
+1535575932.984649|swi|shortcuts used|
+1535575932.989398|short|register all hotkeys for current app|
+1535575940.185851|swi|check device class|
+1535575940.185874|swi|shortcuts used|
+1535575940.188693|short|register all hotkeys for current app|
+1535575942.956141|swi|check device class|
+1535575942.956166|swi|shortcuts used|
+1535575942.958744|short|register all hotkeys for current app|
+1535575944.350830|swi|check device class|
+1535575944.350851|swi|shortcuts used|
+1535575944.353804|short|register all hotkeys for current app|
+1535575944.958133|swi|check device class|
+1535575944.958165|swi|shortcuts used|
+1535575944.960850|short|register all hotkeys for current app|
+1535575953.928989|swi|check device class|
+1535575953.929006|swi|shortcuts used|
+1535575953.933011|short|register all hotkeys for current app|
+1535575975.075990|swi|check device class|
+1535575975.076012|swi|shortcuts used|
+1535575975.080120|short|register all hotkeys for current app|
+1535575975.380371|short|register all hotkeys for current app|
+1535575975.408046|short|register all hotkeys for current app|
+1535575979.066324|multiclickdebug|ttc|
+1535575979.316329|multiclickdebug|ttc|
+1535575985.812416|multiclickdebug|ttc|
+1535575985.954264|multiclickdebug|ttc|
+1535575997.317132|multiclickdebug|ttc|
+1535575997.537219|multiclickdebug|ttc|
+1535576010.226950|multiclickdebug|ttc|
+1535576010.328701|multiclickdebug|ttc|
+1535576015.448710|multiclickdebug|ttc|
+1535576015.580714|multiclickdebug|ttc|
+1535576017.750635|multiclickdebug|ttc|
+1535576017.906684|multiclickdebug|ttc|
+1535576018.454494|multiclickdebug|ttc|
+1535576018.572591|multiclickdebug|ttc|
+1535576027.796471|multiclickdebug|ttc|
+1535576027.944440|multiclickdebug|ttc|
+1535576028.243908|swi|check device class|
+1535576028.243924|swi|shortcuts used|
+1535576028.246427|short|register all hotkeys for current app|
+1535576038.104191|multiclickdebug|ttc|
+1535576038.122103|swi|check device class|
+1535576038.122124|swi|shortcuts used|
+1535576038.125052|short|register all hotkeys for current app|
+1535576038.243999|multiclickdebug|ttc|
+1535576058.596582|multiclickdebug|ttc|
+1535576058.754864|multiclickdebug|ttc|
+1535576058.785818|swi|check device class|
+1535576058.785835|swi|shortcuts used|
+1535576058.788337|short|register all hotkeys for current app|
+1535576175.479516|multiclickdebug|ttc|
+1535576175.498285|swi|check device class|
+1535576175.498305|swi|shortcuts used|
+1535576175.501293|short|register all hotkeys for current app|
+1535576175.589517|multiclickdebug|ttc|
+1535576177.993549|multiclickdebug|ttc|
+1535576178.189476|multiclickdebug|ttc|
+1535576178.987444|multiclickdebug|ttc|
+1535576179.081288|multiclickdebug|ttc|
+1535576182.005464|multiclickdebug|ttc|
+1535576182.131224|multiclickdebug|ttc|
+1535576186.617129|swi|check device class|
+1535576186.617151|swi|shortcuts used|
+1535576186.620116|short|register all hotkeys for current app|
+1535576189.774382|swi|check device class|
+1535576189.774403|swi|shortcuts used|
+1535576189.784567|short|register all hotkeys for current app|
+1535576192.919372|swi|check device class|
+1535576192.919389|swi|shortcuts used|
+1535576192.922200|short|register all hotkeys for current app|
+1535576205.861329|swi|check device class|
+1535576205.861348|swi|shortcuts used|
+1535576205.864115|short|register all hotkeys for current app|
+1535576210.618507|swi|check device class|
+1535576210.618528|swi|shortcuts used|
+1535576210.621281|short|register all hotkeys for current app|
+1535576212.874273|swi|check device class|
+1535576212.874291|swi|shortcuts used|
+1535576212.877101|short|register all hotkeys for current app|
+1535576213.678542|swi|check device class|
+1535576213.678562|swi|shortcuts used|
+1535576213.681968|short|register all hotkeys for current app|
+1535576216.266464|multiclickdebug|ttc|
+1535576216.384501|multiclickdebug|ttc|
+1535576216.689076|swi|check device class|
+1535576216.689091|swi|shortcuts used|
+1535576216.691575|short|register all hotkeys for current app|
+1535576252.772497|multiclickdebug|ttc|
+1535576252.809298|swi|check device class|
+1535576252.809316|swi|shortcuts used|
+1535576252.812554|short|register all hotkeys for current app|
+1535576252.906531|multiclickdebug|ttc|
+1535576253.648509|multiclickdebug|ttc|
+1535576253.728444|multiclickdebug|ttc|
+1535576319.569800|multiclickdebug|ttc|
+1535576319.655903|multiclickdebug|ttc|
+1535576319.956054|swi|check device class|
+1535576319.956075|swi|shortcuts used|
+1535576319.958639|short|register all hotkeys for current app|
+1535576354.815968|swi|check device class|
+1535576354.815992|swi|shortcuts used|
+1535576354.819500|short|register all hotkeys for current app|
+1535576355.651395|swi|check device class|
+1535576355.651426|swi|shortcuts used|
+1535576355.654203|short|register all hotkeys for current app|
+1535576384.121896|swi|check device class|
+1535576384.121923|swi|shortcuts used|
+1535576384.127004|short|register all hotkeys for current app|
+1535576418.969864|multiclickdebug|ttc|
+1535576419.063723|multiclickdebug|ttc|
+1535576419.367679|swi|check device class|
+1535576419.367698|swi|shortcuts used|
+1535576419.370238|short|register all hotkeys for current app|
+1535576444.366155|multiclickdebug|ttc|
+1535576444.387269|swi|check device class|
+1535576444.387290|swi|shortcuts used|
+1535576444.390039|short|register all hotkeys for current app|
+1535576444.500097|multiclickdebug|ttc|
+1535576483.593182|multiclickdebug|ttc|
+1535576483.719311|multiclickdebug|ttc|
+1535576484.023863|swi|check device class|
+1535576484.023881|swi|shortcuts used|
+1535576484.026424|short|register all hotkeys for current app|
+1535576498.660371|multiclickdebug|ttc|
+1535576498.679167|swi|check device class|
+1535576498.679186|swi|shortcuts used|
+1535576498.681821|short|register all hotkeys for current app|
+1535576498.802114|multiclickdebug|ttc|
+1535576523.896317|swi|check device class|
+1535576523.896335|swi|shortcuts used|
+1535576523.899132|short|register all hotkeys for current app|
+1535576532.819506|multiclickdebug|ttc|
+1535576532.937442|multiclickdebug|ttc|
+1535576538.788271|swi|check device class|
+1535576538.788292|swi|shortcuts used|
+1535576538.792347|short|register all hotkeys for current app|
+1535576539.800586|swi|check device class|
+1535576539.800610|swi|shortcuts used|
+1535576539.803406|short|register all hotkeys for current app|
+1535576549.289570|swi|check device class|
+1535576549.289585|swi|shortcuts used|
+1535576549.292042|short|register all hotkeys for current app|
+1535576554.684220|swi|check device class|
+1535576554.684264|swi|shortcuts used|
+1535576554.686966|short|register all hotkeys for current app|
+1535576560.589652|swi|check device class|
+1535576560.589671|swi|shortcuts used|
+1535576560.592416|short|register all hotkeys for current app|
+1535576561.904560|multiclickdebug|ttc|
+1535576562.036722|multiclickdebug|ttc|
+1535576581.723686|swi|check device class|
+1535576581.723706|swi|shortcuts used|
+1535576581.726557|short|register all hotkeys for current app|
+1535576612.447334|swi|check device class|
+1535576612.447351|swi|shortcuts used|
+1535576612.450268|short|register all hotkeys for current app|
+1535576641.403651|multiclickdebug|ttc|
+1535576641.491752|multiclickdebug|ttc|
+1535576643.377823|multiclickdebug|ttc|
+1535576643.493867|multiclickdebug|ttc|
+1535576653.015818|multiclickdebug|ttc|
+1535576653.109650|multiclickdebug|ttc|
+1535576653.719820|multiclickdebug|ttc|
+1535576653.813809|multiclickdebug|ttc|
+1535576655.981696|multiclickdebug|ttc|
+1535576656.161793|multiclickdebug|ttc|
+1535576656.735802|multiclickdebug|ttc|
+1535576656.905796|multiclickdebug|ttc|
+1535576657.583891|multiclickdebug|ttc|
+1535576657.731909|multiclickdebug|ttc|
+1535576658.475758|multiclickdebug|ttc|
+1535576658.607781|multiclickdebug|ttc|
+1535576791.694290|multiclickdebug|ttc|
+1535576791.802135|multiclickdebug|ttc|
+1535576805.003838|multiclickdebug|ttc|
+1535576805.111708|multiclickdebug|ttc|
+1535576815.111577|multiclickdebug|ttc|
+1535576815.259608|multiclickdebug|ttc|
+1535576818.305432|multiclickdebug|ttc|
+1535576818.469431|multiclickdebug|ttc|
+1535576822.693258|multiclickdebug|ttc|
+1535576822.833385|multiclickdebug|ttc|
+1535576833.168862|multiclickdebug|ttc|
+1535576833.285127|multiclickdebug|ttc|
+1535576833.589835|swi|check device class|
+1535576833.589855|swi|shortcuts used|
+1535576833.592478|short|register all hotkeys for current app|
+1535576887.136386|swi|check device class|
+1535576887.136406|swi|shortcuts used|
+1535576887.139760|short|register all hotkeys for current app|
+1535576887.950204|swi|check device class|
+1535576887.950220|swi|shortcuts used|
+1535576887.953179|short|register all hotkeys for current app|
+1535576901.594965|multiclickdebug|ttc|
+1535576901.704956|multiclickdebug|ttc|
+1535576904.252964|multiclickdebug|ttc|
+1535576904.377004|multiclickdebug|ttc|
+1535576914.204532|swi|check device class|
+1535576914.204549|swi|shortcuts used|
+1535576914.207476|short|register all hotkeys for current app|
+1535576915.651768|swi|check device class|
+1535576915.651791|swi|shortcuts used|
+1535576915.654837|short|register all hotkeys for current app|
+1535576918.497008|multiclickdebug|ttc|
+1535576918.620859|multiclickdebug|ttc|
+1535577377.486119|swi|check device class|
+1535577377.486146|swi|shortcuts used|
+1535577377.489662|short|register all hotkeys for current app|
+1535577389.093960|swi|check device class|
+1535577389.093981|swi|shortcuts used|
+1535577389.096893|short|register all hotkeys for current app|
+1535577486.174331|multiclickdebug|ttc|
+1535577486.211271|swi|check device class|
+1535577486.211288|swi|shortcuts used|
+1535577486.214188|short|register all hotkeys for current app|
+1535577486.324245|multiclickdebug|ttc|
+1535577487.948035|multiclickdebug|ttc|
+1535577488.088192|multiclickdebug|ttc|
+1535577490.828186|multiclickdebug|ttc|
+1535577490.984103|multiclickdebug|ttc|
+1535577494.329060|swi|check device class|
+1535577494.329083|swi|shortcuts used|
+1535577494.333070|short|register all hotkeys for current app|
+1535577494.534618|swi|check device class|
+1535577494.534640|swi|shortcuts used|
+1535577494.537411|short|register all hotkeys for current app|
+1535577494.628147|swi|check device class|
+1535577494.628167|swi|shortcuts used|
+1535577494.630762|short|register all hotkeys for current app|
+1535577652.941626|swi|check device class|
+1535577652.941644|swi|shortcuts used|
+1535577652.942152|SEC|SecureInputActive com.apple.SecurityAgent 49375|
+1535577652.943079|short|register disable hotkeys|
+1535577652.944067|short|register all hotkeys for current app|
+1535577652.946333|short|register all hotkeys for current app|
+1535577652.969589|swi|check device class|
+1535577652.969609|swi|shortcuts used|
+1535577652.969914|SEC|SecureInputDisabled com.apple.SecurityAgent|
+1535577652.975797|short|register all hotkeys|
+1535577652.978454|short|register all hotkeys for current app|
+1535577674.378243|swi|check device class|
+1535577674.378263|swi|shortcuts used|
+1535577674.380858|short|register all hotkeys for current app|
+1535577763.212368|swi|check device class|
+1535577763.212395|swi|shortcuts used|
+1535577763.214962|short|register all hotkeys for current app|
+1535577787.165704|swi|check device class|
+1535577787.165726|swi|shortcuts used|
+1535577787.169806|short|register all hotkeys for current app|
+1535577787.247994|M|checking|
+1535577787.520962|short|register all hotkeys for current app|
+1535577828.493123|M|checking|
+1535577828.508954|swi|check device class|
+1535577828.508975|swi|shortcuts used|
+1535577828.513253|short|register all hotkeys for current app|
+1535577831.814734|swi|check device class|
+1535577831.814751|swi|shortcuts used|
+1535577831.817819|short|register all hotkeys for current app|
+1535577833.397234|swi|check device class|
+1535577833.397250|swi|shortcuts used|
+1535577833.400150|short|register all hotkeys for current app|
+1535577834.571416|swi|check device class|
+1535577834.571461|swi|shortcuts used|
+1535577834.574247|short|register all hotkeys for current app|
+1535577864.622175|multiclickdebug|ttc|
+1535577864.762364|multiclickdebug|ttc|
+1535577868.154274|multiclickdebug|ttc|
+1535577868.272303|multiclickdebug|ttc|
+1535577871.407970|multiclickdebug|ttc|
+1535577871.532219|multiclickdebug|ttc|
+1535577874.579828|multiclickdebug|ttc|
+1535577874.682023|multiclickdebug|ttc|
+1535577886.834837|multiclickdebug|ttc|
+1535577886.958724|multiclickdebug|ttc|
+1535577895.648346|multiclickdebug|ttc|
+1535577895.764610|multiclickdebug|ttc|
+1535577897.818302|multiclickdebug|ttc|
+1535577897.952451|multiclickdebug|ttc|
+1535577979.657739|multiclickdebug|ttc|
+1535577979.853649|multiclickdebug|ttc|
+1535577993.222447|multiclickdebug|ttc|
+1535577993.364453|multiclickdebug|ttc|
+1535578005.812413|multiclickdebug|ttc|
+1535578006.054683|multiclickdebug|ttc|
+1535578008.583520|swi|check device class|
+1535578008.583560|swi|shortcuts used|
+1535578008.588403|short|register all hotkeys for current app|
+1535578009.218293|swi|check device class|
+1535578009.218308|swi|shortcuts used|
+1535578009.221139|short|register all hotkeys for current app|
+1535578010.205810|swi|check device class|
+1535578010.205834|swi|shortcuts used|
+1535578010.208323|short|register all hotkeys for current app|
+1535578030.656301|swi|check device class|
+1535578030.656318|swi|shortcuts used|
+1535578030.659116|short|register all hotkeys for current app|
+1535578031.608335|swi|check device class|
+1535578031.608353|swi|shortcuts used|
+1535578031.611249|short|register all hotkeys for current app|
+1535578032.543881|swi|check device class|
+1535578032.543901|swi|shortcuts used|
+1535578032.547059|short|register all hotkeys for current app|
+1535578055.311335|multiclickdebug|ttc|
+1535578055.491205|multiclickdebug|ttc|
+1535578065.437190|multiclickdebug|ttc|
+1535578065.594968|multiclickdebug|ttc|
+1535578081.976526|multiclickdebug|ttc|
+1535578082.452351|multiclickdebug|ttc|
+1535578083.918561|multiclickdebug|ttc|
+1535578084.044282|multiclickdebug|ttc|
+1535578085.704360|multiclickdebug|ttc|
+1535578085.946510|multiclickdebug|ttc|
+1535578099.240444|multiclickdebug|ttc|
+1535578099.390412|multiclickdebug|ttc|
+1535578102.972421|multiclickdebug|ttc|
+1535578103.128492|multiclickdebug|ttc|
+1535578104.184382|multiclickdebug|ttc|
+1535578104.308380|multiclickdebug|ttc|
+1535578113.999976|multiclickdebug|ttc|
+1535578114.194222|multiclickdebug|ttc|
+1535578116.267890|multiclickdebug|ttc|
+1535578116.456148|multiclickdebug|ttc|
+1535578119.653859|multiclickdebug|ttc|
+1535578119.841778|multiclickdebug|ttc|
+1535578145.941043|multiclickdebug|ttc|
+1535578146.074962|multiclickdebug|ttc|
+1535578147.381028|multiclickdebug|ttc|
+1535578147.513041|multiclickdebug|ttc|
+1535578151.886922|multiclickdebug|ttc|
+1535578152.026929|multiclickdebug|ttc|
+1535578181.192626|multiclickdebug|ttc|
+1535578181.530650|multiclickdebug|ttc|
+1535578188.362433|multiclickdebug|ttc|
+1535578188.542423|multiclickdebug|ttc|
+1535578195.640017|multiclickdebug|ttc|
+1535578195.806230|multiclickdebug|ttc|
+1535578197.055966|multiclickdebug|ttc|
+1535578197.166215|multiclickdebug|ttc|
+1535578261.697374|multiclickdebug|ttc|
+1535578261.845368|multiclickdebug|ttc|
+1535578378.568719|swi|check device class|
+1535578378.568756|swi|shortcuts used|
+1535578378.573334|short|register all hotkeys for current app|
+1535578379.968196|swi|check device class|
+1535578379.968218|swi|shortcuts used|
+1535578379.971663|short|register all hotkeys for current app|
+1535578385.772559|swi|check device class|
+1535578385.772576|swi|shortcuts used|
+1535578385.775262|short|register all hotkeys for current app|
+1535578390.769987|swi|check device class|
+1535578390.770011|swi|shortcuts used|
+1535578390.772943|short|register all hotkeys for current app|
+1535578506.157956|swi|check device class|
+1535578506.157974|swi|shortcuts used|
+1535578506.160573|short|register all hotkeys for current app|
+1535578580.628856|swi|check device class|
+1535578580.628876|swi|shortcuts used|
+1535578580.633094|short|register all hotkeys for current app|
+1535578630.601098|swi|check device class|
+1535578630.601123|swi|shortcuts used|
+1535578630.604105|short|register all hotkeys for current app|
+1535578636.294083|multiclickdebug|ttc|
+1535578636.406281|multiclickdebug|ttc|
+1535578639.626419|multiclickdebug|ttc|
+1535578639.758410|multiclickdebug|ttc|
+1535578640.055787|swi|check device class|
+1535578640.055809|swi|shortcuts used|
+1535578640.058311|short|register all hotkeys for current app|
+1535578814.914222|swi|check device class|
+1535578814.914259|swi|shortcuts used|
+1535578814.916983|short|register all hotkeys for current app|
+1535578816.210707|swi|check device class|
+1535578816.210730|swi|shortcuts used|
+1535578816.213891|short|register all hotkeys for current app|
+1535579185.057438|swi|check device class|
+1535579185.057458|swi|shortcuts used|
+1535579185.060432|short|register all hotkeys for current app|
+1535579283.044136|swi|check device class|
+1535579283.044174|swi|shortcuts used|
+1535579283.046624|short|register all hotkeys for current app|
+1535579285.657371|swi|check device class|
+1535579285.657389|swi|shortcuts used|
+1535579285.660001|short|register all hotkeys for current app|
+1535579393.107782|SEC|SecureInputActive com.apple.Safari 9472|
+1535579393.109498|short|register disable hotkeys|
+1535579393.111150|short|register all hotkeys for current app|
+1535579396.667049|SEC|SecureInputDisabled com.apple.Safari|
+1535579396.671852|short|register all hotkeys|
+1535579396.674732|short|register all hotkeys for current app|
+1535579429.850835|swi|check device class|
+1535579429.850855|swi|shortcuts used|
+1535579429.853668|short|register all hotkeys for current app|
+1535579561.834059|multiclickdebug|ttc|
+1535579561.967973|multiclickdebug|ttc|
+1535579589.294880|multiclickdebug|ttc|
+1535579589.355979|swi|check device class|
+1535579589.356000|swi|shortcuts used|
+1535579589.359411|short|register all hotkeys for current app|
+1535579589.412858|multiclickdebug|ttc|
+1535579920.792747|swi|check device class|
+1535579920.792790|swi|shortcuts used|
+1535579920.797460|short|register all hotkeys for current app|
+1535579942.479616|WISNA|Focus doesn't match window pid|
+1535579942.596826|WISNA|Focus doesn't match window pid|
+1535579953.418745|swi|check device class|
+1535579953.418788|swi|shortcuts used|
+1535579953.423405|short|register all hotkeys for current app|
+1535579959.074946|WISNA|Focus doesn't match window pid|
+1535580001.342635|usage|loading todays usage|
+1535580002.569356|swi|check device class|
+1535580002.569375|swi|shortcuts used|
+1535580002.572004|short|register all hotkeys for current app|
+1535580016.122880|multiclickdebug|ttc|
+1535580016.178966|swi|check device class|
+1535580016.178981|swi|shortcuts used|
+1535580016.182071|short|register all hotkeys for current app|
+1535580016.262729|multiclickdebug|ttc|
+1535580019.330693|multiclickdebug|ttc|
+1535580019.486687|multiclickdebug|ttc|
+1535580492.078664|multiclickdebug|ttc|
+1535580492.314709|multiclickdebug|ttc|
+1535580507.849374|multiclickdebug|ttc|
+1535580508.021204|multiclickdebug|ttc|
+1535580513.753075|multiclickdebug|ttc|
+1535580513.927133|multiclickdebug|ttc|
+1535580649.607102|multiclickdebug|ttc|
+1535580651.132990|multiclickdebug|ttc|
+1535580652.642945|multiclickdebug|ttc|
+1535580652.940955|multiclickdebug|ttc|
+1535580654.698974|multiclickdebug|ttc|
+1535580654.918862|multiclickdebug|ttc|
+1535580655.826697|multiclickdebug|ttc|
+1535580656.108995|multiclickdebug|ttc|
+1535580657.028812|multiclickdebug|ttc|
+1535580657.208720|multiclickdebug|ttc|
+1535580812.008112|swi|check device class|
+1535580812.008134|swi|shortcuts used|
+1535580812.011031|short|register all hotkeys for current app|
+1535580822.257480|swi|check device class|
+1535580822.257500|swi|shortcuts used|
+1535580822.261893|short|register all hotkeys for current app|
+1535580822.486069|short|register all hotkeys for current app|
+1535580903.168314|multiclickdebug|ttc|
+1535580903.370150|multiclickdebug|ttc|
+1535580903.550555|swi|check device class|
+1535580903.550621|swi|shortcuts used|
+1535580903.555190|short|register all hotkeys for current app|
+1535580912.099534|swi|check device class|
+1535580912.099556|swi|shortcuts used|
+1535580912.102377|short|register all hotkeys for current app|
+1535580919.817770|swi|check device class|
+1535580919.817791|swi|shortcuts used|
+1535580919.822068|short|register all hotkeys for current app|
+1535580920.851956|short|register all hotkeys for current app|
+1535581705.592494|multiclickdebug|ttc|
+1535581705.718475|multiclickdebug|ttc|
+1535581708.428553|multiclickdebug|ttc|
+1535581708.654432|multiclickdebug|ttc|
+1535581710.678402|multiclickdebug|ttc|
+1535581710.866410|multiclickdebug|ttc|
+1535581712.512357|multiclickdebug|ttc|
+1535581712.730415|multiclickdebug|ttc|
+1535581718.372298|multiclickdebug|ttc|
+1535581718.622328|multiclickdebug|ttc|
+1535581734.100620|swi|check device class|
+1535581734.100641|swi|shortcuts used|
+1535581734.103444|short|register all hotkeys for current app|
+1535581734.112814|short|register all hotkeys for current app|
+1535581773.910028|swi|check device class|
+1535581773.910047|swi|shortcuts used|
+1535581773.914955|short|register all hotkeys for current app|
+1535581779.629685|swi|check device class|
+1535581779.629702|swi|shortcuts used|
+1535581779.632224|short|register all hotkeys for current app|
+1535581782.707240|swi|check device class|
+1535581782.707255|swi|shortcuts used|
+1535581782.710451|short|register all hotkeys for current app|
+1535581785.917770|multiclickdebug|ttc|
+1535581786.091748|multiclickdebug|ttc|
+1535581876.537188|multiclickdebug|ttc|
+1535581876.765215|multiclickdebug|ttc|
+1535581879.095188|multiclickdebug|ttc|
+1535581879.296872|multiclickdebug|ttc|
+1535581880.371168|multiclickdebug|ttc|
+1535581880.405198|swi|check device class|
+1535581880.405216|swi|shortcuts used|
+1535581880.416298|short|register all hotkeys for current app|
+1535581880.535014|multiclickdebug|ttc|
+1535581887.517479|swi|check device class|
+1535581887.517500|swi|shortcuts used|
+1535581887.520308|short|register all hotkeys for current app|
+1535581905.404807|swi|check device class|
+1535581905.404825|swi|shortcuts used|
+1535581905.407386|short|register all hotkeys for current app|
+1535581913.603076|swi|check device class|
+1535581913.603101|swi|shortcuts used|
+1535581913.606780|short|register all hotkeys for current app|
+1535581939.096943|swi|check device class|
+1535581939.096962|swi|shortcuts used|
+1535581939.106613|short|register all hotkeys for current app|
+1535581939.765631|swi|check device class|
+1535581939.765659|swi|shortcuts used|
+1535581939.769254|short|register all hotkeys for current app|
+1535581990.235232|swi|check device class|
+1535581990.235252|swi|shortcuts used|
+1535581990.238187|short|register all hotkeys for current app|
+1535581990.849576|swi|check device class|
+1535581990.849598|swi|shortcuts used|
+1535581990.852313|short|register all hotkeys for current app|
+1535582000.064580|swi|check device class|
+1535582000.064599|swi|shortcuts used|
+1535582000.067534|short|register all hotkeys for current app|
+1535582002.947650|swi|check device class|
+1535582002.947682|swi|shortcuts used|
+1535582002.951342|short|register all hotkeys for current app|
+1535582011.684330|swi|check device class|
+1535582011.684349|swi|shortcuts used|
+1535582011.687078|short|register all hotkeys for current app|
+1535582015.881982|swi|check device class|
+1535582015.882006|swi|shortcuts used|
+1535582015.885608|short|register all hotkeys for current app|
+1535583081.919265|swi|check device class|
+1535583081.919304|swi|shortcuts used|
+1535583081.921971|short|register all hotkeys for current app|
+1535583096.398993|swi|check device class|
+1535583096.399011|swi|shortcuts used|
+1535583096.401689|short|register all hotkeys for current app|
+1535583130.942019|swi|check device class|
+1535583130.942048|swi|shortcuts used|
+1535583130.944792|short|register all hotkeys for current app|
+1535583137.884045|swi|check device class|
+1535583137.884072|swi|shortcuts used|
+1535583137.886673|short|register all hotkeys for current app|
+1535583499.413017|multiclickdebug|ttc|
+1535583499.617017|multiclickdebug|ttc|
+1535583503.918169|swi|check device class|
+1535583503.918188|swi|shortcuts used|
+1535583503.921129|short|register all hotkeys for current app|
+1535583504.371483|swi|check device class|
+1535583504.371502|swi|shortcuts used|
+1535583504.374114|short|register all hotkeys for current app|
+1535583723.098049|swi|check device class|
+1535583723.098075|swi|shortcuts used|
+1535583723.101169|short|register all hotkeys for current app|
+1535583723.573939|swi|check device class|
+1535583723.573959|swi|shortcuts used|
+1535583723.577418|short|register all hotkeys for current app|
+1535583811.863112|swi|check device class|
+1535583811.863141|swi|shortcuts used|
+1535583811.865796|short|register all hotkeys for current app|
+1535583812.073784|swi|check device class|
+1535583812.073805|swi|shortcuts used|
+1535583812.076746|short|register all hotkeys for current app|
+1535583822.091711|swi|check device class|
+1535583822.091731|swi|shortcuts used|
+1535583822.094332|short|register all hotkeys for current app|
+1535583822.319733|swi|check device class|
+1535583822.319755|swi|shortcuts used|
+1535583822.324348|short|register all hotkeys for current app|
+1535583833.764397|swi|check device class|
+1535583833.764436|swi|shortcuts used|
+1535583833.767008|short|register all hotkeys for current app|
+1535583835.195759|swi|check device class|
+1535583835.195779|swi|shortcuts used|
+1535583835.199729|short|register all hotkeys for current app|
+1535583835.206329|short|register all hotkeys for current app|
+1535583848.929650|swi|check device class|
+1535583848.929672|swi|shortcuts used|
+1535583848.932546|short|register all hotkeys for current app|
+1535583855.484737|swi|check device class|
+1535583855.484759|swi|shortcuts used|
+1535583855.488951|short|register all hotkeys for current app|
+1535583993.559507|multiclickdebug|ttc|
+1535583993.765665|multiclickdebug|ttc|
+1535584027.264416|multiclickdebug|ttc|
+1535584027.474521|multiclickdebug|ttc|
+1535584028.564393|multiclickdebug|ttc|
+1535584028.742389|multiclickdebug|ttc|
+1535584032.142826|swi|check device class|
+1535584032.142850|swi|shortcuts used|
+1535584032.146652|short|register all hotkeys for current app|
+1535584037.046351|multiclickdebug|ttc|
+1535584037.218286|multiclickdebug|ttc|
+1535584037.542866|swi|check device class|
+1535584037.542890|swi|shortcuts used|
+1535584037.545622|short|register all hotkeys for current app|
+1535584042.100217|multiclickdebug|ttc|
+1535584042.312224|multiclickdebug|ttc|
+1535584049.421927|multiclickdebug|ttc|
+1535584049.563917|multiclickdebug|ttc|
+1535584095.677610|multiclickdebug|ttc|
+1535584095.859571|multiclickdebug|ttc|
+1535584097.213432|multiclickdebug|ttc|
+1535584097.417416|multiclickdebug|ttc|
+1535584101.383395|multiclickdebug|ttc|
+1535584101.563345|multiclickdebug|ttc|
+1535584104.543242|multiclickdebug|ttc|
+1535584104.715207|multiclickdebug|ttc|
+1535584104.807401|swi|check device class|
+1535584104.807420|swi|shortcuts used|
+1535584104.810255|short|register all hotkeys for current app|
+1535584109.245228|multiclickdebug|ttc|
+1535584109.401137|multiclickdebug|ttc|
+1535584112.879102|multiclickdebug|ttc|
+1535584113.051027|multiclickdebug|ttc|
+1535584113.819099|multiclickdebug|ttc|
+1535584113.959085|multiclickdebug|ttc|
+1535584120.842773|multiclickdebug|ttc|
+1535584122.016733|multiclickdebug|ttc|
+1535584122.326836|multiclickdebug|ttc|
+1535584122.474956|multiclickdebug|ttc|
+1535584123.806946|multiclickdebug|ttc|
+1535584123.994843|multiclickdebug|ttc|
+1535584125.552763|multiclickdebug|ttc|
+1535584125.748744|multiclickdebug|ttc|
+1535584125.759027|swi|check device class|
+1535584125.759047|swi|shortcuts used|
+1535584125.762016|short|register all hotkeys for current app|
+1535584128.023158|swi|check device class|
+1535584128.023176|swi|shortcuts used|
+1535584128.025886|short|register all hotkeys for current app|
+1535584132.043277|swi|check device class|
+1535584132.043299|swi|shortcuts used|
+1535584132.046047|short|register all hotkeys for current app|
+1535584133.412579|multiclickdebug|ttc|
+1535584133.624604|multiclickdebug|ttc|
+1535584136.110629|multiclickdebug|ttc|
+1535584136.282410|multiclickdebug|ttc|
+1535584136.900214|swi|check device class|
+1535584136.900233|swi|shortcuts used|
+1535584136.904488|short|register all hotkeys for current app|
+1535584139.259802|swi|check device class|
+1535584139.259823|swi|shortcuts used|
+1535584139.264111|short|register all hotkeys for current app|
+1535584151.396107|multiclickdebug|ttc|
+1535584151.592003|multiclickdebug|ttc|
+1535584151.608552|swi|check device class|
+1535584151.608569|swi|shortcuts used|
+1535584151.611073|short|register all hotkeys for current app|
+1535584159.077767|multiclickdebug|ttc|
+1535584159.241837|multiclickdebug|ttc|
+1535584160.525959|multiclickdebug|ttc|
+1535584160.673698|multiclickdebug|ttc|
+1535584165.789612|multiclickdebug|ttc|
+1535584165.913694|multiclickdebug|ttc|
+1535584173.364268|multiclickdebug|ttc|
+1535584173.542184|multiclickdebug|ttc|
+1535584174.462241|multiclickdebug|ttc|
+1535584174.660150|multiclickdebug|ttc|
+1535584175.531852|swi|check device class|
+1535584175.531871|swi|shortcuts used|
+1535584175.534437|short|register all hotkeys for current app|
+1535584176.420036|multiclickdebug|ttc|
+1535584176.443857|swi|check device class|
+1535584176.443873|swi|shortcuts used|
+1535584176.446400|short|register all hotkeys for current app|
+1535584176.562066|multiclickdebug|ttc|
+1535584192.618002|multiclickdebug|ttc|
+1535584192.628511|swi|check device class|
+1535584192.628554|swi|shortcuts used|
+1535584192.632854|short|register all hotkeys for current app|
+1535584192.812017|multiclickdebug|ttc|
+1535584197.648410|multiclickdebug|ttc|
+1535584197.820318|multiclickdebug|ttc|
+1535584202.251899|swi|check device class|
+1535584202.251917|swi|shortcuts used|
+1535584202.254448|short|register all hotkeys for current app|
+1535584208.586200|multiclickdebug|ttc|
+1535584208.782208|multiclickdebug|ttc|
+1535584209.080794|swi|check device class|
+1535584209.080818|swi|shortcuts used|
+1535584209.083400|short|register all hotkeys for current app|
+1535584218.427903|multiclickdebug|ttc|
+1535584218.575762|multiclickdebug|ttc|
+1535584222.471771|multiclickdebug|ttc|
+1535584222.667808|multiclickdebug|ttc|
+1535584227.181551|multiclickdebug|ttc|
+1535584227.369528|multiclickdebug|ttc|
+1535584269.389990|multiclickdebug|ttc|
+1535584269.610125|multiclickdebug|ttc|
+1535584275.544407|multiclickdebug|ttc|
+1535584275.842245|multiclickdebug|ttc|
+1535584278.634292|multiclickdebug|ttc|
+1535584278.812329|multiclickdebug|ttc|
+1535584282.598269|multiclickdebug|ttc|
+1535584283.436147|multiclickdebug|ttc|
+1535584283.788313|multiclickdebug|ttc|
+1535584283.976250|multiclickdebug|ttc|
+1535584674.460728|SLEEP|WILLSLEEP|
+1535584674.461565|xw|disabling touch for internal trackpad (clamshell)|
+1535584674.906799|swi|check device class|
+1535584674.906822|swi|shortcuts used|
+1535584674.909400|short|register all hotkeys for current app|
+1535595511.847752|M|checking|
+1535595511.860961|LIC|license appears to be valid|
+1535595511.862226|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535595511.862241|LIC|short timestamp|
+1535595511.862269|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535595511.862275|LIC|using date 1524092396|
+1535595511.863444|LIC|license appears to be valid|
+1535595511.865067|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535595511.865085|LIC|short timestamp|
+1535595511.865111|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535595511.865124|lic|newest date 2018-04-18 22:59:56 +0000|
+1535595511.865127|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1535645458.665001|WAKE|DIDWAKE|
+1535645459.501755|SEC|SecureInputActive com.apple.loginwindow 125|
+1535645459.504295|short|register disable hotkeys|
+1535645459.505446|short|register all hotkeys for current app|
+1535645459.508307|short|register all hotkeys for current app|
+1535645459.508690|xw|disable|
+1535645459.510888|short|register disable hotkeys|
+1535645459.512314|short|register all hotkeys for current app|
+1535645459.838138|short|register disable hotkeys|
+1535645459.839126|short|register all hotkeys for current app|
+1535645459.840012|short|register all hotkeys|
+1535645459.853002|TERMINATE|SHOULDTERMINATE|
+1535645460.566533|usage|loading todays usage|
+1535645460.613128|ASL|[Crashlytics] Version 3.9.3 (128)|
+1535645460.625392|short|init|
+1535645460.625608|ASL|the new store already exists btt_data_store.version_2_605_build_0909|
+1535645460.637165|ASL|backup already exists OldVersionBackups1.zip|
+1535645460.650740|LIC|idate 2016-01-24 12:51:40 +0000|
+1535645460.656992|short|register all hotkeys|
+1535645460.663136|LIC|closing previous instance of BetterTouchTool relaunch|
+1535645460.667943|short|register disable hotkeys|
+1535645460.668580|short|register disable hotkeys|
+1535645460.669353|short|register all hotkeys|
+1535645460.680584|LIC|license appears to be valid|
+1535645460.681659|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535645460.681674|LIC|short timestamp|
+1535645460.681718|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535645460.681721|LIC|using date 1524092396|
+1535645460.684732|LIC|license appears to be valid|
+1535645460.685657|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535645460.685670|LIC|short timestamp|
+1535645460.685699|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535645460.685716|lic|newest date 2018-04-18 22:59:56 +0000|
+1535645460.685720|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1535645460.686905|LIC|license appears to be valid|
+1535645460.687769|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535645460.687781|LIC|short timestamp|
+1535645460.687799|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535645460.687802|LIC|using date 1524092396|
+1535645460.688608|LIC|license appears to be valid|
+1535645460.689369|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535645460.689379|LIC|short timestamp|
+1535645460.689395|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535645460.689404|lic|newest date 2018-04-18 22:59:56 +0000|
+1535645460.689407|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1535645460.690089|LIC|License is valid for this version|
+1535645460.704693|LAUNCH|DIDLaunch|
+1535645460.711230|LIC|license appears to be valid|
+1535645460.712136|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535645460.712148|LIC|short timestamp|
+1535645460.712178|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535645460.712181|LIC|using date 1524092396|
+1535645460.712945|LIC|license appears to be valid|
+1535645460.713718|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535645460.713728|LIC|short timestamp|
+1535645460.713746|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535645460.713755|lic|newest date 2018-04-18 22:59:56 +0000|
+1535645460.713758|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1535645460.738891|M|checking|
+1535645460.739469|xw|is trusted|
+1535645460.750461|short|call sharedInstance4|
+1535645460.751865|SEC|SecureInputActive com.apple.loginwindow 125|
+1535645460.759240|M|mt_stop10|
+1535645460.759334|M|checking|
+1535645460.760450|M|register internal trackpad|
+1535645460.805437|STDEV|65|
+1535645460.809518|swi|check device class|
+1535645460.809540|swi|shortcuts used|
+1535645460.809549|short|set used 1|
+1535645461.538708|LIC|license appears to be valid|
+1535645461.539669|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535645461.539681|LIC|short timestamp|
+1535645461.539712|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535645461.539716|LIC|using date 1524092396|
+1535645461.540608|LIC|license appears to be valid|
+1535645461.541473|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535645461.541485|LIC|short timestamp|
+1535645461.541505|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535645461.541514|lic|newest date 2018-04-18 22:59:56 +0000|
+1535645461.541517|lic|lict 16576476-chre8b5a37ede5b-d738b02e1f|
+1535645461.543719|webserver|init|
+1535645461.559967|M|checking|
+1535645461.575666|short|eventtap success|
+1535645461.580785|LIC|license appears to be valid|
+1535645461.581626|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|
+1535645461.581639|LIC|short timestamp|
+1535645461.581667|LIC|systemdate 2018-04-18 22:59:56 +0000|
+1535645461.581670|LIC|using date 1524092396|
+1535645461.582484|LIC|license appears to be valid|
+1535645461.583237|LIC|license dictionary {
+    CheckoutName = "Michael Scherer";
+    Email = "spam-blocker@gmx.net";
+    LicenseType = "paddle_lifetime";
+    Licenses = 1;
+    Name = "Michael Scherer";
+    OrderID = b22c945b76473aff2d59feea1bd141aa;
+    Product = BetterTouchTool;
+    Signature = <b740ade0 58fb5aa0 7c34d5b7 28cfa69b d1df20bd d09e2701 3f0f3a0b 321dd0c4 0aa32ef9 ac9c75d3 baebe32a 1a78f74c 87cc3dd8 947eb6eb a3c6d6b4 13117705 5f262bfd c3295e7f c8b73e9f f20bbc5e 5508bd19 2df6cde6 ffba1dd7 72d0af8b 8738db19 6b116a0f 36b6b768 ef392323 60ac0ce8 9c963714 e80c9f54 67253091>;
+    Timestamp = 1524092396;
+    TransactionID = "16576476-chre8b5a37ede5b-d738b02e1f";
+}|

@@ -15,6 +15,7 @@ mas
 p7zip
 pass
 pinentry-mac
+pkg-config
 pwgen
 python
 shellcheck

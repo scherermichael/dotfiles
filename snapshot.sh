@@ -7,11 +7,22 @@ pushd "${dir}" || exit 1
 
 . lib/common.sh
 
-echo "Backing up config files in 'files'..."
+echo "Backing up single config files..."
 find "./files" -type f -exec bash -c '
   target="$1"
   source="$HOME/${target#./files/}" # Replace common dir of files with $HOME
   cp -afv "$source" "$target"
+' _ {} \;
+
+echo "Backing up whole config folders..."
+find "./files" -type f -name ".syncfolder" -exec bash -c '
+  # We found a file and must get the directory from its path
+  dir=${1%/*}
+  target="${dir}"
+  source="$HOME/${dir#./files/}" # Replace common dir of files with $HOME
+  rm -rf "${target}" # Remove old target dir first
+  cp -afv "$source" "$target" # Copy all current files into target dir
+  touch "${target}/.syncfolder" # recreate trigger file
 ' _ {} \;
 
 echo "Retrieving list of installed Homebrew packages..."
