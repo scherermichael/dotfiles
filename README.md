@@ -37,6 +37,8 @@ All files that you want to copy to the local system are located under the `files
 
 If you create a directory under `files` and store an empty file `.syncfolder` in it, all files and directories under this root directory will be synced. This way you do not need to specify every single file in that directory. **Please note:** Since Git only stores files, empty directories will not be restored.
 
+If you backup a directory via `.syncfolder`, you can skip sub-directory by placing a file with the name `.nosyncfolder` into it. The sub-folder itself (containing the file `.nosyncfolder`) will be included, but all other files and directories under this sub-directory will be ignored.
+
 ### scripts
 
 The `scripts` directory contains scripts for installing software and other setup tasks. A script must end with the suffix `.sh` and its executable flag must be set.

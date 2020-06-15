@@ -15,15 +15,29 @@ find "./files" -type f -exec bash -c '
 ' _ {} \;
 
 echo "Backing up whole config folders..."
-find "./files" -type f -name ".syncfolder" -exec bash -c '
+find "./files" -type f -name ".syncfolder" -print0 | xargs -0 -n 1 bash -c '
   # We found a file and must get the directory from its path
-  dir=${1%/*}
+  dir=${1%/.syncfolder}
   target="${dir}"
   source="$HOME/${dir#./files/}" # Replace common dir of files with $HOME
+
+  # Search for skip files
+  nosync_files=$(find "${target}" -type f -name ".nosyncfolder")
+
   rm -rf "${target}" # Remove old target dir first
   cp -afv "$source" "$target" # Copy all current files into target dir
-  touch "${target}/.syncfolder" # recreate trigger file
-' _ {} \;
+  touch "${target}/.syncfolder" # recreate sync trigger file
+
+  # Remove content of folders to skip
+  OIFS=$IFS;
+  IFS="
+";
+  for file in ${nosync_files}; do
+    rm -rf "${file%/.nosyncfolder}"/* > /dev/null 2>&1
+    rm -rf "${file%/.nosyncfolder}"/.* > /dev/null 2>&1
+    touch "${file}"
+  done
+' _
 
 echo "Retrieving list of installed Homebrew packages..."
 brew leaves > scripts/20_brew/${OS}/packages.list
