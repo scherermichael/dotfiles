@@ -14,6 +14,7 @@ EditorConfig.EditorConfig
 emroussel.atom-icons
 emroussel.atomize-atom-one-dark-theme
 eriklynd.json-tools
+fcrespo82.markdown-table-formatter
 freetonik.day-night-theme-switcher
 GitHub.vscode-pull-request-github
 maty.vscode-mocha-sidebar
@@ -26,4 +27,5 @@ mushan.vscode-paste-image
 redhat.vscode-yaml
 richie5um2.vscode-sort-json
 timonwong.shellcheck
+Tory.unique-id-generator
 yzhang.markdown-all-in-one

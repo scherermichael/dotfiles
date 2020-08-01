@@ -12,6 +12,8 @@ jq
 kops
 libyaml
 mas
+mongodb/brew/mongodb-community-shell
+openshift-cli
 p7zip
 pass
 pinentry-mac
