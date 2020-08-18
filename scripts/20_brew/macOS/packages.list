@@ -19,7 +19,6 @@ pass
 pinentry-mac
 pkg-config
 pwgen
-python
 shellcheck
 terraform
 watch
