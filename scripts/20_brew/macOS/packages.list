@@ -2,7 +2,7 @@ adr-tools
 awscli
 colordiff
 docker-machine-driver-xhyve
-github/gh/gh
+gh
 git
 gnu-sed
 helm
@@ -17,7 +17,6 @@ openshift-cli
 p7zip
 pass
 pinentry-mac
-pkg-config
 pwgen
 shellcheck
 terraform
