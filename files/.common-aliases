@@ -198,7 +198,11 @@ function kcctx {
 
 alias nr="npm run"
 function nrc {
-  cp ~/.npmrc-$1 ~/.npmrc && npm cache clean -f
+  if [ -z $1 ]; then
+    cat ~/.npmrc
+  else
+    cp ~/.npmrc-$1 ~/.npmrc && npm cache clean -f
+  fi
 }
 
 alias v="vagrant"
