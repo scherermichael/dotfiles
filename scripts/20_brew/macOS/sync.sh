@@ -63,7 +63,7 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   while read -r package
   do
     echo "Installing Cask package $package..."
-    brew cask install "$package"
+    brew install --cask "$package"
 done < <(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//')
 fi
 
@@ -72,9 +72,9 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   while read -r package
   do
     echo "Uninstalling Cask package $package..."
-    brew cask uninstall --force "$package"
+    brew uninstall --cask --force "$package"
 done < <(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//')
 fi
 
 echo "Upgrading Cask package packages..."
-brew cask upgrade
+brew upgrade --cask
