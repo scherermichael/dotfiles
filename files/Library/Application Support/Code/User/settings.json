@@ -11,6 +11,12 @@
   "[plaintext]": {
     "editor.quickSuggestions": false
   },
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": false,
+    "editor.quickSuggestions": false,
+  }
   "atomKeymap.promptV3Features": true,
   "breadcrumbs.enabled": false,
   "dayNightThemeSwitcher.dayTheme": "Atom One Light",
@@ -18,11 +24,11 @@
   "debug.console.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
   "debug.console.fontSize": 14,
   "debug.toolBarLocation": "docked",
-  "diffEditor.ignoreTrimWhitespace": true,
+  "diffEditor.ignoreTrimWhitespace": false,
   "diffEditor.renderSideBySide": false,
   "disableLigatures.mode": "Line",
   "editor.fontFamily": "'FiraCode-Retina', 'SF Mono', Menlo, Monaco, 'Courier New', monospace",
-  "editor.fontLigatures": "'ss01', 'ss03'",
+  // "editor.fontLigatures": "'ss01', 'ss03'",
   "editor.fontSize": 14,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
@@ -105,7 +111,10 @@
   "git.postCommitCommand": "sync",
   "gitlens.blame.avatars": false,
   "gitlens.blame.heatmap.enabled": false,
-  "gitlens.codeLens.enabled": false,
+  "gitlens.codeLens.enabled": true,
+  "gitlens.codeLens.scopes": [
+    "document"
+  ],
   "gitlens.currentLine.enabled": false,
   "gitlens.defaultDateFormat": "YY-MM-DD hh:mm:ss",
   "gitlens.defaultDateShortFormat": "YY-MM-DD",
@@ -187,7 +196,6 @@
   "spellright.documentTypes": [
     "markdown",
     "latex",
-    "plaintext",
     "javascript",
     "shellscript",
     "yaml"
@@ -259,5 +267,6 @@
   "workbench.preferredLightColorTheme": "Atom One Light",
   "workbench.startupEditor": "none",
   "workbench.tips.enabled": false,
-  "workbench.tree.renderIndentGuides": "none"
+  "workbench.tree.renderIndentGuides": "none",
+  "editor.renderControlCharacters": false,
 }

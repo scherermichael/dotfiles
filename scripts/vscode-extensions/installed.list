@@ -17,6 +17,7 @@ eriklynd.json-tools
 fcrespo82.markdown-table-formatter
 freetonik.day-night-theme-switcher
 GitHub.vscode-pull-request-github
+hashicorp.terraform
 maty.vscode-mocha-sidebar
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
@@ -28,4 +29,5 @@ redhat.vscode-yaml
 richie5um2.vscode-sort-json
 timonwong.shellcheck
 Tory.unique-id-generator
+wmaurer.change-case
 yzhang.markdown-all-in-one
