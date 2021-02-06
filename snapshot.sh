@@ -41,7 +41,7 @@ find "./files" -type f -name ".syncfolder" -print0 | xargs -0 -n 1 bash -c '
 
 echo "Retrieving list of installed Homebrew packages..."
 brew leaves > scripts/20_brew/${OS}/packages.list
-brew cask list -1 > scripts/20_brew/${OS}/packages-cask.list
+brew list --cask -1 > scripts/20_brew/${OS}/packages-cask.list
 
 echo "Retrieving list of installed/disabled Atom plugins..."
 apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/disabled.list

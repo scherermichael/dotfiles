@@ -64,7 +64,7 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   do
     echo "Installing Cask package $package..."
     brew cask install "$package"
-done < <(brew cask list -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//')
+done < <(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//')
 fi
 
 # Deinstall no longer listed Cask packages
@@ -73,7 +73,7 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   do
     echo "Uninstalling Cask package $package..."
     brew cask uninstall --force "$package"
-done < <(brew cask list -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//')
+done < <(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//')
 fi
 
 echo "Upgrading Cask package packages..."
