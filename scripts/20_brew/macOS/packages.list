@@ -1,4 +1,5 @@
 adr-tools
+arangodb
 awscli
 azure-cli
 colordiff
@@ -16,9 +17,9 @@ mas
 mongodb/brew/mongodb-community-shell
 openshift-cli
 p7zip
+packer
 pass
 pinentry-mac
-pkg-config
 pwgen
 shellcheck
 terraform

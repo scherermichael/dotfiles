@@ -16,7 +16,7 @@
     "editor.tabSize": 2,
     "editor.autoIndent": false,
     "editor.quickSuggestions": false,
-  }
+  },
   "atomKeymap.promptV3Features": true,
   "breadcrumbs.enabled": false,
   "dayNightThemeSwitcher.dayTheme": "Atom One Light",
@@ -28,7 +28,7 @@
   "diffEditor.renderSideBySide": false,
   "disableLigatures.mode": "Line",
   "editor.fontFamily": "'FiraCode-Retina', 'SF Mono', Menlo, Monaco, 'Courier New', monospace",
-  // "editor.fontLigatures": "'ss01', 'ss03'",
+  "editor.fontLigatures": "'ss01', 'ss03'",
   "editor.fontSize": 14,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
@@ -36,7 +36,6 @@
   "editor.hover.delay": 1000,
   "editor.hover.sticky": false,
   "editor.matchBrackets": "near",
-  "editor.minimap.enabled": true,
   "editor.minimap.renderCharacters": false,
   "editor.minimap.showSlider": "always",
   "editor.multiCursorModifier": "ctrlCmd",
@@ -231,7 +230,6 @@
   "typescript.validate.enable": false,
   "update.showReleaseNotes": false,
   "window.newWindowDimensions": "maximized",
-  "window.zoomLevel": 0,
   "workbench.activityBar.visible": true,
   "workbench.colorCustomizations": {
     "[Atomize]": {
@@ -269,4 +267,5 @@
   "workbench.tips.enabled": false,
   "workbench.tree.renderIndentGuides": "none",
   "editor.renderControlCharacters": false,
+  "editor.minimap.enabled": true,
 }
