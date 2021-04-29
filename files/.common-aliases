@@ -7,6 +7,18 @@ alias -- -="cd -"
 alias a="LANG=en_US.UTF-8 atom --clear-window-state"
 alias ade="LANG=de_DE.UTF-8 atom --clear-window-state"
 
+function awscrd {
+  if [ -z $1 ]; then
+    env | grep AWS_ACCESS_KEY_ID | sort
+  else
+    name=$(echo $1 | tr '[:lower:]' '[:upper:]')
+    eval value=\$"AWS_ACCESS_KEY_ID_$name" && export AWS_ACCESS_KEY_ID=$value
+    eval value=\$"AWS_SECRET_ACCESS_KEY_$name" && export AWS_SECRET_ACCESS_KEY=$value
+    eval value=\$"AWS_DEFAULT_REGION_$name" && export AWS_DEFAULT_REGION=$value
+    echo "AWS_ACCESS_KEY_ID set to: $AWS_ACCESS_KEY_ID"
+  fi
+}
+
 alias c="code"
 
 function copyssh {
