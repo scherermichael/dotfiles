@@ -9,7 +9,8 @@ alias ade="LANG=de_DE.UTF-8 atom --clear-window-state"
 
 function awscrd {
   if [ -z $1 ]; then
-    env | grep AWS_ACCESS_KEY_ID | sort
+    # Prettify output and mark current selection with asterisk
+    env | grep AWS_ACCESS_KEY_ID_ | sort | sed "s/^AWS_ACCESS_KEY_ID_//" | sed "s/=/ /" | sed -E "s/^(.* ${AWS_ACCESS_KEY_ID})$/* \1/"
   else
     name=$(echo $1 | tr '[:lower:]' '[:upper:]')
     eval value=\$"AWS_ACCESS_KEY_ID_$name" && export AWS_ACCESS_KEY_ID=$value
