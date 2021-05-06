@@ -33,7 +33,7 @@ function copyssh {
 }
 
 alias d="docker"
-alias doco="docker-compose"
+alias doco="docker compose"
 alias dm="docker-machine"
 alias doma="docker-machine"
 function dme {

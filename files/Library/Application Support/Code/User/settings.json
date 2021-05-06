@@ -106,7 +106,7 @@
   "files.autoSave": "onFocusChange",
   "files.trimFinalNewlines": true,
   "git.autofetch": true,
-  "git.confirmSync": true,
+  "git.confirmSync": false,
   "git.postCommitCommand": "sync",
   "gitlens.blame.avatars": false,
   "gitlens.blame.heatmap.enabled": false,
@@ -267,5 +267,5 @@
   "workbench.tips.enabled": false,
   "workbench.tree.renderIndentGuides": "none",
   "editor.renderControlCharacters": false,
-  "editor.minimap.enabled": true,
+  "editor.minimap.enabled": true
 }
