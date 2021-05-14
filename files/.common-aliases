@@ -218,6 +218,14 @@ function nrc {
   fi
 }
 
+# Do not use know_host file to check connection
+function scpignore {
+  scp -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null "$@"
+}
+function sshignore {
+  ssh -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null "$@"
+}
+
 alias v="vagrant"
 alias vr="vagrant resume"
 alias vs="vagrant suspend"
