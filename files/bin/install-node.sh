@@ -22,6 +22,7 @@ npm config set save-exact true
 modules="
 forany
 fx
+hygen
 npm-check-updates
 rtm-cli
 serverless
