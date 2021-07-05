@@ -226,6 +226,15 @@ function sshignore {
   ssh -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null "$@"
 }
 
+function ts {
+  if [ -z ${1} ]; then
+    echo "Decode timestamp."
+    echo "Usage: ts <timestamp>"
+  else
+    docker run -it --rm ubuntu:20.04 date -ud @${1:0:10}
+  fi
+}
+
 alias v="vagrant"
 alias vr="vagrant resume"
 alias vs="vagrant suspend"
