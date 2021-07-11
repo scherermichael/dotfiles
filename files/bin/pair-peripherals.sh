@@ -20,5 +20,5 @@ if [ -z "${TRACKPAD_ADDRESS}" ]; then
   exit 1
 fi
 
-echo blueutil --pair "${KEYBOARD_ADDRESS}"
-echo blueutil --pair "${TRACKPAD_ADDRESS}"
+blueutil --pair "${KEYBOARD_ADDRESS}"
+blueutil --pair "${TRACKPAD_ADDRESS}"
