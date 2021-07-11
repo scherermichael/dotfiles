@@ -1,4 +1,4 @@
-export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/sbin:$HOME/bin:$PATH"
 
 if [ -f "/vagrant/dotfiles/private/environment" ]; then
   . "/vagrant/dotfiles/private/environment"
