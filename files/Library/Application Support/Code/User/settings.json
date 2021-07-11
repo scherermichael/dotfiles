@@ -14,7 +14,7 @@
   "[yaml]": {
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
-    "editor.autoIndent": false,
+    "editor.autoIndent": "none",
     "editor.quickSuggestions": false,
   },
   "atomKeymap.promptV3Features": true,
@@ -45,7 +45,6 @@
   "editor.roundedSelection": false,
   "editor.scrollBeyondLastLine": false,
   "editor.semanticHighlighting.enabled": false,
-  "editor.suggest.maxVisibleSuggestions": 5,
   "editor.suggest.showColors": false,
   "editor.suggest.showIcons": false,
   "editor.suggestOnTriggerCharacters": false,
@@ -153,7 +152,6 @@
   "gitlens.views.compare.enabled": false,
   "gitlens.views.compare.location": "scm",
   "gitlens.views.fileHistory.location": "scm",
-  "gitlens.views.lineHistory.enabled": false,
   "gitlens.views.lineHistory.location": "scm",
   "gitlens.views.repositories.location": "scm",
   "gitlens.views.search.enabled": false,
@@ -267,5 +265,7 @@
   "workbench.tips.enabled": false,
   "workbench.tree.renderIndentGuides": "none",
   "editor.renderControlCharacters": false,
-  "editor.minimap.enabled": true
+  "editor.minimap.enabled": true,
+  "redhat.telemetry.enabled": false,
+  "workbench.editor.untitled.hint": "hidden"
 }
