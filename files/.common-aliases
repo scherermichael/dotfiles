@@ -231,7 +231,7 @@ function ts {
     echo "Decode timestamp."
     echo "Usage: ts <timestamp>"
   else
-    docker run -it --rm ubuntu:20.04 date -ud @${1:0:10}
+    docker run -it --rm alpine date -ud @${1:0:10}
   fi
 }
 
