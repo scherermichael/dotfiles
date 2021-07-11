@@ -21,4 +21,7 @@ if [ -z "${TRACKPAD_ADDRESS}" ]; then
 fi
 
 blueutil --pair "${KEYBOARD_ADDRESS}"
+blueutil --connect "${KEYBOARD_ADDRESS}"
+
 blueutil --pair "${TRACKPAD_ADDRESS}"
+blueutil --connect "${TRACKPAD_ADDRESS}"
