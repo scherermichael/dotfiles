@@ -13,7 +13,7 @@ for id in ${BT_AUTOCONNECT_IDS}; do
     blueutil --pair "${id}" 0000
     blueutil --connect "${id}"
 
-    sleep 1
+    sleep 3
 
     if [ "$(blueutil --is-connected "${id}")" = "1" ]; then
       break
