@@ -1,4 +1,5 @@
 #!/bin/bash
+
 if [ -z "${BT_AUTOCONNECT_IDS}" ]; then
   echo "Error: No ids of devices to connect found."
   exit 1
@@ -11,6 +12,8 @@ for id in ${BT_AUTOCONNECT_IDS}; do
     blueutil --disconnect "${id}" >/dev/null 2>&1
     blueutil --pair "${id}" 0000
     blueutil --connect "${id}"
+
+    sleep 1
 
     if [ "$(blueutil --is-connected "${id}")" = "1" ]; then
       break
