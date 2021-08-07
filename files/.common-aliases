@@ -203,8 +203,16 @@ function kcns {
 }
 # Set Kubernetes client to new context
 function kcctx {
-  [ -n "$1" ] && kubectl config use-context "$1"
-  kubectl config get-contexts --no-headers | tr -s " " | cut -d " " -f1,2,5 | sed 's/ / | /g'
+  if [ -n "$1" ]; then
+    selection="$1"
+    if [[ $selection =~ ^[0-9]+$ ]]; then
+      # Line number entered, get context from that line
+      selection=$(kcctx | sed "${selection}q;d" | sed -e 's/^.*\| \(.*\) \|.*$/\1/')
+    fi
+    kubectl config use-context "${selection}"
+  else
+    kubectl config get-contexts --no-headers | tr -s " " | cut -d " " -f1,2,5 | sed 's/ / | /g' | sed -e 's/^ \| /  | /g' | nl -n rn -w 2 -s ' '
+  fi
 }
 
 alias nr="npm run"
