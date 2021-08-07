@@ -199,7 +199,7 @@ function kca {
 # Set Kubernetes client to new namespace
 function kcns {
   [ -n "$1" ] && kubectl config set-context --current --namespace="$1"
-  kubectl config view | grep namespace:
+  kubectl config view | grep namespace: | sed 's/^ *namespace://' | sort
 }
 # Set Kubernetes client to new context
 function kcctx {
