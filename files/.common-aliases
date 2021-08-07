@@ -198,8 +198,19 @@ function kca {
 }
 # Set Kubernetes client to new namespace
 function kcns {
-  [ -n "$1" ] && kubectl config set-context --current --namespace="$1"
-  kubectl config view | grep namespace: | sed 's/^ *namespace://' | sort
+  if [ -n "$1" ]; then
+    selection="$1"
+    if [[ $selection =~ ^[0-9]+$ ]]; then
+      # Line number entered, get context from that line
+      selection=$(kubectl get ns --no-headers -o custom-columns=NAME:.metadata.name | sed "${selection}q;d")
+    fi
+    kubectl config set-context --current --namespace="${selection}"
+    echo "Current namespace: $(kubectl config view --minify --output 'jsonpath={..namespace}'; echo)"
+  else
+    kubectl get ns --no-headers -o custom-columns=NAME:.metadata.name | nl -n rn -w 3 -s ' '
+    echo ""
+    echo "Current namespace: $(kubectl config view --minify --output 'jsonpath={..namespace}'; echo)"
+  fi
 }
 # Set Kubernetes client to new context
 function kcctx {
@@ -207,11 +218,11 @@ function kcctx {
     selection="$1"
     if [[ $selection =~ ^[0-9]+$ ]]; then
       # Line number entered, get context from that line
-      selection=$(kcctx | sed "${selection}q;d" | sed -e 's/^.*\| \(.*\) \|.*$/\1/')
+      selection=$(kubectl config get-contexts -o name --no-headers | sed "${selection}q;d")
     fi
     kubectl config use-context "${selection}"
   else
-    kubectl config get-contexts --no-headers | tr -s " " | cut -d " " -f1,2,5 | sed 's/ / | /g' | sed -e 's/^ \| /  | /g' | nl -n rn -w 2 -s ' '
+    kubectl config get-contexts --no-headers | tr -s " " | cut -d " " -f1,2,5 | sed 's/ / | /g' | sed -e 's/^ \| /  | /g' | nl -n rn -w 3 -s ' '
   fi
 }
 
