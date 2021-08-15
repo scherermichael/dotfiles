@@ -173,7 +173,7 @@ function mergemaster {
 alias prunebranches="git branch --merged master | grep -v ' master$' | xargs git branch -d"
 alias pull="git pull"
 # Print current branch
-alias currbranch="git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'".
+alias currbranch="git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'"
 # Automatically set matching remote branch on first push
 function push {
   if git branch -vv | grep '\*' | grep -q '\['; then
