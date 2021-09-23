@@ -267,5 +267,6 @@
   "editor.renderControlCharacters": false,
   "editor.minimap.enabled": true,
   "redhat.telemetry.enabled": false,
-  "workbench.editor.untitled.hint": "hidden"
+  "workbench.editor.untitled.hint": "hidden",
+  "docker.showStartPage": false
 }
