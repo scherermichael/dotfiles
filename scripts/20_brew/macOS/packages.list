@@ -23,6 +23,7 @@ packer
 pass
 pinentry-mac
 pwgen
+python@3.8
 shellcheck
 terraform
 watch
