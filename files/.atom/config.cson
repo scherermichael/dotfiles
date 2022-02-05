@@ -23,6 +23,7 @@
     autoIndentOnPaste: false
     fontFamily: "'FiraCode-Retina', 'SF Mono', Menlo, Consolas, DejaVu Sans Mono, monospace"
     invisibles: {}
+    showIndentGuide: true
     softWrap: true
   "exception-reporting":
     userId: "44fd5f6f-7665-42b3-8855-24c5dde06098"

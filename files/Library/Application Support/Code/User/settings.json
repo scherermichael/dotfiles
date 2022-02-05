@@ -268,5 +268,9 @@
   "editor.minimap.enabled": true,
   "redhat.telemetry.enabled": false,
   "workbench.editor.untitled.hint": "hidden",
-  "docker.showStartPage": false
+  "docker.showStartPage": false,
+  "vs-kubernetes": {
+    "vscode-kubernetes.minikube-path.mac": "/Users/michael/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
+  },
+  "security.workspace.trust.untrustedFiles": "open"
 }
