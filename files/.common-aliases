@@ -226,6 +226,10 @@ function kcctx {
   fi
 }
 
+function mkcd {
+  mkdir "$1" && cd "$1"
+}
+
 alias nr="npm run"
 function nrc {
   if [ -z $1 ]; then
