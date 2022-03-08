@@ -37,20 +37,20 @@ fi
 
 # Install new packages
 if [ -f "${DIR}/packages.list" ]; then
-  while read -r package
-  do
-    echo "Installing package $package..."
-    brew install "$package"
-done < <(brew leaves | diff -u - "${DIR}/packages.list" | grep '^+[^+]' | sed 's/^+//')
+  packages_to_install=$(brew leaves | diff -u - "${DIR}/packages.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
+  if [ -n "${packages_to_install}" ]; then
+    echo "Installing packages: ${packages_to_install}"
+    brew install ${packages_to_install}
+  fi
 fi
 
 # Deinstall no longer listed packages
 if [ -f "${DIR}/packages.list" ]; then
-  while read -r package
-  do
-    echo "Uninstalling package $package..."
-    brew uninstall --force "$package"
-done < <(brew leaves | diff -u - "${DIR}/packages.list" | grep '^-[^-]' | sed 's/^-//')
+  packages_to_remove=$(brew leaves | diff -u - "${DIR}/packages.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
+  if [ -n "${packages_to_remove}" ]; then
+    echo "Uninstalling packages: ${packages_to_remove}"
+    brew uninstall --force ${packages_to_remove}
+  fi
 fi
 
 echo "Upgrading packages..."
@@ -60,20 +60,20 @@ brew upgrade
 
 # Install new Cask packages
 if [ -f "${DIR}/packages-cask.list" ]; then
-  while read -r package
-  do
-    echo "Installing Cask package $package..."
-    brew install --cask "$package"
-done < <(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//')
+  cask_packages_to_install=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
+  if [ -n "${cask_packages_to_install}" ]; then
+    echo "Installing cask packages: ${cask_packages_to_install}"
+    brew install --cask ${cask_packages_to_install}
+  fi
 fi
 
 # Deinstall no longer listed Cask packages
 if [ -f "${DIR}/packages-cask.list" ]; then
-  while read -r package
-  do
-    echo "Uninstalling Cask package $package..."
-    brew uninstall --cask --force "$package"
-done < <(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//')
+  cask_packages_to_remove=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
+  if [ -n "${cask_packages_to_remove}" ]; then
+    echo "Uninstalling cask packages: ${cask_packages_to_remove}"
+    brew uninstall --cask --force ${cask_packages_to_remove}
+  fi
 fi
 
 echo "Upgrading Cask package packages..."
