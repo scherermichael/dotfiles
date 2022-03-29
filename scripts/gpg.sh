@@ -15,9 +15,9 @@ use-agent
 EOF
 fi
 
-if ! grep -q "pinentry-program /usr/local/bin/pinentry-mac" ~/.gnupg/gpg-agent.conf; then
-  cat >> ~/.gnupg/gpg-agent.conf <<EOF
-pinentry-program /usr/local/bin/pinentry-mac
+if ! grep -q "pinentry-program $(brew --prefix)/bin/pinentry-mac" ~/.gnupg/gpg-agent.conf; then
+  cat > ~/.gnupg/gpg-agent.conf <<EOF
+pinentry-program $(brew --prefix)/bin/pinentry-mac
 # caching: default 8h
 default-cache-ttl 28800
 # caching: max 24h

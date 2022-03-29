@@ -34,7 +34,7 @@
     disableWhenNoEslintrcFileInPath: true
   "linter-shellcheck":
     enableNotice: true
-    shellcheckExecutablePath: "/usr/local/bin/shellcheck"
+    shellcheckExecutablePath: "/opt/homebrew/bin/shellcheck"
   "linter-ui-default":
     alwaysTakeMinimumSpace: true
     panelHeight: 129
