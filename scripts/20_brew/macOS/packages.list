@@ -1,11 +1,9 @@
 adns
 adr-tools
-arangodb
 awscli
 azure-cli
 blueutil
 colordiff
-docker-machine-driver-xhyve
 fzf
 gh
 git
