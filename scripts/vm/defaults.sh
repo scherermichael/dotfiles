@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
 [ -z "${OS}" ] && . lib/common.sh

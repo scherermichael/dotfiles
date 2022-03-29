@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
@@ -22,16 +24,16 @@ fi
 echo "Tapping additional resources..."
 brew tap homebrew/cask-fonts
 
-if [ ! "${NO_SUDO}" ]; then
-  if ls -l /usr/local/ | tail -n +2 | grep -qv " admin "; then
-    # Not all folders in /usr/local belong to the "admin" group
-    echo "Updating permissions for /usr/local..."
-    # https://gist.github.com/jaibeee/9a4ea6aa9d428bc77925
-    # allow admins to manage homebrew's local install directory
-    sudo chgrp -R admin /usr/local/*
-    sudo chmod -R g+w /usr/local/*
-  fi
-fi
+# if [ ! "${NO_SUDO}" ]; then
+#   if ls -l /usr/local/ | tail -n +2 | grep -qv " admin "; then
+#     # Not all folders in /usr/local belong to the "admin" group
+#     echo "Updating permissions for /usr/local..."
+#     # https://gist.github.com/jaibeee/9a4ea6aa9d428bc77925
+#     # allow admins to manage homebrew's local install directory
+#     sudo chgrp -R admin /usr/local/*
+#     sudo chmod -R g+w /usr/local/*
+#   fi
+# fi
 
 # Homebrew packages
 

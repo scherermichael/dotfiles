@@ -64,6 +64,12 @@ defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
 ###############################################################################
 
+echo "Trackpad: enable drag after double tap"
+defaults write com.apple.AppleMultitouchTrackpad Dragging -int 1
+defaults write com.apple.AppleMultitouchTrackpad DragLock -int 1
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -int 1
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad DragLock -int 1
+
 echo "Trackpad: enable tap to click for this user and for the login screen"
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
