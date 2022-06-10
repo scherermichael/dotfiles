@@ -272,5 +272,15 @@
   "vs-kubernetes": {
     "vscode-kubernetes.minikube-path.mac": "/Users/michael/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
   },
-  "security.workspace.trust.untrustedFiles": "open"
+  "security.workspace.trust.untrustedFiles": "open",
+  "[json]": {
+    "editor.formatOnSave": false,
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace",
+    "gitlens.codeLens.scopes": [
+      "document"
+    ]
+  }
 }
