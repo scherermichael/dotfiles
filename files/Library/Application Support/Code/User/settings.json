@@ -29,9 +29,6 @@
       "other": "off"
     },
   },
-  "[json]": {
-    "editor.formatOnSave": false
-  },
   "atomKeymap.promptV3Features": true,
   "breadcrumbs.enabled": false,
   "dayNightThemeSwitcher.dayTheme": "Atom One Light",
