@@ -5,17 +5,29 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[markdown]": {
-    "editor.quickSuggestions": false,
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    },
     "editor.wordWrap": "on"
   },
   "[plaintext]": {
-    "editor.quickSuggestions": false
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    }
   },
   "[yaml]": {
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "editor.autoIndent": "none",
-    "editor.quickSuggestions": false,
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    },
   },
   "atomKeymap.promptV3Features": true,
   "breadcrumbs.enabled": false,
@@ -41,7 +53,11 @@
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.occurrencesHighlight": false,
   "editor.parameterHints.cycle": false,
-  "editor.quickSuggestions": false,
+  "editor.quickSuggestions": {
+    "comments": "off",
+    "strings": "off",
+    "other": "off"
+  },
   "editor.roundedSelection": false,
   "editor.scrollBeyondLastLine": false,
   "editor.semanticHighlighting.enabled": false,
