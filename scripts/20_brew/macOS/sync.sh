@@ -9,6 +9,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "${OS}" = "macos" ] || exit 0
 
+# Arm binaries are stored under /opt/homebrew/bin while x86 binaries are stored under /usr/local/bin.
+# On x86, create symlink /opt/homebrew/bin pointing to /usr/local/bin to allow to use path /opt/homebrew/bin all the time.
+if [ "$(uname -p)" = "i386" ]; then
+  echo "Creating symlink for binary folder..."
+  mkdir -p /opt/homebrew
+  ln -s /usr/local/bin /opt/homebrew/bin
+fi
+
 # Init
 
 if command -v brew; then
