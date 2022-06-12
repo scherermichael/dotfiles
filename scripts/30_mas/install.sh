@@ -12,7 +12,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 # App Store packages
 
 # Install new packages
-if [ -f "packages.list" ]; then
+if [ -f "${DIR}/packages.list" ]; then
   while read -r package
   do
     id=$(echo "${package}" | cut -d ' ' -f1)
