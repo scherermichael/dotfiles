@@ -17,6 +17,8 @@ if [ -f "${DIR}/packages.list" ]; then
   do
     id=$(echo "${package}" | cut -d ' ' -f1)
     name=$(echo "${package}" | cut -d ' ' -f3)
+    # Skip lines with comments
+    [ "${id}" = "#" ] && continue
     echo "Installing package ${name} (${id})..."
     if ! mas install "${id}"; then
       echo "ERROR: Installation of package failed!"
