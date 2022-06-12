@@ -22,7 +22,6 @@
   editor:
     autoIndentOnPaste: false
     fontFamily: "'FiraCode-Retina', 'SF Mono', Menlo, Consolas, DejaVu Sans Mono, monospace"
-    fontSize: 13
     invisibles: {}
     showIndentGuide: true
     softWrap: true
@@ -35,7 +34,7 @@
     disableWhenNoEslintrcFileInPath: true
   "linter-shellcheck":
     enableNotice: true
-    shellcheckExecutablePath: "/usr/local/bin/shellcheck"
+    shellcheckExecutablePath: "/opt/homebrew/bin/shellcheck"
   "linter-ui-default":
     alwaysTakeMinimumSpace: true
     panelHeight: 129
