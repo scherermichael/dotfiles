@@ -42,7 +42,10 @@ if [ -f "${DIR}/packages.list" ]; then
   packages_to_install=$(brew leaves | diff -u - "${DIR}/packages.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
   if [ -n "${packages_to_install}" ]; then
     echo "Installing packages: ${packages_to_install}"
-    brew install ${packages_to_install}
+    if ! brew install ${packages_to_install}; then
+      echo "ERROR: Installation of packages failed!"
+      exit 2
+    fi
   fi
 fi
 
@@ -51,12 +54,18 @@ if [ -f "${DIR}/packages.list" ]; then
   packages_to_remove=$(brew leaves | diff -u - "${DIR}/packages.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
   if [ -n "${packages_to_remove}" ]; then
     echo "Uninstalling packages: ${packages_to_remove}"
-    brew uninstall --force ${packages_to_remove}
+    if ! brew uninstall --force ${packages_to_remove}; then
+      echo "ERROR: De-installation of packages failed!"
+      exit 3
+    fi
   fi
 fi
 
 echo "Upgrading packages..."
-brew upgrade
+if ! brew upgrade; then
+  echo "ERROR: Upgrade of packages failed!"
+  exit 4
+fi
 
 # Cask
 
@@ -65,7 +74,10 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   cask_packages_to_install=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
   if [ -n "${cask_packages_to_install}" ]; then
     echo "Installing cask packages: ${cask_packages_to_install}"
-    brew install --cask ${cask_packages_to_install}
+    if ! brew install --cask ${cask_packages_to_install}; then
+      echo "ERROR: Installation of cask packages failed!"
+      exit 5
+    fi
   fi
 fi
 
@@ -74,9 +86,15 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   cask_packages_to_remove=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
   if [ -n "${cask_packages_to_remove}" ]; then
     echo "Uninstalling cask packages: ${cask_packages_to_remove}"
-    brew uninstall --cask --force ${cask_packages_to_remove}
+    if ! brew uninstall --cask --force ${cask_packages_to_remove}; then
+      echo "ERROR: De-installation of cask packages failed!"
+      exit 6
+    fi
   fi
 fi
 
 echo "Upgrading Cask package packages..."
-brew upgrade --cask
+if ! brew upgrade --cask; then
+  echo "ERROR: Upgrade of cask packages failed!"
+  exit 7
+fi

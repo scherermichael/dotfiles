@@ -17,6 +17,9 @@
     "editor.autoIndent": "none",
     "editor.quickSuggestions": false,
   },
+  "[json]": {
+    "editor.formatOnSave": false
+  },
   "atomKeymap.promptV3Features": true,
   "breadcrumbs.enabled": false,
   "dayNightThemeSwitcher.dayTheme": "Atom One Light",

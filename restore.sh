@@ -24,6 +24,7 @@ else
   echo "Executing scripts in 'scripts'..."
   # shellcheck disable=SC2016
   find "./scripts" -name '*.sh' -type f -print0 | sort -z | xargs -0 bash -c '
+    set -e
     for script in "$@"; do
       if [ -x "${script}" ]; then
         echo "Running $script..."
