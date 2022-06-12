@@ -11,6 +11,7 @@ gnu-sed
 helm
 heroku/brew/heroku
 hub
+jansson
 jq
 kops
 libyaml
