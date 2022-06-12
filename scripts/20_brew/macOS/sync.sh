@@ -13,8 +13,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 # On x86, create symlink /opt/homebrew/bin pointing to /usr/local/bin to allow to use path /opt/homebrew/bin all the time.
 if [ "$(uname -p)" = "i386" ]; then
   echo "Creating symlink for binary folder..."
-  mkdir -p /opt/homebrew
-  ln -s /usr/local/bin /opt/homebrew/bin
+  sudo mkdir -p /opt/homebrew
+  sudo ln -s /usr/local/bin /opt/homebrew/bin
 fi
 
 # Init
