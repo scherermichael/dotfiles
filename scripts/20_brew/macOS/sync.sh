@@ -26,7 +26,7 @@ if command -v brew; then
   brew update
 else
   echo "Installing Brew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 echo "Tapping additional resources..."
