@@ -19,15 +19,16 @@ fi
 echo "Creating backup of /etc/pam.d/sudo ..."
 cp /etc/pam.d/sudo /etc/pam.d/sudo.bak
 
-echo "Moving pam_watchid.so to destination path..."
+arch="$(uname -p)"
+
+echo "Moving pam_watchid.so.2_${arch} to destination path..."
 # Taken from Makefile
-VERSION=2
-LIBRARY_NAME=pam_watchid.so
+LIBRARY_NAME=pam_watchid.so.2
 DESTINATION=/usr/local/lib/pam
 mkdir -p ${DESTINATION}
-cp "${dir}/${LIBRARY_NAME}" ${DESTINATION}/${LIBRARY_NAME}.${VERSION}
-chmod 444 ${DESTINATION}/${LIBRARY_NAME}.${VERSION}
-chown root:wheel ${DESTINATION}/${LIBRARY_NAME}.${VERSION}
+cp "${dir}/${LIBRARY_NAME}_${arch}" ${DESTINATION}/${LIBRARY_NAME}
+chmod 444 ${DESTINATION}/${LIBRARY_NAME}
+chown root:wheel ${DESTINATION}/${LIBRARY_NAME}
 
 echo "Patching /etc/pam.d/sudo ..."
 sudo sed -i '' '1a\
