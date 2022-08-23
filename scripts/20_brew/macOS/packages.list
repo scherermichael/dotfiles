@@ -12,6 +12,7 @@ helm
 heroku/brew/heroku
 hub
 jansson
+jpeg
 jq
 kops
 libyaml
@@ -26,6 +27,7 @@ p7zip
 packer
 pass
 pinentry-mac
+podman
 pwgen
 python@3.9
 shellcheck
