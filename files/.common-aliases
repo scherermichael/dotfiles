@@ -32,6 +32,7 @@ function copyssh {
   fi
 }
 
+# Docker
 alias d="docker"
 alias doco="docker compose"
 alias dm="docker-machine"
@@ -51,6 +52,12 @@ function dmuse {
   fi
 }
 alias dps='docker ps --format="table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
+# Lima
+alias l="lima nerdctl"
+alias loco="lima nerdctl compose"
+alias lstart="limactl start"
+alias lstop="limactl stop"
+alias lps='lima nerdctl ps --format="{{.ID}} | {{.Names}} | {{.Status}} | {{.Image}}"'
 
 alias g="git"
 alias gti="git"
