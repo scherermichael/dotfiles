@@ -7,7 +7,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ -z "${OS}" ] && . lib/common.sh
 
-command -v apm || exit 0;
+if ! command -v apm; then
+  echo "Skip synching Atom plugins. APM not found."
+  exit 0
+fi
 
 if [ -f "${DIR}/installed.list" ]; then
   while read -r plugin
