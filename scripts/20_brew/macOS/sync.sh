@@ -82,7 +82,7 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   cask_packages_to_install=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
   if [ -n "${cask_packages_to_install}" ]; then
     echo "Installing cask packages: ${cask_packages_to_install}"
-    if ! brew install --cask ${cask_packages_to_install}; then
+    if ! brew install --cask --appdir=~/Applications font-fira-code ${cask_packages_to_install}; then
       echo "ERROR: Installation of cask packages failed!"
       exit 5
     fi
@@ -94,7 +94,7 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   cask_packages_to_remove=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
   if [ -n "${cask_packages_to_remove}" ]; then
     echo "Uninstalling cask packages: ${cask_packages_to_remove}"
-    if ! brew uninstall --cask --force ${cask_packages_to_remove}; then
+    if ! brew uninstall --cask --appdir=~/Applications --force ${cask_packages_to_remove}; then
       echo "ERROR: De-installation of cask packages failed!"
       exit 6
     fi
