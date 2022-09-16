@@ -77,6 +77,11 @@ fi
 
 # Cask
 
+if [ "${NO_SUDO}" ]; then
+  echo "Skip installing casks. No sudo allowed."
+  exit 0
+fi
+
 # Install new Cask packages
 if [ -f "${DIR}/packages-cask.list" ]; then
   cask_packages_to_install=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')

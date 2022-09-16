@@ -9,6 +9,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "${OS}" = "macos" ] || exit 0
 
+if [ "${NO_SUDO}" ]; then
+  echo "Skip installing App Store packages. No sudo allowed."
+  exit 0
+fi
+
 # App Store packages
 
 # Install new packages

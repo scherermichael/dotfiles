@@ -8,6 +8,11 @@
 
 command -v gpg > /dev/null || exit 0
 
+if [ ! -f ~/.gnupg/gpg.conf ]; then
+  echo "Skip patching GPG config. No gpg.conf found."
+  exit 0
+fi
+
 if ! grep -q "use-agent" ~/.gnupg/gpg.conf; then
   cat >> ~/.gnupg/gpg.conf <<EOF
 # Use GPG agent for storing the passphrase
