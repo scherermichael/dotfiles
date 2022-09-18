@@ -14,8 +14,6 @@ git config --global core.excludesfile "${HOME}/.gitexcludes"
 git config --global remote.origin.prune true
 # Push only to a remote branch with the same name
 git config --global push.default simple
-# User GPG to sign commits
-git config --global commit.gpgsign true
 # Simply print list of branches
 git config --global pager.branch false
 # Keep default merge strategy

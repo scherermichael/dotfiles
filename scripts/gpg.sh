@@ -13,6 +13,9 @@ if [ ! -f ~/.gnupg/gpg.conf ]; then
   exit 0
 fi
 
+# Use GPG to sign Git commits
+git config --global commit.gpgsign true
+
 if ! grep -q "use-agent" ~/.gnupg/gpg.conf; then
   cat >> ~/.gnupg/gpg.conf <<EOF
 # Use GPG agent for storing the passphrase
