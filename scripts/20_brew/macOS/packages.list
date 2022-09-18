@@ -22,6 +22,7 @@ minikube
 mongodb/brew/mongodb-community-shell
 mongosh
 moreutils
+nvm
 openshift-cli
 p7zip
 packer
