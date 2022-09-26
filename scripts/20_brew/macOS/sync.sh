@@ -87,7 +87,7 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   cask_packages_to_install=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
   if [ -n "${cask_packages_to_install}" ]; then
     echo "Installing cask packages: ${cask_packages_to_install}"
-    if ! brew install --cask --appdir=~/Applications font-fira-code ${cask_packages_to_install}; then
+    if ! brew install --cask --appdir=~/Applications ${cask_packages_to_install}; then
       echo "ERROR: Installation of cask packages failed!"
       exit 5
     fi
