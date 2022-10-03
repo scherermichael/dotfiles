@@ -250,6 +250,9 @@ function nrc {
 alias scpignore="scp -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null"
 alias sshignore="ssh -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null"
 
+# Write wake up and sleep times on console and to file. Remove duplicate entries fom file.
+alias stechuhr="pmset -g log | grep 'Display is turned' | tee -a ~/.stechuhr-$(date +%y-%m).log; sort -u -o ~/.stechuhr-$(date +%y-%m).log ~/.stechuhr-$(date +%y-%m).log"
+
 function ts {
   if [ -z ${1} ]; then
     echo "Decode timestamp."
