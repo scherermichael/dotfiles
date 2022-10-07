@@ -187,12 +187,10 @@ esac
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>244.750000:549.000000</string>
+				<string>244.750000:305.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -235,7 +233,7 @@ esac
 					<dict>
 						<key>tokenizedValue</key>
 						<array>
-							<string>Description:</string>
+							<string>Event Description:</string>
 						</array>
 					</dict>
 					<key>requireInput</key>
@@ -263,7 +261,7 @@ esac
 					<key>defaultAnswer</key>
 					<string></string>
 					<key>defaultMessage</key>
-					<string>Description:</string>
+					<string>Event Description:</string>
 					<key>requireInput</key>
 					<false/>
 				</dict>
@@ -366,12 +364,10 @@ esac
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>244.750000:734.000000</string>
+				<string>244.750000:490.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Text.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -540,12 +536,10 @@ done</string>
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>244.750000:916.000000</string>
+				<string>244.750000:672.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -555,19 +549,19 @@ done</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>186B1015-6E7B-4694-9325-A2C3E38696B9</key>
-		<dict>
-			<key>from</key>
-			<string>DA93BACD-7C4C-40D5-AC5A-606C5F37D125 - DA93BACD-7C4C-40D5-AC5A-606C5F37D125</string>
-			<key>to</key>
-			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
-		</dict>
-		<key>1A3DBE92-027C-4484-B9AD-41CA65576E52</key>
+		<key>2F386392-79AB-450E-88B7-B753E1226B72</key>
 		<dict>
 			<key>from</key>
 			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
 			<key>to</key>
 			<string>70F50F82-C559-49BD-8378-C8FAEF329A40 - 70F50F82-C559-49BD-8378-C8FAEF329A40</string>
+		</dict>
+		<key>7B4AE50A-EF26-4892-9001-7811B62D2803</key>
+		<dict>
+			<key>from</key>
+			<string>DA93BACD-7C4C-40D5-AC5A-606C5F37D125 - DA93BACD-7C4C-40D5-AC5A-606C5F37D125</string>
+			<key>to</key>
+			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
