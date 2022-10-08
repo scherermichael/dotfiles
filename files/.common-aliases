@@ -8,11 +8,11 @@ alias a="LANG=en_US.UTF-8 atom --clear-window-state"
 alias ade="LANG=de_DE.UTF-8 atom --clear-window-state"
 
 function awscrd {
-  if [ -z $1 ]; then
+  if [ -z "$1" ]; then
     # Prettify output and mark current selection with asterisk
     env | grep AWS_ACCESS_KEY_ID_ | sort | sed "s/^AWS_ACCESS_KEY_ID_//" | sed "s/=/ /" | sed -E "s/^(.* ${AWS_ACCESS_KEY_ID})$/* \1/"
   else
-    name=$(echo $1 | tr '[:lower:]' '[:upper:]')
+    name=$(echo "$1" | tr '[:lower:]' '[:upper:]')
     eval value=\$"AWS_ACCESS_KEY_ID_$name" && export AWS_ACCESS_KEY_ID=$value
     eval value=\$"AWS_SECRET_ACCESS_KEY_$name" && export AWS_SECRET_ACCESS_KEY=$value
     eval value=\$"AWS_DEFAULT_REGION_$name" && export AWS_DEFAULT_REGION=$value
@@ -38,7 +38,7 @@ alias doco="docker compose"
 alias dm="docker-machine"
 alias doma="docker-machine"
 function dme {
-  eval $(docker-machine env $2 $1)
+  eval "$(docker-machine env $2 $1)"
 }
 function dmuse {
   if [ "$1" = "mac" ]; then
@@ -47,8 +47,8 @@ function dmuse {
     echo "Now using Docker for Mac..."
   else
     # Start machine with given name
-    doma start $1
-    dme $@
+    doma start "$1"
+    dme "$@"
   fi
 }
 alias dps='docker ps --format="table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
@@ -250,11 +250,15 @@ function nrc {
 alias scpignore="scp -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null"
 alias sshignore="ssh -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null"
 
-# Write wake up and sleep times on console and to file. Remove duplicate entries fom file.
-alias stechuhr="pmset -g log | grep 'Display is turned' | tee -a ~/.stechuhr-$(date +%y-%m).log; sort -u -o ~/.stechuhr-$(date +%y-%m).log ~/.stechuhr-$(date +%y-%m).log"
+# Show logged events
+function stechuhr {
+  month="$1"
+  [ "$month" ] || month=$(date +%y-%m)
+  cat ~/.stechuhr-"${month}".log
+}
 
 function ts {
-  if [ -z ${1} ]; then
+  if [ -z "${1}" ]; then
     echo "Decode timestamp."
     echo "Usage: ts <timestamp>"
   else
