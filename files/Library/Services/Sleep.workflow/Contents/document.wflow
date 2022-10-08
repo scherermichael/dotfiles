@@ -38,7 +38,10 @@
 						</array>
 					</dict>
 					<key>subtitle</key>
-					<dict/>
+					<dict>
+						<key>tokenizedValue</key>
+						<array/>
+					</dict>
 					<key>title</key>
 					<dict>
 						<key>tokenizedValue</key>
@@ -135,8 +138,6 @@
 						<string>2</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
@@ -320,7 +321,7 @@
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>2759133C-2C04-46F4-A7F4-272E1F80BA5C</key>
+		<key>4DC4685E-E51D-4041-9965-CCA4142E10F8</key>
 		<dict>
 			<key>from</key>
 			<string>04CED202-D24D-4959-882D-D39BA7AB23FA - 04CED202-D24D-4959-882D-D39BA7AB23FA</string>
