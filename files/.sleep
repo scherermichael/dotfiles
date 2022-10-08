@@ -1,0 +1,6 @@
+#!/bin/bash
+
+filename="$HOME/.stechuhr-$(date +%y-%m).log"
+timestamp="$(date "+%Y-%m-%d %H:%M:%S %z")"
+
+echo "${timestamp} Event: Sleep" >> "${filename}"
