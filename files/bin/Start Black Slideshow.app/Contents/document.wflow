@@ -284,7 +284,7 @@ end run</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>5EB2E06D-45C5-4E48-9E57-B486D8950A3A</key>
+		<key>C283D7BA-379D-4488-B973-4526C9D45DE4</key>
 		<dict>
 			<key>from</key>
 			<string>2747C05B-1A90-423A-81C5-4626A11F7681 - 2747C05B-1A90-423A-81C5-4626A11F7681</string>
@@ -295,7 +295,7 @@ end run</string>
 	<key>workflowMetaData</key>
 	<dict>
 		<key>workflowTypeIdentifier</key>
-		<string>com.apple.Automator.workflow</string>
+		<string>com.apple.Automator.application</string>
 	</dict>
 </dict>
 </plist>
