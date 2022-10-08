@@ -1,0 +1,5 @@
+#!/bin/bash
+
+filename="$HOME/.stechuhr-$(date +%y-%m).log"
+pmset -g log | grep 'Display is turned' >> "$filename"
+sort -u -o "$filename" "$filename"
