@@ -105,7 +105,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>574.500000:756.000000</string>
+				<string>673.000000:368.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -294,7 +294,7 @@ esac
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>574.500000:938.000000</string>
+				<string>673.000000:550.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -471,7 +471,7 @@ esac
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>574.500000:1123.000000</string>
+				<string>673.000000:735.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Text.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -527,9 +527,17 @@ esac
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>for f in "$@"
+					<string>timestamp="$(date "+%Y-%m-%d %H:%M:%S %z")"
+
+for f in "$@"
 do
-	echo "$(date "+%Y-%m-%d %H:%M:%S %z") $f" &gt;&gt; ~/.stechuhr-$(date "+%y-%m").log
+	if [[ $f =~ ^-[0-9]+\  ]]; then
+		# Starts with a negative number, shift back the event by that number of minutes
+		timeshift=$(echo "$f" | cut -d" " -f1)
+		f=$(echo "$f" | cut -d" " -f2-)
+		timestamp=$(date -v${timeshift}M "+%Y-%m-%d %H:%M:%S %z")
+	fi
+	echo "$timestamp $f" &gt;&gt; ~/.stechuhr-$(date "+%y-%m").log
 done</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
@@ -643,7 +651,7 @@ done</string>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>574.500000:1305.000000</string>
+				<string>673.000000:917.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -653,26 +661,26 @@ done</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>507401F1-E245-40D1-A383-411104CC6F86</key>
+		<key>10CD5878-91C2-4771-9498-4406BD714B6B</key>
 		<dict>
 			<key>from</key>
 			<string>DA93BACD-7C4C-40D5-AC5A-606C5F37D125 - DA93BACD-7C4C-40D5-AC5A-606C5F37D125</string>
 			<key>to</key>
 			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
 		</dict>
-		<key>62AB26C1-2CCF-48A1-BD56-7FA6BB6CF439</key>
-		<dict>
-			<key>from</key>
-			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
-			<key>to</key>
-			<string>70F50F82-C559-49BD-8378-C8FAEF329A40 - 70F50F82-C559-49BD-8378-C8FAEF329A40</string>
-		</dict>
-		<key>E58833EC-A412-42F2-9268-448997FF9CE7</key>
+		<key>E8562AEF-E22E-4C88-B1D8-C75044B122C3</key>
 		<dict>
 			<key>from</key>
 			<string>92E2A903-F6EE-4CB0-B0C2-724E05351C3D - 92E2A903-F6EE-4CB0-B0C2-724E05351C3D</string>
 			<key>to</key>
 			<string>DA93BACD-7C4C-40D5-AC5A-606C5F37D125 - DA93BACD-7C4C-40D5-AC5A-606C5F37D125</string>
+		</dict>
+		<key>FBCC4A35-436A-4639-8C24-626112329531</key>
+		<dict>
+			<key>from</key>
+			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
+			<key>to</key>
+			<string>70F50F82-C559-49BD-8378-C8FAEF329A40 - 70F50F82-C559-49BD-8378-C8FAEF329A40</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
