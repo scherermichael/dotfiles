@@ -102,7 +102,7 @@
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>644.500000:223.000000</string>
+				<string>644.500000:279.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Change System Appearance.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
