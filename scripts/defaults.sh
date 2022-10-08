@@ -189,3 +189,10 @@ defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 
 echo "Safari: Disable opening safe files after download"
 defaults write com.apple.Safari AutoOpenSafeDownloads 0
+
+###############################################################################
+# Dictionary                                                                  #
+###############################################################################
+
+echo "Dictionary: Disable shortcut <cmd>+<ctl>+d"
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 70 '<dict><key>enabled</key><false/></dict>'
