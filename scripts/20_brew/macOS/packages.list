@@ -32,6 +32,7 @@ podman
 pwgen
 python@3.9
 shellcheck
+sleepwatcher
 terraform
 tmux
 watch
