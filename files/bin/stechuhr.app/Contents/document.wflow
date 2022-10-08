@@ -59,8 +59,9 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>pmset -g log | grep 'Display is turned' &gt;&gt; ~/.stechuhr-$(date +%y-%m).log
-sort -u -o ~/.stechuhr-$(date +%y-%m).log ~/.stechuhr-$(date +%y-%m).log</string>
+					<string>filename="~/.stechuhr-$(date +%y-%m).log"
+pmset -g log | grep 'Event: Login' &gt;&gt; "${filename}"
+sort -u -o "${filename}" "${filename}"</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -170,12 +171,10 @@ sort -u -o ~/.stechuhr-$(date +%y-%m).log ~/.stechuhr-$(date +%y-%m).log</string
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>309.000000:252.000000</string>
+				<string>673.000000:252.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
