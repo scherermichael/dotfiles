@@ -299,5 +299,7 @@
       "document"
     ]
   },
-  "update.mode": "manual"
+  "update.mode": "manual",
+  "yaml.disableDefaultProperties": true,
+  "diffEditor.codeLens": true
 }
