@@ -1,4 +1,10 @@
-export PATH="/usr/local/sbin:$HOME/bin:$PATH"
+export PATH="/usr/local/sbin:${HOME}/bin:${PATH}"
+
+# App python bins to PATH
+if [ -d "${HOME}/Library/Python" ]; then
+  PYTHON_VERSION=$(ls -1 /Users/michael.scherer/Library/Python/ | sort -V | tail -n1)
+  export PATH="${HOME}/Library/Python/${PYTHON_VERSION}:${PATH}"
+fi
 
 if [ -f "/vagrant/dotfiles/private/environment" ]; then
   . "/vagrant/dotfiles/private/environment"
