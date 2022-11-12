@@ -30,7 +30,6 @@ pass
 pinentry-mac
 podman
 pwgen
-python@3.9
 shellcheck
 sleepwatcher
 terraform
