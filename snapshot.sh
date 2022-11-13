@@ -41,8 +41,8 @@ find "./files" -type f -name ".syncfolder" -print0 | xargs -0 -n 1 bash -c '
 
 echo "Retrieving list of installed Homebrew packages..."
 if which brew > /dev/null; then
-  brew leaves > scripts/20_brew/${OS}/packages.list
-  brew list --cask -1 > scripts/20_brew/${OS}/packages-cask.list
+  brew leaves > scripts/10_homebrew/${OS}/packages.list
+  brew list --cask -1 > scripts/10_homebrew/${OS}/packages-cask.list
 else
   echo "Skip. Brew not found."
 fi
