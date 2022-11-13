@@ -217,5 +217,15 @@
     "key": "shift+alt+f8",
     "command": "-editor.action.marker.prev",
     "when": "editorFocus"
+  },
+  {
+    "key": "shift+cmd+k",
+    "command": "-editor.action.deleteLines",
+    "when": "textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+shift+k",
+    "command": "-editor.action.deleteLines",
+    "when": "editorTextFocus"
   }
 ]

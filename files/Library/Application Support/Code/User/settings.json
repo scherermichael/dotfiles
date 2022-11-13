@@ -280,7 +280,6 @@
   "workbench.startupEditor": "none",
   "workbench.tips.enabled": false,
   "workbench.tree.renderIndentGuides": "none",
-  "editor.renderControlCharacters": false,
   "editor.minimap.enabled": true,
   "redhat.telemetry.enabled": false,
   "workbench.editor.untitled.hint": "hidden",
@@ -301,5 +300,9 @@
   },
   "update.mode": "manual",
   "yaml.disableDefaultProperties": true,
-  "diffEditor.codeLens": true
+  "diffEditor.codeLens": true,
+  "githubPullRequests.fileListLayout": "tree",
+  "editor.renderWhitespace": "none",
+  "editor.renderControlCharacters": false,
+  "gitlens.mode.active": "zen"
 }
