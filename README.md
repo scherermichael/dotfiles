@@ -7,7 +7,7 @@ Install and configure frequently used software for macOS and Debian-based Linux 
 Clone the repository and run the restore script:
 
 ```sh
-$ git clone https://github.com/scherermichael/dotfiles && dotfiles/restore.sh
+git clone https://github.com/scherermichael/dotfiles && dotfiles/restore.sh
 ```
 
 This will install a set of commonly used software and copy the config files to the appropriate locations.
@@ -22,10 +22,10 @@ Use option `--no-sudo` to run only scripts that do not require sudo permissions.
 
 In order to store the current configuration for later use run `./snapshot.sh`, commit the changes, and push it:
 
-  ```sh
-  $ ./snapshot.sh
-  $ git add files && commit -m "Update configuration" && git push
-  ```
+```sh
+./snapshot.sh
+git add files && commit -m "Update configuration" && git push
+```
 
 All configuration files in the `files` folder will be updated, a new list of Homebrew packages generated, installed VS Code extentions and installed or disabled Atom plugins stored.
 
