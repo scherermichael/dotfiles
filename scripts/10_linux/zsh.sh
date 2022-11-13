@@ -9,6 +9,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "${OS}" = "linux" ] || exit 0
 
-echo "Installing z..."
-# Download latest version to home dir
-wget https://raw.githubusercontent.com/rupa/z/master/z.sh -O ~/z.sh
+echo "Using zsh as login shell..."
+if [ ! -e /bin/zsh ]; then
+  echo "Skip. Zsh not found."
+  exit 0
+fi
+
+sudo usermod --shell /bin/zsh $USER

@@ -9,6 +9,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "${OS}" = "linux" ] || exit 0
 
+echo "Installing yq..."
+
 if [ "$(uname -p)" = "aarch64" ]; then
   sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_arm64
 else
