@@ -9,6 +9,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "${OS}" = "linux" ] || exit 0
 
+if [ "$(uname -p)" = "aarch64" ]; then
+  echo "Skip. Homebrew is not supported on ARM."
+  exit 0
+fi
+
 # Init
 
 if command -v brew; then
