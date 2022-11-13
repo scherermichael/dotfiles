@@ -4,7 +4,7 @@ set -e
 
 # See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
-[ -z "${OS}" ] && . lib/common.sh
+[ -z "${OS}" ] && source lib/common.sh
 
 [ "${OS}" = "macos" ] || exit 0
 

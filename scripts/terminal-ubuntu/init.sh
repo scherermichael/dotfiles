@@ -2,7 +2,7 @@
 
 set -e
 
-[ -z "${OS}" ] && . lib/common.sh
+[ -z "${OS}" ] && source lib/common.sh
 
 [ "${OS}" = "linux" ] || exit 0
 

@@ -2,7 +2,7 @@
 
 # From https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
 
-[ -z "${OS}" ] && . lib/common.sh
+[ -z "${OS}" ] && source lib/common.sh
 
 [ "${OS}" = "macos" ] || exit 0
 

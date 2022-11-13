@@ -7,15 +7,15 @@ dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 pushd "${dir}" || exit 1
 
-. lib/common.sh
+source lib/common.sh
 
 echo "Sourcing private environment variables..."
 if [ -f "/vagrant/dotfiles/private/environment" ]; then
-  . "/vagrant/dotfiles/private/environment"
+  source "/vagrant/dotfiles/private/environment"
 fi
 
 if [ -f "${HOME}/dotfiles/private/environment" ]; then
-  . "${HOME}/dotfiles/private/environment"
+  source "${HOME}/dotfiles/private/environment"
 fi
 
 if [ "${NO_SCRIPTS}" ]; then

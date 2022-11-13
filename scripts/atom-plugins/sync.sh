@@ -5,7 +5,7 @@ set -e
 # https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-[ -z "${OS}" ] && . lib/common.sh
+[ -z "${OS}" ] && source lib/common.sh
 
 if ! command -v apm; then
   echo "Skip synching Atom plugins. APM not found."

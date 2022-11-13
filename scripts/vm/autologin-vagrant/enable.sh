@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # See also https://discussions.apple.com/thread/1560727?start=0&tstart=0
 
-[ -z "${OS}" ] && . lib/common.sh
+[ -z "${OS}" ] && source lib/common.sh
 
 [ "${OS}" = "macos" ] || exit 0
 

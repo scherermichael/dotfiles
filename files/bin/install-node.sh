@@ -11,7 +11,7 @@ else
   git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout "$(git describe --abbrev=0 --tags --match "v[0-9]*" "$(git rev-list --tags --max-count=1)")"
 fi
 
-. ~/.nvm/nvm.sh
+source ~/.nvm/nvm.sh
 nvm install "${NODE_VERSION}"
 nvm alias default "${NODE_VERSION}"
 
