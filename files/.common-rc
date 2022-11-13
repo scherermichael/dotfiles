@@ -20,8 +20,11 @@ export NVM_DIR="$HOME/.nvm"
 
 export BREW_PREFIX="$(brew --prefix 2>/dev/null)"
 
-if [ -n "${BREW_PREFIX}" ] && [ -f "${BREW_PREFIX}/etc/profile.d/z.sh" ]; then
-  source "$(brew --prefix)/etc/profile.d/z.sh"
+if [ -f "${BREW_PREFIX}/etc/profile.d/z.sh" ]; then
+  source "${BREW_PREFIX}/etc/profile.d/z.sh"
+elif [ -f "${HOME}/z.sh" ]; then
+  # Linux: Installed into home dir by scripts/linux/z.sh
+  source "${HOME}/z.sh"
 fi
 
 # From https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
