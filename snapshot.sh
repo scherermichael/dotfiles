@@ -40,15 +40,27 @@ find "./files" -type f -name ".syncfolder" -print0 | xargs -0 -n 1 bash -c '
 ' _
 
 echo "Retrieving list of installed Homebrew packages..."
-brew leaves > scripts/20_brew/${OS}/packages.list
-brew list --cask -1 > scripts/20_brew/${OS}/packages-cask.list
+if which brew > /dev/null; then
+  brew leaves > scripts/20_brew/${OS}/packages.list
+  brew list --cask -1 > scripts/20_brew/${OS}/packages-cask.list
+else
+  echo "Skip. Brew not found."
+fi
 
 echo "Retrieving list of installed/disabled Atom plugins..."
-apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/disabled.list
-apm ls --installed --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/installed.list
+if which apm > /dev/null; then
+  apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/disabled.list
+  apm ls --installed --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/installed.list
+else
+  echo "Skip. Apm not found."
+fi
 
 echo "Retrieving list of installed Visual Studio Code extensions..."
-code --list-extensions > scripts/vscode-extensions/installed.list
+if which code > /dev/null; then
+  code --list-extensions > scripts/vscode-extensions/installed.list
+else
+  echo "Skip. Code not found."
+fi
 
 popd || exit 1
 
