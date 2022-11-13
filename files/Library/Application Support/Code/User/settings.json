@@ -269,7 +269,7 @@
       "terminalCursor.foreground": "#6f7783"
     }
   },
-  "workbench.colorTheme": "Atomize",
+  "workbench.colorTheme": "Atom One Light",
   "workbench.editor.showIcons": false,
   "workbench.editor.showTabs": true,
   "workbench.editor.tabSizing": "shrink",

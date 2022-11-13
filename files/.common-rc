@@ -7,11 +7,11 @@ if [ -d "${HOME}/Library/Python" ]; then
 fi
 
 if [ -f "/vagrant/dotfiles/private/environment" ]; then
-  . "/vagrant/dotfiles/private/environment"
+  source "/vagrant/dotfiles/private/environment"
 fi
 
 if [ -f ~/dotfiles/private/environment ]; then
-  . ~/dotfiles/private/environment
+  source ~/dotfiles/private/environment
 fi
 
 export NVM_DIR="$HOME/.nvm"
@@ -21,7 +21,7 @@ export NVM_DIR="$HOME/.nvm"
 export BREW_PREFIX="$(brew --prefix 2>/dev/null)"
 
 if [ -n "${BREW_PREFIX}" ] && [ -f "${BREW_PREFIX}/etc/profile.d/z.sh" ]; then
-  . "$(brew --prefix)/etc/profile.d/z.sh"
+  source "$(brew --prefix)/etc/profile.d/z.sh"
 fi
 
 # From https://gist.github.com/bmhatfield/cc21ec0a3a2df963bffa3c1f884b676b
