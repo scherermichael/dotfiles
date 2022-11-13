@@ -20,7 +20,7 @@ Use option `--no-sudo` to run only scripts that do not require sudo permissions.
 
 ## Creating snapshot of current system
 
-In order to store the current configuration for later use run `./snapshot.sh`, commit the changes, and push it:
+In order to store the current configuration for later use, run `./snapshot.sh`, commit the changes, and push it:
 
 ```sh
 ./snapshot.sh
