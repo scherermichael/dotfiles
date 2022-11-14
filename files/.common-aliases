@@ -52,6 +52,9 @@ function dmuse {
   fi
 }
 alias dps='docker ps --format="table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
+
+alias fls="find . -type f 2>/dev/null | sort --ignore-case | fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+
 # Lima
 alias l="lima nerdctl"
 alias loco="lima nerdctl compose"

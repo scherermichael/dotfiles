@@ -1,6 +1,7 @@
 build-essential
 curl
 file
+fzf
 git
 hub
 jq
