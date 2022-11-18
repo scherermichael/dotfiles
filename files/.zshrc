@@ -125,3 +125,5 @@ source ~/.common-rc
 
 # aliases
 source ~/.common-aliases
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

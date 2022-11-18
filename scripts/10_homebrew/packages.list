@@ -2,6 +2,7 @@ adns
 adr-tools
 awscli
 azure-cli
+bat
 blueutil
 colordiff
 fzf

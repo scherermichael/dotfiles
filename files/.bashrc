@@ -23,3 +23,5 @@ if [ -f ~/git-prompt.sh ]; then
 $ '
   source ~/git-prompt.sh
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
