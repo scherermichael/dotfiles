@@ -1,9 +1,12 @@
 adns
 adr-tools
+aria2
 awscli
 azure-cli
 bat
 blueutil
+cabextract
+cdrtools
 colordiff
 fzf
 git
@@ -31,10 +34,12 @@ pinentry-mac
 podman
 pwgen
 shellcheck
+sidneys/homebrew/chntpw
 sleepwatcher
 terraform
 tmux
 watch
 wget
+wimlib
 yq
 z
