@@ -201,6 +201,7 @@ function switch {
     git checkout -b "$1"
   fi
 }
+alias fswitch='git checkout $(git branch -la --format "%(refname)" | rev | cut -d"/" -f 1 | rev | grep -v "^HEAD$" | sort -u | fzf)'
 
 alias kc="kubectl"
 function kca {
