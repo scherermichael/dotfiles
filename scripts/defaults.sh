@@ -18,11 +18,9 @@ else
   ###############################################################################
 
   echo "Sleep after 30 minutes"
-  sudo pmset -c sleep 70
-  sudo pmset -b sleep 40
-  sudo pmset -c displaysleep 60
-  sudo pmset -b displaysleep 30
+  sudo pmset -a displaysleep 60
   sudo pmset -a halfdim 1
+  sudo pmset -a sleep 70
 fi
 
 echo "Save to disk (not to iCloud) by default"
