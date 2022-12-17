@@ -11,8 +11,8 @@ if [[ $UID -ne 0 ]]; then
    exit 1
 fi
 
-if grep "pam_watchid.so" -q /etc/pam.d/sudo; then
-  echo "PAM modules are already installed."
+if grep "pam_tid.so" -q /etc/pam.d/sudo; then
+  echo "PAM module is already activated."
   exit 0
 fi
 
@@ -21,18 +21,8 @@ cp /etc/pam.d/sudo /etc/pam.d/sudo.bak
 
 arch="$(uname -p)"
 
-echo "Moving pam_watchid.so.2_${arch} to destination path..."
-# Taken from Makefile
-LIBRARY_NAME=pam_watchid.so.2
-DESTINATION=/usr/local/lib/pam
-mkdir -p ${DESTINATION}
-cp "${dir}/${LIBRARY_NAME}_${arch}" ${DESTINATION}/${LIBRARY_NAME}
-chmod 444 ${DESTINATION}/${LIBRARY_NAME}
-chown root:wheel ${DESTINATION}/${LIBRARY_NAME}
-
 echo "Patching /etc/pam.d/sudo ..."
 sudo sed -i '' '1a\
-auth       sufficient     pam_watchid.so "reason=execute a command as root"\
 auth       sufficient     pam_tid.so
 ' /etc/pam.d/sudo
 
