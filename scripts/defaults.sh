@@ -1,198 +1,172 @@
-# #!/bin/bash
+#!/bin/bash
 
-# # See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
+# See also https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
-# [ -z "${OS}" ] && source lib/common.sh
+[ -z "${OS}" ] && source lib/common.sh
 
-# [ "${OS}" = "macos" ] || exit 0
+[ "${OS}" = "macos" ] || exit 0
 
-# ###############################################################################
-# # General UI/UX                                                               #
-# ###############################################################################
+###############################################################################
+# General UI/UX                                                               #
+###############################################################################
 
-# if [ "${NO_SUDO}" ]; then
-#   echo "Skipping commands that require sudo permissions."
-# else
-#   ###############################################################################
-#   # General UI/UX                                                               #
-#   ###############################################################################
+if [ "${NO_SUDO}" ]; then
+  echo "Skipping commands that require sudo permissions."
+else
+  ###############################################################################
+  # Sleep settings                                                                      #
+  ###############################################################################
 
-#   echo "Disable the sound effects on boot"
-#   sudo nvram SystemAudioVolume=" "
+  echo "Sleep after 30 minutes"
+  sudo pmset -c sleep 70
+  sudo pmset -b sleep 40
+  sudo pmset -c displaysleep 60
+  sudo pmset -b displaysleep 30
+  sudo pmset -a halfdim 1
+fi
 
-#   echo "Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window"
-#   sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+echo "Save to disk (not to iCloud) by default"
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
-#   echo "Restart automatically if the computer freezes"
-#   sudo systemsetup -setrestartfreeze on
+echo "Automatically quit printer app once the print jobs complete"
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-#   ###############################################################################
-#   # Screen                                                                      #
-#   ###############################################################################
+echo Disable Resume system-wide
+defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
 
-#   echo "Sleep after 30 minutes"
-#   sudo systemsetup -setsleep 30
+echo "Disable smart quotes as they are annoying when typing code"
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 
-#   ###############################################################################
-#   # Spotlight                                                                   #
-#   ###############################################################################
+echo "Disable smart dashes as they are annoying when typing code"
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
-#   echo "Disable Spotlight indexing for any volume that gets mounted and has not yet been indexed before."
-#   # Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
-#   sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
-# fi
+###############################################################################
+# Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
+###############################################################################
 
-# echo "Save to disk (not to iCloud) by default"
-# defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+echo "Trackpad: enable drag after double tap"
+defaults write com.apple.AppleMultitouchTrackpad Dragging -int 1
+defaults write com.apple.AppleMultitouchTrackpad DragLock -int 1
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -int 1
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad DragLock -int 1
 
-# echo "Automatically quit printer app once the print jobs complete"
-# defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+echo "Trackpad: enable tap to click for this user and for the login screen"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
-# echo "Remove duplicates in the 'Open With' menu (also see 'lscleanup' alias)"
-# /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
+echo "Disable auto-correct"
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
-# echo Disable Resume system-wide
-# defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
+echo "Enable keyboard control for dialogs (all elements)"
+defaults write -g AppleKeyboardUIMode -int 2
 
-# echo "Disable smart quotes as they’re annoying when typing code"
-# defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+###############################################################################
+# Screen                                                                      #
+###############################################################################
 
-# echo "Disable smart dashes as they’re annoying when typing code"
-# defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+echo "Set default screensaver to 'Flurry'"
+defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName Flurry path /System/Library/Screen\ Savers/Flurry.saver type 0
 
-# ###############################################################################
-# # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
-# ###############################################################################
+###############################################################################
+# Finder                                                                      #
+###############################################################################
 
-# echo "Trackpad: enable drag after double tap"
-# defaults write com.apple.AppleMultitouchTrackpad Dragging -int 1
-# defaults write com.apple.AppleMultitouchTrackpad DragLock -int 1
-# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -int 1
-# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad DragLock -int 1
+echo "Finder: show all filename extensions"
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-# echo "Trackpad: enable tap to click for this user and for the login screen"
-# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-# defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-# defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+echo "Finder: show hidden files"
+defaults write com.apple.finder AppleShowAllFiles -bool true
 
-# echo "Disable auto-correct"
-# defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+echo "Finder: show status bar"
+defaults write com.apple.finder ShowStatusBar -bool true
 
-# echo "Enable keyboard control for dialogs (all elements)"
-# defaults write -g AppleKeyboardUIMode -int 2
+echo "Finder: show path bar"
+defaults write com.apple.finder ShowPathbar -bool true
 
-# ###############################################################################
-# # Screen                                                                      #
-# ###############################################################################
+echo "When performing a search, search the current folder by default"
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
-# echo "Set default screensaver to 'Flurry'"
-# defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName Flurry path /System/Library/Screen\ Savers/Flurry.saver type 0
+echo "Disable the warning when changing a file extension"
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
-# ###############################################################################
-# # Finder                                                                      #
-# ###############################################################################
+echo "Enable spring loading for directories"
+defaults write NSGlobalDomain com.apple.springing.enabled -bool true
 
-# echo "Finder: show all filename extensions"
-# defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+echo "Avoid creating .DS_Store files on network volumes"
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
-# echo "Finder: show hidden files"
-# defaults write com.apple.finder AppleShowAllFiles -bool true
+echo "Use list view in all Finder windows by default"
+# Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
-# echo "Finder: show status bar"
-# defaults write com.apple.finder ShowStatusBar -bool true
+echo "Disable the warning before emptying the Trash"
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
-# echo "Finder: show path bar"
-# defaults write com.apple.finder ShowPathbar -bool true
+###############################################################################
+# Dock, Dashboard, and hot corners                                            #
+###############################################################################
 
-# echo "When performing a search, search the current folder by default"
-# defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+echo "Show open apps only"
+defaults write com.apple.dock static-only -bool TRUE
 
-# echo "Disable the warning when changing a file extension"
-# defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+echo "Do not automatically rearrange Spaces based on most recent use"
+defaults write com.apple.dock mru-spaces -bool false
 
-# echo "Enable spring loading for directories"
-# defaults write NSGlobalDomain com.apple.springing.enabled -bool true
+echo "Automatically hide and show the Dock"
+defaults write com.apple.dock autohide -bool true
 
-# echo "Avoid creating .DS_Store files on network volumes"
-# defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+echo "Switch space to show application on single click"
+defaults write com.apple.dock workspaces-auto-swoosh -boolean Yes
 
-# echo "Use list view in all Finder windows by default"
-# # Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
-# defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+echo "Reload Dock"
+killall -HUP Dock
 
-# echo "Disable the warning before emptying the Trash"
-# defaults write com.apple.finder WarnOnEmptyTrash -bool false
+###############################################################################
+# Terminal                                                                    #
+###############################################################################
 
-# ###############################################################################
-# # Dock, Dashboard, and hot corners                                            #
-# ###############################################################################
+echo "Only use UTF-8 in Terminal.app"
+defaults write com.apple.terminal StringEncodings -array 4
 
-# echo "Show open apps only"
-# defaults write com.apple.dock static-only -bool TRUE
+###############################################################################
+# Activity Monitor                                                            #
+###############################################################################
 
-# echo "Disable Dashboard"
-# defaults write com.apple.dashboard mcx-disabled -bool true
+echo "Show the main window when launching Activity Monitor"
+defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
 
-# echo "Don’t show Dashboard as a Space"
-# defaults write com.apple.dock dashboard-in-overlay -bool true
+echo "Visualize CPU usage in the Activity Monitor Dock icon"
+defaults write com.apple.ActivityMonitor IconType -int 5
 
-# echo "Don’t automatically rearrange Spaces based on most recent use"
-# defaults write com.apple.dock mru-spaces -bool false
+echo "Show all processes in Activity Monitor"
+defaults write com.apple.ActivityMonitor ShowCategory -int 0
 
-# echo "Automatically hide and show the Dock"
-# defaults write com.apple.dock autohide -bool true
+echo "Sort Activity Monitor results by CPU usage"
+defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
+defaults write com.apple.ActivityMonitor SortDirection -int 0
 
-# echo "Switch space to show application on single click"
-# defaults write com.apple.dock workspaces-auto-swoosh -boolean Yes
+###############################################################################
+# TextEdit                                                                    #
+###############################################################################
 
-# echo "Reload Dock"
-# killall -HUP Dock
+echo "Use plain text mode for new TextEdit documents"
+defaults write com.apple.TextEdit RichText -int 0
 
-# ###############################################################################
-# # Terminal                                                                    #
-# ###############################################################################
+echo "Open and save files as UTF-8 in TextEdit"
+defaults write com.apple.TextEdit PlainTextEncoding -int 4
+defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 
-# echo "Only use UTF-8 in Terminal.app"
-# defaults write com.apple.terminal StringEncodings -array 4
+###############################################################################
+# Safari                                                                    #
+###############################################################################
 
-# ###############################################################################
-# # Activity Monitor                                                            #
-# ###############################################################################
+echo "Safari: Disable opening safe files after download"
+defaults write com.apple.Safari AutoOpenSafeDownloads 0
 
-# echo "Show the main window when launching Activity Monitor"
-# defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
+###############################################################################
+# Dictionary                                                                  #
+###############################################################################
 
-# echo "Visualize CPU usage in the Activity Monitor Dock icon"
-# defaults write com.apple.ActivityMonitor IconType -int 5
-
-# echo "Show all processes in Activity Monitor"
-# defaults write com.apple.ActivityMonitor ShowCategory -int 0
-
-# echo "Sort Activity Monitor results by CPU usage"
-# defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
-# defaults write com.apple.ActivityMonitor SortDirection -int 0
-
-# ###############################################################################
-# # TextEdit                                                                    #
-# ###############################################################################
-
-# echo "Use plain text mode for new TextEdit documents"
-# defaults write com.apple.TextEdit RichText -int 0
-
-# echo "Open and save files as UTF-8 in TextEdit"
-# defaults write com.apple.TextEdit PlainTextEncoding -int 4
-# defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
-
-# ###############################################################################
-# # Safari                                                                    #
-# ###############################################################################
-
-# echo "Safari: Disable opening safe files after download"
-# defaults write com.apple.Safari AutoOpenSafeDownloads 0
-
-# ###############################################################################
-# # Dictionary                                                                  #
-# ###############################################################################
-
-# echo "Dictionary: Disable shortcut <cmd>+<ctl>+d"
-# defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 70 '<dict><key>enabled</key><false/></dict>'
+echo "Dictionary: Disable shortcut <cmd>+<ctl>+d"
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 70 '<dict><key>enabled</key><false/></dict>'
