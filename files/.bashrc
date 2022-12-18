@@ -25,3 +25,5 @@ $ '
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+source ~/.docker/init-bash.sh || true # Added by Docker Desktop

@@ -127,3 +127,5 @@ source ~/.common-rc
 source ~/.common-aliases
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source ~/.docker/init-zsh.sh || true # Added by Docker Desktop
