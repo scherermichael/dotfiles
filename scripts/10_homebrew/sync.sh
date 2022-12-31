@@ -69,14 +69,15 @@ if [ -f "${DIR}/packages.list" ]; then
   fi
 fi
 
-echo "Purging no longer needed formulars..."
-brew autoremove
-
 echo "Upgrading packages..."
 if ! brew upgrade; then
   echo "ERROR: Upgrade of packages failed!"
   exit 4
 fi
+
+echo "Purging no longer needed formulars..."
+brew autoremove
+brew cleanup
 
 # Cask
 
