@@ -1,4 +1,4 @@
-export PATH="/usr/local/sbin:${HOME}/bin:${PATH}"
+export PATH="/usr/local/sbin:${HOME}/bin:/opt/homebrew/bin:${PATH}"
 
 # App python bins to PATH
 if [ -d "${HOME}/Library/Python" ]; then
