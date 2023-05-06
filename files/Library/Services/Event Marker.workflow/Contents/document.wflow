@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>512</string>
+	<string>521.1</string>
 	<key>AMApplicationVersion</key>
 	<string>2.10</string>
 	<key>AMDocumentVersion</key>
@@ -51,7 +51,8 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>--see https://stackoverflow.com/a/51886819on run {input, parameters}	tell application "System Events"		set frontmostProcess to first process where it is frontmost		set appName to name of frontmostProcess		set result to appName	end tell		set windowName to ""	try		tell application appName			set windowName to the name of the front window		end tell		set result to result &amp; " - " &amp; windowName	end try		if appName is equal to "Safari" then		tell application "Safari"			set theURL to the URL of the current tab of the front window		end tell		set result to result &amp; " - " &amp; theURL	else if appName is equal to "Google Chrome" then		tell application "Google Chrome"			set theURL to the URL of the active tab of the front window		end tell		set result to result &amp; " - " &amp; theURL	else		set theURL to ""	end if		set theResult to appName	if windowName is not "" then		set theResult to theResult &amp; " - " &amp; windowName	end if	if theURL is not "" then		set theResult to theResult &amp; " - " &amp; theURL	end if	return theResult &amp; ": "end run</string>
+					<string>--see https://stackoverflow.com/a/51886819on run {input, parameters}
+	try		tell application "System Events"			set frontmostProcess to first process where it is frontmost			set appName to name of frontmostProcess			set result to appName		end tell				set windowName to ""		try			tell application appName				set windowName to the name of the front window			end tell			set result to result &amp; " - " &amp; windowName		end try				if appName is equal to "Safari" then			tell application "Safari"				set theURL to the URL of the current tab of the front window			end tell			set result to result &amp; " - " &amp; theURL		else if appName is equal to "Google Chrome" then			tell application "Google Chrome"				set theURL to the URL of the active tab of the front window			end tell			set result to result &amp; " - " &amp; theURL		else			set theURL to ""		end if				set theResult to appName		if windowName is not "" then			set theResult to theResult &amp; " - " &amp; windowName		end if		if theURL is not "" then			set theResult to theResult &amp; " - " &amp; theURL		end if		return theResult &amp; ": "	on error errorMessage number errorNumber	end tryend run</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -665,26 +666,26 @@ done</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>53C6DAAA-5CC7-4562-8198-9968ABB6D37C</key>
+		<key>916A6FF2-3495-42D3-8B24-499F3BCBF738</key>
+		<dict>
+			<key>from</key>
+			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
+			<key>to</key>
+			<string>70F50F82-C559-49BD-8378-C8FAEF329A40 - 70F50F82-C559-49BD-8378-C8FAEF329A40</string>
+		</dict>
+		<key>AD3CEFED-8093-4149-B257-0C20FDF5DDCC</key>
 		<dict>
 			<key>from</key>
 			<string>92E2A903-F6EE-4CB0-B0C2-724E05351C3D - 92E2A903-F6EE-4CB0-B0C2-724E05351C3D</string>
 			<key>to</key>
 			<string>DA93BACD-7C4C-40D5-AC5A-606C5F37D125 - DA93BACD-7C4C-40D5-AC5A-606C5F37D125</string>
 		</dict>
-		<key>92C62A0C-A4EC-43B2-9372-26E72BFEC712</key>
+		<key>B31336C2-104A-4809-B0A5-14B81CB2FACC</key>
 		<dict>
 			<key>from</key>
 			<string>DA93BACD-7C4C-40D5-AC5A-606C5F37D125 - DA93BACD-7C4C-40D5-AC5A-606C5F37D125</string>
 			<key>to</key>
 			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
-		</dict>
-		<key>9F98B241-9666-466E-B409-DF50A588F93F</key>
-		<dict>
-			<key>from</key>
-			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
-			<key>to</key>
-			<string>70F50F82-C559-49BD-8378-C8FAEF329A40 - 70F50F82-C559-49BD-8378-C8FAEF329A40</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
