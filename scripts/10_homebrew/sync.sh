@@ -103,7 +103,7 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   cask_packages_to_remove=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
   if [ -n "${cask_packages_to_remove}" ]; then
     echo "Uninstalling cask packages: ${cask_packages_to_remove}"
-    if ! brew uninstall --cask --appdir=~/Applications --force ${cask_packages_to_remove}; then
+    if ! brew uninstall --cask --force ${cask_packages_to_remove}; then
       echo "ERROR: De-installation of cask packages failed!"
       exit 6
     fi
