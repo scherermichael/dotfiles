@@ -1,0 +1,9 @@
+> [!todo] Tickler Items
+>
+> ```tasks
+> not done
+> has happens date
+> limit 100
+> sort by happens
+> filter by function const date = task.happens.moment; return date.isSame(moment().month(0), 'month') ;
+> ```
