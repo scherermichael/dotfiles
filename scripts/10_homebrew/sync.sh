@@ -29,9 +29,6 @@ else
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-echo "Tapping additional resources..."
-brew tap homebrew/cask-fonts
-
 # if [ ! "${NO_SUDO}" ]; then
 #   if ls -l /usr/local/ | tail -n +2 | grep -qv " admin "; then
 #     # Not all folders in /usr/local belong to the "admin" group
