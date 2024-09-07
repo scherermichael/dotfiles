@@ -227,5 +227,15 @@
     "key": "ctrl+shift+k",
     "command": "-editor.action.deleteLines",
     "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+shift+e",
+    "command": "-cursorLineEndSelect",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "ctrl+shift+a",
+    "command": "-cursorLineStartSelect",
+    "when": "textInputFocus"
   }
 ]

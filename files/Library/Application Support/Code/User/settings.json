@@ -28,15 +28,14 @@
       "strings": "off",
       "other": "off"
     },
+    "editor.defaultFormatter": "redhat.vscode-yaml",
   },
   "atomKeymap.promptV3Features": true,
-  "breadcrumbs.enabled": false,
   "dayNightThemeSwitcher.dayTheme": "Atom One Light",
   "dayNightThemeSwitcher.nightTheme": "Atomize",
   "debug.console.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
   "debug.console.fontSize": 14,
   "debug.toolBarLocation": "docked",
-  "diffEditor.ignoreTrimWhitespace": false,
   "diffEditor.renderSideBySide": false,
   "disableLigatures.mode": "Line",
   "editor.fontFamily": "'FiraCode-Retina', 'SF Mono', Menlo, Monaco, 'Courier New', monospace",
@@ -51,7 +50,7 @@
   "editor.minimap.renderCharacters": false,
   "editor.minimap.showSlider": "always",
   "editor.multiCursorModifier": "ctrlCmd",
-  "editor.occurrencesHighlight": false,
+  "editor.occurrencesHighlight": "off",
   "editor.parameterHints.cycle": false,
   "editor.quickSuggestions": {
     "comments": "off",
@@ -244,7 +243,6 @@
   "typescript.validate.enable": false,
   "update.showReleaseNotes": false,
   "window.newWindowDimensions": "maximized",
-  "workbench.activityBar.visible": true,
   "workbench.colorCustomizations": {
     "[Atomize]": {
       "editorBracketMatch.border": "#555",
@@ -271,7 +269,7 @@
   },
   "workbench.colorTheme": "Atomize",
   "workbench.editor.showIcons": false,
-  "workbench.editor.showTabs": true,
+  "workbench.editor.showTabs": "multiple",
   "workbench.editor.tabSizing": "shrink",
   "workbench.fontAliasing": "antialiased",
   "workbench.iconTheme": "atom-icons",
@@ -280,12 +278,12 @@
   "workbench.startupEditor": "none",
   "workbench.tips.enabled": false,
   "workbench.tree.renderIndentGuides": "none",
-  "editor.minimap.enabled": true,
+  "editor.minimap.enabled": false,
   "redhat.telemetry.enabled": false,
-  "workbench.editor.untitled.hint": "hidden",
   "docker.showStartPage": false,
   "vs-kubernetes": {
-    "vscode-kubernetes.minikube-path.mac": "/Users/michael/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
+    "vscode-kubernetes.minikube-path.mac": "/Users/michael/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
+    "vs-kubernetes.minikube-show-information-expiration": "2024-12-15T20:14:31.978Z"
   },
   "security.workspace.trust.untrustedFiles": "open",
   "[json]": {
@@ -303,6 +301,13 @@
   "diffEditor.codeLens": true,
   "githubPullRequests.fileListLayout": "tree",
   "editor.renderWhitespace": "none",
+  "gitlens.mode.active": "zen",
+  "window.titleBarStyle": "native",
+  "editor.unicodeHighlight.invisibleCharacters": false,
   "editor.renderControlCharacters": false,
-  "gitlens.mode.active": "zen"
+  "workbench.editor.empty.hint": "hidden",
+  "diffEditor.maxComputationTime": 0,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "window.commandCenter": false,
+  "workbench.layoutControl.enabled": false
 }
