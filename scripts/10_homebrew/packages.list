@@ -8,13 +8,17 @@ blueutil
 cabextract
 cdrtools
 colordiff
+eksctl
 fzf
+gh
 git
 gnu-sed
 helm
+helmfile
 heroku/brew/heroku
 hub
 jq
+k9s
 kops
 lima
 mas
@@ -33,6 +37,7 @@ pwgen
 shellcheck
 sidneys/homebrew/chntpw
 sleepwatcher
+socat
 terraform
 tmux
 watch
