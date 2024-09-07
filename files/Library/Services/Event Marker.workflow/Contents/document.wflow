@@ -51,48 +51,8 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>--see https://stackoverflow.com/a/51886819
-on run {input, parameters}
-	try
-		tell application "System Events"
-			set frontmostProcess to first process where it is frontmost
-			set appName to name of frontmostProcess
-			set result to appName
-		end tell
-
-		set windowName to ""
-		try
-			tell application appName
-				set windowName to the name of the front window
-			end tell
-			set result to result &amp; " - " &amp; windowName
-		end try
-
-		if appName is equal to "Safari" then
-			tell application "Safari"
-				set theURL to the URL of the current tab of the front window
-			end tell
-			set result to result &amp; " - " &amp; theURL
-		else if appName is equal to "Google Chrome" then
-			tell application "Google Chrome"
-				set theURL to the URL of the active tab of the front window
-			end tell
-			set result to result &amp; " - " &amp; theURL
-		else
-			set theURL to ""
-		end if
-
-		set theResult to appName
-		if windowName is not "" then
-			set theResult to theResult &amp; " - " &amp; windowName
-		end if
-		if theURL is not "" then
-			set theResult to theResult &amp; " - " &amp; theURL
-		end if
-		return theResult &amp; ": "
-	on error errorMessage number errorNumber
-	end try
-end run</string>
+					<string>--see https://stackoverflow.com/a/51886819on run {input, parameters}
+	try		tell application "System Events"			set frontmostProcess to first process where it is frontmost			set appName to name of frontmostProcess			set result to appName		end tell				set windowName to ""		try			tell application appName				set windowName to the name of the front window			end tell			set result to result &amp; " - " &amp; windowName		end try				if appName is equal to "Safari" then			tell application "Safari"				set theURL to the URL of the current tab of the front window			end tell			set result to result &amp; " - " &amp; theURL		else if appName is equal to "Google Chrome" then			tell application "Google Chrome"				set theURL to the URL of the active tab of the front window			end tell			set result to result &amp; " - " &amp; theURL		else			set theURL to ""		end if				set theResult to appName		if windowName is not "" then			set theResult to theResult &amp; " - " &amp; windowName		end if		if theURL is not "" then			set theResult to theResult &amp; " - " &amp; theURL		end if		return theResult &amp; ": "	on error errorMessage number errorNumber	end tryend run</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -128,9 +88,9 @@ end run</string>
 					<dict>
 						<key>default value</key>
 						<string>on run {input, parameters}
-
+	
 	(* Your script goes here *)
-
+	
 	return input
 end run</string>
 						<key>name</key>
@@ -382,7 +342,7 @@ esac
 					<dict>
 						<key>tokenizedValue</key>
 						<array>
-							<string>Event Description (prefix with negative number to shift time back):</string>
+							<string>Event Description:</string>
 						</array>
 					</dict>
 					<key>requireInput</key>
@@ -410,7 +370,7 @@ esac
 					<key>defaultAnswer</key>
 					<string></string>
 					<key>defaultMessage</key>
-					<string>Event Description (prefix with negative number to shift time):</string>
+					<string>Event Description:</string>
 					<key>requireInput</key>
 					<false/>
 				</dict>
@@ -706,26 +666,26 @@ done</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>81A7A57A-63FD-49A0-AA56-1FEAEE14FE86</key>
-		<dict>
-			<key>from</key>
-			<string>DA93BACD-7C4C-40D5-AC5A-606C5F37D125 - DA93BACD-7C4C-40D5-AC5A-606C5F37D125</string>
-			<key>to</key>
-			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
-		</dict>
-		<key>83DEE09B-13B6-46CC-A82D-DBE22D00CDCC</key>
+		<key>916A6FF2-3495-42D3-8B24-499F3BCBF738</key>
 		<dict>
 			<key>from</key>
 			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
 			<key>to</key>
 			<string>70F50F82-C559-49BD-8378-C8FAEF329A40 - 70F50F82-C559-49BD-8378-C8FAEF329A40</string>
 		</dict>
-		<key>D4EE70E9-E243-4C2A-9BFB-5CF8BEA25BAB</key>
+		<key>AD3CEFED-8093-4149-B257-0C20FDF5DDCC</key>
 		<dict>
 			<key>from</key>
 			<string>92E2A903-F6EE-4CB0-B0C2-724E05351C3D - 92E2A903-F6EE-4CB0-B0C2-724E05351C3D</string>
 			<key>to</key>
 			<string>DA93BACD-7C4C-40D5-AC5A-606C5F37D125 - DA93BACD-7C4C-40D5-AC5A-606C5F37D125</string>
+		</dict>
+		<key>B31336C2-104A-4809-B0A5-14B81CB2FACC</key>
+		<dict>
+			<key>from</key>
+			<string>DA93BACD-7C4C-40D5-AC5A-606C5F37D125 - DA93BACD-7C4C-40D5-AC5A-606C5F37D125</string>
+			<key>to</key>
+			<string>2993F24D-E8DC-4386-A1B6-46FAA1343F95 - 2993F24D-E8DC-4386-A1B6-46FAA1343F95</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
