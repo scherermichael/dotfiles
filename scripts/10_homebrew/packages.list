@@ -8,6 +8,7 @@ bat
 blueutil
 colordiff
 eksctl
+ffmpeg
 fzf
 gh
 git
@@ -37,10 +38,12 @@ pwgen
 shellcheck
 sleepwatcher
 socat
+taskell
 terraform
 tmux
 watch
 wget
 wireshark
 yq
+yt-dlp
 z
