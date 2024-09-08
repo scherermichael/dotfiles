@@ -9,6 +9,7 @@ cabextract
 cdrtools
 colordiff
 eksctl
+ffmpeg
 fzf
 gh
 git
@@ -38,10 +39,12 @@ shellcheck
 sidneys/homebrew/chntpw
 sleepwatcher
 socat
+taskell
 terraform
 tmux
 watch
 wget
 wimlib
 yq
+yt-dlp
 z

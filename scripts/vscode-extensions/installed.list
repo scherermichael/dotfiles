@@ -1,6 +1,7 @@
 akamud.vscode-theme-onedark
 akamud.vscode-theme-onelight
 alexkrechik.cucumberautocomplete
+atishay-jain.all-autocomplete
 bbenoist.vagrant
 bennycode.sort-everything
 bierner.markdown-yaml-preamble
@@ -26,6 +27,7 @@ mushan.vscode-paste-image
 pascalreitermann93.vscode-yaml-sort
 redhat.vscode-yaml
 richie5um2.vscode-sort-json
+timonwong.shellcheck
 tory.unique-id-generator
 wmaurer.change-case
 yzhang.markdown-all-in-one
