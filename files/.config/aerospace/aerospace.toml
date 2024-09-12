@@ -15,7 +15,7 @@ after-login-command = []
 after-startup-command = []
 
 # Start AeroSpace at login
-start-at-login = false
+start-at-login = true
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
@@ -91,7 +91,7 @@ outer.right =      0
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-shift-slash = 'layout tiles horizontal vertical'
 alt-shift-comma = 'layout accordion horizontal vertical'
-alt-shift-cmd-f = 'fullscreen'
+alt-shift-f = 'fullscreen'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
 alt-shift-h = 'focus left'
@@ -116,7 +116,7 @@ alt-shift-3 = 'workspace 3'
 alt-shift-4 = 'workspace 4'
 alt-shift-5 = 'workspace 5'
 alt-shift-6 = 'workspace 6'
-alt-shift-7 = 'workspace 7'
+# alt-shift-7 = 'workspace 7' # clashes with "\" on German keyboard
 alt-shift-8 = 'workspace 8'
 alt-shift-9 = 'workspace 9'
 alt-shift-b = 'workspace B'
@@ -166,3 +166,17 @@ alt-shift-h = ['join-with left', 'mode main']
 alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
+
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = 'main'
+7 = 'main'
+8 = 'main'
+9 = 'main'
+X = 'secondary'
+Y = 'secondary'
+Z = 'secondary'

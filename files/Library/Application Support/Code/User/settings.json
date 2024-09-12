@@ -51,7 +51,7 @@
   "editor.minimap.renderCharacters": false,
   "editor.minimap.showSlider": "always",
   "editor.multiCursorModifier": "ctrlCmd",
-  "editor.occurrencesHighlight": false,
+  "editor.occurrencesHighlight": "off",
   "editor.parameterHints.cycle": false,
   "editor.quickSuggestions": {
     "comments": "off",
@@ -244,7 +244,6 @@
   "typescript.validate.enable": false,
   "update.showReleaseNotes": false,
   "window.newWindowDimensions": "maximized",
-  "workbench.activityBar.visible": true,
   "workbench.colorCustomizations": {
     "[Atomize]": {
       "editorBracketMatch.border": "#555",
@@ -271,7 +270,7 @@
   },
   "workbench.colorTheme": "Atomize",
   "workbench.editor.showIcons": false,
-  "workbench.editor.showTabs": true,
+  "workbench.editor.showTabs": "multiple",
   "workbench.editor.tabSizing": "shrink",
   "workbench.fontAliasing": "antialiased",
   "workbench.iconTheme": "atom-icons",
