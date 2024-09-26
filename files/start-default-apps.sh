@@ -36,4 +36,4 @@ sleep 2
 aerospace move-node-to-workspace C
 
 # 1
-aerospace switch-node-to-workspace 1
+aerospace workspace 1
