@@ -147,6 +147,24 @@ alt-shift-cmd-x = [ 'move-node-to-workspace X', 'workspace X' ]
 alt-shift-cmd-y = [ 'move-node-to-workspace Y', 'workspace Y' ]
 alt-shift-cmd-z = [ 'move-node-to-workspace Z', 'workspace Z' ]
 
+# See: https://nikitabobko.github.io/AeroSpace/commands#summon-workspace
+alt-cmd-1 = 'summon-workspace 1'
+alt-cmd-2 = 'summon-workspace 2'
+alt-cmd-3 = 'summon-workspace 3'
+alt-cmd-4 = 'summon-workspace 4'
+# alt-cmd-5 = 'summon-workspace 5'
+# alt-cmd-6 = 'summon-workspace 6'
+# alt-cmd-7 = 'summon-workspace 7'
+# alt-cmd-8 = 'summon-workspace 8'
+# alt-cmd-9 = 'summon-workspace 9'
+alt-cmd-b = 'summon-workspace B'
+alt-cmd-c = 'summon-workspace C'
+alt-cmd-t = 'summon-workspace T'
+alt-cmd-w = 'summon-workspace W'
+alt-cmd-x = 'summon-workspace X'
+alt-cmd-y = 'summon-workspace Y'
+alt-cmd-z = 'summon-workspace Z'
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-shift-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
@@ -179,6 +197,10 @@ alt-shift-l = ['join-with right', 'mode main']
 # 7 = 'main'
 # 8 = 'main'
 # 9 = 'main'
+B = 'main'
+C = 'main'
+T = 'main'
+W = 'main'
 X = 'secondary'
 Y = 'secondary'
 Z = 'secondary'
