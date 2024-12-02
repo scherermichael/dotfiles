@@ -7,7 +7,8 @@
 # - Arg 1: Directory to store the files in
 # - Arg 2: Name of the vault (currently not used)
 #
-# Returns the title of the created note for using it in notifications
+# Returns the title of the created note for using it in notifications.
+# If a matching Markdown note already exists, returns nothing.
 
 set -e -o pipefail
 
@@ -26,15 +27,25 @@ txtUrl=$(grep -Eo 'https://www.amazon.de/gp/f.html?[^"]*\.txt[^"]*' <<< "${msgSo
 pdfUrl=$(grep -Eo 'https://www.amazon.de/gp/f.html?[^"]*\.pdf[^"]*' <<< "${msgSource}" || echo "")
 
 # Get title of note:
-# - Decode url-encoded characters twice
+# - decode url-encoded characters twice:
 #   - first decode the url parameter
 #   - then decode general url-decoded caracters like spaces
 # - grep title from url
 # - trim newlines
+# - replace unsafe characters (not allowed as filename or problematic for Obsidian links) with underscore
 title=$(python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(ul.unquote_plus(sys.stdin.read())))' <<< "${pdfUrl}" | sed 's/\.pdf\?.*$//g' | sed 's|^.*https://kindle-content-requests.prod.s3.amazonaws.com/[-0-9a-z]*/||g' | tr -d '\n')
+title=$(echo "${title}" | tr ':/\#^|[]' '_')
+
+# Get name of files to create
+noteFilename="${vaultPath}/${title}.md"
+pdfFilename="${vaultPath}/${title}.pdf"
+
+# Skip if note already exists
+if [ -f "${noteFilename}" ]; then
+  exit 0
+fi
 
 # Create Markdown note
-noteFilename="${vaultPath}/${title}.md"
 echo "# ${title}" > "${noteFilename}"
 {
   echo ''
@@ -53,7 +64,6 @@ if [ "${txtUrl}" != "" ]; then
 fi
 
 # Download pdf file
-pdfFilename="${vaultPath}/${title}.pdf"
 curl -sLf "${pdfUrl}" -o "${pdfFilename}"
 
 echo "${title}"
