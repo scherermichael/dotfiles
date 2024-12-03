@@ -12,8 +12,10 @@
 
 set -e -o pipefail
 
-vaultPath=$1
+# vaultPath=$1
 # vaultName=$2
+vaultPath="/Users/michael/Library/Mobile Documents/iCloud~md~obsidian/Documents/Personal/01 @Inbox"
+vaultName="Personal vault"
 
 msgSource=$(</dev/stdin)
 
@@ -67,3 +69,5 @@ fi
 curl -sLf "${pdfUrl}" -o "${pdfFilename}"
 
 echo "${title}"
+
+osascript -e "display notification \"${title} imported.\" with title \"PDF from Scribe to Obsidian\" subtitle \"${vaultName}\""
