@@ -44,6 +44,9 @@ Here are scripts located that can be used by the user to automate certain tasks.
 - `main-display-notebook.sh`  
   Open settings and switch main view to built-in monitor.
 
+- `scribe2obsidian.scpt`  
+  Apple Script that can run as a cron job (`*/5 * * * * osascript /Users/michael/bin/scribe2obsidian.scpt`) for scanning a mail folder for Amazon mails to import a Kindle Scribe PDF and transcription. A rule must be defined to move such mails into a dedicated folder. Runs scribe2obsidian.sh for the actual import. Please Note: Please note: Using such a script directly as an Apple Mail rule has proven to be unreliable as the mail content could not always be retrieved.
+  
 - `stechuhr.sh`  
   Script to log login events if added to user's startup configuration.
 

@@ -44,6 +44,7 @@ pdfFilename="${vaultPath}/${title}.pdf"
 
 # Skip if note already exists
 if [ -f "${noteFilename}" ]; then
+  osascript -e "display notification \"${title} already exists.\" with title \"PDF from Scribe to Obsidian\" subtitle \"${vaultName}\""
   exit 0
 fi
 
@@ -61,12 +62,18 @@ if [ "${txtUrl}" != "" ]; then
     echo ''
     echo '## Transcription'
     echo ''
-    curl -sLf "${txtUrl}"
+    if ! curl -sLf "${txtUrl}"; then
+      echo "Error: Unable to download transcription for '${title}'."
+      exit 101
+    fi
   } >> "${noteFilename}"
 fi
 
 # Download pdf file
-curl -sLf "${pdfUrl}" -o "${pdfFilename}"
+if ! curl -sLf "${pdfUrl}" -o "${pdfFilename}"; then
+  echo "Error: Unable to download PDF for '${title}'."
+  exit 102
+fi
 
 echo "${title}"
 
