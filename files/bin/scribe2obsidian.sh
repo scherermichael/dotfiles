@@ -10,7 +10,7 @@
 # Returns the title of the created note for using it in notifications.
 # If a matching Markdown note already exists, returns nothing.
 
-set -ex -o pipefail
+set -e -o pipefail
 
 # Source vault data
 source "${HOME}/private/obsidian-vaults.sh"
@@ -36,13 +36,15 @@ pdfUrl=$(grep -Eo 'https://www.amazon.de/gp/f.html?[^"]*\.pdf[^"]*' <<< "${msgSo
 title=$(python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(ul.unquote_plus(sys.stdin.read())))' <<< "${pdfUrl}" | sed 's/\.pdf\?.*$//g' | sed 's|^.*https://kindle-content-requests.prod.s3.amazonaws.com/[-0-9a-z]*/||g' | tr -d '\n')
 title=$(echo "${title}" | tr ':/\#^|[]' '_')
 
-# Search target vault
+# Use the first vault with matching title regex as target
 vaultPath=""
 vaultName=""
-for vault in ${!vault@}; do
-    if echo "${title}" | grep -q "${vault[noteTitleRegex]}"; then
-      vaultName="${vault[name]}"
-      vaultPath="${vault[path]}"
+# shellcheck disable=SC2154
+for i in "${!vaultNames[@]}"; do
+    if echo "${title}" | grep -Eq "${vaultNoteTitleRegexes[$i]}"; then
+      vaultName="${vaultNames[$i]}"
+      vaultPath="${vaultPaths[$i]}"
+      break
     fi
 done
 # No name or path for a matching vault found
