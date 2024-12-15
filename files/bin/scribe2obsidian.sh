@@ -44,6 +44,8 @@ for i in "${!vaultNames[@]}"; do
     if echo "${title}" | grep -Eq "${vaultNoteTitleRegexes[$i]}"; then
       vaultName="${vaultNames[$i]}"
       vaultPath="${vaultPaths[$i]}"
+      # Remove prefix including trailing spaces from title
+      title=$(echo "${title}" | sed -r "s|${vaultNoteTitleRegexes[$i]} *||")
       break
     fi
 done
