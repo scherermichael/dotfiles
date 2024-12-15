@@ -14,9 +14,24 @@ set -e -o pipefail
 
 # Source vault data
 source "${HOME}/private/obsidian-vaults.sh"
+# Sample of sourced data:
+# vaultNames=(\
+#   "Work vault" \
+#   "Personal vault"
+# )
+# vaultPaths=( \
+#   "${HOME}/obsidian-work" \
+#   "${HOME}/obsidian-personal"
+# )
+# vaultNoteTitleRegexes=( \
+#   "^work " \
+#   "^" \
+# )
+# Notes with title prefixed by 'work ' are imported to Work vault, all other to Personal vault
+# Please note: first vault with matching regex is used
 
+# Get source of mail from stdin
 msgSource=$(</dev/stdin)
-
 # shellcheck disable=SC2001
 msgSource=$(sed 's/=$//' <<< "${msgSource}" | tr -d '\n' | sed 's/=3D/=/g')
 
@@ -29,7 +44,7 @@ pdfUrl=$(grep -Eo 'https://www.amazon.de/gp/f.html?[^"]*\.pdf[^"]*' <<< "${msgSo
 # Get title of note:
 # - decode url-encoded characters twice:
 #   - first decode the url parameter
-#   - then decode general url-decoded caracters like spaces
+#   - then decode general url-decoded characters like spaces
 # - grep title from url
 # - trim newlines
 # - replace unsafe characters (not allowed as filename or problematic for Obsidian links) with underscore
