@@ -10,12 +10,10 @@
 # Returns the title of the created note for using it in notifications.
 # If a matching Markdown note already exists, returns nothing.
 
-set -e -o pipefail
+set -ex -o pipefail
 
-# vaultPath=$1
-# vaultName=$2
-vaultPath="/Users/michael/Library/Mobile Documents/iCloud~md~obsidian/Documents/Personal/01 @Inbox"
-vaultName="Personal vault"
+# Source vault data
+source "${HOME}/private/obsidian-vaults.sh"
 
 msgSource=$(</dev/stdin)
 
@@ -37,6 +35,19 @@ pdfUrl=$(grep -Eo 'https://www.amazon.de/gp/f.html?[^"]*\.pdf[^"]*' <<< "${msgSo
 # - replace unsafe characters (not allowed as filename or problematic for Obsidian links) with underscore
 title=$(python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(ul.unquote_plus(sys.stdin.read())))' <<< "${pdfUrl}" | sed 's/\.pdf\?.*$//g' | sed 's|^.*https://kindle-content-requests.prod.s3.amazonaws.com/[-0-9a-z]*/||g' | tr -d '\n')
 title=$(echo "${title}" | tr ':/\#^|[]' '_')
+
+# Search target vault
+vaultPath=""
+vaultName=""
+for vault in ${!vault@}; do
+    if echo "${title}" | grep -q "${vault[noteTitleRegex]}"; then
+      vaultName="${vault[name]}"
+      vaultPath="${vault[path]}"
+    fi
+done
+# No name or path for a matching vault found
+[ "${vaultName}" = "" ] && echo "Error: Name of vault not found." && exit 101
+[ "${vaultPath}" = "" ] && echo "Error: Path of vault not found." && exit 102
 
 # Get name of files to create
 noteFilename="${vaultPath}/${title}.md"
@@ -64,7 +75,7 @@ if [ "${txtUrl}" != "" ]; then
     echo ''
     if ! curl -sLf "${txtUrl}"; then
       echo "Error: Unable to download transcription for '${title}'."
-      exit 101
+      exit 103
     fi
   } >> "${noteFilename}"
 fi
@@ -72,7 +83,7 @@ fi
 # Download pdf file
 if ! curl -sLf "${pdfUrl}" -o "${pdfFilename}"; then
   echo "Error: Unable to download PDF for '${title}'."
-  exit 102
+  exit 104
 fi
 
 echo "${title}"

@@ -42,6 +42,10 @@ fi
 echo "Restoring config files..."
 cp -afv files/. "${HOME}"
 
+echo "Restoring private files to HOME and iCloud, if path exists..."
+cp -afv private/. "${HOME}"
+cp -afv private/. "'${HOME}/Library/Mobile Documents/com~apple~CloudDocs/dotfiles'" && true
+
 if [ $? != 0 ]; then
   echo "Error restoring files. Abort."
   exit 1
