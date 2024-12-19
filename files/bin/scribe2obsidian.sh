@@ -78,6 +78,12 @@ if [ -f "${noteFilename}" ]; then
   exit 0
 fi
 
+# Download pdf file
+if ! curl -sLf "${pdfUrl}" -o "${pdfFilename}"; then
+  echo "Error: Unable to download PDF for '${title}'."
+  exit 103
+fi
+
 # Create Markdown note
 echo "# ${title}" > "${noteFilename}"
 {
@@ -94,17 +100,9 @@ if [ "${txtUrl}" != "" ]; then
     echo ''
     if ! curl -sLf "${txtUrl}"; then
       echo "Error: Unable to download transcription for '${title}'."
-      exit 103
+      exit 104
     fi
   } >> "${noteFilename}"
 fi
-
-# Download pdf file
-if ! curl -sLf "${pdfUrl}" -o "${pdfFilename}"; then
-  echo "Error: Unable to download PDF for '${title}'."
-  exit 104
-fi
-
-echo "${title}"
 
 osascript -e "display notification \"${title} imported.\" with title \"PDF from Scribe to Obsidian\" subtitle \"${vaultName}\""
