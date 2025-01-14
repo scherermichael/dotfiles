@@ -12,6 +12,8 @@
 
 set -e -o pipefail
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 # Source vault data
 source "${HOME}/private/obsidian-vaults.sh"
 # Sample of sourced data:
@@ -59,6 +61,7 @@ for i in "${!vaultNames[@]}"; do
     if echo "${title}" | grep -Eq "${vaultNoteTitleRegexes[$i]}"; then
       vaultName="${vaultNames[$i]}"
       vaultPath="${vaultPaths[$i]}"
+      vaultPostProcessScript="${vaultPostProcessScripts[$i]}"
       # Remove prefix including trailing spaces from title
       title=$(echo "${title}" | sed -r "s|${vaultNoteTitleRegexes[$i]} *||")
       break
@@ -103,6 +106,11 @@ if [ "${txtUrl}" != "" ]; then
       exit 104
     fi
   } >> "${noteFilename}"
+fi
+
+# Source post processing script if it exists
+if [ -e "${SCRIPT_DIR}/${vaultPostProcessScript}" ]; then
+  . "${SCRIPT_DIR}/${vaultPostProcessScript}"
 fi
 
 osascript -e "display notification \"${title} imported.\" with title \"PDF from Scribe to Obsidian\" subtitle \"${vaultName}\""
