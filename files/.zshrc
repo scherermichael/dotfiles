@@ -129,3 +129,6 @@ source ~/.common-aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f ~/.docker/init-zsh.sh ] && source ~/.docker/init-zsh.sh
+
+# Created by `pipx` on 2024-12-29 09:21:26
+export PATH="$PATH:${HOME}/.local/bin"
