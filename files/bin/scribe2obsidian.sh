@@ -10,6 +10,7 @@
 # Returns the title of the created note for using it in notifications.
 # If a matching Markdown note already exists, returns nothing.
 
+# DEBUG set -x
 set -e -o pipefail
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
@@ -33,7 +34,10 @@ source "${HOME}/private/obsidian-vaults.sh"
 # Please note: first vault with matching regex is used
 
 # Get source of mail from stdin
-msgSource=$(</dev/stdin)
+# msgSource=$(</dev/stdin)
+# DEBUG msgSource=$(<~/projects/dotfiles/files/bin/scribe2obsidian-message.txt)
+# DEBUG echo "${msgSource}" > ~/projects/dotfiles/files/bin/scribe2obsidian-message.txt
+
 # shellcheck disable=SC2001
 msgSource=$(sed 's/=$//' <<< "${msgSource}" | tr -d '\n' | sed 's/=3D/=/g')
 
@@ -106,6 +110,9 @@ if [ "${txtUrl}" != "" ]; then
       exit 104
     fi
   } >> "${noteFilename}"
+
+  # Create links to pages in PDF by replacing "Seite XY" that follows an empty line
+  sed -i '' '/^$/,/^Seite \(.*\)$/s/^Seite \([0-9]*\)$/[['"${title}"'.pdf#page=\1|Seite \1]]/' "${noteFilename}"
 fi
 
 # Source post processing script if it exists
