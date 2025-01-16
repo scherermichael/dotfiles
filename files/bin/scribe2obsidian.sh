@@ -34,7 +34,7 @@ source "${HOME}/private/obsidian-vaults.sh"
 # Please note: first vault with matching regex is used
 
 # Get source of mail from stdin
-# msgSource=$(</dev/stdin)
+msgSource=$(</dev/stdin)
 # DEBUG msgSource=$(<~/projects/dotfiles/files/bin/scribe2obsidian-message.txt)
 # DEBUG echo "${msgSource}" > ~/projects/dotfiles/files/bin/scribe2obsidian-message.txt
 
