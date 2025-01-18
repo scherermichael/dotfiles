@@ -115,9 +115,12 @@ if [ "${txtUrl}" != "" ]; then
     fi
   } >> "${noteFilename}"
 
-  # Addint to do items by replacing "*" with "- [ ] " and inserting a newline before if it ocurrs in the middle of a line
+  # Adding todo items by replacing "*" with "- [ ] " and inserting a newline before if it ocurrs in the middle of a line
   sed -i '' 's/^\(\s*\)\*/\1- [ ] /' "${noteFilename}" # At the bignning of a line
   sed -i '' 's/\*/\n- [ ] /' "${noteFilename}" # In the middle of text
+
+  # Adding space if "-" is the first character and another one is directly following. Spaces are often not recognized for bullet lists.
+  sed -i '' 's/^\(\s*\)-\([^ ]\)/\1- \2/' "${noteFilename}" # At the bignning of a line
 
   # Create links to pages in PDF by replacing "Seite XY" that follows an empty line
   sed -i '' '/^$/,/^Seite \(.*\)$/s/^Seite \([0-9]*\)$/[['"${title}"'.pdf#page=\1|Seite \1]]/' "${noteFilename}"
