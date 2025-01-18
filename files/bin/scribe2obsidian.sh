@@ -30,6 +30,10 @@ source "${HOME}/private/obsidian-vaults.sh"
 #   "^work " \
 #   "^" \
 # )
+# vaultPostProcessScripts=( \
+#   "scribe2obsidian-commit.sh" \
+#   "" \
+# )
 # Notes with title prefixed by 'work ' are imported to Work vault, all other to Personal vault
 # Please note: first vault with matching regex is used
 
