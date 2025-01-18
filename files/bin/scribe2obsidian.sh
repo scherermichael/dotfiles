@@ -116,7 +116,7 @@ if [ "${txtUrl}" != "" ]; then
 fi
 
 # Source post processing script if it exists
-if [ -e "${SCRIPT_DIR}/${vaultPostProcessScript}" ]; then
+if [ -f "${SCRIPT_DIR}/${vaultPostProcessScript}" ]; then
   . "${SCRIPT_DIR}/${vaultPostProcessScript}"
 fi
 
