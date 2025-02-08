@@ -117,7 +117,7 @@ if [ "${txtUrl}" != "" ]; then
 
   # Adding todo items by replacing "*" with "- [ ] " and inserting a newline before if it ocurrs in the middle of a line
   sed -i '' 's/^\(\s*\)\*/\1- [ ] /' "${noteFilename}" # At the bignning of a line
-  sed -i '' 's/\*/\n- [ ] /' "${noteFilename}" # In the middle of text
+  sed -i '' 's/\*/\n- [ ] /' "${noteFilename}" # In the middle of text: create new line
 
   # Adding space if "-" is the first character and another one is directly following. Spaces are often not recognized for bullet lists.
   sed -i '' 's/^\(\s*\)-\([^ ]\)/\1- \2/' "${noteFilename}" # At the bignning of a line
