@@ -99,7 +99,7 @@ fi
 echo "# ${title}" > "${noteFilename}"
 {
   echo ''
-  echo "[[${title}.pdf]]"
+  echo "![[${title}.pdf]]"
 } >> "${noteFilename}"
 
 # Transcription found
