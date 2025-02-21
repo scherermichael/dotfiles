@@ -99,6 +99,8 @@ fi
 echo "# ${title}" > "${noteFilename}"
 {
   echo ''
+  echo '## Preview'
+  echo ''
   echo "![[${title}.pdf]]"
 } >> "${noteFilename}"
 
