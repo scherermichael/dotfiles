@@ -78,10 +78,10 @@ brew cleanup
 
 # Cask
 
-if [ "${NO_SUDO}" ]; then
-  echo "Skip installing casks. No sudo allowed."
-  exit 0
-fi
+# if [ "${NO_SUDO}" ]; then
+#   echo "Skip installing casks. No sudo allowed."
+#   exit 0
+# fi
 
 # Install new Cask packages
 if [ -f "${DIR}/packages-cask.list" ]; then
