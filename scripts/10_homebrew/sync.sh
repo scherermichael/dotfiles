@@ -107,6 +107,37 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   fi
 fi
 
+# Cask requiring sudo
+
+if [ "${NO_SUDO}" ]; then
+  echo "Skip installing casks that require sudo permissions. No sudo allowed."
+  exit 0
+else
+  # Install new Cask packages
+  if [ -f "${DIR}/packages-cask-sudo.list" ]; then
+    cask_packages_sudo_to_install=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask-sudo.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
+    if [ -n "${cask_packages_sudo_to_install}" ]; then
+      echo "Installing cask packages with sudo: ${cask_packages_sudo_to_install}"
+      if ! brew install --cask --appdir=~/Applications ${cask_packages_sudo_to_install}; then
+        echo "ERROR: Installation of cask packages failed!"
+        exit 5
+      fi
+    fi
+  fi
+
+  # Deinstall no longer listed Cask packages
+  if [ -f "${DIR}/packages-cask-sudo.list" ]; then
+    cask_packages_sudo_to_remove=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask-sudo.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
+    if [ -n "${cask_packages_sudo_to_remove}" ]; then
+      echo "Uninstalling cask packages with sudo: ${cask_packages_sudo_to_remove}"
+      if ! brew uninstall --cask --force ${cask_packages_sudo_to_remove}; then
+        echo "ERROR: De-installation of cask packages failed!"
+        exit 6
+      fi
+    fi
+  fi
+fi
+
 echo "Upgrading Cask package packages..."
 if ! brew upgrade --cask; then
   echo "ERROR: Upgrade of cask packages failed!"
