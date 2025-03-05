@@ -39,7 +39,6 @@
     alwaysTakeMinimumSpace: true
     panelHeight: 129
     panelRepresents: "Entire Project"
-    showPanel: true
   "markdown-preview": {}
   minimap:
     plugins:

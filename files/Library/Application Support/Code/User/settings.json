@@ -283,7 +283,7 @@
   "docker.showStartPage": false,
   "vs-kubernetes": {
     "vscode-kubernetes.minikube-path.mac": "/Users/michael/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
-    "vs-kubernetes.minikube-show-information-expiration": "2024-12-15T20:14:31.978Z"
+    "vscode-kubernetes.minikube-path-mac": "/Users/michael.scherer/.vs-kubernetes/tools/minikube/darwin-arm64/minikube"
   },
   "security.workspace.trust.untrustedFiles": "open",
   "[json]": {
