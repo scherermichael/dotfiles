@@ -125,7 +125,7 @@ if [ "${txtUrl}" != "" ]; then
   sed -i '' 's/^\(\s*\)-\([^ ]\)/\1- \2/' "${noteFilename}" # At the bignning of a line
 
   # Create links to pages in PDF by replacing "Seite XY" that follows an empty line
-  sed -i '' '/^$/,/^Seite \(.*\)$/s/^Seite \([0-9]*\)$/[['"${title}"'.pdf#page=\1|Seite \1]]/' "${noteFilename}"
+  sed -i '' '/^$/,/^Seite \(.*\)$/s/^Seite \([0-9]*\)$/### [['"${title}"'.pdf#page=\1|Seite \1]]\n/' "${noteFilename}"
 fi
 
 # Source post processing script if it exists
