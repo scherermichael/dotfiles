@@ -16,9 +16,12 @@ erd0s.terraform-autocomplete
 eriklynd.json-tools
 fcrespo82.markdown-table-formatter
 freetonik.day-night-theme-switcher
+github.copilot
+github.copilot-chat
 github.vscode-pull-request-github
 hashicorp.terraform
 ms-azuretools.vscode-azureresourcegroups
+ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
 ms-vscode.atom-keybindings
