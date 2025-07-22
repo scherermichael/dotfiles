@@ -70,8 +70,13 @@ for i in "${!vaultNames[@]}"; do
       vaultName="${vaultNames[$i]}"
       vaultPath="${vaultPaths[$i]}"
       vaultPostProcessScript="${vaultPostProcessScripts[$i]}"
-      # Remove prefix including trailing spaces from title
-      title=$(echo "${title}" | sed -r "s|${vaultNoteTitleRegexes[$i]} *||")
+      # Remove prefix and suffix
+      if [ -n "${vaultNoteTitlePrefixRegexes[$i]}" ]; then
+        title=$(echo "${title}" | sed -r "s|${vaultNoteTitlePrefixRegexes[$i]}||")
+      fi
+      if [ -n "${vaultNoteTitleSuffixRegexes[$i]}" ]; then
+        title=$(echo "${title}" | sed -r "s|${vaultNoteTitleSuffixRegexes[$i]}||")
+      fi
       break
     fi
 done
@@ -83,11 +88,11 @@ done
 noteFilename="${vaultPath}/${title}.md"
 pdfFilename="${vaultPath}/${title}.pdf"
 
-# Skip if note already exists
-if [ -f "${noteFilename}" ]; then
-  osascript -e "display notification \"${title} already exists.\" with title \"PDF from Scribe to Obsidian\" subtitle \"${vaultName}\""
-  exit 0
-fi
+# # Skip if note already exists
+# if [ -f "${noteFilename}" ]; then
+#   osascript -e "display notification \"${title} already exists.\" with title \"PDF from Scribe to Obsidian\" subtitle \"${vaultName}\""
+#   exit 0
+# fi
 
 # Download pdf file
 if ! curl -sLf "${pdfUrl}" -o "${pdfFilename}"; then
@@ -106,26 +111,43 @@ echo "# ${title}" > "${noteFilename}"
 
 # Transcription found
 if [ "${txtUrl}" != "" ]; then
-  # Download txt file and add transcription to note
+  # Add header for transcription section
   {
     echo ''
     echo '## Transcription'
     echo ''
+  } >> "${noteFilename}"
+
+  # Create temp file for content of transcript
+  transcriptFilename=$(mktemp)
+
+  # Download txt file
+  {
     if ! curl -sLf "${txtUrl}"; then
       echo "Error: Unable to download transcription for '${title}'."
       exit 104
     fi
-  } >> "${noteFilename}"
+  } > "${transcriptFilename}"
 
   # Adding todo items by replacing "*" with "- [ ] " and inserting a newline before if it ocurrs in the middle of a line
-  sed -i '' 's/^\(\s*\)\*/\1- [ ] /' "${noteFilename}" # At the bignning of a line
-  sed -i '' 's/\*/\n- [ ] /' "${noteFilename}" # In the middle of text: create new line
+  sed -i '' 's/\([[:space:]]*\)\*/\1- [ ] /' "${transcriptFilename}" # At the bignning of a line
+  sed -i '' 's/\*/\n- [ ] /g' "${transcriptFilename}" # In the middle of text: create new line
 
   # Adding space if "-" is the first character and another one is directly following. Spaces are often not recognized for bullet lists.
-  sed -i '' 's/^\(\s*\)-\([^ ]\)/\1- \2/' "${noteFilename}" # At the bignning of a line
+  sed -i '' 's/^\([[:space:]]*\)-\([^ ]\)/\1- \2/g' "${transcriptFilename}" # At the bignning of a line
+
+  # Removing spaces between hash tag and tag name.
+  sed -i '' 's/# */#/g' "${transcriptFilename}"
+  # Adding spaces before hash tag.
+  sed -i '' 's/\([^[:space:]]\)#/\1 #/g' "${transcriptFilename}"
 
   # Create links to pages in PDF by replacing "Seite XY" that follows an empty line
-  sed -i '' '/^$/,/^Seite \(.*\)$/s/^Seite \([0-9]*\)$/### [['"${title}"'.pdf#page=\1|Seite \1]]\n/' "${noteFilename}"
+  sed -i '' '/^$/,/^Seite \(.*\)$/s/^Seite \([0-9]*\)$/### [['"${title}"'.pdf#page=\1|Seite \1]]\n/' "${transcriptFilename}"
+
+  # Copy patched content of transcript to note file
+  cat "${transcriptFilename}" >> "${noteFilename}"
+  # Remove temp file
+  rm -f "${transcriptFilename}"
 fi
 
 # Source post processing script if it exists
