@@ -15,6 +15,14 @@ set -e -o pipefail
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+finish () {
+    exitCode=$?
+    if [[ $exitCode -ne 0 ]]; then
+      osascript -e "display notification \"Finished with error: ${exitCode}.\" with title \"PDF from Scribe to Obsidian\" subtitle \"${vaultName}\""
+    fi
+}
+trap 'finish' EXIT
+
 # Source vault data
 source "${HOME}/private/obsidian-vaults.sh"
 # Sample of sourced data:
@@ -115,11 +123,12 @@ if [ "${txtUrl}" != "" ]; then
   {
     echo ''
     echo '## Transcription'
-    echo ''
   } >> "${noteFilename}"
 
   # Create temp file for content of transcript
   transcriptFilename=$(mktemp)
+  # Empty first line is important for linkifying the page numbers
+  echo '' > "${transcriptFilename}"
 
   # Download txt file
   {
@@ -127,7 +136,7 @@ if [ "${txtUrl}" != "" ]; then
       echo "Error: Unable to download transcription for '${title}'."
       exit 104
     fi
-  } > "${transcriptFilename}"
+  } >> "${transcriptFilename}"
 
   # Adding todo items by replacing "*" with "- [ ] " and inserting a newline before if it ocurrs in the middle of a line
   sed -i '' 's/\([[:space:]]*\)\*/\1- [ ] /' "${transcriptFilename}" # At the bignning of a line
