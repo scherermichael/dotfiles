@@ -108,17 +108,17 @@ if ! curl -sLf "${pdfUrl}" -o "${pdfFilename}"; then
   exit 103
 fi
 
-# Create Markdown note
-echo "# ${title}" > "${noteFilename}"
-{
-  echo ''
-  echo '## Preview'
-  echo ''
-  echo "![[${title}.pdf]]"
-} >> "${noteFilename}"
-
 # Transcription found
 if [ "${txtUrl}" != "" ]; then
+  # Create Markdown note
+  echo "# ${title}" > "${noteFilename}"
+  {
+    echo ''
+    echo '## Preview'
+    echo ''
+    echo "![[${title}.pdf]]"
+  } >> "${noteFilename}"
+
   # Add header for transcription section
   {
     echo ''
