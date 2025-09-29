@@ -8,6 +8,7 @@ bat
 blueutil
 colordiff
 eksctl
+fdupes
 ffmpeg
 fzf
 gh
@@ -24,6 +25,7 @@ kops
 lazygit
 lima
 mas
+miller
 minikube
 mongodb/brew/mongodb-community-shell
 mongosh
@@ -34,6 +36,7 @@ p7zip
 packer
 pass
 pinentry-mac
+pipx
 podman
 pwgen
 shellcheck

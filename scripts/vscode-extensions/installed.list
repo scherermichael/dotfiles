@@ -9,6 +9,7 @@ coenraads.disableligatures
 davidanson.vscode-markdownlint
 dbaeumer.vscode-eslint
 digitalbrainstem.javascript-ejs-support
+docker.docker
 eamodio.gitlens
 editorconfig.editorconfig
 emroussel.atom-icons
@@ -20,6 +21,7 @@ freetonik.day-night-theme-switcher
 github.vscode-pull-request-github
 hashicorp.terraform
 ms-azuretools.vscode-azureresourcegroups
+ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
 ms-vscode.atom-keybindings

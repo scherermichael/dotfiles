@@ -283,7 +283,8 @@
   "docker.showStartPage": false,
   "vs-kubernetes": {
     "vscode-kubernetes.minikube-path.mac": "/Users/michael/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
-    "vscode-kubernetes.minikube-path-mac": "/Users/michael.scherer/.vs-kubernetes/tools/minikube/darwin-arm64/minikube"
+    "vscode-kubernetes.minikube-path-mac": "/Users/michael.scherer/.vs-kubernetes/tools/minikube/darwin-arm64/minikube",
+    "vs-kubernetes.minikube-show-information-expiration": "2026-01-12T16:59:02.080Z"
   },
   "security.workspace.trust.untrustedFiles": "open",
   "[json]": {
@@ -309,5 +310,6 @@
   "diffEditor.maxComputationTime": 0,
   "diffEditor.ignoreTrimWhitespace": false,
   "window.commandCenter": false,
-  "workbench.layoutControl.enabled": false
+  "workbench.layoutControl.enabled": false,
+  "githubPullRequests.createOnPublishBranch": "never"
 }
