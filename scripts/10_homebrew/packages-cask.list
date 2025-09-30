@@ -5,9 +5,9 @@ atom
 authy
 balenaetcher
 bettertouchtool
+calibre
 daisydisk
 deepl
-docker
 drawio
 dropbox
 font-fira-code
@@ -21,6 +21,7 @@ microsoft-office
 microsoft-remote-desktop
 monitorcontrol
 obsidian
+openmtp
 screens
 sdformatter
 simplemind
@@ -34,8 +35,6 @@ tunnelblick
 utm
 vagrant
 visual-studio-code
-vivid
 vlc
-wireshark
 yed
 zotero
