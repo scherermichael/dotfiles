@@ -15,6 +15,7 @@ gh
 git
 gnu-sed
 grep
+helm
 helmfile
 heroku/brew/heroku
 hub
