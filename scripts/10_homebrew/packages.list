@@ -15,7 +15,6 @@ gh
 git
 gnu-sed
 grep
-helm
 helmfile
 heroku/brew/heroku
 hub
@@ -37,6 +36,7 @@ pass
 pinentry-mac
 podman
 pwgen
+python@3.12
 shellcheck
 sidneys/homebrew/chntpw
 sleepwatcher
