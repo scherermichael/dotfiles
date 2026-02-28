@@ -5,7 +5,7 @@
 
 cd "${HOME}/projects/obsidian-seal/Supernote" || exit 202
 git pull > /dev/null 2>&1 || exit 203
-rsync -a "${HOME}/Library/CloudStorage/Dropbox/Supernote/Note/work/"* "${HOME}/projects/obsidian-seal/Supernote"
+rsync -a "${HOME}/projects/supernote-cloud/supernote_data/mail@scherermichael.net/Supernote/Note/work/"* "${HOME}/projects/obsidian-seal/Supernote"
 git add -f . || exit 204
 
 # Check if a staged file exists in git
