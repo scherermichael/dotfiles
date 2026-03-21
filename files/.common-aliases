@@ -30,6 +30,7 @@ function copyssh {
     # Use pbcopy as fallback
     "pbcopy < ~/.ssh/id_rsa.pub"
   fi
+  echo "SSH public key copied to clipboard."
 }
 
 # Docker
