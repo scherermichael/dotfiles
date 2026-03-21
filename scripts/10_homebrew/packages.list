@@ -29,12 +29,14 @@ mongodb/brew/mongodb-community-shell
 mongosh
 moreutils
 nvm
+ollama
 openshift-cli
 p7zip
 packer
 pass
 pinentry-mac
 podman
+podman-compose
 pwgen
 python@3.12
 shellcheck

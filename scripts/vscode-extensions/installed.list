@@ -2,13 +2,13 @@ akamud.vscode-theme-onedark
 akamud.vscode-theme-onelight
 alexkrechik.cucumberautocomplete
 atishay-jain.all-autocomplete
-bbenoist.vagrant
 bennycode.sort-everything
 bierner.markdown-yaml-preamble
 coenraads.disableligatures
 davidanson.vscode-markdownlint
 dbaeumer.vscode-eslint
 digitalbrainstem.javascript-ejs-support
+eamodio.gitlens
 editorconfig.editorconfig
 emroussel.atom-icons
 emroussel.atomize-atom-one-dark-theme
@@ -20,9 +20,6 @@ github.copilot
 github.copilot-chat
 github.vscode-pull-request-github
 hashicorp.terraform
-ms-azuretools.vscode-azureresourcegroups
-ms-azuretools.vscode-containers
-ms-azuretools.vscode-docker
 ms-kubernetes-tools.vscode-kubernetes-tools
 ms-vscode.atom-keybindings
 mushan.vscode-paste-image
