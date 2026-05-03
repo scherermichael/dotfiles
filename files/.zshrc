@@ -132,3 +132,15 @@ source ~/.common-aliases
 
 # Created by `pipx` on 2024-12-29 09:21:26
 export PATH="$PATH:${HOME}/.local/bin"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/michael/.lmstudio/bin"
+# End of LM Studio CLI section
+
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# Source - https://stackoverflow.com/a/73681204
+# Posted by Ortomala Lokni
+# Retrieved 2026-05-03, License - CC BY-SA 4.0
+
+export JAVA_HOME=`/usr/libexec/java_home`

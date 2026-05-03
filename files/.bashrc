@@ -27,3 +27,8 @@ fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 [ -f ~/.docker/init-bash.sh ] && source ~/.docker/init-bash.sh
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/michael/.lmstudio/bin"
+# End of LM Studio CLI section
+

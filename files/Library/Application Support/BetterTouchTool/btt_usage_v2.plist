@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>2026-3-28</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>1</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>1</integer>
+	</dict>
+	<key>2026-3-29</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>2</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>22</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>7</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>14</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>8</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>14</integer>
+	</dict>
+	<key>2026-3-30</key>
+	<dict>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>18</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>36</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>17</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>32</integer>
+	</dict>
+	<key>2026-3-31</key>
+	<dict/>
+	<key>2026-4-1</key>
+	<dict/>
+	<key>2026-4-10</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>1</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>2</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>4</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>5</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>10</integer>
+	</dict>
+	<key>2026-4-11</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>19</integer>
+		<key>v2||41CBB773-850F-4B04-A59D-EC3CC98CC890||9||0||193||0||⌥ O||Type text ö||</key>
+		<integer>1</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>183</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>338</integer>
+		<key>v2||9805D8DF-A8E3-4D60-8FAD-1067510C72F7||9||0||193||0||⌥ S||Type text ß||</key>
+		<integer>1</integer>
+		<key>v2||AEE8FF35-3A8B-4C91-8E6A-14E41401C00B||9||0||193||0||⌥ U||Type text ü||</key>
+		<integer>3</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>211</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>390</integer>
+	</dict>
+	<key>2026-4-12</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>41</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>80</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>140</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>104</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>202</integer>
+	</dict>
+	<key>2026-4-13</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>11</integer>
+		<key>v2||41CBB773-850F-4B04-A59D-EC3CC98CC890||9||0||193||0||⌥ O||Type text ö||</key>
+		<integer>1</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>99</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>186</integer>
+		<key>v2||AEE8FF35-3A8B-4C91-8E6A-14E41401C00B||9||0||193||0||⌥ U||Type text ü||</key>
+		<integer>2</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>125</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>232</integer>
+	</dict>
+	<key>2026-4-14</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>23</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>63</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>120</integer>
+		<key>v2||AEE8FF35-3A8B-4C91-8E6A-14E41401C00B||9||0||193||0||⌥ U||Type text ü||</key>
+		<integer>1</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>67</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>128</integer>
+	</dict>
+	<key>2026-4-15</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>23</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>112</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>202</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>136</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>260</integer>
+	</dict>
+	<key>2026-4-16</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>5</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>9</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>46</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>86</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>63</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>116</integer>
+	</dict>
+	<key>2026-4-17</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>7</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>17</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>76</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>138</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>112</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>216</integer>
+	</dict>
+	<key>2026-4-18</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>43</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>44</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>72</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>132</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>116</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>210</integer>
+	</dict>
+	<key>2026-4-19</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>6</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>3</integer>
+		<key>v2||51EC10EE-098A-4EFB-8738-84710A6B6664||9||0||193||0||⌥ A||Type text ä||</key>
+		<integer>3</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>28</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>54</integer>
+		<key>v2||D1E73618-0B81-4634-BBA5-9951EA916431||9||0||193||0||⌥⇧ A||Type text Ä||</key>
+		<integer>1</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>44</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>80</integer>
+	</dict>
+	<key>2026-4-2</key>
+	<dict/>
+	<key>2026-4-20</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>7</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>28</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>56</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>30</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>60</integer>
+	</dict>
+	<key>2026-4-21</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>14</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>24</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>46</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>35</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>66</integer>
+	</dict>
+	<key>2026-4-22</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>1</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>4</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>2</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>4</integer>
+	</dict>
+	<key>2026-4-23</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>1</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>6</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>39</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>78</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>43</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>86</integer>
+	</dict>
+	<key>2026-4-24</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>7</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>21</integer>
+		<key>v2||3B821530-3078-46D3-924F-981775C8D44B||9||0||14||0||⌃⌘ S||Sleep Computer||</key>
+		<integer>1</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>89</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>170</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>81</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>148</integer>
+	</dict>
+	<key>2026-4-25</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>4</integer>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>6</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>62</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>108</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>77</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>144</integer>
+	</dict>
+	<key>2026-4-26</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>11</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>38</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>76</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>46</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>82</integer>
+	</dict>
+	<key>2026-4-27</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>11</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>22</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>44</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>26</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>48</integer>
+	</dict>
+	<key>2026-4-28</key>
+	<dict/>
+	<key>2026-4-29</key>
+	<dict/>
+	<key>2026-4-3</key>
+	<dict>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>20</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>40</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>22</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>44</integer>
+	</dict>
+	<key>2026-4-30</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>2</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>3</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>6</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>8</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>14</integer>
+	</dict>
+	<key>2026-4-4</key>
+	<dict>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>5</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>10</integer>
+	</dict>
+	<key>2026-4-5</key>
+	<dict/>
+	<key>2026-4-6</key>
+	<dict>
+		<key>v2||2932BF13-EE5A-4587-BFD3-871158038693||1||104||1||0||3 Finger Tap||Middle Click (At Current Mouse Position)||</key>
+		<integer>31</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>37</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>74</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>43</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>84</integer>
+	</dict>
+	<key>2026-4-7</key>
+	<dict/>
+	<key>2026-4-8</key>
+	<dict/>
+	<key>2026-4-9</key>
+	<dict/>
+	<key>2026-5-1</key>
+	<dict/>
+	<key>2026-5-2</key>
+	<dict/>
+</dict>
+</plist>

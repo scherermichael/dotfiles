@@ -303,5 +303,23 @@
   "githubPullRequests.fileListLayout": "tree",
   "editor.renderWhitespace": "none",
   "editor.renderControlCharacters": false,
-  "gitlens.mode.active": "zen"
+  "gitlens.mode.active": "zen",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "github.copilot.enable": {
+    "*": false
+  },
+  "github.copilot.advanced": {},
+  "github.copilot.chat.edits.suggestRelatedFilesForTests": false,
+  "github.copilot.chat.edits.suggestRelatedFilesFromGitHistory": false,
+  "github.copilot.chat.setupTests.enabled": false,
+  "github.copilot.chat.codeGeneration.useInstructionFiles": false,
+  "github.copilot.chat.copilotDebugCommand.enabled": false,
+  "github.copilot.chat.reviewSelection.enabled": false,
+  "github.copilot.chat.startDebugging.enabled": false,
+  "github.copilot.editor.enableCodeActions": false,
+  "github.copilot.renameSuggestions.triggerAutomatically": false,
+  "github.copilot.chat.fixTestFailure.enabled": false,
+  "github.copilot.chat.useProjectTemplates": false,
+  "claudeCode.preferredLocation": "panel"
 }

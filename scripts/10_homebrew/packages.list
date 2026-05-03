@@ -30,15 +30,17 @@ mongosh
 moreutils
 nvm
 ollama
+openjdk
 openshift-cli
 p7zip
 packer
 pass
 pinentry-mac
-podman
 podman-compose
+poppler
 pwgen
 python@3.12
+qpdf
 shellcheck
 sidneys/homebrew/chntpw
 sleepwatcher
@@ -47,6 +49,7 @@ taskell
 terraform
 tmux
 watch
+watchman
 wget
 wimlib
 yq
