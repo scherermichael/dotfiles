@@ -144,3 +144,6 @@ export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 # Retrieved 2026-05-03, License - CC BY-SA 4.0
 
 export JAVA_HOME=`/usr/libexec/java_home`
+
+export ANDROID_HOME="/Users/michael/Library/Android/sdk"
+export PATH="$ANDROID_HOME\platform-tools:$PATH"
