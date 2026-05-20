@@ -108,7 +108,7 @@ if [ -f "${DIR}/packages-cask.list" ]; then
 fi
 
 echo "Upgrading Cask package packages..."
-if ! brew upgrade --cask; then
+if ! brew upgrade --cask --greedy; then
   echo "ERROR: Upgrade of cask packages failed!"
   exit 7
 fi
