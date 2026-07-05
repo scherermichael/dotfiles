@@ -321,5 +321,6 @@
   "github.copilot.renameSuggestions.triggerAutomatically": false,
   "github.copilot.chat.fixTestFailure.enabled": false,
   "github.copilot.chat.useProjectTemplates": false,
-  "claudeCode.preferredLocation": "panel"
+  "claudeCode.preferredLocation": "sidebar",
+  "claudeCode.enableReopenClosedSessionShortcut": false
 }
