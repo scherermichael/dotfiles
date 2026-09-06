@@ -17,8 +17,30 @@
 
 set -uo pipefail
 
-VAULT="${HOME}/projects/obsidian-seal"
-SCRIPTS="${VAULT}/zz-templates/scripts"
+# Der Vault kommt als Argument, damit dasselbe Skript zwei bedienen kann.
+# Alles Weitere steht in seiner .gtd.json - wie die Ordner heissen, welcher
+# Geraeteordner ihm gehoert. Fehlt die Datei, gelten die Werte des
+# Arbeits-Vaults; dann verhaelt sich der Aufruf wie eh und je.
+VAULT="${1:-${HOME}/projects/obsidian-seal}"
+lies_config() {
+    /usr/bin/python3 -c 'import json,sys
+vorgabe = {"tools":"zz-templates","inbox":"@_Inbox","supernote":"Supernote","device":"work"}
+try:
+    vorgabe.update(json.load(open(sys.argv[1] + "/.gtd.json")))
+except Exception:
+    pass
+print(vorgabe[sys.argv[2]])' "${VAULT}" "$1"
+}
+TOOLS="$(lies_config tools)"
+INBOX="$(lies_config inbox)"
+SUPERNOTE="$(lies_config supernote)"
+DEVICE="$(lies_config device)"
+SCRIPTS="${VAULT}/${TOOLS}/scripts"
+
+# Ohne Repository faellt alles Eincheckende weg. Der Rest laeuft weiter:
+# jedes Python-Skript entscheidet selbst, was aussteht - der Index war nur
+# eine Abkuerzung fuer die Arbeitsliste, nie die Bedingung.
+if [ -d "${VAULT}/.git" ]; then MIT_GIT=1; else MIT_GIT=0; fi
 CONTAINER="${HOME}/Library/Containers/com.ratta.supernote/Data/Library/Application Support/com.ratta.supernote"
 STATE_DIR="${HOME}/.local/state/supernote-sync"
 LOCK="${STATE_DIR}/lock"
@@ -71,21 +93,75 @@ try:
 except OSError:
     sys.exit(1)' 9<&9 || exit 0
 
-cd "${VAULT}/Supernote" || exit 202
-git pull >/dev/null 2>&1 || die "pull" "Synchronisation steht: git pull scheitert" 203
+cd "${VAULT}/${SUPERNOTE}" || exit 202
+[ "${MIT_GIT}" = 1 ] && { git pull >/dev/null 2>&1 \
+    || die "pull" "Synchronisation steht: git pull scheitert" 203; }
 
-# Alle Geraeteordner, nicht eine feste Nummer: im Container steht je Geraet
-# einer, und die Nummer im Pfad waere beim Geraetewechsel eine lautlose
-# Zeitbombe. "-u" laesst nie eine neuere Datei im Ziel ueberschreiben, also
-# ist die Reihenfolge gleichgueltig und ein liegengebliebenes Geraet kann
-# frische Notizen nicht ueberschreiben.
+# Der juengste Geraeteordner, nicht alle. Ueber das Muster und nicht ueber
+# eine feste Nummer: im Container steht je Geraet einer, und die Nummer im
+# Pfad waere beim Geraetewechsel eine lautlose Zeitbombe.
+#
+# Frueher liefen alle. "-u" verhindert zwar, dass ein liegengebliebenes
+# Geraet frische Notizen ueberschreibt - aber nicht, dass es geloeschte
+# nachliefert. Genau das geschah: der Stand vom 2026-03-03 trug
+# "projects/COSAP-Team.note" noch am alten Ort, waehrend das lebende Geraet
+# es laengst nach "projects/archived/" verschoben hatte. Jeder Lauf legte
+# die alte Kopie zurueck, und Aufraeumen im Vault war zwecklos - dazu 13
+# weitere Leichen aus Umbenennungen, die niemand loswurde.
+#
+# Juengster Ordner heisst: die spaeteste Zeitmarke unter seinen
+# Notizbuechern. Nicht die des Ordners selbst - die aendert sich auch,
+# wenn die App nur eine Cache-Datei anfasst.
 shopt -s nullglob
-for work in "${CONTAINER}"/*/Supernote/Note/work; do
-    rsync -au "${work}/"* "${VAULT}/Supernote/" 2>/dev/null
+work=""
+neuste=0
+for kandidat in "${CONTAINER}"/*/Supernote/Note/"${DEVICE}"; do
+    marke=$(find "${kandidat}" -name '*.note' -exec stat -f '%m' {} + 2>/dev/null \
+            | sort -rn | head -1)
+    if [ -n "${marke}" ] && [ "${marke}" -gt "${neuste}" ]; then
+        neuste="${marke}"
+        work="${kandidat}"
+    fi
 done
 shopt -u nullglob
 
-git add -f . || die "add" "Synchronisation steht: git add scheitert" 204
+[ -n "${work}" ] || die "container" \
+    "Synchronisation steht: kein Geraeteordner mit Notizbuechern im Container" 207
+
+rsync -au "${work}/"* "${VAULT}/${SUPERNOTE}/" 2>/dev/null
+
+# Aufraeumen, was eine Umbenennung am Geraet zurueckgelassen hat: ohne
+# --delete bleibt der alte Name liegen, samt Ausdruck und Transkript, und
+# die Sterne in der Inbox zeigen weiter darauf.
+#
+# VOR dem Rendern, nicht danach: supernote-markdown.py fuehrt berichtigten
+# Text und die [x]-Marken aus der BESTEHENDEN .md zusammen. Die muss dazu
+# schon unter dem neuen Namen liegen - sonst ist die Handarbeit weg.
+#
+# Aus dem Cron sieht niemand stdout, deshalb drei Wege: alles ins Log, was
+# offen bleibt einmal als Mitteilung (report meldet nur bei Wechsel), und
+# die Zusammenfassung in die Commit-Nachricht weiter unten.
+tidy_zusatz=""
+{
+    printf '\n=== %s ===\n' "$(date '+%F %T')"
+    tidy=$(/usr/bin/python3 "${SCRIPTS}/supernote-tidy.py" --vault "${VAULT}" --device "${work}" 2>&1)
+    printf '%s\n' "${tidy}"
+} >> "${STATE_DIR}/tidy.log" 2>&1
+tidy_kurz=$(printf '%s\n' "${tidy}" | grep '^ZUSAMMENFASSUNG:' | tail -1)
+case "${tidy_kurz}" in
+    *"nichts zu tun"|"") ;;
+    *) tidy_zusatz="${tidy_kurz#ZUSAMMENFASSUNG: }" ;;
+esac
+# Melden, was von Hand nachgefasst werden muss: ein unklarer Altstand und
+# ein totes Sprungziel im PDF heilen beide nicht von selbst. report()
+# meldet nur bei Zustandswechsel, sonst stuende dasselbe sechsmal die
+# Stunde da.
+case "${tidy_kurz}" in
+    *unklar*|*Sprung*) report "tidy:${tidy_kurz}" "Supernote: ${tidy_kurz#ZUSAMMENFASSUNG: }" ;;
+esac
+
+[ "${MIT_GIT}" = 1 ] && { git add -f . \
+    || die "add" "Synchronisation steht: git add scheitert" 204; }
 
 # Die Liste der geaenderten Notizbuecher steht schon im Index - nach
 # Inhalt, nicht nach Zeitmarke. Damit rechnet ein Lauf an zweien statt an
@@ -100,10 +176,21 @@ git add -f . || die "add" "Synchronisation steht: git add scheitert" 204
 # Kein "mapfile": /bin/bash ist auf macOS die 3.2 und kennt es nicht. Und
 # "${arr[@]}" auf einem leeren Feld ist dort unter "set -u" schon ein
 # Fehler - daher die Absicherung mit "+".
+#
+# Ohne Repository gibt es keinen Index und damit keine kurze Liste: dann
+# laufen alle Notizbuecher durch. Das dauert laenger, ist aber richtig -
+# supernote-pdf.py und supernote-markdown.py erkennen von sich aus, was
+# schon fertig ist, und tun dann nichts.
 notes=()
-while IFS= read -r -d '' rel; do
-    [ -f "${VAULT}/${rel}" ] && notes+=("${VAULT}/${rel}")
-done < <(git -c core.quotepath=false diff --cached --name-only -z -- '*.note')
+if [ "${MIT_GIT}" = 1 ]; then
+    while IFS= read -r -d '' rel; do
+        [ -f "${VAULT}/${rel}" ] && notes+=("${VAULT}/${rel}")
+    done < <(git -c core.quotepath=false diff --cached --name-only -z -- '*.note')
+else
+    while IFS= read -r -d '' pfad; do
+        notes+=("${pfad}")
+    done < <(find "${VAULT}/${SUPERNOTE}" -name '*.note' -print0)
+fi
 
 # Den Renderer suchen, nicht voraussetzen: fest verdrahtet waere der venv
 # derselbe Fehler wie die Geraetenummer, und auf einem frisch
@@ -122,18 +209,30 @@ done
 
 if [ ${#notes[@]} -gt 0 ]; then
     if [ -n "${RENDERER}" ]; then
-        "${RENDERER}" "${SCRIPTS}/supernote-pdf.py" ${notes[@]+"${notes[@]}"}
+        "${RENDERER}" "${SCRIPTS}/supernote-pdf.py" --vault "${VAULT}" \
+            ${notes[@]+"${notes[@]}"}
     fi
-    /usr/bin/python3 "${SCRIPTS}/supernote-markdown.py" ${notes[@]+"${notes[@]}"}
+    /usr/bin/python3 "${SCRIPTS}/supernote-markdown.py" --vault "${VAULT}" \
+        ${notes[@]+"${notes[@]}"}
 fi
 
 # Erst das Grosse einchecken. Es ist nicht wettkampfkritisch, und die
 # Ausdrucke muessen fertig sein, BEVOR ein Stern erfasst wird: ein
 # erfasster Stern wird nie wieder erfasst, und ohne aktuellen Ausdruck
 # zeigte seine Aufgabe fuer immer auf die .note statt auf die Seite.
-if ! git diff --cached --quiet; then
+if [ "${MIT_GIT}" = 1 ] && ! git diff --cached --quiet; then
     notify "Committing notes to vault."
-    git commit -m "Add Supernote notes" >/dev/null \
+    # Hat der Aufraeumer etwas getan, kommt es als zweiter Absatz dazu.
+    # "git log" ist damit die Chronik der Umbenennungen - die Logdatei
+    # bleibt fuer die Fehlersuche, aber sie wandert nicht mit dem Vault.
+    #
+    # Als Feld, nicht als ${x:+...}: in der Ersetzung sind die
+    # Anfuehrungszeichen blosse Zeichen, "1 umbenannt" zerfiele in zwei
+    # Worte. Und "+" wie oben, weil das leere Feld unter "set -u" in der
+    # bash 3.2 von macOS sonst ein Fehler ist.
+    tidy_msg=()
+    [ -n "${tidy_zusatz}" ] && tidy_msg=(-m "Aufgeraeumt: ${tidy_zusatz}")
+    git commit -m "Add Supernote notes" ${tidy_msg[@]+"${tidy_msg[@]}"} >/dev/null \
         || die "commit" "Synchronisation steht: git commit scheitert" 205
     git push >/dev/null 2>&1 \
         || die "push" "Synchronisation steht: git push scheitert" 206
@@ -159,20 +258,64 @@ fi
 # ungesicherten Aenderung im Baum - und der Vault ist praktisch immer
 # schmutzig, weil in Obsidian gerade jemand tippt. Ein gewoehnliches
 # Zusammenfuehren stoert sich nur an Dateien, die es selbst anfasst.
-git pull >/dev/null 2>&1 || die "pull" "Synchronisation steht: git pull scheitert" 203
-/usr/bin/python3 "${SCRIPTS}/supernote-capture.py" >/dev/null
+[ "${MIT_GIT}" = 1 ] && { git pull >/dev/null 2>&1 \
+    || die "pull" "Synchronisation steht: git pull scheitert" 203; }
+/usr/bin/python3 "${SCRIPTS}/supernote-capture.py" --vault "${VAULT}" >/dev/null
 
 # Aufgabe und Kennung im selben Commit: kommt er nicht zustande, ist auch
 # die Kennung nicht in der Welt, und der naechste Lauf sammelt den Stern
 # wieder ein. Ein "gesehen" ohne die zugehoerige Aufgabe kann es so nicht
 # geben.
 cd "${VAULT}" || exit 202
-git add "@_Inbox/_Inbox.md" "zz-templates/scripts/supernote-seen.txt" 2>/dev/null
-if ! git diff --cached --quiet; then
+[ "${MIT_GIT}" = 1 ] && git add "${INBOX}/_Inbox.md" \
+    "${TOOLS}/scripts/supernote-seen.txt" 2>/dev/null
+if [ "${MIT_GIT}" = 1 ] && ! git diff --cached --quiet; then
     git commit -m "Supernote-Sterne in den Inbox" >/dev/null \
         || die "commit" "Synchronisation steht: git commit scheitert" 205
     git push >/dev/null 2>&1 \
         || die "push" "Synchronisation steht: git push scheitert" 206
+fi
+
+# Zuletzt die Digests: markierte Stellen aus PDFs werden Literaturnotizen
+# im Zettelkasten. Ganz am Ende, weil sie mit dem Notizbuch-Weg nichts zu
+# tun haben - kein Commit, kein Index, der Zettelkasten liegt in iCloud.
+#
+# Zwei Bedingungen, beide still: ohne Token im Schluesselbund war auf
+# diesem Rechner nie ein "--login", und ohne den Ordner gibt es hier
+# keinen Zettelkasten. Beides ist kein Fehler, sondern heisst nur, dass
+# dieser Rechner diesen Weg nicht geht.
+ZETTELKASTEN="${SUPERNOTE_ZETTELKASTEN:-${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Personal/Zettelkasten}"
+if [ -d "${ZETTELKASTEN}/References" ] \
+   && /usr/bin/security find-generic-password -s supernote-digest \
+        -a token -w >/dev/null 2>&1; then
+    digest=$("${RENDERER}" "${SCRIPTS}/supernote-digest.py" \
+                 --zettelkasten "${ZETTELKASTEN}" 2>&1)
+    digest_status=$?
+    {
+        printf '\n=== %s ===\n' "$(date '+%F %T')"
+        printf '%s\n' "${digest}"
+    } >> "${STATE_DIR}/digest.log"
+
+    # Das Token gilt dreissig Tage und laesst sich nicht erneuern - einen
+    # Refresh-Token gibt es nicht, und fuer eine Anmeldung braucht es das
+    # Kennwort, das absichtlich nirgends liegt. Ohne Vorwarnung hoerten
+    # die Digests eines Tages einfach auf zu kommen.
+    #
+    # Einmal am Tag, und NICHT ueber report(): das kennt nur einen
+    # Zustand, und der wechselt am Ende jedes Laufs wieder auf "ok" -
+    # die Meldung kaeme dann alle zehn Minuten. Ein Datum in einer Datei
+    # ist hier das einfachere Gedaechtnis.
+    ablauf=$(printf '%s\n' "${digest}" | grep '^ABLAUF:' | tail -1)
+    if [ -n "${ablauf}" ]; then
+        heute="$(date '+%F')"
+        if [ "$(cat "${STATE_DIR}/ablauf-gemeldet" 2>/dev/null)" != "${heute}" ]; then
+            printf '%s' "${heute}" > "${STATE_DIR}/ablauf-gemeldet"
+            notify "${ablauf#ABLAUF: }"
+        fi
+    fi
+
+    [ "${digest_status}" -eq 0 ] \
+        || die "digest" "Digests nicht verarbeitet - siehe digest.log" 0
 fi
 
 report "ok" "Supernote-Synchronisation laeuft wieder"
