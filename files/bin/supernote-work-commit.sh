@@ -24,7 +24,7 @@ set -uo pipefail
 VAULT="${1:-${HOME}/projects/obsidian-seal}"
 lies_config() {
     /usr/bin/python3 -c 'import json,sys
-vorgabe = {"tools":"zz-templates","inbox":"@_Inbox","supernote":"Supernote","device":"work"}
+vorgabe = {"tools":"zz-templates","inbox":"01 Inbox","supernote":"Supernote","device":"work"}
 try:
     vorgabe.update(json.load(open(sys.argv[1] + "/.gtd.json")))
 except Exception:
