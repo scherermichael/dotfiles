@@ -250,15 +250,29 @@
       // already sit at only 2.3:1 -- a lightening wash pushes them below
       // 1.8:1. Hence darkening, desaturated tones; the color signal is
       // carried by the overview ruler, not by the surface.
-      "diffEditor.insertedLineBackground": "#1F2E27",
-      "diffEditor.insertedTextBackground": "#26382F",
-      "diffEditor.removedLineBackground": "#2E2226",
-      "diffEditor.removedTextBackground": "#3A2A2E",
+      //
+      // The alpha is load-bearing: .line-insert and .char-insert paint above
+      // .selected-text, so an opaque tint hides the selection completely.
+      // These values composite to exactly the colors above over #282C34
+      // (line) and over the tinted line (text), so an unselected diff looks
+      // unchanged, while the selection still reads through at 1.30:1.
+      // The gutter keeps opaque values -- nothing is selected there.
+      "diffEditor.insertedLineBackground": "#0A33094D",
+      "diffEditor.insertedTextBackground": "#334B3E59",
+      "diffEditor.removedLineBackground": "#3C0B064D",
+      "diffEditor.removedTextBackground": "#50393D59",
       "diffEditorGutter.insertedLineBackground": "#1F2E27",
       "diffEditorGutter.removedLineBackground": "#2E2226",
       "diffEditorOverview.insertedForeground": "#43D08A99",
       "diffEditorOverview.removedForeground": "#E0616D99",
       "editorBracketMatch.border": "#555",
+      // Inline diffs render deleted lines in a view zone that is natively
+      // selectable, so the browser's ::selection paints there instead of the
+      // editor's own selection layer -- and that one is driven by
+      // selection.background, which Atomize leaves at #9DA5B4: 6.17:1 against
+      // the red line, with the text on top falling to 1.16:1. Match
+      // editor.selectionBackground so a deleted block selects like the rest.
+      "selection.background": "#4B5365A6",
       "terminal.ansiBlack": "#282C34",
       "terminal.ansiBlue": "#61AFEF",
       "terminal.ansiBrightBlack": "#545862",
@@ -281,15 +295,21 @@
     },
     "[Atom One Light]": {
       // Same math as above, just the other way round: comments here are
-      // #A0A1A7 and the tint darkens toward them.
-      "diffEditor.insertedLineBackground": "#EDF6F0",
-      "diffEditor.insertedTextBackground": "#E2F0E8",
-      "diffEditor.removedLineBackground": "#FBEFF0",
-      "diffEditor.removedTextBackground": "#F7E4E6",
+      // #A0A1A7 and the tint darkens toward them. Alpha for the same reason
+      // as above; these composite to #EDF6F0 / #E2F0E8 / #FBEFF0 / #F7E4E6
+      // over #FAFAFA.
+      "diffEditor.insertedLineBackground": "#CFEDD94D",
+      "diffEditor.insertedTextBackground": "#CDE5D959",
+      "diffEditor.removedLineBackground": "#FDD5D94D",
+      "diffEditor.removedTextBackground": "#F0CFD359",
       "diffEditorGutter.insertedLineBackground": "#EDF6F0",
       "diffEditorGutter.removedLineBackground": "#FBEFF0",
       "diffEditorOverview.insertedForeground": "#2E9E6B99",
-      "diffEditorOverview.removedForeground": "#D0525E99"
+      "diffEditorOverview.removedForeground": "#D0525E99",
+      // Same view-zone story as above. One Light sets no selection.background
+      // at all, so deleted blocks fall back to Chromium's default blue; this
+      // composites to the theme's own #E5E5E6 over #FAFAFA.
+      "selection.background": "#DADADBA6"
     }
   },
   "workbench.colorTheme": "Atomize",
