@@ -246,6 +246,18 @@
   "window.newWindowDimensions": "maximized",
   "workbench.colorCustomizations": {
     "[Atomize]": {
+      // Diff: the tint must not swallow the text. Comments are #5C6370 and
+      // already sit at only 2.3:1 -- a lightening wash pushes them below
+      // 1.8:1. Hence darkening, desaturated tones; the color signal is
+      // carried by the overview ruler, not by the surface.
+      "diffEditor.insertedLineBackground": "#1F2E27",
+      "diffEditor.insertedTextBackground": "#26382F",
+      "diffEditor.removedLineBackground": "#2E2226",
+      "diffEditor.removedTextBackground": "#3A2A2E",
+      "diffEditorGutter.insertedLineBackground": "#1F2E27",
+      "diffEditorGutter.removedLineBackground": "#2E2226",
+      "diffEditorOverview.insertedForeground": "#43D08A99",
+      "diffEditorOverview.removedForeground": "#E0616D99",
       "editorBracketMatch.border": "#555",
       "terminal.ansiBlack": "#282C34",
       "terminal.ansiBlue": "#61AFEF",
@@ -266,6 +278,18 @@
       "terminal.foreground": "#ABB2BF",
       "terminalCursor.background": "#b9c0ca",
       "terminalCursor.foreground": "#6f7783"
+    },
+    "[Atom One Light]": {
+      // Same math as above, just the other way round: comments here are
+      // #A0A1A7 and the tint darkens toward them.
+      "diffEditor.insertedLineBackground": "#EDF6F0",
+      "diffEditor.insertedTextBackground": "#E2F0E8",
+      "diffEditor.removedLineBackground": "#FBEFF0",
+      "diffEditor.removedTextBackground": "#F7E4E6",
+      "diffEditorGutter.insertedLineBackground": "#EDF6F0",
+      "diffEditorGutter.removedLineBackground": "#FBEFF0",
+      "diffEditorOverview.insertedForeground": "#2E9E6B99",
+      "diffEditorOverview.removedForeground": "#D0525E99"
     }
   },
   "workbench.colorTheme": "Atomize",
@@ -321,6 +345,20 @@
   "github.copilot.renameSuggestions.triggerAutomatically": false,
   "github.copilot.chat.fixTestFailure.enabled": false,
   "github.copilot.chat.useProjectTemplates": false,
+  "claudeCode.enableReopenClosedSessionShortcut": false,
   "claudeCode.preferredLocation": "sidebar",
-  "claudeCode.enableReopenClosedSessionShortcut": false
+  "gitlens.views.scm.grouped.views": {
+    "commits": true,
+    "branches": true,
+    "remotes": true,
+    "stashes": true,
+    "tags": true,
+    "worktrees": true,
+    "contributors": true,
+    "fileHistory": false,
+    "repositories": true,
+    "searchAndCompare": false,
+    "launchpad": true
+  },
+  "claudeCode.hideOnboarding": true
 }
