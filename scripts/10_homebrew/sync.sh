@@ -5,13 +5,29 @@ set -e
 # https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-[ -z "${OS}" ] && source lib/common.sh
+# restore.sh exports ${OS} and record_failure, so this only takes effect when
+# the script is started on its own. The path is absolute so that it does not
+# depend on the caller's working directory.
+if [ -z "${OS}" ] || ! declare -F record_failure > /dev/null; then
+  # shellcheck source=../../lib/common.sh
+  source "${DIR}/../../lib/common.sh"
+fi
 
 [ "${OS}" = "macos" ] || exit 0
 
 # Casks with `auto_updates true` update themselves, so Homebrew's record of them goes stale
 # (SimpleMind, for example, renamed its app) and upgrading them fails. Leave them to their updaters.
 export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+
+# Note the failure, but keep going: the remaining packages, the cask section and
+# the cleanup steps are independent of any single package. The exit status at
+# the end of the script reports that something went wrong.
+had_failure=""
+fail() {
+  echo "ERROR: $1"
+  record_failure "$1"
+  had_failure="true"
+}
 
 # Arm binaries are stored under /opt/homebrew/bin while x86 binaries are stored under /usr/local/bin.
 # On x86, create symlink /opt/homebrew/bin pointing to /usr/local/bin to allow to use path /opt/homebrew/bin all the time.
@@ -67,10 +83,11 @@ if [ -f "${DIR}/packages.list" ]; then
   packages_to_install=$(brew leaves | diff -u - "${DIR}/packages.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
   if [ -n "${packages_to_install}" ]; then
     echo "Installing packages: ${packages_to_install}"
-    if ! brew install ${packages_to_install}; then
-      echo "ERROR: Installation of packages failed!"
-      exit 2
-    fi
+    # One at a time: "brew install a b c" stops at the first failure, so a
+    # single broken formula would skip every package listed after it.
+    for package in ${packages_to_install}; do
+      brew install "${package}" || fail "${package} (brew install failed)"
+    done
   fi
 fi
 
@@ -79,22 +96,18 @@ if [ -f "${DIR}/packages.list" ]; then
   packages_to_remove=$(brew leaves | diff -u - "${DIR}/packages.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
   if [ -n "${packages_to_remove}" ]; then
     echo "Uninstalling packages: ${packages_to_remove}"
-    if ! brew uninstall --force ${packages_to_remove}; then
-      echo "ERROR: De-installation of packages failed!"
-      exit 3
-    fi
+    for package in ${packages_to_remove}; do
+      brew uninstall --force "${package}" || fail "${package} (brew uninstall failed)"
+    done
   fi
 fi
 
 echo "Upgrading packages..."
-if ! brew upgrade; then
-  echo "ERROR: Upgrade of packages failed!"
-  exit 4
-fi
+brew upgrade || fail "brew upgrade"
 
 echo "Purging no longer needed formulars..."
-brew autoremove
-brew cleanup
+brew autoremove || fail "brew autoremove"
+brew cleanup || fail "brew cleanup"
 
 # Cask
 
@@ -108,10 +121,10 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   cask_packages_to_install=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
   if [ -n "${cask_packages_to_install}" ]; then
     echo "Installing cask packages: ${cask_packages_to_install}"
-    if ! brew install --cask --appdir=~/Applications ${cask_packages_to_install}; then
-      echo "ERROR: Installation of cask packages failed!"
-      exit 5
-    fi
+    for cask_package in ${cask_packages_to_install}; do
+      brew install --cask --appdir=~/Applications "${cask_package}" \
+        || fail "${cask_package} (brew install --cask failed)"
+    done
   fi
 fi
 
@@ -120,10 +133,10 @@ if [ -f "${DIR}/packages-cask.list" ]; then
   cask_packages_to_remove=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
   if [ -n "${cask_packages_to_remove}" ]; then
     echo "Uninstalling cask packages: ${cask_packages_to_remove}"
-    if ! brew uninstall --cask --force ${cask_packages_to_remove}; then
-      echo "ERROR: De-installation of cask packages failed!"
-      exit 6
-    fi
+    for cask_package in ${cask_packages_to_remove}; do
+      brew uninstall --cask --force "${cask_package}" \
+        || fail "${cask_package} (brew uninstall --cask failed)"
+    done
   fi
 fi
 
@@ -131,6 +144,7 @@ fi
 
 if [ "${NO_SUDO}" ]; then
   echo "Skip installing casks that require sudo permissions. No sudo allowed."
+  [ -z "${had_failure}" ] || exit 1
   exit 0
 else
   # Install new Cask packages
@@ -138,10 +152,10 @@ else
     cask_packages_sudo_to_install=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask-sudo.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
     if [ -n "${cask_packages_sudo_to_install}" ]; then
       echo "Installing cask packages with sudo: ${cask_packages_sudo_to_install}"
-      if ! brew install --cask --appdir=~/Applications ${cask_packages_sudo_to_install}; then
-        echo "ERROR: Installation of cask packages failed!"
-        exit 5
-      fi
+      for cask_package in ${cask_packages_sudo_to_install}; do
+        brew install --cask --appdir=~/Applications "${cask_package}" \
+          || fail "${cask_package} (brew install --cask failed)"
+      done
     fi
   fi
 
@@ -150,16 +164,15 @@ else
     cask_packages_sudo_to_remove=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask-sudo.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
     if [ -n "${cask_packages_sudo_to_remove}" ]; then
       echo "Uninstalling cask packages with sudo: ${cask_packages_sudo_to_remove}"
-      if ! brew uninstall --cask --force ${cask_packages_sudo_to_remove}; then
-        echo "ERROR: De-installation of cask packages failed!"
-        exit 6
-      fi
+      for cask_package in ${cask_packages_sudo_to_remove}; do
+        brew uninstall --cask --force "${cask_package}" \
+          || fail "${cask_package} (brew uninstall --cask failed)"
+      done
     fi
   fi
 fi
 
 echo "Upgrading Cask package packages..."
-if ! brew upgrade --cask; then
-  echo "ERROR: Upgrade of cask packages failed!"
-  exit 7
-fi
+brew upgrade --cask || fail "brew upgrade --cask"
+
+[ -z "${had_failure}" ] || exit 1
