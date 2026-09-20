@@ -40,6 +40,11 @@ LMX_LMS_FLAGS="${LMX_LMS_FLAGS:--y --gpu max}"
 # answers "which model is actually behind this".
 LMX_SERVED_NAME="${LMX_SERVED_NAME:-default}"
 
+# The ssh Host block that carries the LocalForward (see files/.ssh/config).
+# `tunnel` reads the destination out of ssh's own config rather than repeating
+# it, so the machine name lives in one place.
+LMX_SSH_ALIAS="${LMX_SSH_ALIAS:-lmx}"
+
 HF_HUB="${HF_HOME:-$HOME/.cache/huggingface}/hub"
 STATE_DIR="$HOME/.local/state/lmx"
 
@@ -1021,6 +1026,124 @@ except Exception:
     info "  linking happens automatically once it finishes; or run 'lmx link'"
 }
 
+# --- tunnel -----------------------------------------------------------------
+
+cmd_tunnel() {
+    # The slot is served on loopback and deliberately never bound to the LAN, so
+    # other machines reach it through an SSH forward. The command underneath is
+    # `ssh -N lmx`, and -N is most of the reason this subcommand exists: it means
+    # "set up the forwards, run no remote command", which is not a flag anyone
+    # remembers. Leave it off and ssh opens a login shell nobody asked for, with
+    # the tunnel dying the moment you type exit.
+    #
+    # The rest is what ssh cannot tell you: whether anything is actually serving
+    # at the far end. A forward to a port with no engine behind it looks
+    # perfectly healthy from this side, which sends you to debug the wrong
+    # machine.
+    local host="$LMX_SSH_ALIAS"
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -*) die "unknown flag: $1" ;;
+            *)  host="$1" ;;
+        esac
+        shift
+    done
+
+    command -v ssh >/dev/null 2>&1 || die "ssh not found"
+
+    local target
+    target="$(ssh -G "$host" 2>/dev/null | awk '$1 == "hostname" { print $2; exit }')"
+    # ssh -G echoes the name back when no Host block matches, so this is also
+    # the check for "the alias does not exist".
+    [ -n "$target" ] && [ "$target" != "$host" ] \
+        || die "no ssh Host block for '$host' - it belongs in ~/.ssh/config"
+
+    # This machine may be the one doing the serving, in which case there is
+    # nothing to forward: loopback already is the answer. Compared against
+    # LocalHostName so the script needs no machine name of its own.
+    local self t_low s_low
+    self="$(scutil --get LocalHostName 2>/dev/null || hostname -s 2>/dev/null || true)"
+    t_low="$(printf '%s' "$target" | tr '[:upper:]' '[:lower:]')"
+    s_low="$(printf '%s' "$self" | tr '[:upper:]' '[:lower:]')"
+    if [ -n "$s_low" ] && { [ "$t_low" = "$s_low" ] || [ "$t_low" = "$s_low.local" ]; }; then
+        info "this machine is the server - no tunnel needed"
+        info "  the slot is already at http://127.0.0.1:$LMX_PORT/v1"
+        info "  'lmx status' says what is behind '$LMX_SERVED_NAME'"
+        return 0
+    fi
+
+    # Refuse here rather than leaving ssh to fail with a bind error that never
+    # says what took the port. ExitOnForwardFailure makes ssh refuse, which is
+    # the wanted behaviour - this only explains it in time to act on.
+    local holder
+    holder="$(slot_pid)"
+    if [ -n "$holder" ]; then
+        die "port $LMX_PORT is busy here: $(ps -o comm= -p "$holder" 2>/dev/null | sed 's/^ *//') (pid $holder)
+  the forward needs it free - stop that, or set LMX_PORT to another port"
+    fi
+
+    info "opening tunnel to $target (local port $LMX_PORT)"
+    # Backgrounded here rather than with ssh's own -f, so the pid is known and
+    # Ctrl-C takes the tunnel down with the script.
+    ssh -N "$host" &
+    local ssh_pid=$!
+    # EXIT as well as the signals: an orphaned forward would hold the port with
+    # nothing behind it, and the next run would then blame the far end. On a
+    # clean exit ssh is already gone and the kill fails harmlessly.
+    #
+    # Double quotes on purpose, against what shellcheck suggests: the pid is
+    # baked in here deliberately, because ssh_pid is a local and would be out of
+    # scope by the time an EXIT trap runs.
+    trap "kill $ssh_pid 2>/dev/null" INT TERM HUP EXIT
+
+    local waited=0 ok=0
+    while [ "$waited" -lt 15 ]; do
+        kill -0 "$ssh_pid" 2>/dev/null || break
+        if curl -sf -m 2 "http://127.0.0.1:$LMX_PORT/v1/models" >/dev/null 2>&1; then
+            ok=1
+            break
+        fi
+        sleep 1
+        waited=$((waited + 1))
+    done
+
+    if ! kill -0 "$ssh_pid" 2>/dev/null; then
+        wait "$ssh_pid" 2>/dev/null
+        # ssh writes its own reason to stderr, which the caller has already
+        # seen; naming one cause here would be a guess, and ssh exits early for
+        # several. Listing them beats asserting the wrong one.
+        die "ssh exited before the tunnel came up - its own message above says why
+  usual causes: port $LMX_PORT taken here, $target asleep or unreachable,
+  or the key not accepted (check with: ssh $host true)"
+    fi
+
+    if [ "$ok" != 1 ]; then
+        warn "the tunnel is up, but nothing answered on port $LMX_PORT in ${waited}s"
+        warn "  that is the far end, not this one: run 'lmx up <model>' on $target"
+    elif curl -sf -m 3 "http://127.0.0.1:$LMX_PORT/v1/models" 2>/dev/null \
+            | grep -q "\"$LMX_SERVED_NAME\""; then
+        info "ready on http://127.0.0.1:$LMX_PORT/v1 as '$LMX_SERVED_NAME'"
+        # Name the real model, which the endpoint cannot: everything is served
+        # under the one fixed name, and LM Studio additionally lists its whole
+        # catalogue here, so the id list says nothing about what is loaded.
+        # ClearAllForwardings is required - this alias carries the LocalForward,
+        # and asking for it a second time would collide with the tunnel just
+        # opened and be refused by ExitOnForwardFailure. Best effort only.
+        local remote
+        remote="$(ssh -o BatchMode=yes -o ClearAllForwardings=yes "$host" \
+                    '$HOME/bin/lmx status' 2>/dev/null \
+                  | sed -n 's/^  model:  *//p' | head -1)"
+        [ -n "$remote" ] && info "  model:  $remote"
+    else
+        warn "something is serving, but not under the name '$LMX_SERVED_NAME'"
+        warn "  opencode asks for that id - check 'lmx status' on $target"
+    fi
+
+    info "Ctrl-C closes the tunnel."
+    wait "$ssh_pid" 2>/dev/null
+    info "tunnel closed"
+}
+
 # --- removal ----------------------------------------------------------------
 
 lms_dir_for_key() {
@@ -1390,6 +1513,7 @@ lmx - the local LLM slot
   lmx use <model> [flags]   same as up (it always releases first)
   lmx down                  release the slot and unload
   lmx link                  expose HF-cache MLX models to LM Studio
+  lmx tunnel [host]         reach another machine's slot over SSH (Ctrl-C ends)
   lmx rm <model> [-y]       delete it from disk, after naming every path
   lmx doctor                incomplete pulls, links, duplication, orphans
   lmx agents                check opencode and hermes point at the slot
@@ -1398,7 +1522,11 @@ A model may be a rapid-mlx alias, an HF repo id, an LM Studio repo
 (publisher/name) or a path. LM Studio's own MLX models are served straight
 from their directory, so they never need downloading twice.
 
-Environment: LMX_PORT LMX_CTX LMX_SERVED_NAME LMX_LMS_FLAGS
+The slot is never bound to the LAN, so other machines reach it with
+`lmx tunnel`: it forwards the port over SSH and then says whether anything is
+actually serving at the far end, which the forward alone cannot tell you.
+
+Environment: LMX_PORT LMX_CTX LMX_SERVED_NAME LMX_LMS_FLAGS LMX_SSH_ALIAS
              LMX_RAPID_FLAGS (set = manual control; unset = sized per model)
 EOF
 }
@@ -1412,6 +1540,7 @@ case "${1:-help}" in
     use)     shift; cmd_use "$@" ;;
     down)    shift; cmd_down "$@" ;;
     link)    shift; cmd_link "$@" ;;
+    tunnel)  shift; cmd_tunnel "$@" ;;
     rm)      shift; cmd_rm "$@" ;;
     doctor)  shift; cmd_doctor "$@" ;;
     agents)  shift; cmd_agents "$@" ;;
