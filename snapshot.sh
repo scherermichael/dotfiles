@@ -8,17 +8,33 @@ pushd "${dir}" || exit 1
 source lib/common.sh
 
 echo "Backing up single config files..."
-find "./files" -type f -exec bash -c '
+# Directories marked with ".syncfolder" are handled as a whole further down, so
+# they are pruned here; otherwise every file in them is copied twice and stale
+# entries are reported as missing. ".gitkeep" and the marker files themselves
+# are repository bookkeeping with no counterpart in $HOME.
+find "./files" \
+  -type d -exec test -e "{}/.syncfolder" ';' -prune -o \
+  -type f ! -name ".gitkeep" ! -name ".syncfolder" ! -name ".nosyncfolder" -exec bash -c '
   target="$1"
   source="$HOME/${target#./files/}" # Replace common dir of files with $HOME
-  cp -afv "$source" "$target"
+  if [ ! -e "$source" ]; then
+    echo "MISSING: $source" >&2
+    record_failure "${source} (not present on this system)"
+  elif ! cp -afv "$source" "$target"; then
+    record_failure "${source} (copy failed)"
+  fi
 ' _ {} \;
 
 echo "Backing up single private files..."
-find "./private" -type f -exec bash -c '
+find "./private" -type f ! -name ".gitkeep" ! -name ".syncfolder" ! -name ".nosyncfolder" -exec bash -c '
   target="$1"
   source="$HOME/${target#./private/}" # Replace common dir of private files with $HOME
-  cp -afv "$source" "$target"
+  if [ ! -e "$source" ]; then
+    echo "MISSING: $source" >&2
+    record_failure "${source} (not present on this system)"
+  elif ! cp -afv "$source" "$target"; then
+    record_failure "${source} (copy failed)"
+  fi
 ' _ {} \;
 
 echo "Backing up whole config folders..."
@@ -33,7 +49,10 @@ find "./files" -type f -name ".syncfolder" -print0 | xargs -0 -n 1 bash -c '
   nosync_files=$(find "${target}" -type f -name ".nosyncfolder")
 
   rm -rf "${target}" # Remove old target dir first
-  cp -afv "$source" "$target" # Copy all current files into target dir
+  if ! cp -afv "$source" "$target"; then # Copy all current files into target dir
+    record_failure "${source} (folder copy failed)"
+    exit 0 # Nothing to post-process; exit 0 so xargs does not abort the run
+  fi
   touch "${target}/.syncfolder" # recreate sync trigger file
 
   # Remove content of folders to skip
@@ -74,5 +93,12 @@ fi
 popd || exit 1
 
 echo ""
+if ! report_failures; then
+  echo ""
+  echo "The snapshot is INCOMPLETE. Review the list above before committing,"
+  echo "otherwise the repository keeps the previous version of those files."
+  exit 1
+fi
+
 echo "Added current settings of the system to the repository."
 echo "Please do not forget to commit and push the changes."
