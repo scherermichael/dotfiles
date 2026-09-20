@@ -27,7 +27,7 @@ In order to store the current configuration for later use, run `./snapshot.sh`, 
 git add files && commit -m "Update configuration" && git push
 ```
 
-All configuration files in the `files` folder will be updated, a new list of Homebrew packages generated, installed VS Code extentions and installed or disabled Atom plugins stored.
+All configuration files in the `files` folder will be updated, a new list of Homebrew taps and packages generated, installed VS Code extentions and installed or disabled Atom plugins stored.
 
 ## Repository Layout
 

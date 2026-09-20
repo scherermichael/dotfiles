@@ -40,6 +40,22 @@ fi
 #   fi
 # fi
 
+# Homebrew taps
+
+# Add missing taps. Taps are never removed automatically: untap manually and
+# re-run snapshot.sh to drop a tap from the list. A tap that no longer exists
+# (deprecated, renamed, private) only warns, so a stale entry in the list does
+# not block the rest of the restore.
+if [ -f "${DIR}/taps.list" ]; then
+  taps_to_add=$(brew tap | diff -u - "${DIR}/taps.list" | grep '^+[^+]' | sed 's/^+//')
+  for tap in ${taps_to_add}; do
+    echo "Adding tap: ${tap}"
+    if ! brew tap "${tap}"; then
+      echo "WARNING: Adding of tap ${tap} failed. Skipping it."
+    fi
+  done
+fi
+
 # Homebrew packages
 
 # Install new packages
