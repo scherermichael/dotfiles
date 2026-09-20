@@ -39,7 +39,7 @@ find "./files" \
     # that were always empty, such as the .lproj ones in the copied .app
     # bundles, are left alone.
     parent=$(dirname "${target}")
-    while [ "${parent}" != "./files" ] && [ "${parent}" != "./private" ] && [ "${parent}" != "." ]; do
+    while [ "${parent}" != "./files" ] && [ "${parent}" != "." ]; do
       rmdir "${parent}" 2> /dev/null || break
       parent=$(dirname "${parent}")
     done
@@ -48,28 +48,17 @@ find "./files" \
   fi
 ' _ {} \;
 
-echo "Backing up single private files..."
+echo "Refreshing private files that exist on this system..."
+# Unlike "files", nothing is ever removed here: restore.sh stages this folder to
+# "$HOME/private", so most private files have nothing at "$HOME/<rel>" to compare
+# against, and "private" is not in Git, so a wrong deletion cannot be undone.
+# The repository is the master copy: edit a private file there, not in $HOME.
 # shellcheck disable=SC2016
 find "./private" \( -type f -o -type l \) ! -name ".gitkeep" ! -name ".syncfolder" ! -name ".nosyncfolder" -exec bash -c '
   target="$1"
   source="$HOME/${target#./private/}" # Replace common dir of private files with $HOME
-  # "-e" follows symlinks, so a link whose target is gone counts as deleted
-  # too. The removal shows up in git status, which is where an unexpected one
-  # gets noticed and can be looked into.
-  if [ ! -e "$source" ]; then
-    # Deleted on this machine, so it goes from the snapshot as well.
-    echo "No longer on this system, removing: ${target}"
-    rm -f "${target}"
-    # Take the directory with it if the removal left it empty, and any parent
-    # that empties with it. "rmdir" refuses on anything non-empty, so folders
-    # that were always empty, such as the .lproj ones in the copied .app
-    # bundles, are left alone.
-    parent=$(dirname "${target}")
-    while [ "${parent}" != "./files" ] && [ "${parent}" != "./private" ] && [ "${parent}" != "." ]; do
-      rmdir "${parent}" 2> /dev/null || break
-      parent=$(dirname "${parent}")
-    done
-  elif ! cp -afv "$source" "$target"; then
+  # A private file that is not installed to $HOME is simply kept as it is.
+  if [ -e "$source" ] && ! cp -afv "$source" "$target"; then
     record_failure "${source} (copy failed)"
   fi
 ' _ {} \;
