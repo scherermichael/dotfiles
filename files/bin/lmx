@@ -1,0 +1,1420 @@
+#!/bin/bash
+#
+# lmx - one command for the local LLM slot (rapid-mlx and LM Studio).
+#
+# This machine has 32 GB, which fits exactly one large model. Port 8000 is
+# therefore treated as a single slot: whoever listens on it owns the GPU, and
+# claiming the slot always releases it first. That is not a convenience, it is
+# the thing that prevents the out-of-memory failures you get from starting a
+# second engine while the first still holds its weights.
+#
+# The other job is never downloading the same bytes twice. Remote sites throttle
+# hard enough that a 16 GB model is an hours-long transfer, so `pull` routes by
+# format into one store and refuses anything already on disk, and `link` makes an
+# HF-cache model visible to LM Studio through a symlink instead of a second copy.
+#
+# Usage: lmx <command> [args]   - `lmx help` for the list.
+
+set -uo pipefail
+
+# --- settings ---------------------------------------------------------------
+# Every value here was learned by hitting the failure it prevents. All of them
+# are overridable from the environment so the script never has to be edited for
+# a one-off, and `up` takes flags that win over both.
+
+LMX_PORT="${LMX_PORT:-8000}"
+
+# LM Studio's own default is 4096, which is below opencode's system prompt plus
+# tool schemas (~7.6k tokens) - it fails with an n_keep error. `lms load` also
+# resets to that default on every load, so a context must always be passed.
+LMX_CTX="${LMX_CTX:-32768}"
+
+# Set LMX_RAPID_FLAGS to take full manual control; left unset, the cache size
+# is derived per model (see rapid_flags below). A single fixed number cannot be
+# right for both: a 30B leaves under 7 GB after its weights, a 4B leaves 21 GB.
+LMX_RAPID_FLAGS="${LMX_RAPID_FLAGS-}"
+LMX_LMS_FLAGS="${LMX_LMS_FLAGS:--y --gpu max}"
+
+# Both opencode and Hermes point at one fixed endpoint and one fixed model id,
+# so switching models never means editing their configs. `lmx status` is what
+# answers "which model is actually behind this".
+LMX_SERVED_NAME="${LMX_SERVED_NAME:-default}"
+
+HF_HUB="${HF_HOME:-$HOME/.cache/huggingface}/hub"
+STATE_DIR="$HOME/.local/state/lmx"
+
+# LM Studio ships its CLI outside the usual prefixes and only puts it on PATH
+# from the shell rc, so it is absent under cron and launchd.
+LMS="$(command -v lms 2>/dev/null || echo "$HOME/.lmstudio/bin/lms")"
+RAPID="$(command -v rapid-mlx 2>/dev/null || echo /opt/homebrew/bin/rapid-mlx)"
+
+mkdir -p "$STATE_DIR"
+
+# --- output -----------------------------------------------------------------
+
+info() { printf '%s\n' "$*"; }
+warn() { printf 'warning: %s\n' "$*" >&2; }
+die()  { printf 'error: %s\n' "$*" >&2; exit 1; }
+
+human() {
+    # Sizes are reported in bytes by `find`/`stat`; nobody reads 16106127360.
+    awk -v b="${1:-0}" 'BEGIN {
+        split("B KB MB GB TB", u, " "); i = 1
+        while (b >= 1024 && i < 5) { b /= 1024; i++ }
+        printf (i == 1 ? "%d%s" : "%.1f%s"), b, u[i]
+    }'
+}
+
+# --- stores -----------------------------------------------------------------
+
+lms_root() {
+    # The path is configurable in LM Studio's settings and there is no CLI flag
+    # that reports it, so read the setting rather than assuming the default.
+    local from_settings
+    from_settings="$(/usr/bin/python3 -c '
+import json, os, sys
+try:
+    with open(os.path.expanduser("~/.lmstudio/settings.json")) as fh:
+        print(json.load(fh).get("downloadsFolder", ""))
+except Exception:
+    print("")' 2>/dev/null)"
+    [ -n "$from_settings" ] && [ -d "$from_settings" ] \
+        && printf '%s\n' "$from_settings" \
+        || printf '%s\n' "$HOME/.lmstudio/models"
+}
+
+hf_repo_id() {
+    # models--mlx-community--Qwen3-Coder-30B -> mlx-community/Qwen3-Coder-30B.
+    # Only the first separator is a namespace boundary; repo names contain "--"
+    # of their own, so this rewrites exactly one.
+    printf '%s\n' "${1#models--}" | sed 's/--/\//'
+}
+
+hf_dir_for() {
+    printf '%s\n' "$HF_HUB/models--$(printf '%s' "$1" | sed 's/\//--/')"
+}
+
+hf_snapshot() {
+    # The snapshot hash moves on every re-pull, so it is read fresh from
+    # refs/main rather than remembered anywhere.
+    local dir ref
+    dir="$(hf_dir_for "$1")"
+    ref="$dir/refs/main"
+    [ -f "$ref" ] || return 1
+    local hash
+    hash="$(cat "$ref" 2>/dev/null)"
+    [ -n "$hash" ] && [ -d "$dir/snapshots/$hash" ] || return 1
+    printf '%s\n' "$dir/snapshots/$hash"
+}
+
+dir_fmt() {
+    # Format is decided by what is actually in the directory. Names lie: both
+    # HauhauCS repos here are GGUF without saying so anywhere in the name.
+    local d="$1"
+    if [ -n "$(find "$d" -name '*.gguf' -print -quit 2>/dev/null)" ]; then
+        printf 'gguf\n'
+    elif [ -n "$(find "$d" -name '*.safetensors' -print -quit 2>/dev/null)" ]; then
+        printf 'mlx\n'
+    else
+        printf '?\n'
+    fi
+}
+
+dir_size() {
+    # -L on both: HF snapshot dirs are symlinks into blobs/, and BSD stat
+    # reports the length of the link text rather than the target unless told
+    # otherwise - which made every cached model look like a few hundred bytes.
+    #
+    # Always exactly one integer on stdout, even when the path does not exist:
+    # callers feed this straight into $(( )), where a stray second line is a
+    # syntax error rather than a zero.
+    find -L "$1" -type f -exec stat -L -f '%z' {} + 2>/dev/null \
+        | awk '{s += $1} END {printf "%d", s + 0}'
+}
+
+fit() {
+    # Repo ids run to 64 characters; letting them overflow turns the table into
+    # ragged prose.
+    awk -v s="$1" -v w="$2" 'BEGIN {
+        print (length(s) <= w) ? s : substr(s, 1, w - 1) "…"
+    }'
+}
+
+size_note() {
+    # Where the expected total for a repo is remembered, so `status` can show
+    # progress without a network round trip on every invocation.
+    printf '%s/size-%s\n' "$STATE_DIR" "$(printf '%s' "$1" | tr '/' '_')"
+}
+
+repo_bytes() {
+    # Real files only - no -L. Snapshot entries are symlinks into blobs/, so
+    # following them would count every finished file twice. What is left is the
+    # truth: completed blobs plus whatever is staged mid-transfer.
+    find "$1" -type f -exec stat -f '%z' {} + 2>/dev/null \
+        | awk '{s += $1} END {print s + 0}'
+}
+
+partial_bytes() {
+    # Two downloaders, two conventions: huggingface_hub writes
+    # blobs/<sha>.incomplete, while rapid-mlx stages into
+    # .rapid-mlx-mirror/*.part. Missing the second made an in-flight download
+    # look like an abandoned stub - and the suggested cure for a stub is `rm`,
+    # which would throw away hours of transfer.
+    find "$1" \( -name '*.incomplete' -o -name '*.part' \) -type f \
+        -exec stat -L -f '%z' {} + 2>/dev/null \
+        | awk '{s += $1} END {print s + 0}'
+}
+
+hf_repos() {
+    # Sorted explicitly rather than trusting the glob: the listing should not
+    # reorder itself because the filesystem or the locale feels different today.
+    [ -d "$HF_HUB" ] || return 0
+    local d
+    {
+        for d in "$HF_HUB"/models--*; do
+            [ -d "$d" ] || continue
+            hf_repo_id "$(basename "$d")"
+        done
+    } | sort -f
+}
+
+lms_repos() {
+    local root pub repo
+    root="$(lms_root)"
+    [ -d "$root" ] || return 0
+    for pub in "$root"/*; do
+        [ -d "$pub" ] || continue
+        for repo in "$pub"/*; do
+            [ -d "$repo" ] || continue
+            printf '%s/%s\n' "$(basename "$pub")" "$(basename "$repo")"
+        done
+    done
+}
+
+# --- the slot ---------------------------------------------------------------
+
+slot_pid() { lsof -ti "tcp:$LMX_PORT" -sTCP:LISTEN 2>/dev/null | head -1; }
+
+slot_engine() {
+    # Read it off the running process rather than a note we wrote: that stays
+    # right even when something was started outside lmx. It matters because the
+    # two engines behave differently (context sizing, GGUF support, how they
+    # must be stopped) and the model name alone does not say which is in use -
+    # an LM Studio repo can be served by either.
+    local pid cmd
+    pid="$(slot_pid)"
+    [ -n "$pid" ] || return 0
+    cmd="$(ps -p "$pid" -o command= 2>/dev/null)"
+    # Match the executable, never the arguments. rapid-mlx serving a model out
+    # of ~/.lmstudio/models carries "lmstudio" in its command line; matching on
+    # that made it look like LM Studio, so `down` politely asked LM Studio to
+    # stop while rapid-mlx kept the port - "still holds 8000 after 15s".
+    # rapid-mlx is therefore tested first, and LM Studio only by its app bundle.
+    case "$cmd" in
+        *bin/rapid-mlx*|*rapid_mlx*) printf 'rapid-mlx\n' ;;
+        *"LM Studio.app"*|*/.lmstudio/bin/lms*) printf 'LM Studio\n' ;;
+        *)                           printf 'unknown (%s)\n' "$(basename "${cmd%% *}")" ;;
+    esac
+}
+
+slot_model() {
+    # The served name is always "default", so the endpoint itself cannot say
+    # what is behind it. `rapid-mlx ps` knows, but prints the name truncated with
+    # an ellipsis and an alias in parentheses - unparseable. So record it here at
+    # launch instead, and trust the note only while its pid still holds the port.
+    local note="$STATE_DIR/current" pid
+    [ -f "$note" ] || return 0
+    pid="$(sed -n '1p' "$note")"
+    [ "$pid" = "$(slot_pid)" ] || return 0
+    sed -n '2p' "$note"
+}
+
+cmd_down() {
+    local pid
+    pid="$(slot_pid)"
+
+    # LM Studio serves from a long-lived daemon that also backs the GUI and the
+    # whole lms CLI. Killing it by pid frees the port but leaves LM Studio
+    # unable to restart - every later `lms server start` fails with "Timed out
+    # waiting for LM Studio daemon to start". It has to be asked, not killed.
+    #
+    # One source of truth for which engine holds the slot: an inline test here
+    # once drifted from slot_engine's and mistook rapid-mlx for LM Studio.
+    if [ -n "$pid" ] && [ "$(slot_engine)" = "LM Studio" ]; then
+        info "releasing slot $LMX_PORT (LM Studio)"
+        "$LMS" unload --all >/dev/null 2>&1
+        "$LMS" server stop >/dev/null 2>&1
+        local waited=0
+        while [ -n "$(slot_pid)" ] && [ "$waited" -lt 15 ]; do
+            sleep 1
+            waited=$((waited + 1))
+        done
+        [ -n "$(slot_pid)" ] && die "LM Studio still holds $LMX_PORT after 15s"
+        return 0
+    fi
+
+    if [ -z "$pid" ]; then
+        info "slot $LMX_PORT already free"
+    else
+        info "releasing slot $LMX_PORT (pid $pid)"
+        # Kill the children first and by process tree, not by command pattern.
+        # rapid-mlx's worker shows up as VLLM::EngineCore, which `pkill -f
+        # "rapid-mlx serve"` does not match - it survived, kept the port bound
+        # and held 15 GB of weights resident.
+        local kids
+        kids="$(pgrep -P "$pid" 2>/dev/null | tr '\n' ' ')"
+        kill $kids "$pid" 2>/dev/null
+
+        local waited=0
+        while [ "$waited" -lt 10 ] && kill -0 "$pid" 2>/dev/null; do
+            sleep 1
+            waited=$((waited + 1))
+        done
+        kill -9 $kids "$pid" 2>/dev/null
+    fi
+
+    # LM Studio keeps models resident independently of the HTTP listener, so a
+    # free port does not mean free memory.
+    if [ -x "$LMS" ]; then
+        local loaded
+        loaded="$("$LMS" ps 2>/dev/null | awk 'NR > 2 && NF {print $1}')"
+        if [ -n "$loaded" ]; then
+            info "unloading LM Studio models"
+            "$LMS" unload --all >/dev/null 2>&1 || {
+                local id
+                for id in $loaded; do "$LMS" unload "$id" >/dev/null 2>&1; done
+            }
+        fi
+    fi
+
+    # Anything still holding the port after all that is an orphan worth naming.
+    local stragglers
+    stragglers="$(pgrep -f 'VLLM::EngineCore' 2>/dev/null | tr '\n' ' ')"
+    [ -n "$stragglers" ] && { warn "killing orphaned engine cores: $stragglers"; kill -9 $stragglers 2>/dev/null; }
+
+    local waited=0
+    while [ -n "$(slot_pid)" ] && [ "$waited" -lt 10 ]; do
+        sleep 1
+        waited=$((waited + 1))
+    done
+    [ -n "$(slot_pid)" ] && die "slot $LMX_PORT still held after 10s"
+    return 0
+}
+
+lms_key() {
+    # LM Studio addresses models by a key of its own ("qwen/qwen3.5-9b") that
+    # has nothing to do with the directory they live in
+    # ("lmstudio-community/Qwen3.5-9B-GGUF"), so `lms load` cannot be handed a
+    # path or a repo name. Only `lms ls --json` knows the mapping.
+    [ -x "$LMS" ] || return 1
+    "$LMS" ls --json 2>/dev/null | /usr/bin/python3 -c '
+import json, sys
+want = sys.argv[1].lower()
+try:
+    models = json.load(sys.stdin)
+except Exception:
+    raise SystemExit
+for m in models:
+    path, key = m.get("path", ""), m.get("modelKey", "")
+    # Match the full path, its repo part, or the key itself.
+    cands = {path.lower(), key.lower(), path.split("/")[-1].lower()}
+    if len(path.split("/")) > 1:
+        cands.add("/".join(path.split("/")[:2]).lower())
+    if want in cands:
+        print(key)
+        break' "$1" 2>/dev/null
+}
+
+lms_key_by_size() {
+    # Last resort for catalog models, whose key ("qwen/qwen3.5-9b") has no
+    # derivable relation to their directory ("lmstudio-community/
+    # Qwen3.5-9B-GGUF") - LM Studio's index simply does not record the path.
+    # Their byte counts do line up though: the directory here totals
+    # 6,548,748,736 against a reported 6,548,927,017, a 0.003% difference from
+    # metadata, while every other model differs by billions. So match on size
+    # within 1%, which is far tighter than the gaps between models.
+    local dir="$1" bytes
+    [ -d "$dir" ] || return 1
+    bytes="$(dir_size "$dir")"
+    [ "${bytes:-0}" -gt 0 ] || return 1
+    "$LMS" ls --json 2>/dev/null | /usr/bin/python3 -c '
+import json, sys
+want = int(sys.argv[1])
+try:
+    models = json.load(sys.stdin)
+except Exception:
+    raise SystemExit
+for m in models:
+    size = m.get("sizeBytes") or 0
+    if size and abs(size - want) <= want * 0.01:
+        print(m.get("modelKey", ""))
+        break' "$bytes" 2>/dev/null
+}
+
+alias_repo() {
+    # "qwen3-coder-30b-4bit" -> "mlx-community/Qwen3-Coder-30B-A3B-Instruct-4bit".
+    # Needed wherever an alias has to be measured on disk: the alias is not the
+    # directory name, so looking it up directly finds nothing and every
+    # size-derived decision silently falls back to its default.
+    "$RAPID" info "$1" 2>/dev/null \
+        | sed -n 's/.*Alias:.*→[[:space:]]*//p' | head -1 | tr -d '[:space:]'
+}
+
+rapid_flags() {
+    # Size the prefix cache from what is actually left after the weights, not
+    # from a constant. A fixed 2048 MB was wrong in both directions: too large
+    # for nothing, and far too small for a 30B, where a 15.5k-token
+    # conversation needs ~2.9 GB and was rejected outright with "Cache entry
+    # too large" - so every turn re-prefilled from scratch.
+    #
+    # The arithmetic mirrors what rapid-mlx reports at load, verified against
+    # its own log line "allocation_limit=24.1GB (90% of 26.8GB, weights=17.2GB)":
+    #   Metal sees ~83% of physical RAM, rapid-mlx allocates 90% of that, and
+    #   the weights come off the top. Half of what remains goes to the prefix
+    #   cache; the rest stays free for the live request's KV, which for a long
+    #   conversation is itself gigabytes.
+    local target="$1" weights_mb total_mb budget_mb cache_mb
+    weights_mb=$(( $(dir_size "$target") / 1024 / 1024 ))
+    # rapid-mlx accounts slightly more than the on-disk size (17.2 vs 16.0 GB).
+    weights_mb=$(( weights_mb * 108 / 100 ))
+    total_mb=$(( $(sysctl -n hw.memsize) / 1024 / 1024 ))
+    budget_mb=$(( total_mb * 83 / 100 * 90 / 100 ))
+
+    if [ "$weights_mb" -gt 0 ] && [ "$budget_mb" -gt "$weights_mb" ]; then
+        cache_mb=$(( (budget_mb - weights_mb) / 2 ))
+    else
+        # Unknown size (an alias not yet on disk): stay conservative.
+        cache_mb=2048
+    fi
+    [ "$cache_mb" -lt 1024 ] && cache_mb=1024
+    [ "$cache_mb" -gt 8192 ] && cache_mb=8192
+
+    printf -- '--cache-memory-mb %s --idle-cache-clear-seconds %s\n' \
+        "$cache_mb" "${LMX_IDLE_CACHE_SECONDS:-300}"
+}
+
+infer_parsers() {
+    # Serving a path skips rapid-mlx's alias profiles, which is where the
+    # tool-call and reasoning parsers normally come from. Without them the model
+    # still emits tool calls - but as raw <tool_call> XML in the message body,
+    # which opencode prints instead of executing. One simple tool can slip
+    # through; a real agent toolset does not.
+    #
+    # The mapping is not guessed: each pair is what `rapid-mlx info` reports for
+    # an alias of that model_type. Unknown types get nothing rather than a
+    # plausible-looking default, because a wrong parser fails the same way.
+    local cfg="$1/config.json" mt
+    [ -f "$cfg" ] || return 0
+    mt="$(/usr/bin/python3 -c '
+import json, sys
+try:
+    print(json.load(open(sys.argv[1])).get("model_type", ""))
+except Exception:
+    print("")' "$cfg" 2>/dev/null)"
+    case "$mt" in
+        qwen3_5|qwen3_5_moe) printf 'qwen3_coder_xml|qwen3\n' ;;
+        qwen3_moe|qwen3)     printf 'hermes|\n' ;;
+        *)                   printf '|\n' ;;
+    esac
+}
+
+resolve_model() {
+    # A model argument may be a path, an org/repo id, an LM Studio
+    # publisher/repo, a bare repo name, or a rapid-mlx alias. Paths are what let
+    # LM Studio's own MLX models be served without re-downloading them into the
+    # HF cache - the cache layout (blobs, refs, snapshots and a trees/*.json
+    # manifest) cannot be forged from LM Studio's flat tree, but rapid-mlx will
+    # load a plain directory directly.
+    #
+    # Prints the resolved reference, or nothing if it cannot be resolved. The
+    # caller must treat empty as fatal *before* releasing the slot.
+    local want="$1" root r hits n
+    [ -n "$want" ] || return 1
+
+    if [ -d "$want" ]; then printf '%s\n' "$want"; return 0; fi
+
+    # The HF cache comes first: a model pulled for rapid-mlx should be served
+    # by rapid-mlx, even though `lmx link` also makes it visible to LM Studio.
+    # Checking LM Studio first would quietly hand every linked model to the
+    # other engine.
+    if hf_snapshot "$want" >/dev/null 2>&1; then printf '%s\n' "$want"; return 0; fi
+
+    # Then LM Studio, before any HF-repo or alias interpretation. Its catalog
+    # keys are shaped exactly like HF repo ids ("qwen/qwen3.5-9b"), so guessing
+    # from the string alone sent a model already on disk off to be downloaded
+    # from Hugging Face - the one thing this tool exists to prevent. The marker
+    # tells the caller which engine won, so the name is not parsed twice.
+    local k
+    k="$(lms_key "$want")"
+    if [ -n "$k" ]; then printf 'lms:%s\n' "$k"; return 0; fi
+
+    root="$(lms_root)"
+    if [ -d "$root/$want" ]; then
+        # A directory LM Studio owns: prefer its key, falling back to matching
+        # by size for catalog models whose key cannot be derived from the path.
+        k="$(lms_key_by_size "$root/$want")"
+        if [ -n "$k" ]; then printf 'lms:%s\n' "$k"; return 0; fi
+        printf '%s\n' "$root/$want"
+        return 0
+    fi
+
+    # A bare repo name ("Qwen3.5-4B-MLX-4bit") is what you get from copying a
+    # model's directory name, so match it against the tail of what is on disk
+    # rather than making the org prefix mandatory.
+    case "$want" in
+        */*) ;;
+        *)
+            hits=""
+            for r in $(hf_repos); do
+                [ "${r##*/}" = "$want" ] && hf_snapshot "$r" >/dev/null 2>&1 \
+                    && hits="$hits $r"
+            done
+            for r in $(lms_repos); do
+                # Skip symlinks: `lmx link` points these at the HF cache, so
+                # the same model would otherwise look like two candidates and
+                # be reported as ambiguous against itself.
+                [ -L "$root/$r" ] && continue
+                [ "${r##*/}" = "$want" ] && hits="$hits $root/$r"
+            done
+            n="$(printf '%s\n' $hits | grep -c .)"
+            if [ "$n" = 1 ]; then printf '%s\n' $hits; return 0; fi
+            if [ "${n:-0}" -gt 1 ]; then
+                # Ambiguous is not the same as missing: say so instead of
+                # silently picking one.
+                warn "'$want' matches several models:"
+                printf '  %s\n' $hits >&2
+                return 1
+            fi
+            ;;
+    esac
+
+    # Finally a rapid-mlx alias, which it resolves itself.
+    "$RAPID" info "$want" >/dev/null 2>&1 && { printf '%s\n' "$want"; return 0; }
+    return 1
+}
+
+cmd_up() {
+    local model="" vision=0 use_lms=0 ctx_given=0 child=""
+    local tool_parser="" reason_parser="" parsers_given=0 blocks=""
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --vision)         vision=1 ;;
+            --text)           vision=-1 ;;
+            --lms)            use_lms=1 ;;
+            --ctx)            LMX_CTX="$2"; ctx_given=1; shift ;;
+            --port)           LMX_PORT="$2"; shift ;;
+            --blocks)         blocks="$2"; shift ;;
+            --tool-parser)    tool_parser="$2"; parsers_given=1; shift ;;
+            --reason-parser)  reason_parser="$2"; parsers_given=1; shift ;;
+            -*)               die "unknown flag: $1" ;;
+            *)                model="$1" ;;
+        esac
+        shift
+    done
+    [ -n "$model" ] || die "usage: lmx up <model> [--vision] [--lms] [--ctx N]"
+
+    # Resolve and validate BEFORE releasing the slot. Checking afterwards would
+    # mean a typo unloads the model you were using and then fails.
+    local target=""
+    if [ "$use_lms" != 1 ]; then
+        target="$(resolve_model "$model")"
+        # An unresolvable name must fail here, not after cmd_down: otherwise a
+        # typo unloads the model you were using and then reports the typo.
+        if [ -z "$target" ]; then
+            warn "cannot resolve '$model'"
+            local near
+            near="$("$RAPID" info "$model" 2>&1 | sed -n 's/.*Did you mean: *//p' | head -1)"
+            [ -n "$near" ] && warn "  rapid-mlx suggests: $near"
+            die "not a path, a model in either store, or a known alias - try 'lmx ls'"
+        fi
+        # Resolution found it in LM Studio's index; that is authoritative, and
+        # the key it returned is what `lms load` wants.
+        if [ "${target#lms:}" != "$target" ]; then
+            model="${target#lms:}"
+            use_lms=1
+            info "$model is an LM Studio model → LM Studio"
+        # GGUF can only be served by LM Studio, so route it there instead of
+        # making the caller retype the command with --lms. `pull` already picks
+        # the store by format; this is the same rule at load time.
+        elif [ -d "$target" ] && [ "$(dir_fmt "$target")" = "gguf" ]; then
+            local key
+            key="$(lms_key "$model")"
+            [ -n "$key" ] || key="$(lms_key "${target#"$(lms_root)"/}")"
+            if [ -z "$key" ]; then
+                # Models pulled from LM Studio's own catalog are addressed by a
+                # catalog id ("qwen/qwen3.5-9b") that has no relation to their
+                # directory ("lmstudio-community/Qwen3.5-9B-GGUF"), so there is
+                # nothing to derive. Show what is loadable instead of guessing.
+                warn "$model is gguf, but LM Studio addresses it by its own key, which cannot"
+                warn "be derived from the directory name. Loadable gguf models:"
+                "$LMS" ls --json 2>/dev/null | /usr/bin/python3 -c '
+import json, sys
+try:
+    for m in json.load(sys.stdin):
+        if m.get("format") == "gguf":
+            print("  %-46s %s" % (m.get("modelKey",""), m.get("displayName","")))
+except Exception:
+    pass' >&2
+                die "retry with one of those keys"
+            fi
+            info "$model is gguf → LM Studio (as '$key')"
+            model="$key"
+            use_lms=1
+        else
+            [ "$target" = "$model" ] || info "resolved $model → $target"
+        fi
+    fi
+
+    cmd_down
+
+    if [ "$use_lms" = 1 ]; then
+        [ -x "$LMS" ] || die "lms not found at $LMS"
+        local log
+        log="$STATE_DIR/$(printf '%s' "$model" | tr '/ ' '__').log"
+        # Accept a directory or repo name here too, not just LM Studio's own
+        # key - they look nothing alike, and nobody remembers which is which.
+        local key
+        key="$(lms_key "$model")"
+        [ -n "$key" ] && [ "$key" != "$model" ] && { info "resolved $model → $key"; model="$key"; }
+        info "starting LM Studio: $model (ctx $LMX_CTX, port $LMX_PORT)"
+        info "  log: $log"
+        "$LMS" server start --port "$LMX_PORT" >> "$log" 2>&1
+        # --identifier is LM Studio's equivalent of --served-model-name; without
+        # it the API id is the repo name and the client configs would have to
+        # change with every model.
+        #
+        # Output goes to the log, not the terminal: `lms load` draws an animated
+        # progress bar, which is tens of thousands of escape sequences once it is
+        # not attached to a tty.
+        "$LMS" load "$model" --identifier "$LMX_SERVED_NAME" \
+            -c "$LMX_CTX" $LMX_LMS_FLAGS >> "$log" 2>&1 || {
+            tail -5 "$log" >&2
+            die "lms load failed - see $log"
+        }
+    else
+        local log
+        log="$STATE_DIR/$(printf '%s' "$model" | tr '/ ' '__').log"
+        info "starting rapid-mlx: $target (port $LMX_PORT)"
+
+        # rapid-mlx has no context-window flag - it sizes the window from free
+        # memory at load time and reports the result. Saying so beats silently
+        # ignoring a --ctx the caller believed in.
+        [ "$ctx_given" = 1 ] && \
+            warn "--ctx does not apply to rapid-mlx; it sizes context from memory (shown below)"
+
+        # A vision-capable checkpoint is auto-routed to the vision lane, which
+        # needs the mlx-vlm extra. That extra lives in rapid-mlx's own venv and
+        # is therefore lost on every upgrade - so --text is the escape hatch
+        # that boots a text-capable backbone without it.
+        local vflag=""
+        [ "$vision" = 1 ]  && vflag="--mllm"
+        [ "$vision" = -1 ] && vflag="--no-mllm"
+
+        # Alias profiles carry their own parsers; a path has none, so supply
+        # them or the agent gets XML in the message body instead of tool calls.
+        local pflags=""
+        if [ "$parsers_given" = 0 ] && [ -d "$target" ]; then
+            local guess
+            guess="$(infer_parsers "$target")"
+            tool_parser="${guess%%|*}"
+            reason_parser="${guess##*|}"
+            if [ -z "$tool_parser" ]; then
+                warn "no known parser for this model type - tool calls may arrive as raw text"
+                warn "  if so, pass --tool-parser <name> (see 'rapid-mlx serve --help')"
+            fi
+        fi
+        # --tool-call-parser on its own is silently ignored: it only takes
+        # effect with --enable-auto-tool-choice, and the endpoint then keeps
+        # reporting tool_call_parser=None while the model emits raw XML.
+        [ -n "$tool_parser" ]   && pflags="--enable-auto-tool-choice --tool-call-parser $tool_parser"
+        [ -n "$reason_parser" ] && pflags="$pflags --reasoning-parser $reason_parser"
+        [ -n "$pflags" ] && [ -d "$target" ] && info "  parsers: ${tool_parser:-none}${reason_parser:+ + $reason_parser}"
+
+        # rapid-mlx has no --detach, and an hours-long session should not die
+        # with the terminal.
+        # An explicit LMX_RAPID_FLAGS is taken verbatim - full manual control -
+        # otherwise the cache is sized against this model's weights.
+        local rflags="$LMX_RAPID_FLAGS"
+        if [ -z "$rflags" ]; then
+            local sizing_target="$target" repo_id
+            if [ ! -d "$sizing_target" ]; then
+                # Try it as a repo id first, then as an alias that resolves to
+                # one - otherwise the weights measure 0 and the cache silently
+                # falls back to a default that is wrong for large models.
+                sizing_target="$(hf_snapshot "$target" 2>/dev/null || echo "")"
+                if [ -z "$sizing_target" ]; then
+                    repo_id="$(alias_repo "$target")"
+                    [ -n "$repo_id" ] && sizing_target="$(hf_snapshot "$repo_id" 2>/dev/null || echo "")"
+                fi
+            fi
+            [ -n "$sizing_target" ] || warn "cannot measure this model's weights; using a conservative cache size"
+            rflags="$(rapid_flags "${sizing_target:-/nonexistent}")"
+            info "  memory:  $rflags"
+        fi
+        [ -n "$blocks" ] && rflags="$rflags --max-cache-blocks $blocks"
+
+        nohup "$RAPID" serve "$target" \
+            --served-model-name "$LMX_SERVED_NAME" \
+            --port "$LMX_PORT" \
+            $pflags $vflag $rflags >> "$log" 2>&1 &
+        child=$!
+        info "  log: $log"
+    fi
+
+    # Poll the endpoint rather than trusting a log line: rapid-mlx reports
+    # itself healthy while rejecting every request under memory backpressure.
+    local waited=0
+    while [ "$waited" -lt 300 ]; do
+        if curl -sf -m 3 "http://127.0.0.1:$LMX_PORT/v1/models" >/dev/null 2>&1; then
+            info "ready on http://127.0.0.1:$LMX_PORT/v1 as '$LMX_SERVED_NAME'"
+            # Pid first so a stale note from a crashed run can be detected.
+            printf '%s\n%s\n' "$(slot_pid)" "$model" > "$STATE_DIR/current"
+            # rapid-mlx derives the context window from free memory, so the only
+            # honest way to report it is to ask after the fact.
+            local got
+            got="$(curl -sf -m 3 "http://127.0.0.1:$LMX_PORT/v1/models" 2>/dev/null \
+                | /usr/bin/python3 -c '
+import json, sys
+try:
+    d = json.load(sys.stdin)["data"][0]
+    print(d.get("max_model_len") or d.get("context_window") or "")
+except Exception:
+    print("")' 2>/dev/null)"
+            if [ -n "$got" ]; then
+                info "  context: $got tokens"
+                # rapid-mlx sizes context from whatever memory is free at load
+                # time, and can pick a number that only fits while idle: a 30B
+                # once took 262k here, drove Metal to 26.4 GB against a 24.1 GB
+                # cap and spent 17 minutes on one request. There is no context
+                # flag, so this warns rather than corrects - how many tokens a
+                # block buys is model-specific and not something to guess at.
+                local w_gb
+                w_gb=$(( $(dir_size "$target") / 1024 / 1024 / 1024 ))
+                if [ -z "$blocks" ] && [ "$got" -gt 100000 ] 2>/dev/null && [ "$w_gb" -ge 10 ]; then
+                    warn "context $got on a ${w_gb}GB model may thrash once a conversation grows"
+                    warn "  if turns get slow, reload with fewer blocks: lmx up $model --blocks 250"
+                fi
+            fi
+            # A serve of an uncached alias downloads it, which is a new HF-cache
+            # repo that LM Studio cannot see until it is linked.
+            cmd_link quiet
+            return 0
+        fi
+        # A bad flag kills the engine in under a second; without this the caller
+        # waits the full five minutes to be told about a typo.
+        if [ -n "$child" ] && ! kill -0 "$child" 2>/dev/null; then
+            warn "engine exited during startup:"
+            tail -5 "$log" >&2
+            die "see $log"
+        fi
+        sleep 2
+        waited=$((waited + 2))
+    done
+    die "no response on port $LMX_PORT after 300s - see the log above"
+}
+
+cmd_use() { cmd_up "$@"; }
+
+cmd_status() {
+    local pid
+    pid="$(slot_pid)"
+    if [ -z "$pid" ]; then
+        info "slot $LMX_PORT: free"
+    else
+        local real engine
+        real="$(slot_model)"
+        engine="$(slot_engine)"
+        info "slot $LMX_PORT: pid $pid"
+        [ -n "$engine" ] && info "  engine:  $engine"
+        [ -n "$real" ] && info "  model:   $real"
+        local served
+        served="$(curl -sf -m 3 "http://127.0.0.1:$LMX_PORT/v1/models" 2>/dev/null \
+            | /usr/bin/python3 -c '
+import json, sys
+try:
+    d = json.load(sys.stdin)
+    for m in d.get("data", []):
+        print("%s|%s" % (m.get("id", "?"), m.get("max_model_len") or m.get("context_window") or "?"))
+except Exception:
+    pass' 2>/dev/null | head -1)"
+        if [ -n "$served" ]; then
+            info "  served:  ${served%%|*}"
+            local ctx="${served##*|}"
+            # LM Studio's /v1/models does not carry a context length the way
+            # rapid-mlx's does, but `lms ps` has it in its CONTEXT column.
+            if [ "$ctx" = "?" ] || [ -z "$ctx" ]; then
+                ctx="$("$LMS" ps 2>/dev/null \
+                    | awk -v n="$LMX_SERVED_NAME" '$1 == n {print $6}' | head -1)"
+            fi
+            info "  ctx:     ${ctx:-?}"
+        fi
+    fi
+
+    # An interrupted transfer is hours of bandwidth, so say so plainly rather
+    # than letting it look like a finished model.
+    local shown=0 repo bytes dir have total note
+    for repo in $(hf_repos); do
+        dir="$(hf_dir_for "$repo")"
+        bytes="$(partial_bytes "$dir")"
+        [ "${bytes:-0}" -gt 0 ] || continue
+        [ "$shown" = 0 ] && { info ""; info "downloads in flight:"; shown=1; }
+
+        local running=""
+        pgrep -f "pull $repo\$" >/dev/null 2>&1 || running=" (stalled - 'lmx pull $repo' resumes)"
+
+        # Progress is everything on disk for this repo, not just the file
+        # currently being written - blobs already finished count too.
+        have="$(repo_bytes "$dir")"
+        note="$(size_note "$repo")"
+        total="$(cat "$note" 2>/dev/null)"
+        if [ -n "$total" ] && [ "$total" -gt 0 ] 2>/dev/null; then
+            info "  $(human "$have") / $(human "$total") ($(awk -v a="$have" -v b="$total" \
+                'BEGIN {printf "%d", (a * 100) / b}')%)  $repo$running"
+        else
+            info "  $(human "$have")  $repo$running"
+        fi
+    done
+}
+
+# --- linking ----------------------------------------------------------------
+
+cmd_link() {
+    # Symlinks only ever point outward, from the HF cache into LM Studio. The
+    # reverse is impossible: rapid-mlx needs blobs/, refs/main, snapshots/<hash>/
+    # and a trees/<hash>.json manifest that cannot be reconstructed from LM
+    # Studio's flat directory. Serving by path covers that direction instead.
+    local quiet="${1:-}" root linked=0 repo snap dest
+    root="$(lms_root)"
+
+    for repo in $(hf_repos); do
+        snap="$(hf_snapshot "$repo")" || continue
+        [ "$(dir_fmt "$snap")" = "mlx" ] || continue
+
+        dest="$root/$repo"
+        if [ -L "$dest" ]; then
+            # A re-pull moves refs/main, which would leave the link pointing at a
+            # snapshot that garbage collection can remove.
+            [ "$(readlink "$dest")" = "$snap" ] && continue
+            rm -f "$dest"
+        elif [ -e "$dest" ]; then
+            # A real directory of the same name is LM Studio's own copy; it is
+            # not ours to replace.
+            [ -z "$quiet" ] && warn "$repo exists in LM Studio as a real directory, not linking"
+            continue
+        fi
+
+        mkdir -p "$(dirname "$dest")"
+        ln -s "$snap" "$dest" && {
+            linked=$((linked + 1))
+            [ -z "$quiet" ] && info "linked $repo"
+        }
+    done
+
+    [ -z "$quiet" ] && info "$linked link(s) created or re-pointed"
+    return 0
+}
+
+# --- listing ----------------------------------------------------------------
+
+cmd_ls() {
+    local row='%-52s %-5s %-11s %-9s %8s\n'
+    # shellcheck disable=SC2059
+    printf "$row" REPO FMT STORE ENGINES SIZE
+    # shellcheck disable=SC2059
+    printf "$row" "----------------------------------------------------" "-----" \
+        "-----------" "---------" "--------"
+
+    local repo snap root dest store engines
+    root="$(lms_root)"
+
+    for repo in $(hf_repos); do
+        if snap="$(hf_snapshot "$repo")"; then
+            dest="$root/$repo"
+            if [ -L "$dest" ]; then
+                store="hf+linked"
+                # The symlink is what lets LM Studio open it; without one the
+                # bytes are there but invisible to it.
+                engines="both"
+            else
+                store="hf"
+                engines="rapid-mlx"
+            fi
+            # shellcheck disable=SC2059
+            printf "$row" "$(fit "$repo" 52)" "$(dir_fmt "$snap")" "$store" "$engines" \
+                "$(human "$(dir_size "$snap")")"
+        else
+            # refs/main with no snapshot is an aborted pull that transferred
+            # nothing, not a model.
+            # shellcheck disable=SC2059
+            printf "$row" "$(fit "$repo" 52)" "-" "incomplete" "-" "-"
+        fi
+    done
+
+    # LM Studio's own models are listed by the key `lmx up` accepts, not by
+    # their directory. For catalog downloads the two are unrelated - the files
+    # sit in lmstudio-community/Qwen3.5-9B-GGUF while the model is addressed as
+    # qwen/qwen3.5-9b - so printing the directory hands out a name that does
+    # not work.
+    "$LMS" ls --json 2>/dev/null | /usr/bin/python3 -c '
+import json, os, sys
+root = sys.argv[1]
+try:
+    models = json.load(sys.stdin)
+except Exception:
+    raise SystemExit
+for m in models:
+    path = m.get("path", "")
+    repo = "/".join(path.split("/")[:2])
+    # Skip what lmx linked in from the HF cache; already listed there.
+    if os.path.islink(os.path.join(root, repo)):
+        continue
+    print("%s\t%s\t%s" % (m.get("modelKey", ""), m.get("format", "?"),
+                          m.get("sizeBytes") or 0))' "$root" 2>/dev/null \
+    | sort -f \
+    | while IFS=$'\t' read -r key fmt bytes; do
+        [ -n "$key" ] || continue
+        [ "$fmt" = "safetensors" ] && fmt="mlx"
+        [ "$fmt" = "mlx" ] && engines="both" || engines="lms"
+        # shellcheck disable=SC2059
+        printf "$row" "$(fit "$key" 52)" "$fmt" "lms" "$engines" "$(human "$bytes")"
+    done
+
+    # Anything on disk that LM Studio has not indexed still deserves a row.
+    for repo in $(lms_repos); do
+        dest="$root/$repo"
+        [ -L "$dest" ] && continue   # already shown as hf+linked
+        [ -n "$(lms_key "$repo")" ] || [ -n "$(lms_key_by_size "$dest")" ] && continue
+        local fmt
+        fmt="$(dir_fmt "$dest")"
+        if [ "$fmt" = "mlx" ]; then
+            # rapid-mlx loads a plain directory, so an MLX model in LM Studio's
+            # tree is servable by both without copying it into the HF cache.
+            engines="both"
+        else
+            # rapid-mlx cannot read GGUF at all.
+            engines="lms"
+        fi
+        # shellcheck disable=SC2059
+        printf "$row" "$(fit "$repo" 52)" "$fmt" "lms" "$engines" \
+            "$(human "$(dir_size "$dest")")"
+    done
+}
+
+# --- pulling ----------------------------------------------------------------
+
+cmd_pull() {
+    local repo="" force_gguf=0
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --gguf) force_gguf=1 ;;
+            -*)     die "unknown flag: $1" ;;
+            *)      repo="$1" ;;
+        esac
+        shift
+    done
+    [ -n "$repo" ] || die "usage: lmx pull <org/repo|alias> [--gguf]"
+
+    # `rapid-mlx recipe` recommends models by alias ("qwen3.5-4b-4bit"), so that
+    # is what gets typed here - but the HF API only knows org/repo ids. Resolve
+    # a bare name through rapid-mlx before treating it as a repo.
+    case "$repo" in
+        */*) ;;
+        *)
+            local resolved
+            resolved="$("$RAPID" info "$repo" 2>/dev/null \
+                | sed -n 's/.*Alias:.*→[[:space:]]*//p' | head -1 | tr -d '[:space:]')"
+            [ -n "$resolved" ] || die "'$repo' is not an org/repo id and not a known rapid-mlx alias"
+            info "alias $repo → $resolved"
+            repo="$resolved"
+            ;;
+    esac
+
+    # An in-flight pull has no snapshot yet, so the "already on disk" check
+    # below cannot see it - and re-running would start a second process racing
+    # the first for the same files. On a throttled line that is exactly the
+    # waste this command exists to prevent.
+    if pgrep -f "pull $repo\$" >/dev/null 2>&1 || pgrep -f "get $repo\$" >/dev/null 2>&1; then
+        die "$repo is already downloading - 'lmx status' shows progress"
+    fi
+
+    # Refusing a redundant download is the whole point of routing pulls through
+    # here: the bytes are already local, and re-fetching them costs hours.
+    if hf_snapshot "$repo" >/dev/null 2>&1; then
+        die "$repo is already in the HF cache - 'lmx link' exposes it to LM Studio"
+    fi
+    local root
+    root="$(lms_root)"
+    if [ -e "$root/$repo" ] && [ ! -L "$root/$repo" ]; then
+        # GGUF can only be served by LM Studio, so pointing at plain `lmx up`
+        # here would send it to an engine that cannot read the format.
+        if [ "$(dir_fmt "$root/$repo")" = "gguf" ]; then
+            die "$repo is already in LM Studio - 'lmx up $repo --lms' serves it (gguf needs LM Studio)"
+        fi
+        die "$repo is already in LM Studio - 'lmx up $repo' serves it from there"
+    fi
+
+    local fmt="mlx" meta
+    if [ "$force_gguf" = 1 ]; then
+        fmt="gguf"
+    else
+        # Decide on the repo's actual file list. Names are unreliable: both
+        # HauhauCS repos on this machine are GGUF and say nothing about it.
+        # Separate "the repo is wrong" from "the network is down" - reporting a
+        # 401 as unreachable sends you debugging a connection that is fine.
+        local code
+        code="$(curl -s -o "$STATE_DIR/meta.$$" -w '%{http_code}' -m 20 \
+            "https://huggingface.co/api/models/$repo" 2>/dev/null)"
+        meta="$(cat "$STATE_DIR/meta.$$" 2>/dev/null)"
+        rm -f "$STATE_DIR/meta.$$"
+        case "$code" in
+            200) ;;
+            401|403|404) die "no such repo on Hugging Face: $repo (private or misspelled?)" ;;
+            000) die "cannot reach Hugging Face - network down? (use --gguf to skip the lookup)" ;;
+            *)   die "Hugging Face returned HTTP $code for $repo" ;;
+        esac
+        fmt="$(printf '%s' "$meta" | /usr/bin/python3 -c '
+import json, sys
+try:
+    sib = [s.get("rfilename", "") for s in json.load(sys.stdin).get("siblings", [])]
+except Exception:
+    print("?"); raise SystemExit
+print("gguf" if any(f.endswith(".gguf") for f in sib)
+      else "mlx" if any(f.endswith(".safetensors") for f in sib) else "?")')"
+        [ "$fmt" = "?" ] && die "$repo has neither .gguf nor .safetensors files"
+
+        # Sizes come from the tree endpoint, not the model endpoint: `siblings`
+        # there carries filenames only, so the size check silently never fired.
+        local size
+        size="$(curl -sf -m 20 "https://huggingface.co/api/models/$repo/tree/main" 2>/dev/null \
+            | /usr/bin/python3 -c '
+import json, sys
+try:
+    print(sum(e.get("size") or 0 for e in json.load(sys.stdin)))
+except Exception:
+    print(0)' 2>/dev/null)"
+        # At these bandwidths an unexpected 40 GB should be caught now, not in
+        # the third hour.
+        if [ "${size:-0}" -gt 0 ]; then
+            info "$repo: $fmt, $(human "$size")"
+            # Remember it so `status` can show progress against a total without
+            # asking Hugging Face again every few seconds.
+            printf '%s\n' "$size" > "$(size_note "$repo")"
+        else
+            warn "could not determine download size for $repo"
+        fi
+    fi
+
+    local log
+    log="$STATE_DIR/pull-$(printf '%s' "$repo" | tr '/' '_').log"
+    if [ "$fmt" = "gguf" ]; then
+        # rapid-mlx cannot read GGUF at all, so these stay LM Studio's alone and
+        # are never linked.
+        info "pulling $repo into LM Studio (gguf)"
+        nohup "$LMS" get "$repo" >> "$log" 2>&1 &
+    else
+        info "pulling $repo into the HF cache (mlx)"
+        # Detached, because closing the terminal must not cost hours of
+        # transfer. Re-running resumes from the .incomplete blob.
+        nohup "$RAPID" pull "$repo" >> "$log" 2>&1 &
+    fi
+    info "  log: $log   (lmx status shows progress)"
+    info "  linking happens automatically once it finishes; or run 'lmx link'"
+}
+
+# --- removal ----------------------------------------------------------------
+
+lms_dir_for_key() {
+    # The inverse of lms_key: LM Studio's own key -> the directory it occupies.
+    # Prints "<dir>\t<path|size>", the second field saying how it was found,
+    # because the two ways differ in how much they can be trusted.
+    #
+    # Most entries record a real path. The four catalog ones record a path
+    # equal to their key ("qwen/qwen3.5-9b") with no such directory on disk, so
+    # they fall back to the 1% size match lms_key_by_size uses in the other
+    # direction.
+    #
+    # Symlinks are excluded from that scan, and not merely because a link
+    # belongs to the HF cache rather than to LM Studio. The sizes here overlap:
+    # "google/gemma-3-4b" (3,034,755,901 B) is within 1% of the *link*
+    # mlx-community/Qwen3.5-4B-MLX-4bit (3,061,132,920 B, 0.87% apart), and
+    # glob order reaches it first because ASCII puts "Q" before "g". Skipping
+    # links leaves exactly one candidate for each of the four catalog keys -
+    # verified - instead of one that depends on sort order.
+    local key="$1" root line path bytes d dbytes diff hit=""
+    [ -x "$LMS" ] || return 1
+    root="$(lms_root)"
+    line="$("$LMS" ls --json 2>/dev/null | /usr/bin/python3 -c '
+import json, sys
+want = sys.argv[1].lower()
+try:
+    models = json.load(sys.stdin)
+except Exception:
+    raise SystemExit
+for m in models:
+    if (m.get("modelKey") or "").lower() == want:
+        print("%s\t%s" % (m.get("path", ""), m.get("sizeBytes") or 0))
+        break' "$key" 2>/dev/null)"
+    [ -n "$line" ] || return 1
+    path="${line%%	*}"
+    bytes="${line##*	}"
+
+    # Two roots: the user's store, and the models LM Studio ships inside its
+    # own install (the nomic embedding model is one). The second is part of the
+    # application, not a download, so it is reported as such and refused rather
+    # than searched for under the first - where it will never be.
+    local base p bundled
+    bundled="$(dirname "$root")/.internal/bundled-models"
+    for base in "$root" "$bundled"; do
+        p="$path"
+        # A GGUF entry names the weight file inside the directory; the
+        # directory is what holds the model.
+        [ -n "$p" ] && [ -f "$base/$p" ] && p="$(dirname "$p")"
+        [ -n "$p" ] || continue
+        if [ -d "$base/$p" ] || [ -L "$base/$p" ]; then
+            [ "$base" = "$bundled" ] && { printf '%s\tbundled\n' "$base/$p"; return 0; }
+            printf '%s\tpath\n' "$base/$p"
+            return 0
+        fi
+    done
+
+    [ "${bytes:-0}" -gt 0 ] || return 1
+    for d in "$root"/*/*; do
+        [ -d "$d" ] || continue
+        [ -L "$d" ] && continue
+        dbytes="$(dir_size "$d")"
+        [ "${dbytes:-0}" -gt 0 ] || continue
+        diff=$(( dbytes > bytes ? dbytes - bytes : bytes - dbytes ))
+        [ "$diff" -le $(( bytes / 100 )) ] || continue
+        # Two directories this close means the rule that picked one of them is
+        # no longer sound. Say so rather than delete on a coin toss.
+        [ -n "$hit" ] && { warn "'$key' matches both $hit and $d by size"; return 1; }
+        hit="$d"
+    done
+    [ -n "$hit" ] || return 1
+    printf '%s\tsize\n' "$hit"
+}
+
+cmd_rm() {
+    # The only command here that destroys anything, so it names every path
+    # first and makes you type the model name - the same bargain app-remove.sh
+    # strikes in apps-outpost.
+    #
+    # It exists because deleting a model from LM Studio's GUI is not obviously
+    # safe: five entries under its store are symlinks `lmx link` created into
+    # the HF cache, and whether the GUI unlinks them or follows them into the
+    # cache is not a thing to learn by losing a 16 GB download. Here a symlink
+    # is only ever unlinked, so the question never has to be answered.
+    local model="" assume_yes=0
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -y|--yes) assume_yes=1 ;;
+            -*)       die "unknown flag: $1" ;;
+            *)        model="$1" ;;
+        esac
+        shift
+    done
+    [ -n "$model" ] || die "usage: lmx rm <model> [-y]"
+
+    # Same resolver as `up`, so a name that starts a server names the same
+    # thing here - and so an ambiguous name is refused rather than guessed at.
+    local ref root repo="" key="" main="" how="path" links="" total=0
+    root="$(lms_root)"
+    ref="$(resolve_model "$model")"
+    [ -n "$ref" ] || die "no model matches '$model' - 'lmx ls' shows what is on disk"
+
+    case "$ref" in
+        lms:*)
+            local out
+            key="${ref#lms:}"
+            out="$(lms_dir_for_key "$key")" \
+                || die "LM Studio lists '$key' but its files cannot be located under $root"
+            main="${out%%	*}"
+            how="${out##*	}"
+            [ "$how" = bundled ] && die "'$key' ships inside LM Studio - it is part of the install, not a download:
+  $main"
+            ;;
+        /*)
+            main="$ref"
+            ;;
+        *)
+            repo="$ref"
+            hf_snapshot "$repo" >/dev/null 2>&1 || repo="$(alias_repo "$ref")"
+            [ -n "$repo" ] || die "'$model' resolves to an alias with nothing on disk"
+            main="$(hf_dir_for "$repo")"
+            ;;
+    esac
+    [ -e "$main" ] || die "nothing on disk for '$model' - 'lmx ls' shows what is there"
+
+    # Refuse the case this command exists to prevent. Reaching an HF-cache
+    # model through its LM Studio link would delete the shared copy while
+    # `lmx ls` still lists it under its HF name.
+    if [ -L "$main" ]; then
+        local tgt base
+        tgt="$(readlink "$main")"
+        base="${tgt#"$HF_HUB"/}"          # models--org--repo/snapshots/<hash>
+        base="${base%%/*}"
+        die "'$model' is a link into the HF cache - remove it by its own name:
+  lmx rm $(hf_repo_id "$base")"
+    fi
+
+    total=$(( total + $(dir_size "$main") ))
+
+    # Any link pointing into what is about to go must go too, or `lmx ls` and
+    # `doctor` report a dangling entry a minute later. Found by target rather
+    # than by name, so a link left over from an earlier snapshot is caught.
+    local l
+    for l in "$root"/*/*; do
+        [ -L "$l" ] || continue
+        case "$(readlink "$l")" in
+            "$main"|"$main"/*) links="$links
+$l" ;;
+        esac
+    done
+
+    # Removing what is currently serving would leave a live engine on deleted
+    # weights - and rapid-mlx would re-download it on the next `up`.
+    local now
+    now="$(slot_model)"
+    if [ -n "$now" ]; then
+        case "$now" in
+            "$model"|"$repo"|"$key"|"$main") die "'$model' is serving on $LMX_PORT - run 'lmx down' first" ;;
+        esac
+    fi
+
+    info "will remove $(human "$total"):"
+    info "  dir   $main"
+    [ "$how" = size ] && info "        (matched by size - LM Studio records no path for '$key')"
+    printf '%s\n' "$links" | grep -v '^$' | while IFS= read -r l; do
+        info "  link  ${l#"$root"/} -> unlinked only, nothing followed"
+    done
+
+    if [ "$assume_yes" != 1 ]; then
+        local answer
+        printf "type '%s' to confirm: " "$model"
+        read -r answer
+        [ "$answer" = "$model" ] || die "did not match - nothing removed"
+    fi
+
+    # Links first: if the recursive delete below is interrupted, a link into a
+    # half-emptied directory is worse than no link.
+    printf '%s\n' "$links" | grep -v '^$' | while IFS= read -r l; do
+        # -f on the link itself. Never -r, and never a trailing slash: either
+        # would walk into the HF cache this link was created to share.
+        rm -f "$l" && info "unlinked ${l#"$root"/}"
+    done
+    rm -rf "$main" && info "removed $main"
+
+    # Publisher directories are ours, not LM Studio's - `lmx link` creates them
+    # - so an empty one left behind is litter that shows up in its model list.
+    # rmdir refuses a non-empty directory, which is exactly the guard wanted.
+    printf '%s\n%s\n' "$links" "$main" | grep -v '^$' | while IFS= read -r l; do
+        case "$l" in "$root"/*) rmdir "$(dirname "$l")" 2>/dev/null || : ;; esac
+    done
+    info "freed $(human "$total") - 'lmx doctor' confirms nothing dangles"
+}
+
+# --- doctor -----------------------------------------------------------------
+
+cmd_doctor() {
+    local issues=0 root repo snap dest
+    root="$(lms_root)"
+
+    info "== incomplete pulls =="
+    for repo in $(hf_repos); do
+        local dir
+        dir="$(hf_dir_for "$repo")"
+        if ! hf_snapshot "$repo" >/dev/null 2>&1; then
+            local partial
+            partial="$(partial_bytes "$dir")"
+            if [ "${partial:-0}" -gt 0 ]; then
+                # Real bytes. Deleting this throws away hours of transfer; both
+                # downloaders resume from what is already staged.
+                info "  $repo: partial transfer, $(human "$partial") - resume with 'lmx pull $repo'"
+            else
+                # refs/main only: nothing was ever transferred, so nothing is
+                # lost by removing it. `rapid-mlx rm` will not do it - it only
+                # knows entries with a snapshot and answers "not in the
+                # HuggingFace cache. Nothing to remove." - so name the
+                # directory, which is a single 40-byte file.
+                info "  $repo: empty stub ($(human "$(dir_size "$dir")")), nothing transferred"
+                info "      rm -rf '$dir'"
+            fi
+            issues=$((issues + 1))
+        fi
+    done
+    [ "$issues" = 0 ] && info "  none"
+
+    info ""
+    info "== links =="
+    local dangling=0 unlinked=0
+    for dest in "$root"/*/*; do
+        [ -L "$dest" ] || continue
+        if [ ! -e "$dest" ]; then
+            info "  dangling: ${dest#$root/} -> $(readlink "$dest")"
+            dangling=$((dangling + 1))
+        fi
+    done
+    for repo in $(hf_repos); do
+        snap="$(hf_snapshot "$repo")" || continue
+        [ "$(dir_fmt "$snap")" = "mlx" ] || continue
+        [ -e "$root/$repo" ] || { info "  unlinked: $repo (run 'lmx link')"; unlinked=$((unlinked + 1)); }
+    done
+    [ "$dangling" = 0 ] && [ "$unlinked" = 0 ] && info "  none"
+
+    info ""
+    info "== duplication =="
+    # HF blob filenames are the sha256 of their contents, so only LM Studio's
+    # side would need hashing. But hashing 20 GB of weights takes over a minute,
+    # and two files cannot be identical unless their sizes are - so collect the
+    # blob sizes first and hash only on a size collision. With no duplicates on
+    # disk that skips the hashing entirely.
+    local dupes=0 sizes
+    sizes="$STATE_DIR/blob-sizes.$$"
+    find "$HF_HUB/blobs" -type f -exec stat -f '%z' {} + 2>/dev/null | sort -u > "$sizes"
+
+    for repo in $(lms_repos); do
+        dest="$root/$repo"
+        [ -L "$dest" ] && continue
+        [ "$(dir_fmt "$dest")" = "mlx" ] || continue
+        local f sum sz
+        for f in "$dest"/*.safetensors; do
+            [ -f "$f" ] || continue
+            sz="$(stat -L -f '%z' "$f" 2>/dev/null)"
+            grep -qxF "$sz" "$sizes" 2>/dev/null || continue
+            sum="$(shasum -a 256 "$f" 2>/dev/null | awk '{print $1}')"
+            [ -n "$sum" ] && [ -e "$HF_HUB/blobs/$sum" ] && {
+                info "  $repo: $(basename "$f") is byte-identical to an HF blob"
+                dupes=$((dupes + 1))
+            }
+        done
+    done
+    rm -f "$sizes"
+    [ "$dupes" = 0 ] && info "  none"
+
+    info ""
+    info "== vision support =="
+    # The mlx-vlm extra lives inside rapid-mlx's own venv, so a `rapid-mlx
+    # upgrade` silently drops it and every vision-capable model then fails to
+    # load. Worth naming here rather than discovering it mid-task.
+    local rapid_py
+    rapid_py="$(sed -n '1s/^#!//p' "$RAPID" 2>/dev/null)"
+    if [ -x "$rapid_py" ]; then
+        if "$rapid_py" -c 'import mlx_vlm' >/dev/null 2>&1; then
+            info "  mlx-vlm present"
+        else
+            info "  mlx-vlm MISSING - vision models will not load; text-only still works"
+            info "    reinstall: $rapid_py -m pip install --ignore-installed 'rapid-mlx[vision]'"
+            info "    or serve a text backbone with: lmx up <model> --text"
+        fi
+    else
+        info "  (could not locate rapid-mlx's interpreter)"
+    fi
+
+    info ""
+    info "== slot =="
+    local pid
+    pid="$(slot_pid)"
+    if [ -n "$pid" ]; then
+        info "  port $LMX_PORT held by pid $pid"
+    else
+        info "  port $LMX_PORT free"
+        local orphans
+        orphans="$(pgrep -f 'VLLM::EngineCore' 2>/dev/null | tr '\n' ' ')"
+        [ -n "$orphans" ] && info "  ORPHANED engine cores with no listener: $orphans (run 'lmx down')"
+    fi
+
+    # A report, not a test: findings are printed for a human to act on, so an
+    # unlinked model must not look like a failed command.
+    return 0
+}
+
+# --- agent configs ----------------------------------------------------------
+
+cmd_agents() {
+    local base="http://127.0.0.1:$LMX_PORT/v1"
+    local oc="$HOME/.config/opencode/opencode.jsonc"
+    local hermes="$HOME/.hermes/config.yaml"
+    local ok=0
+
+    info "endpoint: $base  model: $LMX_SERVED_NAME"
+
+    if [ -f "$oc" ]; then
+        # Verify rather than rewrite: this file also carries the searxng MCP
+        # block and permission settings, which a generator would clobber.
+        if grep -q "\"$LMX_SERVED_NAME\"" "$oc" && grep -q "$LMX_PORT/v1" "$oc"; then
+            info "opencode: ok ($oc)"
+        else
+            warn "opencode: no '$LMX_SERVED_NAME' model key or wrong port in $oc"
+            ok=1
+        fi
+    else
+        warn "opencode: $oc not found"
+        ok=1
+    fi
+
+    if [ -f "$hermes" ]; then
+        if grep -q "$LMX_PORT/v1" "$hermes"; then
+            info "hermes: ok ($hermes)"
+        else
+            warn "hermes: wrong base_url in $hermes"
+            ok=1
+        fi
+    else
+        warn "hermes: $hermes not found - scaffold it with 'rapid-mlx agents hermes --setup'"
+        ok=1
+    fi
+
+    if [ -n "$(slot_pid)" ]; then
+        if curl -sf -m 5 "$base/models" 2>/dev/null | grep -q "\"$LMX_SERVED_NAME\""; then
+            info "endpoint: serving '$LMX_SERVED_NAME'"
+        else
+            warn "endpoint: up but not serving '$LMX_SERVED_NAME'"
+            ok=1
+        fi
+    else
+        info "endpoint: nothing loaded (lmx up <model>)"
+    fi
+    return $ok
+}
+
+# --- dispatch ---------------------------------------------------------------
+
+cmd_help() {
+    cat <<'EOF'
+lmx - the local LLM slot
+
+  lmx ls                    models in both stores
+  lmx status                what holds the slot, and any download in flight
+  lmx pull <repo> [--gguf]  download once, into the right store, detached
+  lmx up <model> [flags]    claim the slot  --vision --text --lms --ctx N --blocks N
+  lmx use <model> [flags]   same as up (it always releases first)
+  lmx down                  release the slot and unload
+  lmx link                  expose HF-cache MLX models to LM Studio
+  lmx rm <model> [-y]       delete it from disk, after naming every path
+  lmx doctor                incomplete pulls, links, duplication, orphans
+  lmx agents                check opencode and hermes point at the slot
+
+A model may be a rapid-mlx alias, an HF repo id, an LM Studio repo
+(publisher/name) or a path. LM Studio's own MLX models are served straight
+from their directory, so they never need downloading twice.
+
+Environment: LMX_PORT LMX_CTX LMX_SERVED_NAME LMX_LMS_FLAGS
+             LMX_RAPID_FLAGS (set = manual control; unset = sized per model)
+EOF
+}
+
+case "${1:-help}" in
+    ls)      shift; cmd_ls "$@" ;;
+    status)  shift; cmd_status "$@" ;;
+    ps)      shift; cmd_status "$@" ;;
+    pull)    shift; cmd_pull "$@" ;;
+    up)      shift; cmd_up "$@" ;;
+    use)     shift; cmd_use "$@" ;;
+    down)    shift; cmd_down "$@" ;;
+    link)    shift; cmd_link "$@" ;;
+    rm)      shift; cmd_rm "$@" ;;
+    doctor)  shift; cmd_doctor "$@" ;;
+    agents)  shift; cmd_agents "$@" ;;
+    help|-h|--help) cmd_help ;;
+    *)       die "unknown command: $1 (try 'lmx help')" ;;
+esac

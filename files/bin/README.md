@@ -38,6 +38,9 @@ Here are scripts located that can be used by the user to automate certain tasks.
 - `kops-login.sh`  
   Source script to activate KOPS credentials in shell.
 
+- `lmx`  
+  One command for the local LLM slot (rapid-mlx and LM Studio). Port 8000 is treated as a single slot because 32 GB fits one large model, so `lmx up` always releases the previous one first. Also keeps the two model stores from downloading the same repo twice: `lmx pull` routes by format and refuses anything already on disk, and `lmx link` makes an HF-cache model visible to LM Studio through a symlink rather than a second copy. Deleting goes through `lmx rm` rather than LM Studio's GUI, because half those entries are links into the HF cache and `lmx rm` only ever unlinks them — it names every path and its size and makes you type the model name first. `lmx help` for the commands, `lmx doctor` when something looks wrong.
+
 - `main-display-external.sh`  
   Open settings and switch main view to external monitor.
 
