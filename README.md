@@ -29,6 +29,10 @@ git add files && commit -m "Update configuration" && git push
 
 All configuration files in the `files` folder will be updated, a new list of Homebrew taps and packages generated, installed VS Code extentions and installed or disabled Atom plugins stored.
 
+The snapshot mirrors the machine: a file or `.syncfolder` directory that no longer exists locally is removed from the repository as well, as is a symlink whose target is gone, so deleting a configuration file on the machine drops it from the next snapshot. Review the output and `git status` before committing.
+
+`snapshot.sh` only runs on macOS. The Linux machines are VMs that `restore.sh` sets up once and that never snapshot back.
+
 ## Repository Layout
 
 ### files
