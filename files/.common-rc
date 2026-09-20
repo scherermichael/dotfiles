@@ -6,12 +6,16 @@ if [ -d "${HOME}/Library/Python" ]; then
   export PATH="${HOME}/Library/Python/${PYTHON_VERSION}/bin:${PATH}"
 fi
 
+# Private environment variables, from the staging copy restore.sh creates, so
+# this does not depend on where the repository is checked out.
+# Nothing may print here: non-interactive shells source this file too, and output
+# on stdout corrupts scp, rsync and "ssh <command>".
 if [ -f "/vagrant/dotfiles/private/environment" ]; then
   source "/vagrant/dotfiles/private/environment"
 fi
 
-if [ -f ~/dotfiles/private/environment ]; then
-  source ~/dotfiles/private/environment
+if [ -f "${HOME}/private/environment" ]; then
+  source "${HOME}/private/environment"
 fi
 
 export NVM_DIR="$HOME/.nvm"
