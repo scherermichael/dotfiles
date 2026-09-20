@@ -39,3 +39,34 @@ case $OSTYPE in
     export OS=freebsd
     ;;
 esac
+
+# Failure reporting
+#
+# A command that fails inside "find -exec" or "xargs" does not stop the calling
+# script, so failures are collected here and reported at the end. This keeps a
+# partial run from finishing with a success message.
+#
+# FAILURES is exported so that inner "bash -c" invocations and the scripts
+# started by restore.sh append to the same log. It is only created once: a child
+# that sources this file again inherits the parent's log and must not delete it.
+if [ -z "${FAILURES}" ]; then
+  FAILURES="$(mktemp "${TMPDIR:-/tmp}/dotfiles.XXXXXX")"
+  export FAILURES
+  # shellcheck disable=SC2064
+  trap "rm -f '${FAILURES}'" EXIT
+fi
+
+# Record one failed item, e.g. record_failure "${file} (copy failed)"
+record_failure() {
+  echo "$*" >> "${FAILURES}"
+}
+export -f record_failure
+
+# List everything recorded. Returns 1 if anything was, so callers can do:
+#   if ! report_failures; then ... exit 1; fi
+report_failures() {
+  [ -s "${FAILURES}" ] || return 0
+  echo "WARNING: $(grep -c '' "${FAILURES}") item(s) failed:"
+  sed 's/^/  - /' "${FAILURES}"
+  return 1
+}
