@@ -398,6 +398,13 @@ rapid_flags() {
         "$cache_mb" "${LMX_IDLE_CACHE_SECONDS:-300}"
 }
 
+parser_field() {
+    # One labelled value out of the box `rapid-mlx info` prints. "(none)" does
+    # not match the character class, so an absent parser yields "" - which is
+    # what infer_parsers' callers already read as "do not pass the flag".
+    printf '%s' "$1" | sed -n "s/.*$2 *: *\\([a-z0-9_]*\\).*/\\1/p" | head -1
+}
+
 infer_parsers() {
     # Serving a path skips rapid-mlx's alias profiles, which is where the
     # tool-call and reasoning parsers normally come from. Without them the model
@@ -405,22 +412,41 @@ infer_parsers() {
     # which opencode prints instead of executing. One simple tool can slip
     # through; a real agent toolset does not.
     #
-    # The mapping is not guessed: each pair is what `rapid-mlx info` reports for
-    # an alias of that model_type. Unknown types get nothing rather than a
-    # plausible-looking default, because a wrong parser fails the same way.
-    local cfg="$1/config.json" mt
-    [ -f "$cfg" ] || return 0
-    mt="$(/usr/bin/python3 -c '
-import json, sys
-try:
-    print(json.load(open(sys.argv[1])).get("model_type", ""))
-except Exception:
-    print("")' "$cfg" 2>/dev/null)"
-    case "$mt" in
-        qwen3_5|qwen3_5_moe) printf 'qwen3_coder_xml|qwen3\n' ;;
-        qwen3_moe|qwen3)     printf 'hermes|\n' ;;
-        *)                   printf '|\n' ;;
+    # They still have to be passed explicitly, but they no longer have to be
+    # remembered here: `rapid-mlx info` will name them, so this asks it instead
+    # of keeping a copy of its answer.
+    #
+    # What that replaces was a table keyed on model_type, and model_type cannot
+    # decide this. Qwen3.5-9B and Qwen3.8-27B both report qwen3_5 and need
+    # hermes and qwen3_coder_xml respectively, so whichever one the table named
+    # was wrong for the other - silently, as a tool call arriving as text in the
+    # message body, which is the exact failure this function exists to prevent.
+    #
+    # Ask about the repo id before the path. Some profiles are keyed only by
+    # id: rapid-mlx/Qwen3.8-27B-4bit-MTP-MLX answers qwen3_coder_xml, while the
+    # snapshot directory holding exactly those weights answers "(none)". A
+    # cache path still carries the id in its name, so recover it - and keep the
+    # path as the fallback, since an LM Studio directory has no id to recover.
+    local ref="" base out tp="" rp=""
+    case "$1" in
+        "$HF_HUB"/*)
+            base="${1#"$HF_HUB"/}"       # models--org--repo/snapshots/<hash>
+            ref="$(hf_repo_id "${base%%/*}")"
+            ;;
     esac
+
+    if [ -n "$ref" ]; then
+        out="$("$RAPID" info "$ref" 2>/dev/null)"
+        tp="$(parser_field "$out" 'Tool format')"
+        rp="$(parser_field "$out" 'Reasoning parser')"
+    fi
+    if [ -z "$tp" ]; then
+        out="$("$RAPID" info "$1" 2>/dev/null)"
+        tp="$(parser_field "$out" 'Tool format')"
+        rp="$(parser_field "$out" 'Reasoning parser')"
+    fi
+
+    printf '%s|%s\n' "$tp" "$rp"
 }
 
 resolve_model() {
@@ -624,7 +650,7 @@ except Exception:
             tool_parser="${guess%%|*}"
             reason_parser="${guess##*|}"
             if [ -z "$tool_parser" ]; then
-                warn "no known parser for this model type - tool calls may arrive as raw text"
+                warn "rapid-mlx names no tool parser for this model - tool calls may arrive as raw text"
                 warn "  if so, pass --tool-parser <name> (see 'rapid-mlx serve --help')"
             fi
         fi
