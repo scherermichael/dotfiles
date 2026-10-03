@@ -243,6 +243,42 @@ slot_model() {
     sed -n '2p' "$note"
 }
 
+slot_tunnel() {
+    # On a client the slot is held by ssh, as the near end of `lmx tunnel`,
+    # and every local answer about it is then wrong: the engine reads as
+    # "unknown (ssh)", there is no launch note, and `lms ps` would describe this
+    # machine's LM Studio instead of the one serving. Prints the ssh
+    # destination - the last word, since `lmx tunnel` runs `ssh -N <alias>` and
+    # a forward typed by hand ends the same way - or fails if this is no tunnel.
+    local pid
+    pid="$(slot_pid)"
+    [ -n "$pid" ] || return 1
+    ps -p "$pid" -o command= 2>/dev/null \
+        | awk '$1 ~ /(^|\/)ssh$/ && NF > 1 { print $NF; found = 1 } END { exit !found }'
+}
+
+ssh_target() {
+    # The machine an ssh alias points at, read from ssh's own config so the
+    # name lives in one place. ssh -G echoes the alias back when no Host block
+    # matches, which callers can use as the "no such alias" check.
+    ssh -G "$1" 2>/dev/null | awk '$1 == "hostname" { print $2; exit }'
+}
+
+remote_slot() {
+    # The far end's own `lmx status`, slot lines only - everything before the
+    # first blank line, so its downloads are not passed off as this machine's.
+    # The endpoint cannot say which model is loaded: everything is served under
+    # one fixed name, and LM Studio additionally lists its whole catalogue.
+    #
+    # ClearAllForwardings is required - the alias carries the LocalForward, and
+    # asking for it a second time would collide with the tunnel already open
+    # and be refused by ExitOnForwardFailure. BatchMode and the timeout keep it
+    # best effort: a passphrase prompt or a sleeping host must not hang status.
+    ssh -o BatchMode=yes -o ConnectTimeout=5 -o ClearAllForwardings=yes "$1" \
+            '$HOME/bin/lmx status' 2>/dev/null \
+        | awk 'NF == 0 { exit } { print }'
+}
+
 cmd_down() {
     local pid
     pid="$(slot_pid)"
@@ -756,10 +792,23 @@ except Exception:
 cmd_use() { cmd_up "$@"; }
 
 cmd_status() {
-    local pid
+    local pid far
     pid="$(slot_pid)"
     if [ -z "$pid" ]; then
         info "slot $LMX_PORT: free"
+    elif far="$(slot_tunnel)"; then
+        info "slot $LMX_PORT: tunnel to $(ssh_target "$far") (ssh, pid $pid)"
+        local remote
+        remote="$(remote_slot "$far")"
+        if [ -z "$remote" ]; then
+            warn "could not ask the far end what is loaded (check with: ssh $far true)"
+        elif printf '%s\n' "$remote" | grep -q '^slot [0-9]*: free'; then
+            # The same blind spot `tunnel` exists to cover: the forward looks
+            # healthy from here with nothing behind it.
+            warn "nothing is serving at the far end - run 'lmx up <model>' there"
+        else
+            printf '%s\n' "$remote" | grep '^  '
+        fi
     else
         local real engine
         real="$(slot_model)"
@@ -1087,9 +1136,7 @@ cmd_tunnel() {
     command -v ssh >/dev/null 2>&1 || die "ssh not found"
 
     local target
-    target="$(ssh -G "$host" 2>/dev/null | awk '$1 == "hostname" { print $2; exit }')"
-    # ssh -G echoes the name back when no Host block matches, so this is also
-    # the check for "the alias does not exist".
+    target="$(ssh_target "$host")"
     [ -n "$target" ] && [ "$target" != "$host" ] \
         || die "no ssh Host block for '$host' - it belongs in ~/.ssh/config"
 
@@ -1158,16 +1205,9 @@ cmd_tunnel() {
     elif curl -sf -m 3 "http://127.0.0.1:$LMX_PORT/v1/models" 2>/dev/null \
             | grep -q "\"$LMX_SERVED_NAME\""; then
         info "ready on http://127.0.0.1:$LMX_PORT/v1 as '$LMX_SERVED_NAME'"
-        # Name the real model, which the endpoint cannot: everything is served
-        # under the one fixed name, and LM Studio additionally lists its whole
-        # catalogue here, so the id list says nothing about what is loaded.
-        # ClearAllForwardings is required - this alias carries the LocalForward,
-        # and asking for it a second time would collide with the tunnel just
-        # opened and be refused by ExitOnForwardFailure. Best effort only.
+        # Name the real model, which the endpoint cannot. Best effort only.
         local remote
-        remote="$(ssh -o BatchMode=yes -o ClearAllForwardings=yes "$host" \
-                    '$HOME/bin/lmx status' 2>/dev/null \
-                  | sed -n 's/^  model:  *//p' | head -1)"
+        remote="$(remote_slot "$host" | sed -n 's/^  model:  *//p' | head -1)"
         [ -n "$remote" ] && info "  model:  $remote"
     else
         warn "something is serving, but not under the name '$LMX_SERVED_NAME'"
@@ -1560,6 +1600,7 @@ from their directory, so they never need downloading twice.
 The slot is never bound to the LAN, so other machines reach it with
 `lmx tunnel`: it forwards the port over SSH and then says whether anything is
 actually serving at the far end, which the forward alone cannot tell you.
+While it is open, `lmx status` there asks the far end what is loaded.
 
 Environment: LMX_PORT LMX_CTX LMX_SERVED_NAME LMX_LMS_FLAGS LMX_SSH_ALIAS
              LMX_RAPID_FLAGS (set = manual control; unset = sized per model)
