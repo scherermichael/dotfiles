@@ -8,15 +8,78 @@
 # No secret belongs in here - the endpoint is local and unauthenticated, which
 # is why this file is tracked in git while opencode's config (which carries the
 # searxng credential) lives in the repo's private/ tree instead.
+#
+# Start it with `hermes`. `hermes-agent` is a different program - a bare
+# one-shot runner that does not take its model from here, so it sends an empty
+# model name and the slot answers "model must not be empty".
 
 model:
   provider: "custom"
   default: "default"
   base_url: "http://127.0.0.1:8000/v1"
-  # Keep in step with LMX_CTX. LM Studio's own default of 4096 is too small for
-  # an agent's system prompt plus tool schemas.
-  context_length: 32768
+  # Keep in step with LMX_CTX. Hermes refuses to start below 64,000 tokens, and
+  # this value wins over whatever the server reports - which for rapid-mlx is
+  # sized from free memory, and is better not trusted to decide when Hermes
+  # compresses.
+  context_length: 65536
   max_tokens: 4096
 
+# Speech output stays on this machine: macOS `say` through Hermes' command
+# provider, rather than the default Edge TTS, which sends every reply to
+# Microsoft. Nothing goes into Hermes' Homebrew Cellar, so unlike its own local
+# engines (piper, kittentts - pip installs there) it survives `brew upgrade`.
+#
+# The voice is named here because `say` does not follow the System voice picked
+# under System Settings > Accessibility > Spoken Content: choosing Jamie there
+# left `say` speaking in its old default. That pane is still where the Premium
+# voices are downloaded (System voice > Manage Voices), and `say -v '?'` lists
+# the exact names this field accepts.
+#
+# MP3, although `say` cannot write it and WAV would need no ffmpeg: voice mode
+# plays only the .mp3 path it asked for, while a command provider with any
+# other format writes beside it. With WAV every sentence was synthesised and
+# none was ever heard - silently, the log shows nothing but success.
+tts:
+  provider: say
+  providers:
+    say:
+      type: command
+      command: "say -v {voice} -f {input_path} -o {output_path}.aiff && ffmpeg -loglevel error -y -i {output_path}.aiff {output_path}; rm -f {output_path}.aiff"
+      format: mp3
+      voice: "Jamie (Premium)"
+
+# `/voice on` brings speech output with it, so a spoken conversation is one
+# command. Nothing starts Hermes in voice mode: there is no flag or setting for
+# it, a -q seed is sent to the model literally (so `-q "/voice on"` is just
+# text), and hooks are shell scripts with no reach into the CLI.
+voice:
+  auto_tts: true
+
+# web_search goes to the SearXNG instance on apps-outpost, so queries reach no
+# search-API vendor - left unset, Hermes rotates them through the free tiers of
+# Exa, Parallel, Firecrawl and Keenable. SEARXNG_URL carries the nginx basic-auth
+# credential (Hermes' provider sends no headers, but httpx turns URL userinfo
+# into auth), so it lives in ~/.hermes/.env - private/.hermes/.env here.
+web:
+  search_backend: searxng
+
+# Pages are read on this machine by the reference MCP fetch server, because
+# web_extract has no local backend at all - only Firecrawl, Tavily, Keenable,
+# Exa or Parallel, each of which sees every URL read. (The "native" that
+# Hermes' own config defaults mention is not implemented.) So the toolset below
+# is `search`, which is web_search alone, rather than `web`, which brings
+# web_extract with it.
+#
+# --ignore-robots-txt: otherwise the server checks robots.txt before every
+# fetch the model starts - from an agent, that is every fetch - and refuses any
+# page a site's robots.txt closes to bots.
+mcp_servers:
+  fetch:
+    command: uvx
+    args: [mcp-server-fetch, --ignore-robots-txt]
+
 platform_toolsets:
-  cli: [terminal, file, code_execution, web, browser, skills, image_gen]
+  cli: [terminal, file, code_execution, search, browser, skills, image_gen]
+
+display:
+  skin: monokai

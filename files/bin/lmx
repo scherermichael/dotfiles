@@ -27,13 +27,22 @@ LMX_PORT="${LMX_PORT:-8000}"
 # LM Studio's own default is 4096, which is below opencode's system prompt plus
 # tool schemas (~7.6k tokens) - it fails with an n_keep error. `lms load` also
 # resets to that default on every load, so a context must always be passed.
-LMX_CTX="${LMX_CTX:-32768}"
+# The floor is Hermes, which refuses to start on a window below 64,000 tokens.
+LMX_CTX="${LMX_CTX:-65536}"
 
 # Set LMX_RAPID_FLAGS to take full manual control; left unset, the cache size
 # is derived per model (see rapid_flags below). A single fixed number cannot be
 # right for both: a 30B leaves under 7 GB after its weights, a 4B leaves 21 GB.
 LMX_RAPID_FLAGS="${LMX_RAPID_FLAGS-}"
 LMX_LMS_FLAGS="${LMX_LMS_FLAGS:--y --gpu max}"
+
+# How long rapid-mlx may sit idle before it drops the cached prompt: never, by
+# default. An agent opens every session with ~10k tokens of instructions and
+# tool schemas, and reading those is the slow part - a 27B manages ~65 tokens/s
+# here, so the old 5-minute limit turned every pause into a 2.5-minute wait. The
+# memory kept is capped by the cache size rapid_flags sets, and small next to
+# the weights, which stay loaded regardless; `lmx down` is what frees memory.
+LMX_IDLE_CACHE_SECONDS="${LMX_IDLE_CACHE_SECONDS:-0}"
 
 # Both opencode and Hermes point at one fixed endpoint and one fixed model id,
 # so switching models never means editing their configs. `lmx status` is what
@@ -395,7 +404,7 @@ rapid_flags() {
     [ "$cache_mb" -gt 8192 ] && cache_mb=8192
 
     printf -- '--cache-memory-mb %s --idle-cache-clear-seconds %s\n' \
-        "$cache_mb" "${LMX_IDLE_CACHE_SECONDS:-300}"
+        "$cache_mb" "$LMX_IDLE_CACHE_SECONDS"
 }
 
 parser_field() {
@@ -1554,6 +1563,7 @@ actually serving at the far end, which the forward alone cannot tell you.
 
 Environment: LMX_PORT LMX_CTX LMX_SERVED_NAME LMX_LMS_FLAGS LMX_SSH_ALIAS
              LMX_RAPID_FLAGS (set = manual control; unset = sized per model)
+             LMX_IDLE_CACHE_SECONDS (0 = keep the prompt cache while idle)
 EOF
 }
 
