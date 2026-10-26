@@ -6,12 +6,24 @@
 
 event="${HOME}/.stechuhr-event"
 heartbeat="${HOME}/.stechuhr-heartbeat"
+# Time of SIGTERM in seconds since the epoch, logged on the next start
+shutdown="${HOME}/.stechuhr-shutdown"
 
-if [ -s "${heartbeat}" ]; then
+if [ -s "${shutdown}" ]; then
+  "${event}" Shutdown "$(date -r "$(cat "${shutdown}")" "+%Y-%m-%d %H:%M:%S %z")"
+elif [ -s "${heartbeat}" ]; then
   "${event}" Shutdown-Recovered "$(cat "${heartbeat}")"
 fi
+rm -f "${shutdown}"
 
-trap '"${event}" Shutdown; rm -f "${heartbeat}"; exit 0' TERM
+# Uses shell builtins only, starting processes may fail during shutdown.
+# SECONDS counts the seconds since the shell started.
+started=$(( $(date +%s) - SECONDS ))
+on_term() {
+  echo "$(( started + SECONDS ))" > "${shutdown}"
+  exit 0
+}
+trap on_term TERM
 
 "${event}" Login
 # Catch power management events since the last login or wake-up
