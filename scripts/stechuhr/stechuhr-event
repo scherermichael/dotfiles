@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Log an event into the stechuhr log: stechuhr-event <name> [<timestamp>]
+# The name must be a single word, the log is pasted into a spreadsheet that splits at spaces.
+
+timestamp="${2:-$(date "+%Y-%m-%d %H:%M:%S %z")}"
+# Use the month of the event, not the current one
+echo "${timestamp} Event: $1" >> "${HOME}/.stechuhr-${timestamp:2:5}.log"

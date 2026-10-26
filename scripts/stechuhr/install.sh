@@ -9,19 +9,34 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "${OS}" = "macos" ] || exit 0
 
-label="stechuhr.session"
-plist="${HOME}/Library/LaunchAgents/${label}.plist"
+agents="${HOME}/Library/LaunchAgents"
 
-# The agent script has no .sh suffix, so restore.sh does not run it.
-# 'install' replaces the files instead of overwriting them, so a running agent is not affected.
-echo "Installing stechuhr session agent..."
-install -d "${HOME}/Library/LaunchAgents"
+load_agent() {
+  launchctl bootstrap "gui/$(id -u)" "${agents}/$1.plist" || echo "Could not load agent $1, it will start on next login."
+}
+
+# The scripts have no .sh suffix, so restore.sh does not run them.
+# 'install' replaces the files instead of overwriting them, so running agents are not affected.
+echo "Installing stechuhr agents..."
+install -d "${agents}"
+install -m 755 "${DIR}/stechuhr-event" "${HOME}/.stechuhr-event"
 install -m 755 "${DIR}/stechuhr-session" "${HOME}/.stechuhr-session"
-install -m 644 "${DIR}/${label}.plist" "${plist}"
+install -m 644 "${DIR}/stechuhr.session.plist" "${agents}/stechuhr.session.plist"
 
-# A loaded agent picks up changes on next login
-if launchctl print "gui/$(id -u)/${label}" > /dev/null 2>&1; then
-  echo "Agent is already loaded."
+# Reloading would log a shutdown and a login, so changes take effect on next login
+if launchctl print "gui/$(id -u)/stechuhr.session" > /dev/null 2>&1; then
+  echo "Agent stechuhr.session is already loaded."
 else
-  launchctl bootstrap "gui/$(id -u)" "${plist}" || echo "Could not load agent, it will start on next login."
+  load_agent stechuhr.session
+fi
+
+if [ -e "/opt/homebrew/opt/sleepwatcher/sbin/sleepwatcher" ]; then
+  # Homebrew's service cannot log display events, it would log sleep and wake-up twice
+  if [ -f "${agents}/homebrew.mxcl.sleepwatcher.plist" ]; then
+    brew services stop sleepwatcher
+  fi
+  install -m 644 "${DIR}/stechuhr.sleepwatcher.plist" "${agents}/stechuhr.sleepwatcher.plist"
+  # sleepwatcher logs nothing on start and stop, so always reload it to apply changes
+  launchctl bootout "gui/$(id -u)/stechuhr.sleepwatcher" 2> /dev/null || true
+  load_agent stechuhr.sleepwatcher
 fi
