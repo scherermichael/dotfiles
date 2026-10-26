@@ -270,12 +270,21 @@ alias sshignore="ssh -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/nu
 
 # Show logged events, sorted because recovered shutdowns are logged afterwards.
 # A stable sort by timestamp keeps the order of events within the same second.
-# Display events are only copied on login and wake-up, so copy the latest ones first.
+# Power management events are only copied on login and wake-up, so copy the latest ones first.
+# Usage: stechuhr [-w|-s] [YY-MM], -w: work time per day, -s: work time spans for Numbers
 function stechuhr {
+  mode=""
+  case "$1" in
+    -w|-s) mode="$1"; shift ;;
+  esac
   month="$1"
   [ "$month" ] || month=$(date +%y-%m)
-  [ -x ~/.stechuhr-display ] && ~/.stechuhr-display
-  sort -s -k1,2 ~/.stechuhr-"${month}".log
+  [ -x ~/.stechuhr-powerlog ] && ~/.stechuhr-powerlog
+  if [ "$mode" ]; then
+    ~/.stechuhr-worklog "$mode" "$month"
+  else
+    sort -s -k1,2 ~/.stechuhr-"${month}".log
+  fi
 }
 
 function ts {

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Copy events from the power management log into the stechuhr log, it keeps them for about a week:
+# - Display on/off: sleepwatcher cannot watch the display on Apple Silicon
+# - Wake-ups not caused by the lid, power button, keyboard or trackpad, e.g. scheduled by a virus scanner
+
+events="$(pmset -g log | awk '
+  $5 == "Display" && $7 == "turned" { print $1, $2, $3, "Event: Display-" ($8 == "on" ? "On" : "Off") }
+  $4 == "Wake" && $5 == "Wake" && !/ lid | pwrbtn |HID Activity|UserActivity/ { print $1, $2, $3, "Event: Wake-Automatic" }
+')"
+for month in $(echo "${events}" | cut -c1-7 | sort -u); do
+  file="${HOME}/.stechuhr-${month:2}.log"
+  touch "${file}"
+  # Append only events that were not copied before
+  new="$(echo "${events}" | grep "^${month}-" | grep -vxF -f "${file}")"
+  [ -n "${new}" ] && echo "${new}" >> "${file}"
+  # Sort by timestamp only, a stable sort keeps the order of events within the same second
+  sort -s -k1,2 -o "${file}" "${file}"
+done

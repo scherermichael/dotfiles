@@ -1,0 +1,157 @@
+#!/usr/bin/env python3
+
+# Calculate the work time from the stechuhr log: stechuhr-worklog [-w|-s] [YY-MM]
+#   -w  summary per day (default)
+#   -s  work time spans for Numbers: date, start, end with seconds for exact rounding
+#       (spans past midnight are split)
+#
+# The runtimes from login or wake-up to sleep or shutdown are shortened by the display events:
+# - Runtimes shorter than a minute are dropped: woke up and went to sleep again right away.
+# - Only periods with the display on count. Shorter than a minute they are blips on the lock screen,
+#   unless the Mac was put to sleep right after a short break.
+# - Runtimes without display events count in full (display events missing), unless the Mac was
+#   woken up automatically, e.g. by a virus scanner with the lid closed.
+# - Breaks shorter than 15 minutes count as work.
+
+import glob
+import os
+import sys
+from datetime import datetime, timedelta
+
+MIN_RUNTIME = timedelta(minutes=1)
+MIN_DISPLAY = timedelta(minutes=1)
+MAX_SHORT_BREAK = timedelta(minutes=15)
+SLEEP_AFTER_OFF = timedelta(seconds=5)  # sleep right after the display turned off: put to sleep by the user
+WAKE_WINDOW = timedelta(minutes=2)      # power management events are logged shortly before the wake-up or login
+
+RUN_START = {"Login", "Wake-Up"}
+RUN_END = {"Sleep", "Shutdown", "Shutdown-Recovered"}
+
+
+def load(paths):
+    events = []
+    for path in paths:
+        for line in open(path):
+            p = line.split()
+            if len(p) == 5 and p[3] == "Event:":
+                events.append((datetime.strptime(" ".join(p[:3]), "%Y-%m-%d %H:%M:%S %z"), p[4]))
+    events.sort(key=lambda e: e[0])  # stable, keeps the order within the same second
+    return events
+
+
+def runtimes(events):
+    """Return (start, end, end_known) from login or wake-up to sleep or shutdown."""
+    runs, start = [], None
+    for i, (ts, name) in enumerate(events):
+        if name in RUN_START:
+            if start is None:
+                start = ts
+            elif name == "Login":
+                # Shutdown not logged (session agent not running): the runtime ended after its last event,
+                # the display turning on right before the login belongs to the start-up
+                last = next((t for t, n in reversed(events[:i])
+                             if not (n == "Display-On" and t >= ts - WAKE_WINDOW)), start)
+                runs.append((start, max(start, last), False))
+                start = ts
+        elif name in RUN_END and start is not None:
+            runs.append((start, ts, True))
+            start = None
+    if start is not None:
+        runs.append((start, datetime.now(start.tzinfo), True))
+    return runs
+
+
+def present(events, runs):
+    """Runtimes shortened by the display events logged for them: (start, end, put_to_sleep).
+    Also return the days with runtimes counted in full because no display events were logged."""
+    display = [(ts, name) for ts, name in events if name in ("Display-On", "Display-Off")]
+    automatic = [ts for ts, name in events if name == "Wake-Automatic"]
+    periods, unshortened = [], set()
+    prev_end = None
+    for rs, re, _ in runs:
+        if re - rs < MIN_RUNTIME:
+            continue
+        # Own display events, including the display turning on right before the wake-up or login
+        since = max(rs - WAKE_WINDOW, prev_end) if prev_end else rs - WAKE_WINDOW
+        own = [(ts, name) for ts, name in display if since <= ts <= re]
+        prev_end = re
+        if not own:
+            # The display did not turn on after an automatic wake-up (e.g. virus scan with the lid closed).
+            # Otherwise display events are missing: count the whole runtime.
+            if not any(abs(ts - rs) <= WAKE_WINDOW for ts in automatic):
+                periods.append((rs, re, True))
+                unshortened.add(rs.date())
+            continue
+        # A display turning off was on before, even if turning on is missing in the log
+        on = rs if own[0][1] == "Display-Off" else None
+        for ts, name in own:
+            if name == "Display-On" and on is None:
+                on = max(ts, rs)
+            elif name == "Display-Off" and on is not None:
+                if ts > on:
+                    periods.append((on, ts, re - ts <= SLEEP_AFTER_OFF))
+                on = None
+        if on is not None and re > on:
+            periods.append((on, re, True))
+    return periods, unshortened
+
+
+def worklog(periods):
+    """Merge periods with short breaks and split them at midnight: {date: [(start, end)]}."""
+    merged = []
+    for s, e, put_to_sleep in periods:
+        short_break = merged and s - merged[-1][1] < MAX_SHORT_BREAK
+        # Short periods are display blips on the lock screen. They only count when the Mac was
+        # put to sleep right away after a short break: the end of the previous period.
+        if e - s < MIN_DISPLAY and not (put_to_sleep and short_break):
+            continue
+        if short_break:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], e))
+        else:
+            merged.append((s, e))
+    days = {}
+    for s, e in merged:
+        while s.date() != e.date():
+            midnight = datetime.combine(s.date() + timedelta(days=1), datetime.min.time(), s.tzinfo)
+            days.setdefault(s.date(), []).append((s, midnight))
+            s = midnight
+        if e > s:
+            days.setdefault(s.date(), []).append((s, e))
+    return days
+
+
+def hm(delta):
+    minutes = round(delta.total_seconds() / 60)
+    return f"{minutes // 60}:{minutes % 60:02d}"
+
+
+args = sys.argv[1:]
+mode = args.pop(0) if args and args[0] in ("-w", "-s") else "-w"
+month = "20" + args[0] if args else datetime.now().strftime("%Y-%m")
+
+events = load(sorted(glob.glob(os.path.expanduser("~/.stechuhr-*.log"))))
+runs = runtimes(events)
+unknown_end = {s.date() for s, _, known in runs if not known}
+periods, unshortened = present(events, runs)
+days = {day: spans for day, spans in worklog(periods).items() if day.strftime("%Y-%m") == month}
+
+if mode == "-s":
+    for day in sorted(days):
+        for s, e in days[day]:
+            print(f"{day} {s:%H:%M:%S} {'23:59:59' if e.date() != day else f'{e:%H:%M:%S}'}")
+    sys.exit()
+
+total_work = total_breaks = timedelta()
+print("Date           Start End   Breaks  Work  Periods")
+for day in sorted(days):
+    spans = days[day]
+    work = sum((e - s for s, e in spans), timedelta())
+    breaks = (spans[-1][1] - spans[0][0]) - work
+    total_work += work
+    total_breaks += breaks
+    mark = (" ?" if day in unknown_end else "") + (" ~" if day in unshortened else "")
+    periods_text = ", ".join(f"{s:%H:%M}-{e:%H:%M}" for s, e in spans)
+    print(f"{day} {day:%a} {spans[0][0]:%H:%M} {spans[-1][1]:%H:%M} {hm(breaks):>6} {hm(work):>5}  {periods_text}{mark}")
+print(f"\nTotal: work {hm(total_work)}, breaks {hm(total_breaks)}")
+print("? shutdown not logged, runtime ends with its last event; "
+      "~ runtime without display events counted in full (display events missing)")

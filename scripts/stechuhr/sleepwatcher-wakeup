@@ -2,4 +2,4 @@
 
 # Run as ~/.wakeup by Homebrew's sleepwatcher service
 "${HOME}/.stechuhr-event" Wake-Up
-"${HOME}/.stechuhr-display"
+"${HOME}/.stechuhr-powerlog"
