@@ -268,10 +268,12 @@ function nrc {
 alias scpignore="scp -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null"
 alias sshignore="ssh -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null"
 
-# Show logged events, sorted because recovered shutdowns are logged afterwards
+# Show logged events, sorted because recovered shutdowns are logged afterwards.
+# Display events are only copied on login and wake-up, so copy the latest ones first.
 function stechuhr {
   month="$1"
   [ "$month" ] || month=$(date +%y-%m)
+  [ -x ~/.stechuhr-display ] && ~/.stechuhr-display
   sort ~/.stechuhr-"${month}".log
 }
 

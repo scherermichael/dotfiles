@@ -14,6 +14,8 @@ fi
 trap '"${event}" Shutdown; rm -f "${heartbeat}"; exit 0' TERM
 
 "${event}" Login
+# Catch display events since the last login or wake-up
+"${HOME}/.stechuhr-display"
 
 while true; do
   date "+%Y-%m-%d %H:%M:%S %z" > "${heartbeat}"

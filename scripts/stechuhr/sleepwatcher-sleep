@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Run as ~/.sleep by Homebrew's sleepwatcher service
+"${HOME}/.stechuhr-event" Sleep

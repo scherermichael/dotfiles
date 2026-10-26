@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Copy display on/off events from the power management log into the stechuhr log.
+# sleepwatcher cannot watch the display on Apple Silicon, the power management log
+# keeps the events for about a week.
+
+events="$(pmset -g log | awk '$5 == "Display" && $7 == "turned" { print $1, $2, $3, "Event: Display-" ($8 == "on" ? "On" : "Off") }')"
+for month in $(echo "${events}" | cut -c1-7 | sort -u); do
+  file="${HOME}/.stechuhr-${month:2}.log"
+  echo "${events}" | grep "^${month}-" >> "${file}"
+  # Sort to keep events in order and remove events that were copied before
+  sort -u -o "${file}" "${file}"
+done
