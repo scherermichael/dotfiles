@@ -269,12 +269,13 @@ alias scpignore="scp -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/nu
 alias sshignore="ssh -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null"
 
 # Show logged events, sorted because recovered shutdowns are logged afterwards.
+# A stable sort by timestamp keeps the order of events within the same second.
 # Display events are only copied on login and wake-up, so copy the latest ones first.
 function stechuhr {
   month="$1"
   [ "$month" ] || month=$(date +%y-%m)
   [ -x ~/.stechuhr-display ] && ~/.stechuhr-display
-  sort ~/.stechuhr-"${month}".log
+  sort -s -k1,2 ~/.stechuhr-"${month}".log
 }
 
 function ts {

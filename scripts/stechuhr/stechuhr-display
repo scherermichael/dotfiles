@@ -7,7 +7,10 @@
 events="$(pmset -g log | awk '$5 == "Display" && $7 == "turned" { print $1, $2, $3, "Event: Display-" ($8 == "on" ? "On" : "Off") }')"
 for month in $(echo "${events}" | cut -c1-7 | sort -u); do
   file="${HOME}/.stechuhr-${month:2}.log"
-  echo "${events}" | grep "^${month}-" >> "${file}"
-  # Sort to keep events in order and remove events that were copied before
-  sort -u -o "${file}" "${file}"
+  touch "${file}"
+  # Append only events that were not copied before
+  new="$(echo "${events}" | grep "^${month}-" | grep -vxF -f "${file}")"
+  [ -n "${new}" ] && echo "${new}" >> "${file}"
+  # Sort by timestamp only, a stable sort keeps the order of events within the same second
+  sort -s -k1,2 -o "${file}" "${file}"
 done
