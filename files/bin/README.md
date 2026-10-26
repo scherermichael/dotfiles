@@ -44,9 +44,6 @@ Here are scripts located that can be used by the user to automate certain tasks.
 - `main-display-notebook.sh`  
   Open settings and switch main view to built-in monitor.
 
-- `stechuhr.sh`  
-  Script to log login events if added to user's startup configuration.
-
 - `toggle-terminal-theme.sh`  
   Toggle terminal between dark and light theme.
 
