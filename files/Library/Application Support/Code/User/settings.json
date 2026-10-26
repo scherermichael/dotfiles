@@ -28,14 +28,15 @@
       "strings": "off",
       "other": "off"
     },
-    "editor.defaultFormatter": "redhat.vscode-yaml",
   },
   "atomKeymap.promptV3Features": true,
+  "breadcrumbs.enabled": false,
   "dayNightThemeSwitcher.dayTheme": "Atom One Light",
   "dayNightThemeSwitcher.nightTheme": "Atomize",
   "debug.console.fontFamily": "'SF Mono', Menlo, Monaco, 'Courier New', monospace",
   "debug.console.fontSize": 14,
   "debug.toolBarLocation": "docked",
+  "diffEditor.ignoreTrimWhitespace": false,
   "diffEditor.renderSideBySide": false,
   "disableLigatures.mode": "Line",
   "editor.fontFamily": "'FiraCode-Retina', 'SF Mono', Menlo, Monaco, 'Courier New', monospace",
@@ -245,7 +246,33 @@
   "window.newWindowDimensions": "maximized",
   "workbench.colorCustomizations": {
     "[Atomize]": {
+      // Diff: the tint must not swallow the text. Comments are #5C6370 and
+      // already sit at only 2.3:1 -- a lightening wash pushes them below
+      // 1.8:1. Hence darkening, desaturated tones; the color signal is
+      // carried by the overview ruler, not by the surface.
+      //
+      // The alpha is load-bearing: .line-insert and .char-insert paint above
+      // .selected-text, so an opaque tint hides the selection completely.
+      // These values composite to exactly the colors above over #282C34
+      // (line) and over the tinted line (text), so an unselected diff looks
+      // unchanged, while the selection still reads through at 1.30:1.
+      // The gutter keeps opaque values -- nothing is selected there.
+      "diffEditor.insertedLineBackground": "#0A33094D",
+      "diffEditor.insertedTextBackground": "#334B3E59",
+      "diffEditor.removedLineBackground": "#3C0B064D",
+      "diffEditor.removedTextBackground": "#50393D59",
+      "diffEditorGutter.insertedLineBackground": "#1F2E27",
+      "diffEditorGutter.removedLineBackground": "#2E2226",
+      "diffEditorOverview.insertedForeground": "#43D08A99",
+      "diffEditorOverview.removedForeground": "#E0616D99",
       "editorBracketMatch.border": "#555",
+      // Inline diffs render deleted lines in a view zone that is natively
+      // selectable, so the browser's ::selection paints there instead of the
+      // editor's own selection layer -- and that one is driven by
+      // selection.background, which Atomize leaves at #9DA5B4: 6.17:1 against
+      // the red line, with the text on top falling to 1.16:1. Match
+      // editor.selectionBackground so a deleted block selects like the rest.
+      "selection.background": "#4B5365A6",
       "terminal.ansiBlack": "#282C34",
       "terminal.ansiBlue": "#61AFEF",
       "terminal.ansiBrightBlack": "#545862",
@@ -265,6 +292,24 @@
       "terminal.foreground": "#ABB2BF",
       "terminalCursor.background": "#b9c0ca",
       "terminalCursor.foreground": "#6f7783"
+    },
+    "[Atom One Light]": {
+      // Same math as above, just the other way round: comments here are
+      // #A0A1A7 and the tint darkens toward them. Alpha for the same reason
+      // as above; these composite to #EDF6F0 / #E2F0E8 / #FBEFF0 / #F7E4E6
+      // over #FAFAFA.
+      "diffEditor.insertedLineBackground": "#CFEDD94D",
+      "diffEditor.insertedTextBackground": "#CDE5D959",
+      "diffEditor.removedLineBackground": "#FDD5D94D",
+      "diffEditor.removedTextBackground": "#F0CFD359",
+      "diffEditorGutter.insertedLineBackground": "#EDF6F0",
+      "diffEditorGutter.removedLineBackground": "#FBEFF0",
+      "diffEditorOverview.insertedForeground": "#2E9E6B99",
+      "diffEditorOverview.removedForeground": "#D0525E99",
+      // Same view-zone story as above. One Light sets no selection.background
+      // at all, so deleted blocks fall back to Chromium's default blue; this
+      // composites to the theme's own #E5E5E6 over #FAFAFA.
+      "selection.background": "#DADADBA6"
     }
   },
   "workbench.colorTheme": "Atomize",
@@ -278,13 +323,12 @@
   "workbench.startupEditor": "none",
   "workbench.tips.enabled": false,
   "workbench.tree.renderIndentGuides": "none",
-  "editor.minimap.enabled": false,
+  "editor.minimap.enabled": true,
   "redhat.telemetry.enabled": false,
+  "workbench.editor.untitled.hint": "hidden",
   "docker.showStartPage": false,
   "vs-kubernetes": {
-    "vscode-kubernetes.minikube-path.mac": "/Users/michael/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
-    "vscode-kubernetes.minikube-path-mac": "/Users/michael.scherer/.vs-kubernetes/tools/minikube/darwin-arm64/minikube",
-    "vs-kubernetes.minikube-show-information-expiration": "2026-01-12T16:59:02.080Z"
+    "vscode-kubernetes.minikube-path.mac": "/Users/michael/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
   },
   "security.workspace.trust.untrustedFiles": "open",
   "[json]": {
@@ -302,14 +346,39 @@
   "diffEditor.codeLens": true,
   "githubPullRequests.fileListLayout": "tree",
   "editor.renderWhitespace": "none",
-  "gitlens.mode.active": "zen",
-  "window.titleBarStyle": "native",
-  "editor.unicodeHighlight.invisibleCharacters": false,
   "editor.renderControlCharacters": false,
-  "workbench.editor.empty.hint": "hidden",
-  "diffEditor.maxComputationTime": 0,
-  "diffEditor.ignoreTrimWhitespace": false,
-  "window.commandCenter": false,
-  "workbench.layoutControl.enabled": false,
-  "githubPullRequests.createOnPublishBranch": "never"
+  "gitlens.mode.active": "zen",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "github.copilot.enable": {
+    "*": false
+  },
+  "github.copilot.advanced": {},
+  "github.copilot.chat.edits.suggestRelatedFilesForTests": false,
+  "github.copilot.chat.edits.suggestRelatedFilesFromGitHistory": false,
+  "github.copilot.chat.setupTests.enabled": false,
+  "github.copilot.chat.codeGeneration.useInstructionFiles": false,
+  "github.copilot.chat.copilotDebugCommand.enabled": false,
+  "github.copilot.chat.reviewSelection.enabled": false,
+  "github.copilot.chat.startDebugging.enabled": false,
+  "github.copilot.editor.enableCodeActions": false,
+  "github.copilot.renameSuggestions.triggerAutomatically": false,
+  "github.copilot.chat.fixTestFailure.enabled": false,
+  "github.copilot.chat.useProjectTemplates": false,
+  "claudeCode.enableReopenClosedSessionShortcut": false,
+  "claudeCode.preferredLocation": "sidebar",
+  "gitlens.views.scm.grouped.views": {
+    "commits": true,
+    "branches": true,
+    "remotes": true,
+    "stashes": true,
+    "tags": true,
+    "worktrees": true,
+    "contributors": true,
+    "fileHistory": false,
+    "repositories": true,
+    "searchAndCompare": false,
+    "launchpad": true
+  },
+  "claudeCode.hideOnboarding": true
 }
