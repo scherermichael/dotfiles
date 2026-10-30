@@ -2,11 +2,13 @@
 
 # Copy events from the power management log into the stechuhr log, it keeps them for about a week:
 # - Display on/off: sleepwatcher cannot watch the display on Apple Silicon
-# - Wake-ups not caused by the lid, power button, keyboard or trackpad, e.g. scheduled by a virus scanner
+# - Scheduled wake-ups, e.g. by the virus scanner: powerd's wakeschedule assertion marks them, also dark
+#   wake-ups and those while awake. The wake reason (rtc/HID Activity or just HID Activity) does not
+#   tell them from the user.
 
 events="$(pmset -g log | awk '
   $5 == "Display" && $7 == "turned" { print $1, $2, $3, "Event: Display-" ($8 == "on" ? "On" : "Off") }
-  $4 == "Wake" && $5 == "Wake" && !/ lid | pwrbtn |HID Activity|UserActivity/ { print $1, $2, $3, "Event: Wake-Automatic" }
+  $4 == "Assertions" && /Created UserIsActive "com\.apple\.powermanagement\.wakeschedule"/ { print $1, $2, $3, "Event: Wake-Automatic" }
 ')"
 for month in $(echo "${events}" | cut -c1-7 | sort -u); do
   file="${HOME}/.stechuhr-${month:2}.log"
