@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-# Calculate the work time from the stechuhr log: stechuhr-worklog [-w|-s] [YY-MM]
+# Calculate the work time from the stechuhr log: stechuhr-worklog [-e|-w|-s] [YY-MM]
+#   -e  logged events, sorted
 #   -w  summary per day (default)
 #   -s  work time spans for Numbers: date, start, end with seconds for exact rounding
 #       (spans past midnight are split)
+#
+# The log is encrypted, stechuhr-crypt decrypts it with the private key in the Keychain.
 #
 # The runtimes from login or wake-up to sleep or shutdown are shortened by the display events:
 # - Runtimes shorter than a minute are dropped: woke up and went to sleep again right away.
@@ -15,6 +18,7 @@
 
 import glob
 import os
+import subprocess
 import sys
 from datetime import datetime, timedelta
 
@@ -29,12 +33,23 @@ RUN_END = {"Sleep", "Shutdown", "Shutdown-Recovered"}
 
 
 def load(paths):
-    events = []
-    for path in paths:
-        for line in open(path):
-            p = line.split()
-            if len(p) == 5 and p[3] == "Event:":
-                events.append((datetime.strptime(" ".join(p[:3]), "%Y-%m-%d %H:%M:%S %z"), p[4]))
+    lines = [line for path in paths for line in open(path)]
+    plain = sum(1 for line in lines if line.strip() and not line.startswith("enc:"))
+    if plain:
+        print(f"Warning: {plain} lines not encrypted, run ~/.stechuhr-crypt seal ~/.stechuhr-*.log", file=sys.stderr)
+    if plain < sum(1 for line in lines if line.strip()):
+        decrypted = subprocess.run([os.path.expanduser("~/.stechuhr-crypt"), "decrypt"], input="".join(lines),
+                                   stdout=subprocess.PIPE, text=True)
+        if decrypted.returncode:
+            sys.exit(decrypted.returncode)
+        lines = decrypted.stdout.splitlines()
+    events, seen = [], set()
+    for line in lines:
+        p = line.split()
+        # stechuhr-powerlog copies events again when it lost track of the last copied one
+        if len(p) == 5 and p[3] == "Event:" and " ".join(p) not in seen:
+            seen.add(" ".join(p))
+            events.append((datetime.strptime(" ".join(p[:3]), "%Y-%m-%d %H:%M:%S %z"), p[4]))
     events.sort(key=lambda e: e[0])  # stable, keeps the order within the same second
     return events
 
@@ -126,10 +141,15 @@ def hm(delta):
 
 
 args = sys.argv[1:]
-mode = args.pop(0) if args and args[0] in ("-w", "-s") else "-w"
+mode = args.pop(0) if args and args[0] in ("-e", "-w", "-s") else "-w"
 month = "20" + args[0] if args else datetime.now().strftime("%Y-%m")
 
 events = load(sorted(glob.glob(os.path.expanduser("~/.stechuhr-*.log"))))
+if mode == "-e":
+    for ts, name in events:
+        if ts.strftime("%Y-%m") == month:
+            print(f"{ts:%Y-%m-%d %H:%M:%S %z} Event: {name}")
+    sys.exit()
 runs = runtimes(events)
 unknown_end = {s.date() for s, _, known in runs if not known}
 periods, unshortened = present(events, runs)

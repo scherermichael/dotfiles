@@ -2,7 +2,11 @@
 
 # Log an event into the stechuhr log: stechuhr-event <name> [<timestamp>]
 # The name must be a single word, the log is pasted into a spreadsheet that splits at spaces.
+# The log is encrypted with the public key, only stechuhr-worklog can read it with the private key in the Keychain.
 
 timestamp="${2:-$(date "+%Y-%m-%d %H:%M:%S %z")}"
+line="${timestamp} Event: $1"
 # Use the month of the event, not the current one
-echo "${timestamp} Event: $1" >> "${HOME}/.stechuhr-${timestamp:2:5}.log"
+file="${HOME}/.stechuhr-${timestamp:2:5}.log"
+# Keep the event in plain text if encryption fails, 'stechuhr-crypt seal' encrypts it later
+echo "${line}" | "${HOME}/.stechuhr-crypt" encrypt >> "${file}" || echo "${line}" >> "${file}"

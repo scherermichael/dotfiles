@@ -5,17 +5,26 @@
 # - Scheduled wake-ups, e.g. by the virus scanner: powerd's wakeschedule assertion marks them, also dark
 #   wake-ups and those while awake. The wake reason (rtc/HID Activity or just HID Activity) does not
 #   tell them from the user.
+#
+# The stechuhr log is encrypted and cannot be read here. So the last copied event is kept in a mark file,
+# only the events after it are copied. The power management log is in the order of logging, also when the
+# clock is set back at the end of daylight saving time. Without the mark (first run, or the event is no longer
+# in the power management log), all events are copied, stechuhr-worklog drops those copied before.
 
-events="$(pmset -g log | awk '
-  $5 == "Display" && $7 == "turned" { print $1, $2, $3, "Event: Display-" ($8 == "on" ? "On" : "Off") }
-  $4 == "Assertions" && /Created UserIsActive "com\.apple\.powermanagement\.wakeschedule"/ { print $1, $2, $3, "Event: Wake-Automatic" }
+mark="${HOME}/.stechuhr-powerlog-mark"
+events="$(pmset -g log | awk -v last="$(cat "${mark}" 2> /dev/null)" '
+  $5 == "Display" && $7 == "turned" { e[n++] = $1 " " $2 " " $3 " Event: Display-" ($8 == "on" ? "On" : "Off") }
+  $4 == "Assertions" && /Created UserIsActive "com\.apple\.powermanagement\.wakeschedule"/ { e[n++] = $1 " " $2 " " $3 " Event: Wake-Automatic" }
+  END {
+    for (i = 0; i < n; i++) if (e[i] == last) from = i + 1
+    for (i = from; i < n; i++) print e[i]
+  }
 ')"
+[ -n "${events}" ] || exit 0
 for month in $(echo "${events}" | cut -c1-7 | sort -u); do
   file="${HOME}/.stechuhr-${month:2}.log"
-  touch "${file}"
-  # Append only events that were not copied before
-  new="$(echo "${events}" | grep "^${month}-" | grep -vxF -f "${file}")"
-  [ -n "${new}" ] && echo "${new}" >> "${file}"
-  # Sort by timestamp only, a stable sort keeps the order of events within the same second
-  sort -s -k1,2 -o "${file}" "${file}"
+  new="$(echo "${events}" | grep "^${month}-")"
+  # One encrypted line per month and run, in plain text if encryption fails (see stechuhr-event)
+  echo "${new}" | "${HOME}/.stechuhr-crypt" encrypt >> "${file}" || echo "${new}" >> "${file}"
 done
+echo "${events}" | tail -1 > "${mark}"
