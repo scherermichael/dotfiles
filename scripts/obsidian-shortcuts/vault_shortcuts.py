@@ -82,8 +82,25 @@ ICON = {"WFWorkflowIconStartColor": 463140863, "WFWorkflowIconGlyphNumber": 5970
 
 IS, CONTAINS, HAS_VALUE = 4, 99, 100
 
-# Marks where the current date goes in a replacement (see NOTE_PIPELINE).
+# Marks where the current date goes in a replacement (see NOTE_PIPELINE), and
+# where the due date goes: " 📅 <date>" if the note asked for one, else nothing.
 DATE = object()
+DUE = object()
+
+# "Has any value" counts an empty text as a value, so no check may ask it of a
+# text that can come out empty. A pattern either turns the whole text into one
+# of these markers, which an If compares with "is", or leaves it unchanged.
+FOUND_DUE, FOUND_BLANK, FOUND_COMPOSED, EMPTY = "⟦due⟧", "⟦blank⟧", "⟦composed⟧", "⟦⟧"
+
+# A due date is asked for with "+N" at the end of the first line: N days from
+# today, "+0" for today. Only after a space, so "+49 170 …" at the start of a
+# line or "C++" stay text. The first pattern tells whether there is a marker,
+# the second (run only then) yields N, the third takes the marker off the line.
+DUE_FOUND = (r"(?s)\A[^\n]*?[ \t]\+\d{1,3}[ \t]*(?=\n|\z).*\z", FOUND_DUE)
+DUE_DAYS = (r"(?s)\A[^\n]*?[ \t]\+(\d{1,3})[ \t]*(?=\n|\z).*\z", "$1")
+DUE_MARKER = (r"\A([^\n]*?)[ \t]+\+\d{1,3}[ \t]*(?=\n|\z)", "$1")
+# Nothing but spaces and blank lines.
+BLANK = (r"(?s)\A\s*\z", FOUND_BLANK)
 
 # The note pipeline: what is typed (or shared) becomes one inbox task. In order:
 #  1. leading blank lines and spaces go, so the first real line is the title
@@ -91,14 +108,15 @@ DATE = object()
 #  3. blank lines go, and with them the trailing newline a final Return leaves,
 #     which would otherwise end up as an empty line in the inbox
 #  4. the creation date goes at the end of the first line, where the board and
-#     the Tasks plugin look for it
+#     the Tasks plugin look for it, and a due date after it, in the order the
+#     Tasks plugin writes them itself
 #  5. every further line is indented, so it belongs to the task as context
 # Verified with NSRegularExpression, the engine Shortcuts uses; see the tests.
 NOTE_PIPELINE = (
     (r"\A\s+", ""),
     (r"\A(?:[-*+][ \t]+)?(?:\[[ xX]\][ \t]*)?", "- [ ] "),
     (r"(?m)\n[ \t]*$", ""),
-    (r"\A(.*)", ("$1 ➕ ", DATE)),
+    (r"\A(.*)", ("$1 ➕ ", DATE, DUE)),
     (r"(?m)^(?!\A)(?=.)", "    "),
 )
 # Characters that break a file name or a wiki link, or would turn into a tag
@@ -115,6 +133,8 @@ DEFUSE_TAG = r"#(?=[\wÀ-ɏ])"
 # Shortcuts has no action that composes, hence one replacement per letter.
 COMPOSABLE = "äöüÄÖÜëïÿËÏŸéèêáàâíìîóòôúùûÉÈÊÁÀÂÍÌÎÓÒÔÚÙÛãõñÃÕÑçÇåÅ"
 COMBINING_MARKS = r"̀-ͯ"
+# Free of combining marks, i.e. nothing to compose.
+COMPOSED = (rf"(?s)\A[^{COMBINING_MARKS}]*\z", FOUND_COMPOSED)
 # A name already taken gets date and time instead of Shortcuts' own "-2":
 # the number Shortcuts adds shows up only in the stored file's name, and
 # that name comes back decomposed.
@@ -260,10 +280,14 @@ def shortcut_input(as_text: bool = False) -> dict:
     return ref
 
 
-def current_date(with_time: bool = False) -> dict:
-    return {"Type": "CurrentDate", "Aggrandizements": [{
+def iso_date(ref: dict, with_time: bool = False) -> dict:
+    return {**ref, "Aggrandizements": [{
         "Type": "WFDateFormatVariableAggrandizement", "WFDateFormatStyle": "ISO 8601",
         "WFISO8601IncludeTime": with_time}]}
+
+
+def current_date(with_time: bool = False) -> dict:
+    return iso_date({"Type": "CurrentDate"}, with_time)
 
 
 def decomposed(letter: str) -> str:
@@ -333,6 +357,14 @@ class Shortcut:
         self.add("is.workflow.actions.conditional", GroupingIdentifier=group, WFControlFlowMode=2)
 
     @contextmanager
+    def repeat_count(self, ref: dict):
+        group = self.uid()
+        self.add("is.workflow.actions.repeat.count", GroupingIdentifier=group, WFControlFlowMode=0,
+                 WFRepeatCount=attachment(ref))
+        yield
+        self.add("is.workflow.actions.repeat.count", GroupingIdentifier=group, WFControlFlowMode=2)
+
+    @contextmanager
     def repeat_each(self, ref: dict):
         group = self.uid()
         self.add("is.workflow.actions.repeat.each", GroupingIdentifier=group, WFControlFlowMode=0,
@@ -365,7 +397,7 @@ class Shortcut:
 
     def replace(self, ref: dict, find: str, replacement, case_sensitive: bool = True) -> dict:
         parts = replacement if isinstance(replacement, tuple) else (replacement,)
-        parts = tuple(current_date() if p is DATE else p for p in parts)
+        parts = tuple(current_date() if p is DATE else variable("due") if p is DUE else p for p in parts)
         return self.step("is.workflow.actions.text.replace", "Updated Text",
                          WFInput=text(ref), WFReplaceTextRegularExpression=True,
                          WFReplaceTextCaseSensitive=case_sensitive, WFReplaceTextFind=find,
@@ -404,6 +436,13 @@ class Shortcut:
         return self.step("is.workflow.actions.properties.files", "File Extension",
                          WFInput=attachment(ref), WFContentItemPropertyName="File Extension")
 
+    def adjust_date(self, date: dict, days: int) -> dict:
+        """date plus a fixed number of days. The date goes in as a text with
+        the variable in it; passed as the bare variable, the result is empty."""
+        return self.step("is.workflow.actions.adjustdate", "Adjusted Date", WFAdjustOperation="Add", WFDate=date,
+                         WFDuration={"Value": {"Magnitude": days, "Unit": "days"},
+                                     "WFSerializationType": "WFQuantityFieldValue"})
+
     def make_pdf(self, ref: dict) -> dict:
         return self.step("is.workflow.actions.makepdf", "PDF", WFInput=attachment(ref))
 
@@ -436,24 +475,57 @@ class Shortcut:
         The replacements run only if a combining mark is present at all, so
         the usual name costs one step."""
         self.set_variable(name, ref)
-        marks = self.replace(ref, f"[^{COMBINING_MARKS}]", "")
-        with self.if_(marks, HAS_VALUE):
+        with self.unless(ref, COMPOSED):
             composed = ref
             for letter in COMPOSABLE:
                 composed = self.replace(composed, decomposed(letter), letter)
             self.set_variable(name, composed)
         return variable(name)
 
+    @contextmanager
+    def unless(self, ref: dict, pattern: tuple):
+        """Run the body unless pattern turns ref into its marker (see EMPTY)."""
+        with self.if_(self.replace(ref, *pattern), IS, pattern[1]) as found:
+            found.otherwise()
+            yield
+
+    @contextmanager
+    def unless_empty(self, ref: dict):
+        """Run the body unless ref is an empty text, as a property of the
+        wrong kind of item is (see EMPTY)."""
+        with self.if_(self.get_text("⟦", ref, "⟧"), IS, EMPTY) as empty:
+            empty.otherwise()
+            yield
+
     def note(self, ref: dict, write) -> None:
         """Turn a dialog's text into an inbox task and hand it to write(entry).
-        The trim comes first and on its own: a dialog left empty, or holding
-        only blank lines, then writes nothing."""
-        trimmed = self.replace(ref, *NOTE_PIPELINE[0])
-        with self.if_(trimmed, HAS_VALUE):
-            entry = trimmed
-            for find, replacement in NOTE_PIPELINE[1:]:
-                entry = self.replace(entry, find, replacement)
-            write(entry)
+        A dialog left empty gives no value at all; one holding only spaces or
+        blank lines gives a text, and writes nothing either."""
+        with self.if_(ref, HAS_VALUE):
+            with self.unless(ref, BLANK):
+                entry = self.replace(ref, *NOTE_PIPELINE[0])
+                entry = self.due_date(entry)
+                for find, replacement in NOTE_PIPELINE[1:]:
+                    entry = self.replace(entry, find, replacement)
+                write(entry)
+
+    def due_date(self, ref: dict) -> dict:
+        """Take a "+N" marker off the first line. Sets "due" to " 📅 <date>",
+        or to nothing without a marker, and returns the text without it."""
+        self.set_variable("entry", ref)
+        self.set_variable("due", self.get_text(""))
+        with self.if_(self.replace(ref, *DUE_FOUND), IS, FOUND_DUE):
+            days = self.replace(ref, *DUE_DAYS)
+            # Adjust Date counts 0 for a number of days taken from a variable,
+            # however it is passed; a fixed 1 works, hence one day per round.
+            # The start is a date rather than a text of one, which would be
+            # read back in the device's own date format. Zero rounds: today.
+            self.set_variable("date", self.adjust_date(text({"Type": "CurrentDate"}), 0))
+            with self.repeat_count(days):
+                self.set_variable("date", self.adjust_date(text(variable("date")), 1))
+            self.set_variable("due", self.get_text(" 📅 ", iso_date(variable("date"))))
+            self.set_variable("entry", self.replace(ref, *DUE_MARKER))
+        return variable("entry")
 
     def workflow(self, inputs: list[str], types: list[str], surfaces: list[str] | None = None,
                  no_input_error: str | None = None) -> dict:
@@ -607,12 +679,11 @@ def note_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = Tr
     # as the capture tool names web pages, and the address below it. With text
     # selected, Safari hands over only the text, and no address comes with it.
     sc.set_variable("prefill", sc.get_text(shortcut_input(as_text=True)))
-    page = sc.get_text(page_url(shortcut_input()))
-    with sc.if_(page, HAS_VALUE):
+    with sc.unless_empty(page_url(shortcut_input())):
         # A "#" in a page title would turn into a tag; the capture tool
         # defuses it the same way.
         title = sc.replace(item_name(shortcut_input()), DEFUSE_TAG, "＃")
-        sc.set_variable("prefill", sc.get_text("Web - ", title, "\n", page))
+        sc.set_variable("prefill", sc.get_text("Web - ", title, "\n", page_url(shortcut_input())))
 
     # One dialog per vault, each with its name in the title: with two vaults
     # on a device, the title is what shows where the note will land.
@@ -664,13 +735,12 @@ def file_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = Tr
                     keep(sc.make_pdf(item), sc.get_text("pdf"), "PDF - ", "")
                     # Where the PDF came from: a web page knows its address;
                     # a shared link is its own.
-                    page = sc.get_text(page_url(item))
-                    with sc.if_(page, HAS_VALUE) as is_page:
-                        sc.set_variable("url", sc.get_text("\n    ", page))
-                        is_page.otherwise()
+                    with sc.if_(sc.get_text("⟦", page_url(item), "⟧"), IS, EMPTY) as no_page:
                         found = sc.urls(item)
                         with sc.if_(found, HAS_VALUE):
                             sc.set_variable("url", sc.get_text("\n    ", sc.first_item(found)))
+                        no_page.otherwise()
+                        sc.set_variable("url", sc.get_text("\n    ", page_url(item)))
 
         def store(vault: Vault, root: str, inbox: str):
             # The file gets exactly the name the link will carry; see TIMESTAMP.
