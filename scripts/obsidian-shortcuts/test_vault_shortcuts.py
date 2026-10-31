@@ -67,17 +67,36 @@ class Locations(unittest.TestCase):
 
 class Targets(unittest.TestCase):
     def test_priority_order_gives_the_hotkeys(self):
-        targets = vs.plan_targets(VAULTS, lambda v: True)
+        targets, picker_key = vs.plan_targets(VAULTS, lambda v: True)
         self.assertEqual([(v.label, key) for v, key in targets], [("Private", "@~,"), ("Work", "@~$,")])
+        self.assertIsNone(picker_key)
 
-    def test_a_mac_with_only_the_second_vault_makes_it_primary(self):
-        targets = vs.plan_targets(VAULTS, lambda v: v is WORK)
-        self.assertEqual([(v.label, key) for v, key in targets], [("Work", "@~,")])
+    def test_a_mac_with_a_single_vault_gives_the_key_to_the_picker(self):
+        # The picker skips its list there, so a hotkey shortcut would repeat it.
+        targets, picker_key = vs.plan_targets(VAULTS, lambda v: v is WORK)
+        self.assertEqual((targets, picker_key), ([], "@~,"))
+        keys = {name: key for name, _, _, key in vs.wanted_shortcuts(VAULTS, lambda v: v is WORK, HOME)}
+        self.assertEqual(keys, {vs.NOTE_PICKER: "@~,", vs.FILE_PICKER: None})
 
     def test_fixed_shortcuts_only_for_vaults_present(self):
-        names = builds(VAULTS, lambda v: v is WORK)
+        names = builds([PRIVATE, WORK, LOCAL_ONLY], lambda v: v is not PRIVATE)
         self.assertIn("Add to Vault Inbox (Work)", names)
+        self.assertIn("Add to Vault Inbox (Local)", names)
         self.assertNotIn("Add to Vault Inbox (Private)", names)
+
+    def test_unneeded_hotkey_shortcuts_are_found_only_in_the_managed_folder(self):
+        # Only hotkey shortcuts: a picker copy numbered by an import, or
+        # anything else kept in the folder, is not this rule's business.
+        shortcuts = [("Add to Vault Inbox (Work)", "W"), ("Add to Vault Inbox (Old label)", "O"),
+                     ("Add to Vault Inbox (Private)", "P"), ("Add to Vault Inbox", "N"),
+                     ("Add File to Vault Inbox", "F"), ("Add to Vault Inbox (Mine)", "M"),
+                     ("Add to Vault Inbox 2", "N2"), ("Something Else", "X")]
+        folders = {"W": vs.MANAGED_FOLDER, "O": vs.MANAGED_FOLDER, "P": vs.MANAGED_FOLDER,
+                   "N": vs.MANAGED_FOLDER, "F": vs.MANAGED_FOLDER, "M": "",
+                   "N2": vs.MANAGED_FOLDER, "X": vs.MANAGED_FOLDER}
+        wanted = {"Add to Vault Inbox (Private)", vs.NOTE_PICKER, vs.FILE_PICKER}
+        self.assertEqual(vs.not_needed(shortcuts, wanted, folders),
+                         [("Add to Vault Inbox (Work)", "W"), ("Add to Vault Inbox (Old label)", "O")])
 
 
 class Builds(unittest.TestCase):
@@ -90,13 +109,32 @@ class Builds(unittest.TestCase):
         self.assertNotEqual(before["Add to Vault Inbox (Work)"], after["Add to Vault Inbox (Work)"])
         self.assertEqual(before["Add to Vault Inbox (Private)"], after["Add to Vault Inbox (Private)"])
 
-    def test_picker_builds_do_not_depend_on_what_this_mac_has(self):
+    def test_picker_builds_depend_only_on_whether_this_mac_has_a_single_vault(self):
         # Two Macs on one Apple ID share the library. If the picker came out
-        # differently on a Mac lacking a vault, each would keep re-importing
-        # over the other's copy.
-        everything, work_only = builds(VAULTS, lambda v: True), builds(VAULTS, lambda v: v is WORK)
+        # differently on them, each would keep re-importing over the other's
+        # copy. They share their vaults too, so only the number may count.
+        three = [PRIVATE, WORK, LOCAL_ONLY]
+        everything = builds(three, lambda v: True)
+        two = builds(three, lambda v: v is not PRIVATE)
+        one = builds(three, lambda v: v is WORK)
         for name in (vs.NOTE_PICKER, vs.FILE_PICKER):
-            self.assertEqual(everything[name], work_only[name], name)
+            self.assertEqual(everything[name], two[name], name)
+        self.assertNotEqual(everything[vs.NOTE_PICKER], one[vs.NOTE_PICKER])
+        self.assertEqual(everything[vs.FILE_PICKER], one[vs.FILE_PICKER])
+
+    def test_the_note_picker_is_a_service_only_where_it_carries_the_key(self):
+        # Only a Services shortcut can hold a hotkey; elsewhere it would be a
+        # third entry in the right-click menu, next to the hotkey shortcuts.
+        def picker(present):
+            return next(wf for name, wf, _, _ in vs.wanted_shortcuts(VAULTS, present, HOME)
+                        if name == vs.NOTE_PICKER)
+        single, several = picker(lambda v: v is WORK), picker(lambda v: True)
+        self.assertIn("QuickActions", single["WFWorkflowTypes"])
+        self.assertEqual(single["WFQuickActionSurfaces"], ["Services"])
+        self.assertNotIn("QuickActions", several["WFWorkflowTypes"])
+        self.assertNotIn("WFQuickActionSurfaces", several)
+        for wf in (single, several):
+            self.assertIn("ActionExtension", wf["WFWorkflowTypes"])
 
     def test_a_mac_without_obsidians_icloud_folder_never_looks_there(self):
         # Below a missing root a lookup stops the shortcut instead of coming

@@ -48,7 +48,8 @@ MANAGED_FOLDER = "Vault Inbox"
 # and does nothing), so superseded copies are parked here for deleting by hand.
 REPLACED_FOLDER = "Replaced (safe to delete)"
 # Cmd+Opt+Comma for the first vault present on this Mac, Cmd+Opt+Shift+Comma for
-# the second, in the notation of the pbs service settings.
+# the second, in the notation of the pbs service settings. On a Mac with a
+# single vault the first goes to the note picker; see plan_targets.
 HOTKEYS = ("@~,", "@~$,")
 # Where a Quick Action shows up is not part of the shortcut file either: the
 # editor writes it next to the hotkey, per Mac and keyed by the shortcut's ID.
@@ -223,10 +224,17 @@ def phone_inbox(vault: Vault, home: Path = HOME) -> tuple[str, str] | None:
     return None
 
 
-def plan_targets(vaults: list[Vault], present) -> list[tuple[Vault, str | None]]:
-    """The vaults present on this Mac, in priority order, with their hotkey."""
+def plan_targets(vaults: list[Vault], present) -> tuple[list[tuple[Vault, str | None]], str | None]:
+    """The hotkey shortcuts for the vaults present on this Mac, in priority
+    order with their key, and the key the note picker carries.
+
+    With a single vault present the note picker takes the key itself: it skips
+    its list there, so a hotkey shortcut of that vault would only repeat it.
+    """
     here = [v for v in vaults if present(v)]
-    return [(v, HOTKEYS[i] if i < len(HOTKEYS) else None) for i, v in enumerate(here)]
+    if len(here) == 1:
+        return [], HOTKEYS[0]
+    return [(v, HOTKEYS[i] if i < len(HOTKEYS) else None) for i, v in enumerate(here)], None
 
 
 # --------------------------------------------------------------------------
@@ -581,6 +589,24 @@ def fixed_name(vault: Vault) -> str:
     return f"Add to Vault Inbox ({vault.label})"
 
 
+# Any label, the ones no longer in the vault list included: a renamed vault's
+# old hotkey shortcut is recognised by this.
+FIXED_NAME = re.compile(r"^Add to Vault Inbox \(.+\)$")
+
+
+def not_needed(shortcuts: list[tuple[str, str]], wanted: set[str], folders: dict[str, str]):
+    """(name, ID) of the hotkey shortcuts in the managed folder this Mac does
+    not want: of a renamed or removed vault, of a vault this Mac lacks, or all
+    of them on a Mac with a single vault.
+
+    Parked, not kept: Macs sharing a library share their vaults too, so no
+    other Mac still wants them. Only the managed folder counts, as for the
+    build query: a shortcut of that name elsewhere may be a hand-made one.
+    """
+    return [(n, sid) for n, sid in shortcuts
+            if FIXED_NAME.match(n) and n not in wanted and folders.get(sid) == MANAGED_FOLDER]
+
+
 def fixed_note(vault: Vault, home: Path = HOME) -> dict:
     """The hotkey shortcut of one vault, Mac only."""
     sc = Shortcut(fixed_name(vault))
@@ -656,8 +682,10 @@ def for_each_location(sc: Shortcut, vaults: list[Vault], device: dict, home: Pat
                     body(vault, *phone)
 
 
-def note_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = True) -> dict:
-    """Share sheet on Mac and iPhone; free input from a home-screen icon."""
+def note_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = True,
+                services: bool = False) -> dict:
+    """Share sheet on Mac and iPhone; free input from a home-screen icon; with
+    `services`, the hotkey of a Mac with a single vault."""
     sc = Shortcut(NOTE_PICKER)
     sc.comment(GENERATED)
     sc.version_check()
@@ -691,10 +719,16 @@ def note_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = Tr
         with sc.if_(variable("vault"), IS, vault.label):
             note = sc.ask(f"Add to {vault.label} inbox:", text(variable("prefill")))
             sc.note(note, write(vault))
-    # Not in Services: on the Mac the hotkey shortcuts already sit in the
-    # right-click menu, and a third entry there would do the same thing.
-    return sc.workflow(TEXT_INPUT + ["WFURLContentItem", "WFSafariWebPageContentItem"],
-                       ["ActionExtension", "WFWorkflowTypeShowInSearch"])
+    inputs = TEXT_INPUT + ["WFURLContentItem", "WFSafariWebPageContentItem"]
+    # In Services only where it carries the hotkey: only a Services shortcut
+    # can hold a key, and that is part of the shortcut, not of the settings.
+    # With more vaults the hotkey shortcuts sit in the right-click menu
+    # already, and a third entry there would do the same thing. The build thus
+    # follows the number of vaults, which Macs sharing a library share.
+    if services:
+        return sc.workflow(inputs, ["QuickActions", "ActionExtension", "WFWorkflowTypeShowInSearch"],
+                           surfaces=["Services"])
+    return sc.workflow(inputs, ["ActionExtension", "WFWorkflowTypeShowInSearch"])
 
 
 def file_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = True) -> dict:
@@ -768,12 +802,14 @@ def file_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = Tr
 def wanted_shortcuts(vaults: list[Vault], present, home: Path = HOME, icloud_on_mac: bool = True):
     """(name, workflow, build, hotkey) for everything this Mac should have."""
     wanted = []
-    for vault, hotkey in plan_targets(vaults, present):
+    targets, picker_key = plan_targets(vaults, present)
+    for vault, hotkey in targets:
         wf, build = finalize(fixed_note(vault, home))
         wanted.append((fixed_name(vault), wf, build, hotkey))
-    for name, make in ((NOTE_PICKER, note_picker), (FILE_PICKER, file_picker)):
-        wf, build = finalize(make(vaults, home, icloud_on_mac))
-        wanted.append((name, wf, build, None))
+    wf, build = finalize(note_picker(vaults, home, icloud_on_mac, services=picker_key is not None))
+    wanted.append((NOTE_PICKER, wf, build, picker_key))
+    wf, build = finalize(file_picker(vaults, home, icloud_on_mac))
+    wanted.append((FILE_PICKER, wf, build, None))
     return wanted
 
 
@@ -941,10 +977,11 @@ def install(vaults: list[Vault], retired: list[str], dry_run: bool) -> int:
     names = {name for name, *_ in wanted}
     installed = list_shortcuts()
     relevant = [(n, sid) for n, sid in installed
-                if n in names or n in retired or re.sub(r" \d+$", "", n) in names]
+                if n in names or n in retired or re.sub(r" \d+$", "", n) in names or FIXED_NAME.match(n)]
     folders = {sid: folder_of(sid) for _, sid in relevant}
-    # Every shortcut that carries one of our names, has carried one, or was
-    # parked by us: a hotkey these hold may be taken over.
+    # Every shortcut that carries one of our names (any hotkey shortcut's, a
+    # label no longer listed included), has carried one, or was parked by us:
+    # a hotkey these hold may be taken over.
     ours = {sid for _, sid in relevant} | {sid for sid, f in folders.items() if f == REPLACED_FOLDER}
     parked = {sid for sid, f in folders.items() if f == REPLACED_FOLDER}
     failures = 0
@@ -985,6 +1022,12 @@ def install(vaults: list[Vault], retired: list[str], dry_run: bool) -> int:
                 current_ids[name] = current
                 if hotkey:
                     hotkeys[name] = hotkey
+
+    for name, sid in not_needed(relevant, names, folders):
+        print(f"{name}: not needed on this Mac, {'would park' if dry_run else 'parking'} {sid} in '{REPLACED_FOLDER}'")
+        if not dry_run:
+            move_to_folder(sid, REPLACED_FOLDER)
+        parked.add(sid)
 
     for name in retired:
         for n, sid in installed:
