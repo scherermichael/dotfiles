@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """Generate the vault inbox shortcuts and install them on this Mac.
 
-Four Apple Shortcuts put something into the inbox of an Obsidian vault:
+Two Apple Shortcuts put something into the inbox of an Obsidian vault, and
+ask for the vault:
 
-    Add to Vault Inbox (<Label>)   one per vault on this Mac, on a hotkey
-    Add to Vault Inbox             share sheet, asks for the vault
-    Add File to Vault Inbox        Finder and share sheet, asks for the vault
+    Add to Vault Inbox             the iPhone's share sheet and home screen
+    Add File to Vault Inbox        Finder, and the iPhone's share sheet
 
 They are defined in this file, step by step, and never committed as a binary.
-`install` builds them, imports the ones that are missing or outdated, and binds
-the hotkeys. See README.md next to this file for why it works the way it does;
-the short version is that Shortcuts offers no way to replace or delete a
-shortcut, so every import makes a new one and the old one has to be filed away.
+`install` builds them and imports the ones that are missing or outdated. See
+README.md next to this file for why it works the way it does; the short
+version is that Shortcuts offers no way to replace or delete a shortcut, so
+every import makes a new one and the old one has to be filed away.
+
+The quick note on the Mac is no shortcut but vault_note.swift, which `install`
+compiles to vault-note and which a BetterTouchTool hotkey starts.
 
 Called by install.sh, which reads the vault list from the private folder and
 passes it in as --vault arguments. No vault names or paths live here.
@@ -20,6 +23,7 @@ passes it in as --vault arguments. No vault names or paths live here.
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import plistlib
@@ -47,10 +51,11 @@ MANAGED_FOLDER = "Vault Inbox"
 # Shortcuts cannot be deleted from a script (AppleScript's delete reports success
 # and does nothing), so superseded copies are parked here for deleting by hand.
 REPLACED_FOLDER = "Replaced (safe to delete)"
-# Cmd+Opt+Comma for the first vault present on this Mac, Cmd+Opt+Shift+Comma for
-# the second, in the notation of the pbs service settings. On a Mac with a
-# single vault the first goes to the note picker; see plan_targets.
-HOTKEYS = ("@~,", "@~$,")
+# The quick note on the Mac. Outside the dotfiles' tracked files and outside
+# BetterTouchTool's folder, which snapshot.sh copies as a whole: the BTT
+# trigger names this path, and it has to be the same on every Mac.
+NOTE_HELPER_SOURCE = Path(__file__).resolve().with_name("vault_note.swift")
+NOTE_HELPER = HOME / ".local/bin/vault-note"
 # Where a Quick Action shows up is not part of the shortcut file either: the
 # editor writes it next to the hotkey, per Mac and keyed by the shortcut's ID.
 # An import sets nothing, so the file picker stays out of Finder until these
@@ -222,19 +227,6 @@ def phone_inbox(vault: Vault, home: Path = HOME) -> tuple[str, str] | None:
     if vault.phone_root:
         return "phone", f"{vault.phone_root}/{vault.inbox}"
     return None
-
-
-def plan_targets(vaults: list[Vault], present) -> tuple[list[tuple[Vault, str | None]], str | None]:
-    """The hotkey shortcuts for the vaults present on this Mac, in priority
-    order with their key, and the key the note picker carries.
-
-    With a single vault present the note picker takes the key itself: it skips
-    its list there, so a hotkey shortcut of that vault would only repeat it.
-    """
-    here = [v for v in vaults if present(v)]
-    if len(here) == 1:
-        return [], HOTKEYS[0]
-    return [(v, HOTKEYS[i] if i < len(HOTKEYS) else None) for i, v in enumerate(here)], None
 
 
 # --------------------------------------------------------------------------
@@ -585,42 +577,24 @@ def finalize(wf: dict) -> tuple[dict, str]:
 # The shortcuts
 # --------------------------------------------------------------------------
 
-def fixed_name(vault: Vault) -> str:
-    return f"Add to Vault Inbox ({vault.label})"
-
-
-# Any label, the ones no longer in the vault list included: a renamed vault's
-# old hotkey shortcut is recognised by this.
+# The hotkey shortcuts of earlier versions, "Add to Vault Inbox (<label>)", one
+# per vault. The Mac's quick note is vault-note now; these are parked wherever
+# the managed folder still holds one.
 FIXED_NAME = re.compile(r"^Add to Vault Inbox \(.+\)$")
 
 
 def not_needed(shortcuts: list[tuple[str, str]], wanted: set[str], folders: dict[str, str]):
-    """(name, ID) of the hotkey shortcuts in the managed folder this Mac does
-    not want: of a renamed or removed vault, of a vault this Mac lacks, or all
-    of them on a Mac with a single vault.
+    """(name, ID) of our shortcuts in the managed folder this Mac does not
+    want: every old hotkey shortcut, and the note picker on a Mac whose vaults
+    the iPhone cannot reach.
 
     Parked, not kept: Macs sharing a library share their vaults too, so no
     other Mac still wants them. Only the managed folder counts, as for the
     build query: a shortcut of that name elsewhere may be a hand-made one.
     """
+    ours = lambda n: FIXED_NAME.match(n) or n in (NOTE_PICKER, FILE_PICKER)
     return [(n, sid) for n, sid in shortcuts
-            if FIXED_NAME.match(n) and n not in wanted and folders.get(sid) == MANAGED_FOLDER]
-
-
-def fixed_note(vault: Vault, home: Path = HOME) -> dict:
-    """The hotkey shortcut of one vault, Mac only."""
-    sc = Shortcut(fixed_name(vault))
-    sc.comment(GENERATED)
-    sc.version_check()
-    # Pre-filled with whatever is selected: the Services hotkey passes the
-    # selection as input. Without one the field is empty.
-    note = sc.ask(f"Add to {vault.label} inbox:", text(shortcut_input(as_text=True)))
-    root, inbox = mac_inbox(vault, home)
-    sc.note(note, lambda entry: sc.append_file(root, f"{inbox}/_Inbox.md", entry))
-    # Services carries the hotkey and puts it into the right-click menu for
-    # selected text. No share sheet: there the picker version stands in.
-    return sc.workflow(TEXT_INPUT, ["QuickActions", "MenuBar", "WFWorkflowTypeShowInSearch"],
-                       surfaces=["Services"])
+            if ours(n) and n not in wanted and folders.get(sid) == MANAGED_FOLDER]
 
 
 def choose_vault(sc: Shortcut, vaults: list[Vault], home: Path, icloud_on_mac: bool) -> dict:
@@ -682,10 +656,9 @@ def for_each_location(sc: Shortcut, vaults: list[Vault], device: dict, home: Pat
                     body(vault, *phone)
 
 
-def note_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = True,
-                services: bool = False) -> dict:
-    """Share sheet on Mac and iPhone; free input from a home-screen icon; with
-    `services`, the hotkey of a Mac with a single vault."""
+def note_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = True) -> dict:
+    """The iPhone's share sheet, and free input from a home-screen icon. It
+    shows in the Mac's share menu too, whose entries are the same setting."""
     sc = Shortcut(NOTE_PICKER)
     sc.comment(GENERATED)
     sc.version_check()
@@ -719,16 +692,10 @@ def note_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = Tr
         with sc.if_(variable("vault"), IS, vault.label):
             note = sc.ask(f"Add to {vault.label} inbox:", text(variable("prefill")))
             sc.note(note, write(vault))
-    inputs = TEXT_INPUT + ["WFURLContentItem", "WFSafariWebPageContentItem"]
-    # In Services only where it carries the hotkey: only a Services shortcut
-    # can hold a key, and that is part of the shortcut, not of the settings.
-    # With more vaults the hotkey shortcuts sit in the right-click menu
-    # already, and a third entry there would do the same thing. The build thus
-    # follows the number of vaults, which Macs sharing a library share.
-    if services:
-        return sc.workflow(inputs, ["QuickActions", "ActionExtension", "WFWorkflowTypeShowInSearch"],
-                           surfaces=["Services"])
-    return sc.workflow(inputs, ["ActionExtension", "WFWorkflowTypeShowInSearch"])
+    # Not in Services: selected text on the Mac is the capture tool's business,
+    # and the quick note there is vault-note.
+    return sc.workflow(TEXT_INPUT + ["WFURLContentItem", "WFSafariWebPageContentItem"],
+                       ["ActionExtension", "WFWorkflowTypeShowInSearch"])
 
 
 def file_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = True) -> dict:
@@ -799,35 +766,119 @@ def file_picker(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = Tr
                        no_input_error="Select or share a file to add.")
 
 
-def wanted_shortcuts(vaults: list[Vault], present, home: Path = HOME, icloud_on_mac: bool = True):
-    """(name, workflow, build, hotkey) for everything this Mac should have."""
+def wanted_shortcuts(vaults: list[Vault], home: Path = HOME, icloud_on_mac: bool = True):
+    """(name, workflow, build) for every shortcut this Mac should have.
+
+    The note picker only where the iPhone reaches one of the vaults: on the
+    Mac, vault-note does its work. The work Mac, whose vaults are not on the
+    phone and whose library is its own, gets the file picker alone.
+    """
     wanted = []
-    targets, picker_key = plan_targets(vaults, present)
-    for vault, hotkey in targets:
-        wf, build = finalize(fixed_note(vault, home))
-        wanted.append((fixed_name(vault), wf, build, hotkey))
-    wf, build = finalize(note_picker(vaults, home, icloud_on_mac, services=picker_key is not None))
-    wanted.append((NOTE_PICKER, wf, build, picker_key))
+    if any(phone_inbox(v, home) for v in vaults):
+        wf, build = finalize(note_picker(vaults, home, icloud_on_mac))
+        wanted.append((NOTE_PICKER, wf, build))
     wf, build = finalize(file_picker(vaults, home, icloud_on_mac))
-    wanted.append((FILE_PICKER, wf, build, None))
+    wanted.append((FILE_PICKER, wf, build))
     return wanted
 
 
 # --------------------------------------------------------------------------
-# Services settings: hotkeys and where a Quick Action shows up
+# The quick note on the Mac: vault-note
 # --------------------------------------------------------------------------
 
-def services_wanted(current: dict[str, str], hotkeys: dict[str, str]) -> dict[str, dict]:
+def note_helper_config(vaults: list[Vault], present) -> dict:
+    """What vault-note is built with: this Mac's vaults in the order of the
+    list, which is the order of Cmd+1, Cmd+2, ..., and the note pipeline.
+
+    The patterns come from here, not from a copy in the Swift file, so that a
+    note typed on the Mac and one shared on the iPhone come out the same. Both
+    run them through NSRegularExpression.
+    """
+    def template(replacement) -> str:
+        parts = replacement if isinstance(replacement, tuple) else (replacement,)
+        return "".join("{date}" if p is DATE else "{due}" if p is DUE else p for p in parts)
+    return {
+        "vaults": [{"label": v.label, "inbox": str(v.root / v.inbox)} for v in vaults if present(v)],
+        "blank": list(BLANK),
+        "trim": list(NOTE_PIPELINE[0]),
+        "dueFound": list(DUE_FOUND),
+        "dueDays": list(DUE_DAYS),
+        "dueMarker": list(DUE_MARKER),
+        "pipeline": [[find, template(replacement)] for find, replacement in NOTE_PIPELINE[1:]],
+    }
+
+
+def swift_compiler() -> str | None:
+    """swiftc from the Command Line Tools, which Homebrew installs anyway.
+    Asked through xcode-select first: on a Mac without them, xcrun would open
+    the dialog that offers to install them, in the middle of restore.sh."""
+    if subprocess.run(["xcode-select", "-p"], capture_output=True).returncode != 0:
+        return None
+    found = subprocess.run(["xcrun", "--find", "swiftc"], capture_output=True, text=True)
+    return found.stdout.strip() or None if found.returncode == 0 else None
+
+
+def build_note_helper(out: Path, config: dict) -> None:
+    """Compile vault-note with `config` built in.
+
+    The data goes into a generated second file rather than a file read at run
+    time: one thing to install, and nothing that can go missing or stale beside
+    it. Global constants outside main.swift are initialised when first used, so
+    the source itself is compiled as main.swift.
+    """
+    if not swift_compiler():
+        raise RuntimeError("no Swift compiler; install the Command Line Tools (xcode-select --install)")
+    data = base64.b64encode(json.dumps(config, ensure_ascii=False).encode()).decode()
+    with tempfile.TemporaryDirectory() as tmp:
+        main, embedded = Path(tmp) / "main.swift", Path(tmp) / "embedded.swift"
+        main.write_bytes(NOTE_HELPER_SOURCE.read_bytes())
+        embedded.write_text("// Generated by vault_shortcuts.py: this Mac's vaults and the note pipeline.\n"
+                            f'let embeddedConfig = "{data}"\n', encoding="utf-8")
+        # Through xcrun rather than the path it found: started directly, swiftc
+        # knows no SDK and cannot load its own standard library.
+        run("xcrun", "swiftc", "-O", "-o", str(out), str(main), str(embedded))
+
+
+def install_note_helper(vaults: list[Vault], present, dry_run: bool) -> bool:
+    """Build vault-note and put it in place. False on failure, which the
+    caller counts like a failed import.
+
+    Built on every run, with no check whether anything changed: unlike an
+    import, a build needs nobody, and the few seconds are not worth a version
+    check.
+    """
+    config = note_helper_config(vaults, present)
+    if dry_run:
+        print(f"vault-note: would be built ({NOTE_HELPER})")
+    else:
+        print(f"vault-note: building ({NOTE_HELPER})")
+        NOTE_HELPER.parent.mkdir(parents=True, exist_ok=True)
+        # Built beside the old one and moved over it, so a failed build leaves
+        # the working binary in place.
+        partial = NOTE_HELPER.with_name(NOTE_HELPER.name + ".new")
+        try:
+            build_note_helper(partial, config)
+        except RuntimeError as error:
+            print(f"FAILED: vault-note: {error}", file=sys.stderr)
+            partial.unlink(missing_ok=True)
+            return False
+        partial.replace(NOTE_HELPER)
+    labels = [v["label"] for v in config["vaults"]]
+    if labels:
+        print(f"  BTT hotkey: Run Shell Script / Task, {NOTE_HELPER}, parameter: the label to select first "
+              f"({', '.join(labels)}); Cmd+1..{len(labels)} switch in the dialog")
+    return True
+
+
+# --------------------------------------------------------------------------
+# Services settings: where a Quick Action shows up, and the old hotkeys
+# --------------------------------------------------------------------------
+
+def services_wanted(current: dict[str, str]) -> dict[str, dict]:
     """Shortcut ID -> the Services settings it needs, from name -> current ID.
-    The hotkey shortcuts need only their key; where they show up is right by
-    default. The file picker needs to be switched on for Finder."""
-    wanted = {}
-    for name, sid in current.items():
-        if name in hotkeys:
-            wanted[sid] = {"key_equivalent": hotkeys[name]}
-        if name == FILE_PICKER:
-            wanted[sid] = {"presentation_modes": dict(FINDER_MODES)}
-    return wanted
+    Only the file picker needs any: switched on for Finder."""
+    return {sid: {"presentation_modes": dict(FINDER_MODES)}
+            for name, sid in current.items() if name == FILE_PICKER}
 
 
 def merge_services(status: dict, wanted: dict[str, dict], hidden: set[str], existing: set[str],
@@ -973,26 +1024,25 @@ def install(vaults: list[Vault], retired: list[str], dry_run: bool) -> int:
     for vault in vaults:
         if present(vault):
             check_gtd_json(vault)
-    wanted = wanted_shortcuts(vaults, present, HOME, ICLOUD_OBSIDIAN.is_dir())
+    wanted = wanted_shortcuts(vaults, HOME, ICLOUD_OBSIDIAN.is_dir())
     names = {name for name, *_ in wanted}
     installed = list_shortcuts()
     relevant = [(n, sid) for n, sid in installed
                 if n in names or n in retired or re.sub(r" \d+$", "", n) in names or FIXED_NAME.match(n)]
     folders = {sid: folder_of(sid) for _, sid in relevant}
-    # Every shortcut that carries one of our names (any hotkey shortcut's, a
-    # label no longer listed included), has carried one, or was parked by us:
-    # a hotkey these hold may be taken over.
+    # Every shortcut that carries one of our names (an old hotkey shortcut's
+    # included), has carried one, or was parked by us. Parked ones are taken
+    # out of every menu and off their key.
     ours = {sid for _, sid in relevant} | {sid for sid, f in folders.items() if f == REPLACED_FOLDER}
     parked = {sid for sid, f in folders.items() if f == REPLACED_FOLDER}
     failures = 0
     current_ids: dict[str, str] = {}
-    hotkeys: dict[str, str] = {}
 
     with tempfile.TemporaryDirectory() as tmp:
         workdir = Path(tmp)
         token = workdir / "token.txt"
         token.write_text(TOKEN, encoding="utf-8")
-        for name, wf, build, hotkey in wanted:
+        for name, wf, build in wanted:
             ids = [sid for n, sid in installed if n == name]
             current = None
             for sid in ids:
@@ -1020,8 +1070,6 @@ def install(vaults: list[Vault], retired: list[str], dry_run: bool) -> int:
                 parked.add(sid)
             if current:
                 current_ids[name] = current
-                if hotkey:
-                    hotkeys[name] = hotkey
 
     for name, sid in not_needed(relevant, names, folders):
         print(f"{name}: not needed on this Mac, {'would park' if dry_run else 'parking'} {sid} in '{REPLACED_FOLDER}'")
@@ -1039,12 +1087,12 @@ def install(vaults: list[Vault], retired: list[str], dry_run: bool) -> int:
 
     domain, status = pbs_status()
     existing = {sid for _, sid in list_shortcuts()}
-    wanted_services = services_wanted(current_ids, hotkeys)
+    wanted_services = services_wanted(current_ids)
     merged, warnings = merge_services(status, wanted_services, parked & existing, existing, ours)
     for warning in warnings:
         print(f"WARNING: {warning}")
     changed = lambda sid: merged.get(SERVICE_ENTRY.format(id=sid)) != status.get(SERVICE_ENTRY.format(id=sid))
-    changes = [f"{key} -> {current_ids[name]}" for name, key in hotkeys.items() if changed(current_ids[name])]
+    changes = []
     finder = FILE_PICKER in current_ids and changed(current_ids[FILE_PICKER])
     if finder:
         changes.append(f"Finder -> {current_ids[FILE_PICKER]}")
@@ -1063,15 +1111,22 @@ def install(vaults: list[Vault], retired: list[str], dry_run: bool) -> int:
                 run("killall", "Finder", check=False)
     else:
         print("Services settings: unchanged")
+    if not install_note_helper(vaults, present, dry_run):
+        failures += 1
     return 1 if failures else 0
 
 
 def build_only(vaults: list[Vault], out: Path) -> int:
-    """Write every shortcut as an XML plist, for review; touches nothing else."""
+    """Write every shortcut as an XML plist and the data vault-note would be
+    built with, for review; touches nothing else."""
     out.mkdir(parents=True, exist_ok=True)
-    for name, wf, build, hotkey in wanted_shortcuts(vaults, lambda v: True, HOME, ICLOUD_OBSIDIAN.is_dir()):
+    for name, wf, build in wanted_shortcuts(vaults, HOME, ICLOUD_OBSIDIAN.is_dir()):
         (out / f"{name}.plist").write_bytes(plistlib.dumps(wf, fmt=plistlib.FMT_XML))
-        print(f"{name}: build {build}" + (f", hotkey {hotkey}" if hotkey else ""))
+        print(f"{name}: build {build}")
+    config = note_helper_config(vaults, lambda v: v.root.is_dir())
+    (out / "vault-note.json").write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    labels = ", ".join(v["label"] for v in config["vaults"])
+    print("vault-note: built in would be " + (labels or "no vault on this Mac"))
     return 0
 
 
