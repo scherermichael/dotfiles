@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# Data about the Obsidian vaults, kept out of the public dotfiles repo. Sourced
+# by the Obsidian scripts; each of them reads only its own arrays.
+#
+# Made from scripts/obsidian-shortcuts/obsidian-vaults.sh.template. What each
+# entry means: README.md next to it, "The vault list". The values below are
+# examples.
+
+# shellcheck disable=SC2034
+
+# Vault inbox shortcuts (scripts/obsidian-shortcuts). The arrays are read side
+# by side: entry i of each describes vault i.
+#
+# The order is the priority: of the vaults present on a Mac, the first gets
+# ⌘⌥, and the second ⌘⌥⇧,. Macs sharing a Shortcuts library need the same list.
+#
+# A label names the hotkey shortcut, "Add to Vault Inbox (<label>)". After
+# renaming one, put the old name under inboxRetiredShortcuts.
+inboxVaultLabels=( "Private" "Work" )
+
+# The vault's folder on the Mac, below ${HOME}. One in Obsidian's iCloud folder
+# is reached through iCloud on the iPhone as well.
+inboxVaultRoots=( \
+  "${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Private" \
+  "${HOME}/vaults/Work" \
+)
+
+# The folder inside the vault that holds _Inbox.md, as in the vault's .gtd.json.
+inboxVaultInboxes=( "Inbox" "01 Inbox" )
+
+# For a vault outside iCloud: its folder under On My iPhone > Obsidian. Empty
+# for an iCloud vault, and for one that isn't on the phone.
+inboxVaultPhoneRoots=( "" "Work" )
+
+# Shortcuts to move to "Replaced (safe to delete)", by exact name: hand-made
+# predecessors, or "Add to Vault Inbox (<old label>)". May stay empty.
+inboxRetiredShortcuts=( )

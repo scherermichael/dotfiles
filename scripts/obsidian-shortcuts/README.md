@@ -46,16 +46,125 @@ scripts/obsidian-shortcuts/install.sh build --out /tmp/shortcuts   # readable pl
 python3 scripts/obsidian-shortcuts/test_vault_shortcuts.py
 ```
 
-## Where the vaults come from
+## The vault list
 
-`private/obsidian-vaults.sh`, from the arrays starting with `inboxVault`. The
-public part knows no vault names or paths.
+The vaults come from `private/obsidian-vaults.sh`, from the arrays whose names
+start with `inboxVault`. The public part knows no vault names or paths.
 
-- **Order is priority:** a vault's position decides its hotkey. That's why the
-  work Mac, with only the work vault, needs no setting of its own.
-- **The inbox folder is listed there** rather than read from the vault's
-  `.gtd.json`. The picker shortcuts contain every vault, and a Mac lacking one
-  has to build them the same way. The installer warns if the two disagree.
+- **Where it's read:** `private/` in the dotfiles working copy, else
+  `~/private/`. Neither is in git, so every Mac needs its own copy.
+- **Without the file,** or without `inboxVaultLabels` in it, `install.sh` skips
+  the shortcuts and `restore.sh` goes on.
+- **With arrays of different lengths,** `install.sh` stops, and `restore.sh`
+  with it.
+
+### Creating it
+
+`obsidian-vaults.sh.template` next to this README holds the block, with example
+values. Run these from the repo root:
+
+```sh
+# No private/obsidian-vaults.sh yet: the template becomes the file.
+cp scripts/obsidian-shortcuts/obsidian-vaults.sh.template private/obsidian-vaults.sh
+
+# The file exists, holding other tools' arrays: append only the block.
+{ echo; sed -n '/^# Vault inbox shortcuts/,$p' scripts/obsidian-shortcuts/obsidian-vaults.sh.template; } >> private/obsidian-vaults.sh
+```
+
+- **Then replace the example values,** as described below.
+- **Then check the result** before installing anything:
+  `scripts/obsidian-shortcuts/install.sh status`.
+  - It lists the shortcuts it would import. A hotkey shortcut appears only for
+    vaults found on this Mac.
+  - It warns about an inbox that differs from the vault's `.gtd.json`.
+- **Why the template isn't named `*.sh`:** `restore.sh` runs the executable
+  `*.sh` files below `scripts/`. A template must never be taken for a setup step.
+
+### The entries
+
+Each array has one entry per vault, and the arrays are read side by side:
+entry 1 of each describes the first vault. That's why `install.sh` refuses
+arrays of different lengths: a missing entry would give every later vault its
+neighbour's folder. Only `inboxVaultPhoneRoots` may be left out altogether,
+when no vault is on the phone.
+
+| Array | Entry | Example |
+|---|---|---|
+| `inboxVaultLabels` | the vault's name in the shortcuts | `"Work"` |
+| `inboxVaultRoots` | the vault's folder on the Mac | `"${HOME}/vaults/Work"` |
+| `inboxVaultInboxes` | the inbox folder inside the vault | `"01 Inbox"` |
+| `inboxVaultPhoneRoots` | the vault's folder on the iPhone, outside iCloud | `"Work"`, or `""` |
+| `inboxRetiredShortcuts` | optional, not per vault: shortcuts to park | `"My Inbox Shortcut"` |
+
+- **Label:**
+  - Names the hotkey shortcut, "Add to Vault Inbox (*Label*)". It also appears
+    in the dialog title ("Add to *Label* inbox:"), in the picker's list, and in
+    the notification after a file was stored.
+  - Keep it short and unique: the pickers tell the vaults apart by it. No `/`,
+    since the label becomes part of a file name on import.
+  - **Renaming one makes a new hotkey shortcut,** and the old one keeps its key.
+    The installer takes a key only from a shortcut that carries one of its
+    names. So put "Add to Vault Inbox (*old label*)" under
+    `inboxRetiredShortcuts`. The same applies when a vault leaves the list.
+- **Root:**
+  - The vault's folder on the Mac, the one holding `.obsidian`.
+  - **It must be below the home folder;** otherwise the installer stops. Write it
+    with `${HOME}`, so the same line fits every user name.
+  - **Whether it exists** decides whether this Mac gets the vault's hotkey
+    shortcut. A vault this Mac lacks stays in the pickers, for the devices that
+    have it.
+  - **Below `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/`,** the
+    vault counts as an iCloud vault. Mac and iPhone then both reach it through
+    Obsidian's iCloud folder, and its phone root is ignored.
+- **Inbox:**
+  - The folder holding `_Inbox.md`, as a path from the vault's root. Stored
+    files go there too, and their links count from the vault's root.
+  - **`_Inbox.md` must exist.** The pickers offer a vault only where they find
+    that file.
+  - **The same as `inbox` in the vault's `.gtd.json`,** and the installer warns
+    if the two differ. Why it isn't read from there: the picker shortcuts
+    contain every vault, and a Mac lacking one has to build them the same way.
+- **Phone root:**
+  - For a vault outside iCloud: its folder in Obsidian's storage on the iPhone,
+    as the Files app shows it under On My iPhone → Obsidian.
+  - **Empty** for an iCloud vault, and for a vault that isn't on the phone. The
+    pickers on the phone then leave the vault out.
+- **Retired shortcuts:**
+  - Exact, full names of shortcuts to move to "Replaced (safe to delete)". Every
+    run parks each copy of such a name that isn't there yet, whatever folder it's
+    in.
+  - Meant for hand-made predecessors, and for the hotkey shortcut of a renamed or
+    removed vault.
+  - **Never a name still in use.** The installer would park the fresh copy on
+    every run and import it again on the next.
+
+### Order and several Macs
+
+- **Order is priority:** of the vaults present on a Mac, the first gets ⌘⌥, and
+  the second ⌘⌥⇧,. A third gets its hotkey shortcut without a key, reachable
+  through the Services menu.
+  - That's why the work Mac, with only the work vault, needs no list of its own.
+    Its first vault present is the work vault, which then gets ⌘⌥,.
+- **Macs sharing a Shortcuts library need the same list,** with the same entries
+  in the same order. Copy the file rather than retyping it.
+  - **Why:** the pickers are built from the whole list, and each Mac compares the
+    installed copy with its own build. With two lists, each Mac would import its
+    own pickers on every run and park the other's.
+  - Roots count only from the home folder down. One `${HOME}/…` line fits Macs
+    with different user names.
+
+### After a change
+
+- **Run `install.sh`, or `restore.sh`.** It recognises the changed shortcuts by
+  their build and imports only those, one click each.
+- **What changes:**
+  - Any change to the vaults, a new order included, changes both pickers.
+  - A vault's label, root or inbox also changes its hotkey shortcut. A new order
+    leaves the hotkey shortcuts as they are and only moves their keys.
+  - The retired list changes no build.
+- **Then follow "What stays manual" below:** empty "Replaced", re-add the
+  pickers' home-screen icons on the iPhone, and run `install.sh` on the library's
+  other Macs.
 
 ## Why it works the way it does
 
