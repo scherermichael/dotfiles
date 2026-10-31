@@ -12,12 +12,10 @@
 # Vault inbox shortcuts (scripts/obsidian-shortcuts). The arrays are read side
 # by side: entry i of each describes vault i.
 #
-# The order is the priority: of the vaults present on a Mac, the first gets
-# ⌘⌥, and the second ⌘⌥⇧,. A Mac with a single vault gives ⌘⌥, to "Add to Vault
-# Inbox". Macs sharing a Shortcuts library need the same list and the same vaults.
+# Macs sharing a Shortcuts library need the same list and the same vaults.
 #
-# A label names the hotkey shortcut, "Add to Vault Inbox (<label>)", and appears
-# in its dialog.
+# A label is what a BetterTouchTool hotkey hands to vault-note, and what the
+# dialogs say: "Add to <label> inbox:".
 inboxVaultLabels=( "Private" "Work" )
 
 # The vault's folder on the Mac, below ${HOME}. One in Obsidian's iCloud folder

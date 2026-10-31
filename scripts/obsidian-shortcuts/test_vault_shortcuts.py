@@ -11,6 +11,7 @@ patterns live in (\\A in multi-line mode, $ before a final newline).
 import json
 import subprocess
 import sys
+import tempfile
 import unicodedata
 import unittest
 from pathlib import Path
@@ -28,8 +29,8 @@ LOCAL_ONLY = vs.Vault("Local", HOME / "notes/local", "Inbox", "")
 VAULTS = [PRIVATE, WORK]
 
 
-def builds(vaults, present):
-    return {name: build for name, _, build, _ in vs.wanted_shortcuts(vaults, present, HOME)}
+def builds(vaults):
+    return {name: build for name, _, build in vs.wanted_shortcuts(vaults, HOME)}
 
 
 def strings(node):
@@ -59,82 +60,56 @@ class Locations(unittest.TestCase):
     def test_no_ids_in_any_address(self):
         # A picked iCloud folder carries a device-specific domain ID and fails
         # on every other device; addresses must be roots plus paths only.
-        for name, wf, _, _ in vs.wanted_shortcuts(VAULTS, lambda v: True, HOME):
+        for name, wf, _ in vs.wanted_shortcuts(VAULTS, HOME):
             dumped = json.dumps(wf)
             self.assertNotIn("crossDeviceItemID", dumped, name)
             self.assertNotIn("CloudDocs", dumped, name)
 
 
 class Targets(unittest.TestCase):
-    def test_priority_order_gives_the_hotkeys(self):
-        targets, picker_key = vs.plan_targets(VAULTS, lambda v: True)
-        self.assertEqual([(v.label, key) for v, key in targets], [("Private", "@~,"), ("Work", "@~$,")])
-        self.assertIsNone(picker_key)
+    def test_the_note_picker_only_where_the_phone_reaches_a_vault(self):
+        # On the Mac the quick note is vault-note; the picker is there for the
+        # iPhone. The work Mac's vaults are not on the phone.
+        on_the_phone = vs.Vault("Work", WORK.root, WORK.inbox, "")
+        self.assertEqual(list(builds(VAULTS)), [vs.NOTE_PICKER, vs.FILE_PICKER])
+        self.assertEqual(list(builds([PRIVATE])), [vs.NOTE_PICKER, vs.FILE_PICKER])
+        self.assertEqual(list(builds([on_the_phone])), [vs.FILE_PICKER])
+        self.assertEqual(list(builds([LOCAL_ONLY])), [vs.FILE_PICKER])
 
-    def test_a_mac_with_a_single_vault_gives_the_key_to_the_picker(self):
-        # The picker skips its list there, so a hotkey shortcut would repeat it.
-        targets, picker_key = vs.plan_targets(VAULTS, lambda v: v is WORK)
-        self.assertEqual((targets, picker_key), ([], "@~,"))
-        keys = {name: key for name, _, _, key in vs.wanted_shortcuts(VAULTS, lambda v: v is WORK, HOME)}
-        self.assertEqual(keys, {vs.NOTE_PICKER: "@~,", vs.FILE_PICKER: None})
-
-    def test_fixed_shortcuts_only_for_vaults_present(self):
-        names = builds([PRIVATE, WORK, LOCAL_ONLY], lambda v: v is not PRIVATE)
-        self.assertIn("Add to Vault Inbox (Work)", names)
-        self.assertIn("Add to Vault Inbox (Local)", names)
-        self.assertNotIn("Add to Vault Inbox (Private)", names)
-
-    def test_unneeded_hotkey_shortcuts_are_found_only_in_the_managed_folder(self):
-        # Only hotkey shortcuts: a picker copy numbered by an import, or
-        # anything else kept in the folder, is not this rule's business.
+    def test_unneeded_shortcuts_are_found_only_in_the_managed_folder(self):
+        # Every old hotkey shortcut, and the note picker where it is not
+        # wanted. A picker copy numbered by an import, or anything else kept
+        # in the folder, is not this rule's business.
         shortcuts = [("Add to Vault Inbox (Work)", "W"), ("Add to Vault Inbox (Old label)", "O"),
-                     ("Add to Vault Inbox (Private)", "P"), ("Add to Vault Inbox", "N"),
-                     ("Add File to Vault Inbox", "F"), ("Add to Vault Inbox (Mine)", "M"),
-                     ("Add to Vault Inbox 2", "N2"), ("Something Else", "X")]
-        folders = {"W": vs.MANAGED_FOLDER, "O": vs.MANAGED_FOLDER, "P": vs.MANAGED_FOLDER,
-                   "N": vs.MANAGED_FOLDER, "F": vs.MANAGED_FOLDER, "M": "",
-                   "N2": vs.MANAGED_FOLDER, "X": vs.MANAGED_FOLDER}
-        wanted = {"Add to Vault Inbox (Private)", vs.NOTE_PICKER, vs.FILE_PICKER}
-        self.assertEqual(vs.not_needed(shortcuts, wanted, folders),
+                     ("Add to Vault Inbox", "N"), ("Add File to Vault Inbox", "F"),
+                     ("Add to Vault Inbox (Mine)", "M"), ("Add to Vault Inbox 2", "N2"),
+                     ("Something Else", "X")]
+        folders = {"W": vs.MANAGED_FOLDER, "O": vs.MANAGED_FOLDER, "N": vs.MANAGED_FOLDER,
+                   "F": vs.MANAGED_FOLDER, "M": "", "N2": vs.MANAGED_FOLDER, "X": vs.MANAGED_FOLDER}
+        self.assertEqual(vs.not_needed(shortcuts, {vs.NOTE_PICKER, vs.FILE_PICKER}, folders),
                          [("Add to Vault Inbox (Work)", "W"), ("Add to Vault Inbox (Old label)", "O")])
+        self.assertEqual(vs.not_needed(shortcuts, {vs.FILE_PICKER}, folders),
+                         [("Add to Vault Inbox (Work)", "W"), ("Add to Vault Inbox (Old label)", "O"),
+                          ("Add to Vault Inbox", "N")])
 
 
 class Builds(unittest.TestCase):
     def test_same_definition_same_build(self):
-        self.assertEqual(builds(VAULTS, lambda v: True), builds(VAULTS, lambda v: True))
+        self.assertEqual(builds(VAULTS), builds(VAULTS))
 
     def test_a_changed_inbox_changes_the_build(self):
         moved = vs.Vault("Work", WORK.root, "00 Inbox", WORK.phone_root)
-        before, after = builds(VAULTS, lambda v: True), builds([PRIVATE, moved], lambda v: True)
-        self.assertNotEqual(before["Add to Vault Inbox (Work)"], after["Add to Vault Inbox (Work)"])
-        self.assertEqual(before["Add to Vault Inbox (Private)"], after["Add to Vault Inbox (Private)"])
-
-    def test_picker_builds_depend_only_on_whether_this_mac_has_a_single_vault(self):
-        # Two Macs on one Apple ID share the library. If the picker came out
-        # differently on them, each would keep re-importing over the other's
-        # copy. They share their vaults too, so only the number may count.
-        three = [PRIVATE, WORK, LOCAL_ONLY]
-        everything = builds(three, lambda v: True)
-        two = builds(three, lambda v: v is not PRIVATE)
-        one = builds(three, lambda v: v is WORK)
+        before, after = builds(VAULTS), builds([PRIVATE, moved])
         for name in (vs.NOTE_PICKER, vs.FILE_PICKER):
-            self.assertEqual(everything[name], two[name], name)
-        self.assertNotEqual(everything[vs.NOTE_PICKER], one[vs.NOTE_PICKER])
-        self.assertEqual(everything[vs.FILE_PICKER], one[vs.FILE_PICKER])
+            self.assertNotEqual(before[name], after[name], name)
 
-    def test_the_note_picker_is_a_service_only_where_it_carries_the_key(self):
-        # Only a Services shortcut can hold a hotkey; elsewhere it would be a
-        # third entry in the right-click menu, next to the hotkey shortcuts.
-        def picker(present):
-            return next(wf for name, wf, _, _ in vs.wanted_shortcuts(VAULTS, present, HOME)
-                        if name == vs.NOTE_PICKER)
-        single, several = picker(lambda v: v is WORK), picker(lambda v: True)
-        self.assertIn("QuickActions", single["WFWorkflowTypes"])
-        self.assertEqual(single["WFQuickActionSurfaces"], ["Services"])
-        self.assertNotIn("QuickActions", several["WFWorkflowTypes"])
-        self.assertNotIn("WFQuickActionSurfaces", several)
-        for wf in (single, several):
-            self.assertIn("ActionExtension", wf["WFWorkflowTypes"])
+    def test_the_note_picker_is_in_no_services_menu(self):
+        # Selected text on the Mac belongs to the capture tool; a Services
+        # entry would also put the picker into every right-click menu.
+        wf = vs.note_picker(VAULTS, HOME)
+        self.assertNotIn("QuickActions", wf["WFWorkflowTypes"])
+        self.assertNotIn("WFQuickActionSurfaces", wf)
+        self.assertIn("ActionExtension", wf["WFWorkflowTypes"])
 
     def test_a_mac_without_obsidians_icloud_folder_never_looks_there(self):
         # Below a missing root a lookup stops the shortcut instead of coming
@@ -153,7 +128,7 @@ class Builds(unittest.TestCase):
             self.assertEqual(icloud_lookups(without), 1, make.__name__)       # iPhone only
 
     def test_the_version_check_answers_with_the_build(self):
-        for name, wf, build, _ in vs.wanted_shortcuts(VAULTS, lambda v: True, HOME):
+        for name, wf, build in vs.wanted_shortcuts(VAULTS, HOME):
             actions = wf["WFWorkflowActions"]
             check = actions[1]["WFWorkflowActionParameters"]
             self.assertEqual(check["WFConditionalActionString"], vs.TOKEN, name)
@@ -166,7 +141,7 @@ class Builds(unittest.TestCase):
         # find nothing (a file lookup, the URLs found, a dialog) may be asked.
         texts = {"is.workflow.actions.text.replace", "is.workflow.actions.gettext",
                  "is.workflow.actions.properties.files"}
-        for name, wf, _, _ in vs.wanted_shortcuts(VAULTS, lambda v: True, HOME):
+        for name, wf, _ in vs.wanted_shortcuts(VAULTS, HOME):
             makers = {a["WFWorkflowActionParameters"]["UUID"]: a["WFWorkflowActionIdentifier"]
                       for a in wf["WFWorkflowActions"]}
             for a in wf["WFWorkflowActions"]:
@@ -179,7 +154,7 @@ class Builds(unittest.TestCase):
     def test_every_step_has_its_own_id(self):
         # Shortcuts remembers "Always Allow" per step; without an ID it asks
         # again on every run.
-        for name, wf, _, _ in vs.wanted_shortcuts(VAULTS, lambda v: True, HOME):
+        for name, wf, _ in vs.wanted_shortcuts(VAULTS, HOME):
             ids = [a["WFWorkflowActionParameters"].get("UUID") for a in wf["WFWorkflowActions"]]
             self.assertNotIn(None, ids, name)
             self.assertEqual(len(ids), len(set(ids)), name)
@@ -233,11 +208,13 @@ class Entries(unittest.TestCase):
                     for a in wf["WFWorkflowActions"] if a["WFWorkflowActionIdentifier"] == "is.workflow.actions.ask"]
         self.assertEqual(defaults, [{"{0, 1}": {"Type": "Variable", "VariableName": "prefill"}}] * 2)
 
-    def test_hotkey_dialog_names_its_vault(self):
-        wf, _ = vs.finalize(vs.fixed_note(WORK, HOME))
+    def test_each_dialog_names_its_vault(self):
+        # With two vaults on a device, the title is what shows where the note
+        # will land.
+        wf, _ = vs.finalize(vs.note_picker(VAULTS, HOME))
         prompts = [a["WFWorkflowActionParameters"]["WFAskActionPrompt"] for a in wf["WFWorkflowActions"]
                    if a["WFWorkflowActionIdentifier"] == "is.workflow.actions.ask"]
-        self.assertEqual(prompts, ["Add to Work inbox:"])
+        self.assertEqual(prompts, ["Add to Private inbox:", "Add to Work inbox:"])
 
 
 class Services(unittest.TestCase):
@@ -252,10 +229,8 @@ class Services(unittest.TestCase):
     def test_the_file_picker_is_switched_on_for_finder(self):
         # The surfaces in the shortcut file are not enough: Finder shows a
         # Quick Action only once these settings exist for its current ID.
-        wanted = vs.services_wanted({vs.FILE_PICKER: self.NEW_FILES, "Add to Vault Inbox (Work)": self.NEW_WORK},
-                                    {"Add to Vault Inbox (Work)": "@~,"})
-        self.assertEqual(wanted, {self.NEW_FILES: {"presentation_modes": vs.FINDER_MODES},
-                                  self.NEW_WORK: {"key_equivalent": "@~,"}})
+        wanted = vs.services_wanted({vs.FILE_PICKER: self.NEW_FILES, vs.NOTE_PICKER: self.NEW_WORK})
+        self.assertEqual(wanted, {self.NEW_FILES: {"presentation_modes": vs.FINDER_MODES}})
 
     def test_parked_copies_leave_every_menu_and_key(self):
         status = {self.entry(self.OLD_WORK): {"key_equivalent": "@~,",
@@ -363,7 +338,7 @@ class DueDate(unittest.TestCase):
     def test_every_note_shortcut_counts_the_days(self):
         # Adjust Date ignores a variable number of days, so the shortcut adds
         # one day per round of a repeat that runs N times.
-        for name, wf, _, _ in vs.wanted_shortcuts(VAULTS, lambda v: True, HOME):
+        for name, wf, _ in vs.wanted_shortcuts(VAULTS, HOME):
             if name == vs.FILE_PICKER:
                 continue
             actions = wf["WFWorkflowActions"]
@@ -485,6 +460,102 @@ class NotePipeline(unittest.TestCase):
         for (typed, expected), got in zip(self.CASES.items(), results):
             with self.subTest(typed=typed):
                 self.assertEqual(got, expected)
+
+
+class NoteHelperConfig(unittest.TestCase):
+    def test_only_the_vaults_on_this_mac_with_their_inbox(self):
+        config = vs.note_helper_config(VAULTS, lambda v: v is WORK)
+        self.assertEqual(config["vaults"], [{"label": "Work", "inbox": "/Users/someone/projects/obsidian-work/01 Inbox"}])
+
+    def test_in_the_order_of_the_list(self):
+        # Cmd+1 selects the first vault of the list, Cmd+2 the second.
+        config = vs.note_helper_config([WORK, PRIVATE, LOCAL_ONLY], lambda v: v is not LOCAL_ONLY)
+        self.assertEqual([v["label"] for v in config["vaults"]], ["Work", "Private"])
+
+    def test_the_patterns_are_the_shortcuts_own(self):
+        # vault-note keeps no copy of them: an entry typed on the Mac and one
+        # shared on the iPhone must come out the same.
+        config = vs.note_helper_config(VAULTS, lambda v: True)
+        self.assertEqual(config["trim"], list(vs.NOTE_PIPELINE[0]))
+        self.assertEqual([find for find, _ in config["pipeline"]], [find for find, _ in vs.NOTE_PIPELINE[1:]])
+        self.assertEqual(config["pipeline"][2], [r"\A(.*)", "$1 ➕ {date}{due}"])
+        self.assertEqual((config["blank"], config["dueFound"]), (list(vs.BLANK), list(vs.DUE_FOUND)))
+
+
+@unittest.skipUnless(sys.platform == "darwin" and vs.swift_compiler(), "needs swiftc")
+class NoteHelper(unittest.TestCase):
+    """The compiled vault-note, run against the cases of the Shortcuts
+    pipeline. Built once for the class; that takes a few seconds."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.dir = Path(cls.tmp.name)
+        cls.binary = cls.dir / "vault-note"
+        cls.inbox = cls.dir / "Work" / "01 Inbox"
+        cls.inbox.mkdir(parents=True)
+        work = vs.Vault("Work", cls.dir / "Work", "01 Inbox", "")
+        cls.config = vs.note_helper_config([work], lambda v: True)
+        vs.build_note_helper(cls.binary, cls.config)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def run_helper(self, typed, *mode):
+        return subprocess.run([str(self.binary), *mode, "--today", "2026-10-30"],
+                              input=typed, capture_output=True, text=True)
+
+    def entry(self, typed):
+        return self.run_helper(typed, "--entry").stdout
+
+    def test_the_mac_writes_what_the_shortcut_writes(self):
+        for typed, expected in NotePipeline.CASES.items():
+            with self.subTest(typed=typed):
+                self.assertEqual(self.entry(typed), expected)
+
+    def test_a_due_date_in_days(self):
+        self.assertEqual(self.entry("Angebot prüfen +3\nKontext"),
+                         "- [ ] Angebot prüfen ➕ 2026-10-30 📅 2026-11-02\n    Kontext")
+        self.assertEqual(self.entry("Rückruf +0"), "- [ ] Rückruf ➕ 2026-10-30 📅 2026-10-30")
+        self.assertEqual(self.entry("Steuer +12 "), "- [ ] Steuer ➕ 2026-10-30 📅 2026-11-11")
+        self.assertEqual(self.entry("C++ lernen"), "- [ ] C++ lernen ➕ 2026-10-30")
+
+    def test_nothing_for_an_empty_or_blank_dialog(self):
+        for typed in ("", "   ", " \n\n\t"):
+            with self.subTest(typed=typed):
+                self.assertEqual(self.entry(typed), "")
+
+    def test_the_entry_gets_a_line_of_its_own_and_none_after_it(self):
+        # As Shortcuts' Append to Text File leaves it; otherwise a note from
+        # the Mac and one from the iPhone would have a blank line between them.
+        inbox = self.inbox / "_Inbox.md"
+        for before, after in (("", "- [ ] Neu ➕ 2026-10-30"),
+                              ("- [ ] Alt ➕ 2026-10-29", "- [ ] Alt ➕ 2026-10-29\n- [ ] Neu ➕ 2026-10-30"),
+                              ("- [ ] Alt ➕ 2026-10-29\n", "- [ ] Alt ➕ 2026-10-29\n- [ ] Neu ➕ 2026-10-30")):
+            with self.subTest(before=before):
+                inbox.write_text(before, encoding="utf-8")
+                self.assertEqual(self.run_helper("Neu", "--add", "Work").returncode, 0)
+                self.assertEqual(inbox.read_text(encoding="utf-8"), after)
+
+    def test_a_blank_note_leaves_the_inbox_alone(self):
+        inbox = self.inbox / "_Inbox.md"
+        inbox.write_text("- [ ] Alt ➕ 2026-10-29", encoding="utf-8")
+        self.run_helper("  \n", "--add", "Work")
+        self.assertEqual(inbox.read_text(encoding="utf-8"), "- [ ] Alt ➕ 2026-10-29")
+
+    def test_no_inbox_is_started_by_mistake(self):
+        # A wrong path must fail loudly, not start an inbox nobody reads.
+        (self.inbox / "_Inbox.md").unlink(missing_ok=True)
+        done = self.run_helper("Neu", "--add", "Work")
+        self.assertEqual(done.returncode, 1)
+        self.assertIn("No _Inbox.md", done.stderr)
+        self.assertFalse((self.inbox / "_Inbox.md").exists())
+
+    def test_an_unknown_vault_is_named_with_the_known_ones(self):
+        done = self.run_helper("Neu", "--add", "Private")
+        self.assertEqual(done.returncode, 1)
+        self.assertIn('No vault "Private" on this Mac; there is Work.', done.stderr)
 
 
 if __name__ == "__main__":
