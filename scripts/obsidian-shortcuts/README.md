@@ -229,6 +229,10 @@ from a limit found by trying.
   itself and leaves no room beside it for the dropdown. The window keeps an
   alert's corners and shadow, but shows neither title nor window buttons; its
   background moves it.
+- **Kept out of screen sharing** (`sharingType = .none`). Floating above
+  everything, a note being typed would otherwise show on top of what is
+  presented. Tested with Teams sharing the whole screen: the dialog stays out
+  of the preview. Sharing a single window never shows it anyway.
 - **⌘1, ⌘2, … are menu items** of the app's hidden menu. A key equivalent there
   works whatever has the focus, so the cursor can stay in the text field. The
   same menu gives the field ⌘V, ⌘A and ⌘Z, which an app without one lacks.

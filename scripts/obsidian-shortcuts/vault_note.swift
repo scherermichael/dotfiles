@@ -265,8 +265,8 @@ func ask(_ vaults: [Vault], selected: Int) -> (Vault, String)? {
     // current window would swallow the next keystrokes unseen.
     window.level = .floating
     // Kept out of screen sharing: floating above everything, a note being
-    // typed would otherwise show on top of what is presented. Untested
-    // whether Teams honours it; newer capture is said to ignore it.
+    // typed would otherwise show on top of what is presented. Teams, sharing
+    // the whole screen, leaves it out.
     window.sharingType = .none
     window.center()
 
