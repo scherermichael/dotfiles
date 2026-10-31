@@ -9,6 +9,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 [ "${OS}" = "macos" ] || exit 0
 
+# Casks with `auto_updates true` update themselves, so Homebrew's record of them goes stale
+# (SimpleMind, for example, renamed its app) and upgrading them fails. Leave them to their updaters.
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+
 # Arm binaries are stored under /opt/homebrew/bin while x86 binaries are stored under /usr/local/bin.
 # On x86, create symlink /opt/homebrew/bin pointing to /usr/local/bin to allow to use path /opt/homebrew/bin all the time.
 if [ ! -e /opt/homebrew ] && [ "$(uname -p)" = "i386" ]; then
