@@ -14,6 +14,7 @@ fzf
 gh
 git
 gnu-sed
+go
 helmfile
 heroku/brew/heroku
 heroku/brew/heroku-node
@@ -39,6 +40,7 @@ pinentry-mac
 pipx
 podman
 pwgen
+pycparser
 shellcheck
 sleepwatcher
 socat
