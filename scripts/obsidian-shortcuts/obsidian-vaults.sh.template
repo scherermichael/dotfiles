@@ -13,10 +13,11 @@
 # by side: entry i of each describes vault i.
 #
 # The order is the priority: of the vaults present on a Mac, the first gets
-# ⌘⌥, and the second ⌘⌥⇧,. Macs sharing a Shortcuts library need the same list.
+# ⌘⌥, and the second ⌘⌥⇧,. A Mac with a single vault gives ⌘⌥, to "Add to Vault
+# Inbox". Macs sharing a Shortcuts library need the same list and the same vaults.
 #
-# A label names the hotkey shortcut, "Add to Vault Inbox (<label>)". After
-# renaming one, put the old name under inboxRetiredShortcuts.
+# A label names the hotkey shortcut, "Add to Vault Inbox (<label>)", and appears
+# in its dialog.
 inboxVaultLabels=( "Private" "Work" )
 
 # The vault's folder on the Mac, below ${HOME}. One in Obsidian's iCloud folder
@@ -33,6 +34,6 @@ inboxVaultInboxes=( "Inbox" "01 Inbox" )
 # for an iCloud vault, and for one that isn't on the phone.
 inboxVaultPhoneRoots=( "" "Work" )
 
-# Shortcuts to move to "Replaced (safe to delete)", by exact name: hand-made
-# predecessors, or "Add to Vault Inbox (<old label>)". May stay empty.
+# Hand-made predecessors to move to "Replaced (safe to delete)", by exact name.
+# May stay empty.
 inboxRetiredShortcuts=( )
