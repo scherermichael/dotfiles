@@ -76,6 +76,25 @@ class Targets(unittest.TestCase):
         self.assertEqual(list(builds([on_the_phone])), [vs.FILE_PICKER])
         self.assertEqual(list(builds([LOCAL_ONLY])), [vs.FILE_PICKER])
 
+    def test_the_work_macs_note_picker_is_seen_and_parked(self):
+        # Install only parks what it looked at first. A note picker this Mac
+        # does not want must still be looked at, or it stays forever.
+        installed = [("Add to Vault Inbox", "N"), ("Add File to Vault Inbox", "F"), ("Später lesen", "S")]
+        wanted = {vs.FILE_PICKER}
+        looked_at = [(n, sid) for n, sid in installed if vs.is_ours(n, wanted, [])]
+        self.assertEqual(looked_at, installed[:2])
+        folders = {sid: vs.MANAGED_FOLDER for _, sid in looked_at}
+        self.assertEqual(vs.not_needed(looked_at, wanted, folders), [("Add to Vault Inbox", "N")])
+
+    def test_what_install_looks_at(self):
+        wanted, retired = {vs.FILE_PICKER}, ["PDF to Vault Inbox"]
+        for name in ("Add File to Vault Inbox", "Add File to Vault Inbox 2", "Add to Vault Inbox",
+                     "Add to Vault Inbox 3", "Add to Vault Inbox (Work)", "Add to Vault Inbox (Work) 2",
+                     "PDF to Vault Inbox"):
+            self.assertTrue(vs.is_ours(name, wanted, retired), name)
+        for name in ("Später lesen", "PDF to Vault Inbox 2", "Add to Vault", "My Add to Vault Inbox"):
+            self.assertFalse(vs.is_ours(name, wanted, retired), name)
+
     def test_unneeded_shortcuts_are_found_only_in_the_managed_folder(self):
         # Every old hotkey shortcut, and the note picker where it is not
         # wanted. A picker copy numbered by an import, or anything else kept
