@@ -122,6 +122,22 @@ class Builds(unittest.TestCase):
             answer = actions[2]["WFWorkflowActionParameters"]["WFOutput"]["Value"]["string"]
             self.assertEqual(answer, build, name)
 
+    def test_no_text_is_asked_whether_it_has_any_value(self):
+        # "Has any value" counts an empty text as a value: asked of a text that
+        # came out empty, it says yes. Only results that are nothing when they
+        # find nothing (a file lookup, the URLs found, a dialog) may be asked.
+        texts = {"is.workflow.actions.text.replace", "is.workflow.actions.gettext",
+                 "is.workflow.actions.properties.files"}
+        for name, wf, _, _ in vs.wanted_shortcuts(VAULTS, lambda v: True, HOME):
+            makers = {a["WFWorkflowActionParameters"]["UUID"]: a["WFWorkflowActionIdentifier"]
+                      for a in wf["WFWorkflowActions"]}
+            for a in wf["WFWorkflowActions"]:
+                p = a["WFWorkflowActionParameters"]
+                if a["WFWorkflowActionIdentifier"] == "is.workflow.actions.conditional" and p.get("WFCondition") == vs.HAS_VALUE:
+                    ref = p["WFInput"]["Variable"]["Value"]
+                    self.assertNotIn(makers.get(ref.get("OutputUUID")), texts, f"{name}: {ref}")
+                    self.assertFalse(ref.get("Aggrandizements"), f"{name}: a property may come back empty: {ref}")
+
     def test_every_step_has_its_own_id(self):
         # Shortcuts remembers "Always Allow" per step; without an ID it asks
         # again on every run.
@@ -160,14 +176,16 @@ class Entries(unittest.TestCase):
 
     def test_a_pdf_of_a_web_page_gets_its_address(self):
         # "Get URLs from Input" finds nothing in a Safari web page; the
-        # address is only in its Page URL property.
+        # address is only in its Page URL property. Read twice: once in
+        # brackets to see whether there is one, once for the line.
         wf, _ = vs.finalize(vs.file_picker(VAULTS, HOME))
-        self.assertEqual(self.page_url_reads(wf), ["Repeat Item"])
+        self.assertEqual(self.page_url_reads(wf), ["Repeat Item", "Repeat Item"])
+        self.assertIn("⟦￼⟧", list(strings(wf)))
 
     def test_a_shared_web_page_becomes_a_bookmark_note(self):
         wf, _ = vs.finalize(vs.note_picker(VAULTS, HOME))
         self.assertIn("WFSafariWebPageContentItem", wf["WFWorkflowInputContentItemClasses"])
-        self.assertEqual(self.page_url_reads(wf), ["ExtensionInput"])
+        self.assertEqual(self.page_url_reads(wf), ["ExtensionInput", "ExtensionInput"])
         self.assertIn("Web - ￼\n￼", list(strings(wf)))
         self.assertIn(vs.DEFUSE_TAG, [a["WFWorkflowActionParameters"].get("WFReplaceTextFind")
                                       for a in wf["WFWorkflowActions"]])
@@ -260,11 +278,88 @@ def regex_chain(steps, cases):
     return json.loads(done.stdout)
 
 
-def pipeline(cases):
-    steps = [(find, "".join("2026-10-30" if p is vs.DATE else p for p in
+def pipeline(cases, due=""):
+    """The note pipeline, with today as 2026-10-30 and `due` for what the
+    due-date step leaves in the variable ("" or " 📅 <date>")."""
+    fill = {id(vs.DATE): "2026-10-30", id(vs.DUE): due}
+    steps = [(find, "".join(fill.get(id(p), p) for p in
                             (replace if isinstance(replace, tuple) else (replace,))))
              for find, replace in vs.NOTE_PIPELINE]
     return regex_chain(steps, cases)
+
+
+@unittest.skipUnless(sys.platform == "darwin", "needs NSRegularExpression")
+class DueDate(unittest.TestCase):
+    MARKERS = {
+        "Angebot prüfen +3": "3",
+        "Rückruf +0": "0",
+        "Steuer +12 ": "12",
+        "Angebot +3\nmit Kontext": "3",
+        "+49 170 1234567 zurückrufen": "",
+        "C++ lernen": "",
+        "Titel+3": "",
+        "Titel\nZeile zwei +3": "",
+        "Titel": "",
+    }
+
+    def test_the_marker_is_found_only_where_it_belongs(self):
+        # Only "+N" after a space at the end of the first line. A text with a
+        # marker turns into FOUND_DUE; any other comes back unchanged.
+        got = regex_chain([vs.DUE_FOUND], list(self.MARKERS))
+        expected = [vs.FOUND_DUE if days else text for text, days in self.MARKERS.items()]
+        self.assertEqual(got, expected)
+
+    def test_the_marker_gives_the_number_of_days(self):
+        with_marker = [text for text, days in self.MARKERS.items() if days]
+        self.assertEqual(regex_chain([vs.DUE_DAYS], with_marker), [self.MARKERS[t] for t in with_marker])
+
+    def test_the_marker_leaves_the_line(self):
+        got = regex_chain([vs.DUE_MARKER], ["Angebot prüfen +3", "Steuer +12 \nKontext", "Titel"])
+        self.assertEqual(got, ["Angebot prüfen", "Steuer\nKontext", "Titel"])
+
+    def test_the_due_date_follows_the_creation_date(self):
+        after_marker = regex_chain([vs.DUE_MARKER], ["Angebot prüfen +3\nKontext"])
+        self.assertEqual(pipeline(after_marker, due=" 📅 2026-11-02"),
+                         ["- [ ] Angebot prüfen ➕ 2026-10-30 📅 2026-11-02\n    Kontext"])
+
+    def test_every_note_shortcut_counts_the_days(self):
+        # Adjust Date ignores a variable number of days, so the shortcut adds
+        # one day per round of a repeat that runs N times.
+        for name, wf, _, _ in vs.wanted_shortcuts(VAULTS, lambda v: True, HOME):
+            if name == vs.FILE_PICKER:
+                continue
+            actions = wf["WFWorkflowActions"]
+            finds = {a["WFWorkflowActionParameters"]["UUID"]: a["WFWorkflowActionParameters"].get("WFReplaceTextFind")
+                     for a in actions}
+            repeats = [a["WFWorkflowActionParameters"] for a in actions
+                       if a["WFWorkflowActionIdentifier"] == "is.workflow.actions.repeat.count"
+                       and a["WFWorkflowActionParameters"]["WFControlFlowMode"] == 0]
+            # One per dialog: the picker has a dialog for each vault.
+            dialogs = sum(1 for a in actions if a["WFWorkflowActionIdentifier"] == "is.workflow.actions.ask")
+            # A dialog holding only blanks writes nothing.
+            compared = [a["WFWorkflowActionParameters"].get("WFConditionalActionString") for a in actions
+                        if a["WFWorkflowActionIdentifier"] == "is.workflow.actions.conditional"]
+            self.assertEqual(compared.count(vs.FOUND_BLANK), dialogs, name)
+            self.assertEqual(compared.count(vs.FOUND_DUE), dialogs, name)
+            self.assertEqual(len(repeats), dialogs, name)
+            for repeat in repeats:
+                self.assertEqual(finds[repeat["WFRepeatCount"]["Value"]["OutputUUID"]], vs.DUE_DAYS[0], name)
+            steps = [a["WFWorkflowActionParameters"]["WFDuration"]["Value"]["Magnitude"] for a in actions
+                     if a["WFWorkflowActionIdentifier"] == "is.workflow.actions.adjustdate"]
+            self.assertEqual(steps, [0, 1] * dialogs, name)
+            # The marker comes off the line, and the text without it is what
+            # goes on.
+            removals = {uid for uid, find in finds.items() if find == vs.DUE_MARKER[0]}
+            self.assertEqual(len(removals), dialogs, name)
+            carried = {a["WFWorkflowActionParameters"]["WFInput"]["Value"].get("OutputUUID") for a in actions
+                       if a["WFWorkflowActionIdentifier"] == "is.workflow.actions.setvariable"
+                       and a["WFWorkflowActionParameters"]["WFVariableName"] == "entry"}
+            self.assertLessEqual(removals, carried, name)
+            stamps = [a for a in actions if a["WFWorkflowActionParameters"].get("WFReplaceTextFind") == r"\A(.*)"]
+            self.assertEqual(len(stamps), dialogs, name)
+            for stamp in stamps:
+                refs = list(stamp["WFWorkflowActionParameters"]["WFReplaceTextReplace"]["Value"]["attachmentsByRange"].values())
+                self.assertIn({"Type": "Variable", "VariableName": "due"}, refs, name)
 
 
 def composition_steps():
@@ -291,10 +386,14 @@ class FileNames(unittest.TestCase):
         self.assertEqual(regex_chain(composition_steps(), names), expected)
 
     def test_only_decomposed_names_take_the_long_way(self):
-        # The replacements run only where the mark check finds something.
-        check = [(f"[^{vs.COMBINING_MARKS}]", "")]
-        found = regex_chain(check, ["Mieterhöhung", "Mieterhöhung", "Invoice 2024"])
-        self.assertEqual([bool(f) for f in found], [True, False, False])
+        # A name without combining marks turns into the marker and skips the
+        # replacements; a decomposed one comes back unchanged and takes them.
+        found = regex_chain([vs.COMPOSED], ["Mieterhöhung", "Mieterhöhung", "Invoice 2024", ""])
+        self.assertEqual(found, ["Mieterhöhung", vs.FOUND_COMPOSED, vs.FOUND_COMPOSED, vs.FOUND_COMPOSED])
+
+    def test_a_dialog_of_only_blanks_is_recognised(self):
+        found = regex_chain([vs.BLANK], ["", "   ", " \n\n\t", "x", "  Titel"])
+        self.assertEqual(found, [vs.FOUND_BLANK] * 3 + ["x", "  Titel"])
 
     def test_every_composable_letter_round_trips(self):
         letters = list(vs.COMPOSABLE)
