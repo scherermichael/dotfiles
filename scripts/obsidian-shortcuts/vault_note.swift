@@ -264,6 +264,10 @@ func ask(_ vaults: [Vault], selected: Int) -> (Vault, String)? {
     // Above everything even if activation is refused: a dialog behind the
     // current window would swallow the next keystrokes unseen.
     window.level = .floating
+    // Kept out of screen sharing: floating above everything, a note being
+    // typed would otherwise show on top of what is presented. Untested
+    // whether Teams honours it; newer capture is said to ignore it.
+    window.sharingType = .none
     window.center()
 
     app.mainMenu = mainMenu(vaults: vaults, keys: vaultKeys)
