@@ -47,14 +47,6 @@ else
   echo "Skip. Brew not found."
 fi
 
-echo "Retrieving list of installed/disabled Atom plugins..."
-if which apm > /dev/null; then
-  apm ls --disabled --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/disabled.list
-  apm ls --installed --bare | sed 's/@.*$//' | sed '/^$/d' > scripts/atom-plugins/installed.list
-else
-  echo "Skip. Apm not found."
-fi
-
 echo "Retrieving list of installed Visual Studio Code extensions..."
 if which code > /dev/null; then
   code --list-extensions > scripts/vscode-extensions/installed.list
