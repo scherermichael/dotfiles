@@ -583,6 +583,18 @@ def finalize(wf: dict) -> tuple[dict, str]:
 FIXED_NAME = re.compile(r"^Add to Vault Inbox \(.+\)$")
 
 
+def is_ours(name: str, wanted: set[str], retired: list[str]) -> bool:
+    """Whether install looks at a shortcut: one of the names it wants, or has
+    ever made, also as an import's numbered copy ("... 2"), or a retired one.
+
+    The pickers count whether this Mac wants them or not: a note picker no
+    longer wanted has to be seen before it can be parked.
+    """
+    base = re.sub(r" \d+$", "", name)
+    return (base in wanted or base in (NOTE_PICKER, FILE_PICKER) or bool(FIXED_NAME.match(base))
+            or name in retired)
+
+
 def not_needed(shortcuts: list[tuple[str, str]], wanted: set[str], folders: dict[str, str]):
     """(name, ID) of our shortcuts in the managed folder this Mac does not
     want: every old hotkey shortcut, and the note picker on a Mac whose vaults
@@ -1027,8 +1039,7 @@ def install(vaults: list[Vault], retired: list[str], dry_run: bool) -> int:
     wanted = wanted_shortcuts(vaults, HOME, ICLOUD_OBSIDIAN.is_dir())
     names = {name for name, *_ in wanted}
     installed = list_shortcuts()
-    relevant = [(n, sid) for n, sid in installed
-                if n in names or n in retired or re.sub(r" \d+$", "", n) in names or FIXED_NAME.match(n)]
+    relevant = [(n, sid) for n, sid in installed if is_ours(n, names, retired)]
     folders = {sid: folder_of(sid) for _, sid in relevant}
     # Every shortcut that carries one of our names (an old hotkey shortcut's
     # included), has carried one, or was parked by us. Parked ones are taken
