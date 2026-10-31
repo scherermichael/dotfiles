@@ -396,6 +396,25 @@
 		<key>v2||E59FFF0D-DABE-4B11-8A75-8E825F2D5521||9||0||206||0||⌥⇧ I||Execute Shell Script / Task: -||</key>
 		<integer>10</integer>
 	</dict>
+	<key>2026-10-31</key>
+	<dict>
+		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
+		<integer>1</integer>
+		<key>v2||41CBB773-850F-4B04-A59D-EC3CC98CC890||9||0||193||0||⌥ O||Type text ö||</key>
+		<integer>7</integer>
+		<key>v2||56FE62DA-3BE8-4EF2-B034-2904BD3E7955||9||0||118||0||⌥ A||Paste text ä||</key>
+		<integer>4</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||137||0||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>1</integer>
+		<key>v2||8CF9639D-2880-467B-8EFF-0EA6AB5A7434||1||106||366||49||4 Finger Swipe Right||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>2</integer>
+		<key>v2||AEE8FF35-3A8B-4C91-8E6A-14E41401C00B||9||0||193||0||⌥ U||Type text ü||</key>
+		<integer>16</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||137||0||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||</key>
+		<integer>4</integer>
+		<key>v2||DDD60D46-C9C6-4062-8072-5263E455E3D8||1||105||366||49||4 Finger Swipe Left||Execute Terminal Command (Async, non-blocking)||Actions Executed On Quick Flick</key>
+		<integer>6</integer>
+	</dict>
 	<key>2026-10-4</key>
 	<dict>
 		<key>v2||25CDF349-C0EC-4324-B965-068BFF49928A||9||0||197||0||⌃⌘ D||Toggle Dark Mode||</key>
