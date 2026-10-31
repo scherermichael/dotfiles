@@ -34,9 +34,18 @@ fi
 
 # shellcheck disable=SC1090
 source "${config}"
-if ! declare -p inboxVaultLabels > /dev/null 2>&1; then
+if ! declare -p inboxVaultLabels > /dev/null 2>&1 || [ "${#inboxVaultLabels[@]}" -eq 0 ]; then
   echo "Vault inbox shortcuts: ${config} lists no inbox vaults, skipped."
   exit 0
+fi
+# The arrays are read side by side: a missing entry pairs every vault after it
+# with its neighbour's folders. Phone roots may be left out altogether.
+count="${#inboxVaultLabels[@]}"
+if ! declare -p inboxVaultRoots inboxVaultInboxes > /dev/null 2>&1 \
+  || [ "${#inboxVaultRoots[@]}" -ne "${count}" ] || [ "${#inboxVaultInboxes[@]}" -ne "${count}" ] \
+  || { declare -p inboxVaultPhoneRoots > /dev/null 2>&1 && [ "${#inboxVaultPhoneRoots[@]}" -ne "${count}" ]; }; then
+  echo "Vault inbox shortcuts: ${config} needs one root, inbox and phone root per label." >&2
+  exit 1
 fi
 
 args=()
@@ -44,11 +53,10 @@ for i in "${!inboxVaultLabels[@]}"; do
   args+=(--vault "${inboxVaultLabels[$i]}" "${inboxVaultRoots[$i]}" \
     "${inboxVaultInboxes[$i]}" "${inboxVaultPhoneRoots[$i]:-}")
 done
-if declare -p inboxRetiredShortcuts > /dev/null 2>&1; then
-  for name in "${inboxRetiredShortcuts[@]}"; do
-    args+=(--retire "${name}")
-  done
-fi
+# Not "${a[@]}": the bash of macOS (3.2) calls an empty array unbound under set -u.
+for name in ${inboxRetiredShortcuts[@]+"${inboxRetiredShortcuts[@]}"}; do
+  args+=(--retire "${name}")
+done
 
 echo "Vault inbox shortcuts (vaults from ${config})..."
 exec python3 "${here}/vault_shortcuts.py" "$@" "${args[@]}"
