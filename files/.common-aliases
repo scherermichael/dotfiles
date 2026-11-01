@@ -267,16 +267,12 @@ alias sshignore="ssh -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/nu
 
 # Show the logged events (default), decrypted and sorted, or the work time from the stechuhr log.
 # Power management events are only copied on login and wake-up, so copy the latest ones first.
-# Usage: stechuhr [-e|-w|-s] [YY-MM], -e: events, -w: work time per day, -s: work time spans for Numbers
+# Usage: stechuhr [-e|-w|-s] [-b MINUTES] [YY-MM], -e: events, -w: work time per day, -s: work time spans for Numbers,
+# -b: breaks shorter than MINUTES count as work (default 15)
 function stechuhr {
-  mode="-e"
-  case "$1" in
-    -e|-w|-s) mode="$1"; shift ;;
-  esac
-  month="$1"
-  [ "$month" ] || month=$(date +%y-%m)
   [ -x ~/.stechuhr-powerlog ] && ~/.stechuhr-powerlog
-  ~/.stechuhr-worklog "$mode" "$month"
+  # The last of -e, -w and -s wins, so -e is only the default
+  ~/.stechuhr-worklog -e "$@"
 }
 
 function ts {
