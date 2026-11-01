@@ -1,10 +1,12 @@
 package main
 
 // Keychain access through the Security framework, like in seal-streamdeck-worklog (editor/crypto/keychain_darwin.go).
-// The Keychain trusts the binary that added the item, so it can read the item without a password prompt.
-// Running /usr/bin/security instead would mean trusting a tool that any process can run.
+// No application is trusted for the private key, so each read asks for the password once. The partition list
+// holds the binary that added the item (install.sh updates it for a new build), otherwise a second prompt follows.
+// Running /usr/bin/security instead would mean allowing a tool that any process can run.
 
 /*
+#cgo CFLAGS: -Wno-deprecated-declarations
 #cgo LDFLAGS: -framework Security -framework CoreFoundation
 #include <Security/Security.h>
 #include <CoreFoundation/CoreFoundation.h>
@@ -39,19 +41,26 @@ static char* kcGet(const char *service, const char *account, int *status) {
     return buf;
 }
 
-// Add only, never update: an existing private key must not be replaced
+// Add only, never update: an existing private key must not be replaced.
+// An empty list of trusted applications (instead of NULL, the calling one) makes every read ask for the password.
 static int kcAdd(const char *service, const char *account, const char *value) {
     CFStringRef svc  = CFStringCreateWithCString(NULL, service, kCFStringEncodingUTF8);
     CFStringRef acct = CFStringCreateWithCString(NULL, account, kCFStringEncodingUTF8);
     CFDataRef   data = CFDataCreate(NULL, (const UInt8 *)value, (CFIndex)strlen(value));
+    CFArrayRef  trusted = CFArrayCreate(NULL, NULL, 0, &kCFTypeArrayCallBacks);
 
-    const void *keys[] = { kSecClass, kSecAttrService, kSecAttrAccount, kSecValueData };
-    const void *vals[] = { kSecClassGenericPassword, svc, acct, data };
-    CFDictionaryRef a = CFDictionaryCreate(NULL, keys, vals, 4,
-        &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    OSStatus st = SecItemAdd(a, NULL);
+    SecAccessRef access = NULL;
+    OSStatus st = SecAccessCreate(svc, trusted, &access);
+    if (st == 0) {
+        const void *keys[] = { kSecClass, kSecAttrService, kSecAttrAccount, kSecValueData, kSecAttrAccess };
+        const void *vals[] = { kSecClassGenericPassword, svc, acct, data, access };
+        CFDictionaryRef a = CFDictionaryCreate(NULL, keys, vals, 5,
+            &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        st = SecItemAdd(a, NULL);
+        CFRelease(a); CFRelease(access);
+    }
 
-    CFRelease(a); CFRelease(data);
+    CFRelease(trusted); CFRelease(data);
     CFRelease(svc); CFRelease(acct);
     return (int)st;
 }
@@ -63,7 +72,10 @@ import (
 	"unsafe"
 )
 
-var errNotFound = errors.New("not in the Keychain")
+var (
+	errNotFound = errors.New("not in the Keychain")
+	errExists   = errors.New("already in the Keychain, it is never replaced")
+)
 
 func keychainGet(service, account string) (string, error) {
 	cSvc := C.CString(service)
@@ -91,7 +103,9 @@ func keychainAdd(service, account, value string) error {
 	defer C.free(unsafe.Pointer(cAcct))
 	defer C.free(unsafe.Pointer(cValue))
 
-	if st := C.kcAdd(cSvc, cAcct, cValue); st != 0 {
+	if st := C.kcAdd(cSvc, cAcct, cValue); st == C.errSecDuplicateItem {
+		return errExists
+	} else if st != 0 {
 		return fmt.Errorf("Keychain: OSStatus %d", int(st))
 	}
 	return nil

@@ -2,13 +2,15 @@
 // HKDF-SHA256 and AES-256-GCM. Writers only need the public key, the private key stays in the Keychain.
 //
 //	stechuhr-crypt keygen        create the key pair, or restore the public key from the Keychain
-//	stechuhr-crypt encrypt       encrypt stdin into one line "enc:<base64>"
+//	stechuhr-crypt import        add a backup of the private key to the Keychain and restore the public key
+//	stechuhr-crypt encrypt      encrypt stdin into one line "enc:<base64>"
 //	stechuhr-crypt decrypt       copy the lines of stdin, "enc:" lines decrypted
 //	stechuhr-crypt seal FILE...  encrypt the plain text lines of log files in place
 package main
 
 import (
 	"bufio"
+	"bytes"
 	"crypto/ecdh"
 	"crypto/hpke"
 	"encoding/base64"
@@ -41,6 +43,8 @@ func main() {
 	switch {
 	case cmd == "keygen" && len(os.Args) == 2:
 		err = keygen()
+	case cmd == "import" && len(os.Args) == 2:
+		err = importKey()
 	case cmd == "encrypt" && len(os.Args) == 2:
 		err = encrypt()
 	case cmd == "decrypt" && len(os.Args) == 2:
@@ -48,7 +52,7 @@ func main() {
 	case cmd == "seal":
 		err = sealFiles(os.Args[2:])
 	default:
-		fmt.Fprintln(os.Stderr, "Usage: stechuhr-crypt keygen|encrypt|decrypt|seal FILE...")
+		fmt.Fprintln(os.Stderr, "Usage: stechuhr-crypt keygen|import|encrypt|decrypt|seal FILE...")
 		os.Exit(2)
 	}
 	if err != nil {
@@ -85,22 +89,60 @@ func keygen() error {
 		if priv, err = kem.GenerateKey(); err != nil {
 			return err
 		}
-		raw, err := priv.Bytes()
-		if err != nil {
-			return err
-		}
-		if err := keychainAdd(service(), account, base64.StdEncoding.EncodeToString(raw)); err != nil {
+		if err := addPrivateKey(priv); err != nil {
 			return err
 		}
 	default:
 		// Never create a new key when the existing one could not be read
 		return err
 	}
+	return writePublicKey(priv.PublicKey())
+}
+
+// Restore a backup of the private key. It never replaces a key in the Keychain, and it must belong to the
+// public key the logs were encrypted with.
+func importKey() error {
+	b64, err := askPrivateKey()
+	if err != nil {
+		return err
+	}
+	priv, err := parsePrivateKey(strings.TrimSpace(b64))
+	if err != nil {
+		return err
+	}
+	pub, err := loadPublicKey()
+	switch {
+	case err == nil:
+		if !bytes.Equal(pub.Bytes(), priv.PublicKey().Bytes()) {
+			path, _ := publicKeyPath()
+			return fmt.Errorf("the private key does not belong to %s, delete it to import the key anyway", path)
+		}
+	case !errors.Is(err, os.ErrNotExist):
+		return err
+	}
+	if err := addPrivateKey(priv); err != nil {
+		return err
+	}
+	return writePublicKey(priv.PublicKey())
+}
+
+func addPrivateKey(priv hpke.PrivateKey) error {
+	raw, err := priv.Bytes()
+	if err != nil {
+		return err
+	}
+	if err := keychainAdd(service(), account, base64.StdEncoding.EncodeToString(raw)); err != nil {
+		return fmt.Errorf("private key (Keychain item %q): %w", service(), err)
+	}
+	return nil
+}
+
+func writePublicKey(pub hpke.PublicKey) error {
 	path, err := publicKeyPath()
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(path, []byte(base64.StdEncoding.EncodeToString(priv.PublicKey().Bytes())+"\n"), 0644)
+	return os.WriteFile(path, []byte(base64.StdEncoding.EncodeToString(pub.Bytes())+"\n"), 0644)
 }
 
 func parsePrivateKey(b64 string) (hpke.PrivateKey, error) {

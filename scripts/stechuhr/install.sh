@@ -24,15 +24,30 @@ install -m 755 "${DIR}/sleepwatcher-sleep" "${HOME}/.sleep"
 install -m 755 "${DIR}/sleepwatcher-wakeup" "${HOME}/.wakeup"
 install -m 644 "${DIR}/stechuhr.session.plist" "${plist}"
 
-# The Keychain trusts the binary that added the private key, identified by its content. Go builds are
-# reproducible, so an unchanged build is not installed again and the Keychain does not ask for the password.
+# The Keychain asks for the password once per read of the private key, but twice if the binary, identified
+# by its content, is not in the partition list of the key. Go builds are reproducible, so only a changed build
+# (new code or a new Go version) is installed, after it replaced the installed one in the partition list.
+# Without a private key, keygen below adds it with the installed binary in the partition list.
 echo "Building stechuhr-crypt..."
 command -v go > /dev/null || { echo "Go is missing, cannot build stechuhr-crypt."; exit 1; }
 build="$(mktemp -d)"
 (cd "${DIR}/crypt" && go build -trimpath -buildvcs=false -o "${build}/stechuhr-crypt" .)
-cmp -s "${build}/stechuhr-crypt" "${HOME}/.stechuhr-crypt" || install -m 755 "${build}/stechuhr-crypt" "${HOME}/.stechuhr-crypt"
+if ! cmp -s "${build}/stechuhr-crypt" "${HOME}/.stechuhr-crypt"; then
+  allowed=1
+  if security find-generic-password -s stechuhr -a private-key > /dev/null 2>&1; then
+    echo "Allowing the new stechuhr-crypt to read the private key in the Keychain..."
+    cdhash="$(codesign -dvvv "${build}/stechuhr-crypt" 2>&1 | sed -n 's/^CDHash=//p')"
+    security set-generic-password-partition-list -s stechuhr -a private-key -S "cdhash:${cdhash}" > /dev/null || allowed=""
+  fi
+  if [ "${allowed}" ]; then
+    install -m 755 "${build}/stechuhr-crypt" "${HOME}/.stechuhr-crypt"
+  else
+    echo "Could not update the Keychain, keeping the installed stechuhr-crypt."
+  fi
+fi
 rm -rf "${build}"
-# Create the key pair on first install, or restore the public key from the Keychain
+# Create the key pair on first install, or restore the public key from the Keychain.
+# To restore backups instead, copy the public key there first and run '~/.stechuhr-crypt import' afterwards.
 [ -s "${HOME}/.stechuhr-public-key" ] || "${HOME}/.stechuhr-crypt" keygen
 # Encrypt plain text lines: logs from before the encryption and events kept in plain text when encryption failed
 shopt -s nullglob
