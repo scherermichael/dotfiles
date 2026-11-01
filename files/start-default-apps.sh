@@ -10,7 +10,7 @@ aerospace move-node-to-workspace W
 # B
 aerospace workspace B
 sleep 1
-open "${HOME}/Applications/Obsidian.app"
+open "/Applications/Obsidian.app"
 sleep 2
 aerospace move-node-to-workspace B
 
