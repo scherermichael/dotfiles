@@ -39,6 +39,9 @@ Ways to put something into the inbox of an Obsidian vault, set up by
   - **Only counts after a space:** `+49 170 …` at the start of a line and `C++`
     stay text. A first line that really ends in something like `+3` would be
     read as a date.
+  - **The same everywhere:** obsidian-template understands it wherever an action
+    is entered in a vault. It keeps its own copy of the rule (`DUE_MARKER` in
+    `tools/views/board/view.js`), so a change here is a change there.
   - **Why the shortcut adds one day per round:** "Adjust Date" ignores a
     number of days taken from a variable, however it is passed, and counts 0.
     So it adds a fixed 1 day, N times.

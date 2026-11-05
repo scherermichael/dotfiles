@@ -102,6 +102,11 @@ FOUND_DUE, FOUND_BLANK, FOUND_COMPOSED, EMPTY = "⟦due⟧", "⟦blank⟧", "⟦
 # today, "+0" for today. Only after a space, so "+49 170 …" at the start of a
 # line or "C++" stay text. The first pattern tells whether there is a marker,
 # the second (run only then) yields N, the third takes the marker off the line.
+#
+# obsidian-template understands the same marker wherever an action is entered in
+# a vault, so that it works the same on every path. It cannot import this, so the
+# rule stands there again: DUE_MARKER in tools/views/board/view.js says where.
+# A change to the rule here is a change there, and its tests use DueDate's examples.
 DUE_FOUND = (r"(?s)\A[^\n]*?[ \t]\+\d{1,3}[ \t]*(?=\n|\z).*\z", FOUND_DUE)
 DUE_DAYS = (r"(?s)\A[^\n]*?[ \t]\+(\d{1,3})[ \t]*(?=\n|\z).*\z", "$1")
 DUE_MARKER = (r"\A([^\n]*?)[ \t]+\+\d{1,3}[ \t]*(?=\n|\z)", "$1")
