@@ -24,7 +24,7 @@ set -uo pipefail
 VAULT="${1:-${HOME}/projects/obsidian-seal}"
 lies_config() {
     /usr/bin/python3 -c 'import json,sys
-vorgabe = {"tools":"zz-templates","inbox":"01 Inbox","supernote":"Supernote","device":"work"}
+vorgabe = {"tools":"zz-templates","inbox":"01 Inbox","supernote":"Supernote","device":"work","jobHost":""}
 try:
     vorgabe.update(json.load(open(sys.argv[1] + "/.gtd.json")))
 except Exception:
@@ -35,7 +35,30 @@ TOOLS="$(lies_config tools)"
 INBOX="$(lies_config inbox)"
 SUPERNOTE="$(lies_config supernote)"
 DEVICE="$(lies_config device)"
+JOBHOST="$(lies_config jobHost)"
 SCRIPTS="${VAULT}/${TOOLS}/scripts"
+
+# One Mac processes the notebooks: the vault's "jobHost". Git used to keep two
+# Macs from capturing the same star twice - pull, capture, then commit and push
+# the task together with its seen-mark. A vault that syncs through LiveSync has
+# no such lock, so the only safe number of Macs doing this is one. Every other
+# Mac stops here, silently: cron calls it every ten minutes, and "not mine" is
+# no news. Without "jobHost" every Mac runs, as before.
+#
+# Before the random sleep below - no point waiting minutes in order to do
+# nothing.
+if [ -n "${JOBHOST}" ] && [ "${JOBHOST}" != "$(/usr/sbin/scutil --get LocalHostName)" ]; then
+    exit 0
+fi
+
+# Does this vault sync through LiveSync? Then what is written below reaches the
+# other devices only while the vault is open in Obsidian - see after the lock.
+MIT_SYNC="$(/usr/bin/python3 -c 'import json,sys
+try:
+    d = json.load(open(sys.argv[1] + "/.gtd.json"))
+except Exception:
+    d = {}
+print(1 if "sync" in (d.get("toolset") or []) else 0)' "${VAULT}")"
 
 # Ohne Repository faellt alles Eincheckende weg. Der Rest laeuft weiter:
 # jedes Python-Skript entscheidet selbst, was aussteht - der Index war nur
@@ -92,6 +115,18 @@ try:
     fcntl.flock(9, fcntl.LOCK_EX | fcntl.LOCK_NB)
 except OSError:
     sys.exit(1)' 9<&9 || exit 0
+
+# LiveSync notices a file only while the vault is open in Obsidian. Written
+# while it is closed, the PDFs, the transcripts and above all the inbox would
+# meet the edits made meanwhile on other devices only at the next start - as
+# conflicts, where git used to merge the inbox line by line. So such a vault
+# is processed only while it is open, and skipped silently otherwise: every
+# step below works out for itself what is outstanding, so the next run
+# catches up. "Cannot tell" (2) counts as closed - here the safe side is to
+# wait.
+if [ "${MIT_SYNC}" = 1 ]; then
+    /usr/bin/python3 "${SCRIPTS}/vault_open.py" "${VAULT}" || exit 0
+fi
 
 cd "${VAULT}/${SUPERNOTE}" || exit 202
 [ "${MIT_GIT}" = 1 ] && { git pull >/dev/null 2>&1 \
