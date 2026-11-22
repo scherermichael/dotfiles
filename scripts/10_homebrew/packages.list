@@ -41,9 +41,11 @@ pinentry-mac
 podman-compose
 poppler
 pwgen
+pytorch
 qpdf
 rapid-mlx
 restic
+sentencepiece
 shellcheck
 sleepwatcher
 socat
