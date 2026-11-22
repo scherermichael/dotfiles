@@ -43,11 +43,13 @@ poppler
 pwgen
 qpdf
 rapid-mlx
+restic
 shellcheck
 sleepwatcher
 socat
 terraform
 tmux
+uv
 vllm-project/vllm-metal/vllm-metal
 watch
 watchman
