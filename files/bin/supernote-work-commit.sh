@@ -23,7 +23,7 @@ set -uo pipefail
 # Alles Weitere steht in seiner .gtd.json - wie die Ordner heissen, welcher
 # Geraeteordner ihm gehoert. Fehlt die Datei, gelten die Werte des
 # Arbeits-Vaults; dann verhaelt sich der Aufruf wie eh und je.
-VAULT="${1:-${HOME}/projects/obsidian-seal}"
+VAULT="${1:-${HOME}/Vaults/SEAL}"
 lies_config() {
     /usr/bin/python3 -c 'import json,sys
 vorgabe = {"tools":"zz-templates","inbox":"01 Inbox","supernote":"Supernote","device":"work","jobHost":""}
