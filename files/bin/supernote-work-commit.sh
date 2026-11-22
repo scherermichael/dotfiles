@@ -2,8 +2,10 @@
 #
 # Supernote -> Vault: abholen, verarbeiten, einchecken.
 #
-# Please note: cron must be granted full disk access for cp to work
-# See: https://apple.stackexchange.com/questions/434375/under-macos-10-15-7-why-cannot-cron-find-files-on-my-external-hard-drive
+# Started every eleven minutes by the launch agent local.supernote-job,
+# through ~/bin/supernote-job, which needs Full Disk Access for cp to reach the
+# Supernote app's container. scripts/supernote-job/install.sh sets both up and
+# says why it is no longer cron.
 #
 # Hier laeuft auch die Verarbeitung, nicht nur das Abholen. Der
 # Capture-Dienst hat das einmal getan, und das war der falsche Ort: den
@@ -12,7 +14,7 @@
 # sah er nur zu, waehrend er lief - was ankam, waehrend er aus war, galt
 # beim Start als bekannt und wurde nie verarbeitet.
 #
-# Der Takt steht in der crontab auf zehn Minuten. Eine Minute war zum
+# Der Takt steht im Launch Agent: elf Minuten. Eine Minute war zum
 # Ausprobieren.
 
 set -uo pipefail
@@ -42,8 +44,8 @@ SCRIPTS="${VAULT}/${TOOLS}/scripts"
 # Macs from capturing the same star twice - pull, capture, then commit and push
 # the task together with its seen-mark. A vault that syncs through LiveSync has
 # no such lock, so the only safe number of Macs doing this is one. Every other
-# Mac stops here, silently: cron calls it every ten minutes, and "not mine" is
-# no news. Without "jobHost" every Mac runs, as before.
+# Mac stops here, silently: the agent calls it every eleven minutes, and
+# "not mine" is no news. Without "jobHost" every Mac runs, as before.
 #
 # Before the random sleep below - no point waiting minutes in order to do
 # nothing.
@@ -92,10 +94,11 @@ die() {
     exit "$3"
 }
 
-# Zufallsschlaf VOR dem Schloss. "*/10" feuert auf runden Minuten, und weil
-# die Uhren ueber NTP gleich gehen, startet ein zweiter Rechner sonst im
-# selben Augenblick - beide hielten dieselben Sterne fuer neu und legten
-# beide eine Aufgabe an. Wer schliefe, waehrend er das Schloss haelt,
+# Zufallsschlaf VOR dem Schloss. Unter cron feuerte "*/10" auf runden
+# Minuten, und weil die Uhren ueber NTP gleich gehen, startete ein zweiter
+# Rechner im selben Augenblick - beide hielten dieselben Sterne fuer neu und
+# legten beide eine Aufgabe an. Der Takt des Agenten haengt an seiner
+# Ladezeit, aber zwei zugleich geladene liefen ebenso gleich. Wer schliefe, waehrend er das Schloss haelt,
 # sperrte die aus, die etwas zu tun haetten.
 # SUPERNOTE_JITTER=0 nimmt ihn zum Ausprobieren heraus - sonst wartet man
 # beim Nachsehen im Schnitt zweieinhalb Minuten auf nichts.
@@ -173,7 +176,7 @@ rsync -au "${work}/"* "${VAULT}/${SUPERNOTE}/" 2>/dev/null
 # Text und die [x]-Marken aus der BESTEHENDEN .md zusammen. Die muss dazu
 # schon unter dem neuen Namen liegen - sonst ist die Handarbeit weg.
 #
-# Aus dem Cron sieht niemand stdout, deshalb drei Wege: alles ins Log, was
+# Aus dem Agenten sieht niemand stdout, deshalb drei Wege: alles ins Log, was
 # offen bleibt einmal als Mitteilung (report meldet nur bei Wechsel), und
 # die Zusammenfassung in die Commit-Nachricht weiter unten.
 tidy_zusatz=""
@@ -313,13 +316,18 @@ fi
 
 # Zuletzt die Digests: markierte Stellen aus PDFs werden Literaturnotizen
 # im Zettelkasten. Ganz am Ende, weil sie mit dem Notizbuch-Weg nichts zu
-# tun haben - kein Commit, kein Index, der Zettelkasten liegt in iCloud.
+# tun haben - kein Commit, kein Index.
 #
 # Zwei Bedingungen, beide still: ohne Token im Schluesselbund war auf
 # diesem Rechner nie ein "--login", und ohne den Ordner gibt es hier
 # keinen Zettelkasten. Beides ist kein Fehler, sondern heisst nur, dass
 # dieser Rechner diesen Weg nicht geht.
-ZETTELKASTEN="${SUPERNOTE_ZETTELKASTEN:-${HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Personal/Zettelkasten}"
+#
+# The Zettelkasten is a vault of its own in ~/Vaults since it left iCloud
+# (2026-11-22), synced through LiveSync. Unlike the inbox above, a digest
+# only ever adds a new note, so there is nothing to collide: written while
+# the vault is closed, it goes out at the vault's next start.
+ZETTELKASTEN="${SUPERNOTE_ZETTELKASTEN:-${HOME}/Vaults/Zettelkasten}"
 if [ -d "${ZETTELKASTEN}/References" ] \
    && /usr/bin/security find-generic-password -s supernote-digest \
         -a token -w >/dev/null 2>&1; then
