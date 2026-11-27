@@ -111,10 +111,9 @@ brew cleanup || fail "brew cleanup"
 
 # Cask
 
-# if [ "${NO_SUDO}" ]; then
-#   echo "Skip installing casks. No sudo allowed."
-#   exit 0
-# fi
+# Casks go to ~/Applications, which needs no admin rights, so they are handled
+# with --no-sudo as well. The work Mac has no admin account: a cask that needs
+# one cannot be installed here, and fails like any other.
 
 # Install new Cask packages
 if [ -f "${DIR}/packages-cask.list" ]; then
@@ -137,38 +136,6 @@ if [ -f "${DIR}/packages-cask.list" ]; then
       brew uninstall --cask --force "${cask_package}" \
         || fail "${cask_package} (brew uninstall --cask failed)"
     done
-  fi
-fi
-
-# Cask requiring sudo
-
-if [ "${NO_SUDO}" ]; then
-  echo "Skip installing casks that require sudo permissions. No sudo allowed."
-  [ -z "${had_failure}" ] || exit 1
-  exit 0
-else
-  # Install new Cask packages
-  if [ -f "${DIR}/packages-cask-sudo.list" ]; then
-    cask_packages_sudo_to_install=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask-sudo.list" | grep '^+[^+]' | sed 's/^+//' | tr '\n' ' ')
-    if [ -n "${cask_packages_sudo_to_install}" ]; then
-      echo "Installing cask packages with sudo: ${cask_packages_sudo_to_install}"
-      for cask_package in ${cask_packages_sudo_to_install}; do
-        brew install --cask --appdir=~/Applications "${cask_package}" \
-          || fail "${cask_package} (brew install --cask failed)"
-      done
-    fi
-  fi
-
-  # Deinstall no longer listed Cask packages
-  if [ -f "${DIR}/packages-cask-sudo.list" ]; then
-    cask_packages_sudo_to_remove=$(brew list --cask -1 | diff -u - "${DIR}/packages-cask-sudo.list" | grep '^-[^-]' | sed 's/^-//' | tr '\n' ' ')
-    if [ -n "${cask_packages_sudo_to_remove}" ]; then
-      echo "Uninstalling cask packages with sudo: ${cask_packages_sudo_to_remove}"
-      for cask_package in ${cask_packages_sudo_to_remove}; do
-        brew uninstall --cask --force "${cask_package}" \
-          || fail "${cask_package} (brew uninstall --cask failed)"
-      done
-    fi
   fi
 fi
 
