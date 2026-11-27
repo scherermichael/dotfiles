@@ -10,6 +10,7 @@ colordiff
 eksctl
 fdupes
 ffmpeg
+freetype
 fzf
 gh
 git
@@ -24,6 +25,7 @@ jq
 k9s
 kops
 lazygit
+libx11
 lima
 mas
 miller
@@ -40,7 +42,6 @@ pinentry-mac
 pipx
 podman
 pwgen
-pycparser
 shellcheck
 sleepwatcher
 socat
