@@ -16,7 +16,7 @@ The folder `private` is not part of the repository (see below), so on a new mach
 
 You can run `./restore.sh` any time to reset your system to the state stored in the dotfiles.
 
-Use option `--no-scripts` to only re-initialize the configuration files. Private files are then staged but not installed, because a script does the installing.
+Use option `--no-scripts` to only re-initialize the configuration files.
 
 Use option `--no-sudo` to run only scripts that do not require sudo permissions.
 
@@ -71,19 +71,17 @@ The folder `private` is excluded from commits. It is where everything goes that 
 
 **The repository is the master copy.** Edit a private file in `private`, never in `$HOME/private`: the copy there is overwritten by the next restore, and the snapshot cannot read an edit back from it.
 
-`restore.sh` **stages** the whole folder to `$HOME/private`, and whatever needs something private reads it from there. A file whose application cannot be pointed at `$HOME/private` is **installed** on top of that, to its own path and mode 600, by `scripts/90_agent_configs.sh`.
+`restore.sh` **stages** the whole folder to `$HOME/private`, and whatever needs something private reads it from there.
 
 If you add the file `environment` to this folder, it will be sourced by your shell. It's an easy way to export secret environment variables that can be used by other scripts. `restore.sh` reads it from the repository rather than the staged copy, so it also works on a machine that has never been restored; it falls back to the mounted `/vagrant/dotfiles` and then to `$HOME/private`, and prints which one it used.
 
-**`snapshot.sh` never deletes from `private`.** It refreshes a private file only when a copy exists at `$HOME/<path>` — which is true for installed files only, since a staged file sits under `$HOME/private` instead and has nothing at its own path to compare against. Retiring a private file is a manual delete, in the repository, in `$HOME/private` and in the backup.
+**`snapshot.sh` never deletes from `private`.** It refreshes a private file only when a copy exists at `$HOME/<path>`; a staged file sits under `$HOME/private` instead and has nothing at its own path to compare against. Retiring a private file is a manual delete, in the repository and in `$HOME/private`.
 
 Do not add a private file whose path collides with a real file in `$HOME`, or the snapshot overwrites the private copy with the unrelated one.
 
 #### Backup
 
-On macOS, `restore.sh` copies `$HOME/private` to `~/Library/Mobile Documents/com~apple~CloudDocs/dotfiles/backup/<machine>/`, under the machine's local host name, before it overwrites that folder. It backs up the copy on the machine rather than the one in the repository, because that is the only one that can hold something the repository does not: a file edited in place, or one the repository has since dropped.
-
-This is a **backup, not a transport**. Nothing ever reads it back, it holds one generation only, and because the copy never deletes it may still hold files and secrets you have long retired. Each machine writes under its own name, so recovering means picking the right machine's folder.
+**There is none.** The work Mac cannot sync files to iCloud, so `restore.sh` makes no backup of `private`, and Git does not hold it either. Keep a copy elsewhere.
 
 #### Vagrant
 

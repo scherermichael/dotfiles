@@ -64,39 +64,8 @@ if ! cp -afv files/. "${HOME}"; then
   record_failure "files/ -> ${HOME} (copy failed)"
 fi
 
-# A backup, not a transport: nothing ever reads it back. It copies what is on the
-# machine, before the staging copy below overwrites it, because that is the only
-# copy that can hold anything the repository does not: an edit made in place, or
-# a file the repository has since dropped. Each machine writes under its own name
-# because the copy overwrites same-named files and the machines hold different
-# private files. LocalHostName rather than ComputerName: macOS keeps it to
-# letters, digits and hyphens, so it is safe in a path.
-iclouddrive="${HOME}/Library/Mobile Documents/com~apple~CloudDocs"
-# "|| true" because under "set -e" an assignment whose substitution fails takes
-# the script down, so a machine with neither command would abort instead of skip.
-host="$(scutil --get LocalHostName 2> /dev/null || hostname -s 2> /dev/null || true)"
-
-if [ "${OS}" != "macos" ] || [ ! -d "${iclouddrive}" ]; then
-  # Without this the "mkdir -p" below invents a "Library/Mobile Documents" tree
-  # on the Linux boxes. Having nothing to back up is not a failure.
-  echo "Skipping iCloud backup: no iCloud Drive on this system."
-elif [ -z "${host}" ]; then
-  echo "Skipping iCloud backup: could not determine this machine's name."
-elif [ ! -d "${HOME}/private" ]; then
-  # A machine that has never been restored has nothing of its own yet.
-  echo "Skipping iCloud backup: no ${HOME}/private to back up yet."
-else
-  icloud="${iclouddrive}/dotfiles/backup/${host}"
-  echo "Backing ${HOME}/private up to iCloud as '${host}'..."
-  if ! mkdir -p "${icloud}"; then
-    record_failure "${icloud} (could not be created)"
-  elif ! cp -afv "${HOME}/private" "${icloud}"; then
-    record_failure "${HOME}/private -> ${icloud} (copy failed)"
-  elif ! chmod -R go-rwx "${icloud}"; then
-    record_failure "${icloud} (could not be locked down)"
-  fi
-fi
-
+# No backup of ${HOME}/private here, unlike on master: the work Mac cannot sync
+# files to iCloud, so a copy in iCloud Drive would never leave this machine.
 echo "Restoring private files to ${HOME}/private..."
 if ! cp -afv private "${HOME}"; then
   record_failure "private/ -> ${HOME} (copy failed)"
