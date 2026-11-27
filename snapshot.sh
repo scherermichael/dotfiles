@@ -14,7 +14,15 @@ find "./files" -type f -exec bash -c '
   cp -afv "$source" "$target"
 ' _ {} \;
 
+echo "Backing up single private files..."
+find "./private" -type f -exec bash -c '
+  target="$1"
+  source="$HOME/${target#./private/}" # Replace common dir of private files with $HOME
+  cp -afv "$source" "$target"
+' _ {} \;
+
 echo "Backing up whole config folders..."
+# shellcheck disable=SC2016
 find "./files" -type f -name ".syncfolder" -print0 | xargs -0 -n 1 bash -c '
   # We found a file and must get the directory from its path
   dir=${1%/.syncfolder}
